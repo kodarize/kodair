@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>FactBook</title>
+		<link rel="stylesheet" href="FactBook.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+		<script src="FactBook.js"></script>
+	</head>
+
+	<body id="container">
+		<div id="FRClogo" class="TopMenu" onclick="myMenu();">
+			<image id="FRClogoIMG" src="NordicFlags.gif"></image>
+		</div>
+		<div id="myDropdown" class="dropdown-content">
+			<div onclick="savePNG();" ontouchstart="savePNG();">Save PNG</div>
+			<div onclick="myPrint();" ontouchstart="myPrint();">Print Page</div>
+		</div>
+		<div id="MenuTitle" class="TopMenu">
+			<div class="CenteredParent">
+				<div class="CenteredChild">
+					<b>Country Fact Book</b><br />For Finland, Iceland, Sweden, and Vattenair
+				</div>
+			</div>
+		</div>
+		<div id="TeamName" class="TopMenu">
+			<div class="CenteredParent">
+				<div class="CenteredChild">
+					<input
+						type="text"
+						id="myInput"
+						onkeyup="myTeamSearch()"
+						placeholder="Search the table.."
+						title="Type in a name"
+					/>
+				</div>
+			</div>
+		</div>
+		<div id="Teammate" class="BottomMenu">
+			<div class="CenteredParent">
+				<div class="CenteredChild"><b>Notes to Self</b><br />(for keeping track)</div>
+				<div class="CenteredChild">
+					<input
+						type="text"
+						id="TeammateINPUT"
+						name="TeammateINPUT"
+						class="TeamInput"
+						onchange="save()"
+					/>
+				</div>
+			</div>
+		</div>
+		<div id="Reference" class="CenterScreen">
+			<div class="CenteredParent">
+				<div class="CenteredChild">
+					<table id="myTable">
+						<tr class="header">
+							<th onclick="sortTable(0)">
+								<center><b>Catagory</b><br />Subcatagory</center>
+							</th>
+							<th onclick="sortTable(1)">
+								<center><b>Finland</b><br />Real Country</center>
+							</th>
+							<th onclick="sortTable(2)">
+								<center><b>Iceland</b><br />Real Country</center>
+							</th>
+							<th onclick="sortTable(3)">
+								<center><b>Sweden</b><br />Real Country</center>
+							</th>
+							<th onclick="sortTable(4)">
+								<center><b>Vattenair</b><br />My Country</center>
+							</th>
+							<th onclick="sortTable(5)">
+								<center><b>Reasoning</b><br />For My Country</center>
+							</th>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory"><b>Overview</b></td>
+							<td class="Facts" id="Finland" name="Finland">
+								Finland was a province and then a grand duchy under Sweden from the 12th to the 19th centuries, and an autonomous grand duchy of Russia after 1809. It gained complete independence in 1917. During World War II, Finland successfully defended its independence through cooperation with Germany and resisted subsequent invasions by the Soviet Union - albeit with some loss of territory. In the subsequent half century, Finland transformed from a farm/forest economy to a diversified modern industrial economy; per capita income is among the highest in Western Europe. A member of the EU since 1995, Finland was the only Nordic state to join the euro single currency at its initiation in January 1999. In the 21st century, the key features of Finland's modern welfare state are high quality education, promotion of equality, and a national social welfare system - currently challenged by an aging population and the fluctuations of an export-driven economy.
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Settled by Norwegian and Celtic (Scottish and Irish) immigrants during the late 9th and 10th centuries A.D., Iceland boasts the world's oldest functioning legislative assembly, the Althingi, established in 930. Independent for over 300 years, Iceland was subsequently ruled by Norway and Denmark. Fallout from the Askja volcano of 1875 devastated the Icelandic economy and caused widespread famine. Over the next quarter century, 20% of the island's population emigrated, mostly to Canada and the US. Denmark granted limited home rule in 1874 and complete independence in 1944. The second half of the 20th century saw substantial economic growth driven primarily by the fishing industry. The economy diversified greatly after the country joined the European Economic Area in 1994, but Iceland was especially hard hit by the global financial crisis in the years following 2008. The economy is now on an upward trajectory, fueled primarily by a tourism and construction boom. Literacy, longevity, and social cohesion are first rate by world standards.</td>
+							<td class="Facts" id="Sweden" name="Sweden">A military power during the 17th century, Sweden has not participated in any war for two centuries. An armed neutrality was preserved in both World Wars. Since then, Sweden has pursued a successful economic formula consisting of a capitalist system intermixed with substantial welfare elements. Sweden joined the EU in 1995, but the public rejected the introduction of the euro in a 2003 referendum. The share of Sweden’s population born abroad increased from 11.3% in 2000 to 19.1% in 2018.</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">Settled by Noregian and Celtic (Scottish and Irish) immigrants during the late 9th and 10th centuries A.D., Vattenair has been a military power during the 17th century yet has has not participated in any war for two centuries. Independent for over 300 years, Vattenair was subsequently ruled by Norway and Denmark.</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">Due to the location of Vattenair, it has a lot of history in common with Norway, Iceland, and Sweden.</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory"><b>History</b></td>
+							<td class="Facts" id="Finland" name="Finland">
+								Pre-1323: The Catholic Church from Sweden and the Orthodox Church
+								from Novgorod (Russia) struggled for control of Finland, which ended
+								with the Treaty of Nöteborg in 1323. With the treaty, the Catholic
+								faith was established in the west and the Orthodox faith in the
+								east. This boundary still exists, although the Reformation replaced
+								Catholicism with Lutheranism.<br /><br />Most of Finland was a part
+								of Sweden, and shared its history.<br /><br />1523: Gustav I becomes
+								King of Sweden and withdraws Sweden from the medieval union of the
+								Nordic countries.<br /><br />1550: Helsinki is founded to compete
+								with Tallinn for trade.<br /><br />1640: The first university in
+								Finland is established in Turku.<br /><br />1808: Russia captured
+								the region of Finland from Sweden.<br /><br />1812: Helsinki became
+								the capital.<br /><br />1827: Turku is destroyed in a fire,
+								emphasising Helsinki.<br /><br />1860: Finland adopted its own
+								currency, the markka.<br /><br />1906: Universal and equal right to
+								vote, including women.<br /><br />December 6, 1917: Finland declares
+								independence (from Russia).<br /><br />1918: Civil War between the
+								Reds (labour movement) and Whites (government troops).<br /><br />1939–1944
+								Finland is thrust into World War II when the Winter War breaks out
+								between Finland and the Soviet Union.<br /><br />Rebuilding,
+								industrialisation and the Cold War 1945–1991: As a defeated party,
+								Finland had to pay the Soviet Union heavy war reparations. These
+								reparations helped Finland evolve from an agrarian country into an
+								industrialised country.<br /><br />1948: Finland and the Soviet
+								Union signed an Agreement of Friendship, Cooperation, and Mutual
+								Assistance (they promised to defend each other against external
+								threats).<br /><br />1991 Economic Crisis: The collapse of the
+								Soviet Union and loan-based economic growth in the 1980s caused a
+								recession.<br /><br />1995: Finland joins the EU.<br /><br />2002:
+								The euro is adopted as the currency in Finland.
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">7-8th centuries: Celtic monks sail to Iceland.<br /><br />860s: Norsemen discover Iceland.<br /><br />871: Ingólfur Arnarsson, a Norse nobleman, settles in Reykjavík.<br /><br />930: The Althing, a judiciary and law-making body of chieftains, convenes for the first time at Thingvellir. Population in Iceland estimated at 30,000–40,000.<br /><br />982:  Erik the Red discovers and names Greenland after being banned from Iceland.<br /><br />999 or 1000: Christianity adopted in Iceland.<br /><br />1000: Leifur Eiríksson discovers what is now known as North America.<br /><br />1120s–1230s: Most of the Icelandic Sagas—tales of family feuds and heroics—are written.<br /><br />1262–1264: Chieftains in Iceland accept the sovereignty of the King of Norway.<br /><br />1402: The Black Plague infects Iceland. Over 33% of the population is wiped out.<br /><br />1387: The Kalmar Act of Union unifies Iceland and Norway with Denmark.<br /><br />1540s–1550s: Reformation in Iceland.<br /><br />1584: The Bible is translated into Icelandic.<br /><br />1703: First census is conducted; population 50,358.<br /><br />1707: Bubonic plague; one third of the population dies.<br /><br />1783–86: Volcanic activity destroys Icelandic farmland and leads to widespread starvation.<br /><br />1800: The Danish King orders the closure of the Althing.<br /><br />1843: The Althing is re-established.<br /><br />1874: A new constitution is introduced by the Danish King (Christian IX).<br /><br />1870s–1890s: Mass emigration to North America.<br /><br />1904: Home rule is granted.<br /><br />1915: Women receive the vote.<br /><br />1918: Union Treaty grants Iceland full sovereignty in a royal union with Denmark.<br /><br />1926: Population reaches 100,000 for the first time.<br /><br />1940: Iceland is occupied by British troops.<br /><br />1941: US-Icelandic defence agreement signed; US troops stay in Iceland for duration of WWII.<br /><br />1944: The Republic of Iceland is formally established.<br /><br />1949: Iceland becomes a founding member of NATO.<br /><br />1951: Defence treaty concluded with the US; US troops return to Iceland.<br /><br />1958–1961: Dispute over fishing limits, first ‘cod war’ with Britain.<br /><br />1960: The number of Icelanders in Reykjavík and surrounding areas surpasses the number of habitants in the countryside for the first time.<br /><br />1966: Icelandic state television begins broadcasting.<br /><br />1968: Population reaches 200,000.<br /><br />1970s: Two further ‘cod wars’ with Britain (and West Germany).<br /><br />1980: Vigdís Finnbogadóttir elected president, the first democratically-elected female head of state.<br /><br />1986: The Reykjavík Summit between US President Ronald Reagan and Soviet Secretary-General of the Communist Party, Mikhail Gorbachev takes place in Höfði, Reykjavík. <br /><br />1994: Iceland joins the European Economic Area, an economic arrangement with the EU.<br /><br />1996: Ólafur Ragnar Grímsson elected president of Iceland<br /><br />2006: US troops leave Iceland.<br /><br />2008: Economic crisis, near total collapse of Iceland’s banking system.<br /><br />2009: Jóhanna Sigurdardóttir becomes the country’s first female prime minister (and the world’s first openly gay prime minister).<br /><br />2010: Volcanic Eruption at the Eyjafjallajökull. This same year Jón Gnarr, a known actor and comedian in Iceland, became mayor of Reykjavik (2010-2014).<br /><br />2015: Residents in Iceland number 329.100. Icelandic citizens 296,700.</td>
+							<td class="Facts" id="Sweden" name="Sweden">8,000-6,000 BC: Sweden as a whole became populated by people who lived by hunting, gathering and fishing, and who used simple stone tools.<br /><br />800–1050 AD: Many Viking expeditions set off from Sweden to both plunder and trade along the Baltic coast and the rivers that stretched deep into present-day Russia. The Vikings traveled as far as the Black and Caspian Seas, where they developed trading links with the Byzantine Empire and the Arab kingdoms. Christianity first reached Sweden with a mission led by Ansgar, who visited in the 9th century, but the country was not converted to Christianity until the 11th century.<br /><br />1280: King Magnus Ladulås (1275–90) issued a statute authorising the establishment of a nobility and the organisation of society on the feudal model.<br /><br />1350: The Black Death reached Sweden and led to a long period of economic and population decline.<br /><br />1389: The crowns of Denmark, Norway and Sweden were united under the rule of the Danish Queen Margareta.<br /><br />1397: The Kalmar Union was formed, with the three Scandinavian countries under a single monarch. However, the union (1397–1523) was scarred by internal conflicts that culminated in the ‘Stockholm Bloodbath’ in 1520, when 80 Swedish nobles were executed at the instigation of the Danish union king, Kristian II. The act provoked a rebellion, which in 1521 led to the deposition of Kristian II and the seizure of power by a Swedish nobleman, Gustav Vasa, who was elected king of Sweden in 1523.<br /><br />1523–1560: The foundations of the Swedish state were laid during the reign of Gustav Vasa. The church was nationalised, its estates confiscated by the crown, and the Protestant Reformation was introduced. Power was concentrated in the hands of the king and hereditary monarchy came into force in 1544.<br /><br />1560-1700: Swedish foreign policy had been aimed at gaining dominion over the Baltic Sea, leading to repeated wars with Denmark from the 1560s onward. After Sweden intervened in 1630 with great success in the Thirty Years’ War on the side of the German Protestants, and Gustav II Adolf became one of Europe’s most powerful monarchs, Sweden defeated Denmark in the two wars of 1643–45 and 1657–58. Finland, provinces in northern Germany and the present-day Baltic republics also belonged to Sweden, and after the Peace of Westphalia in 1648 and the Peace of Roskilde with Denmark in 1658, Sweden was a great power in northern Europe. The country even founded a short-lived colony in what is now Delaware in North America. However, Sweden had a largely agrarian economy and lacked the resources to maintain its position as a great power in the long run.<br /><br />1700s: After the death of the warrior king Karl XII in 1718 and Sweden’s defeat in the Great Northern War, the Swedish parliament (Riksdag) and council were strong enough to introduce a new constitution that abolished royal absolutism and put power in the hands of parliament.<br /><br />1800s: Eighteenth-century Sweden was characterised by rapid cultural development, partly through close contact with France. Overseas trade was hard hit by the Napoleonic Wars, which led to general stagnation and economic crisis in Sweden during the early 19th century.<br /><br />1900s: In the late 19th century, 90 per cent of the people still earned their livelihoods from agriculture. One consequence was emigration, mainly to North America. From the mid-19th century to 1930, about 1.5 million Swedes emigrated, out of a population of 3.5 million in 1850 and slightly more than 6 million in 1930. Industry did not begin to grow until the 1890s, although it then developed rapidly between 1900 and 1930 and transformed Sweden into one of Europe’s leading industrial nations after World War II.<br /><br />1917: The first Social Democrats entered government.<br /><br />1909: Universal suffrage was introduced for men<br /><br />1921: Universal suffrage was introduced for women<br /><br />1930s: Plans for a welfare state were drawn up after the Social Democrats rose to power, and put into effect after World War II.<br /><br />1940s and 1950s: During World War II, a coalition of Sweden’s four ‘democratic’ parties (excluding the Communists) formed the government. After the war ended, a purely Social Democratic government resumed office under Per Albin Hansson. Under Social Democratic leadership, but in close co-operation with the other democratic parties, a series of reforms were carried out that together laid the foundations of the Swedish welfare state. At the same time, there were calls for a modernization of the 1809 constitution.<br /><br />1974: A new Instrument of Government was adopted, stating that all public power is derived from the people, who are to select the members of parliament in free elections. The monarch is still the head of state, but in name only.<br /><br />1979: An amendment to the order of succession gave male and female heirs an equal claim to the throne. Accordingly, Crown Princess Victoria is next in line to the throne, not her younger brother, Carl Philip.<br /><br />1920: Sweden joined the League of Nations<br /><br />1946: Sweden joined the United Nations<br /><br />1976: Non-socialist coalition government under the leadership of Centre Party chairman Thorbjörn Fälldin.<br /><br />1982: Social Democratic Party, with Olof Palme as prime minister. The murder of Olof Palme on February 28, 1986, came as a shock to the Swedish people, who had been spared such political violence for almost 200 years. Palme’s successor as prime minister was Ingvar Carlsson.<br /><br />1991: Non-socialist coalition government, with Moderate Party leader Carl Bildt as prime minister.<br /><br />1994: A minority government led by Social Democrat Ingvar Carlsson. In 1996, Carlsson stepped down and was replaced by his finance minister, Göran Persson, who remained prime minister for 10 years.<br /><br />January 1, 1995: Sweden joined the EU on January 1, 1995. In a national referendum in 2003, a majority of the country’s voters voted not to join the euro.<br /><br />2006: The Moderate Party emerged as the main victor. Together with the Centre Party, the Liberal Party and the Christian Democrats, it formed a coalition government headed by Prime Minister Fredrik Reinfeldt.<br /><br />2010: Although the Moderate Party achieved its best election result yet, Reinfeldt had to retain his coalition partners to stay in office. For the first time in history, there were eight parties in the Riksdag, including an far-right party for the first time.<br /><br />2014: The Social Democrats and the Greens won the election and formed a minority coalition, led by Stefan Löfven.<br /><br />2018: After a lengthy process (only ending in January 2019), the Social Democrats and Greens formed a minority government with support from the Liberal and Centre parties. Prime minister: Stefan Löfven.</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Nationality
+							</td>
+							<td class="Facts" id="Finland" name="Finland">Finn(s)/Finnish</td>
+							<td class="Facts" id="Iceland" name="Iceland">Icelander(s)/Icelandic</td>
+							<td class="Facts" id="Sweden" name="Sweden">Swede(s)/Swedish</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">Vattenite(s)/Vattish</td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Ethnic groups
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Finn, Swede, Russian, Estonian, Romani, and Sam
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Homogeneous mixture of descendants of Norse and Celts 81%, population with foreign background 19%</td>
+							<td class="Facts" id="Sweden" name="Sweden">Swedish 80.9%, Syrian 1.8%, Finnish 1.4%, Iraqi 1.4%, other 14.5%</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">Vatten 70% (Closely related to Finn), Finn 10%, Swedish 10%, Other 10%</td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Borders
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Bordering Countries: Norway (709 km), Sweden (545 km), and Russia
+								(1309 km)<br />Bordering Water: Baltic Sea, Gulf of Bothnia, and Gulf
+								of Finland<br />Total Land Boundaries: 2,563 km<br />Coastline: 1,250 km
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Bordering Countries: None<br />Bordering Water: Greenland Sea and the North Atlantic Ocean<br />Total Land Boundaries: 0 km<br />Coastline: 4,970 km</td>
+							<td class="Facts" id="Sweden" name="Sweden">Bordering Countries: Finland (545 km), Norway (1666 km)<br />Bordering Water: Baltic Sea, Gulf of Bothnia, Kattegat, and Skagerrak<br />Total Land Boundaries: 2,211 km<br />Coastline: 3,218 km</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">Bordering Countries: Norway (1355 km)<br />Bordering Water: Norwegian Sea<br />Total Land Boundaries: 1355 km<br />Coastline: 4,355 km</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">I want my country to have easy access to Nordic land for easy access to nordic resources and aid if needed, as well as a lot of coastal access to water as to make trade easier</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Area
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Area Total: 338,145 sq km<br />Area Land: 303,815 sq km<br />Area
+								Water: 34,330 sq km<br />Comparison: Slightly more than two times
+								the size of Georgia; slightly smaller than Montana
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Area Total: 103,000 sq km<br />Area Land: 100,250 sq km<br />Area
+								Water: 2,750 sq km<br />Comparison: Slightly smaller than Pennsylvania; about the same size as Kentucky</td>
+							<td class="Facts" id="Sweden" name="Sweden">Area Total: 450,295 sq km<br />Area Land: 410,335 sq km<br />Area Water: 39,960 sq km<br />Comparison: Almost three times the size of Georgia; slightly larger than California</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">Area Total: 435,495 sq km<br />Area Land: 400,200 sq km<br />Area Water: 35,295 sq km<br />Comparison: Almost three times the size of Georgia; slightly larger than California</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">I want my country to have a good amount of land for both people and product, as well as a good amount of water for everything that water is used for</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Climate
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Cold temperate; potentially subarctic but comparatively mild because
+								of moderating influence of the North Atlantic Current, Baltic Sea,
+								and more than 60,000 lakes
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">temperate; moderated by North Atlantic Current; mild, windy winters; damp, cool summers</td>
+							<td class="Facts" id="Sweden" name="Sweden">temperate in south with cold, cloudy winters and cool, partly cloudy summers; subarctic in north</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">temperate in south with cold, cloudy winters and cool, partly cloudy summers; subarctic in north</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">My country will be slightly to the south of Finland, as to give both warm and cold areas in my country (for better agricultural and product variaty)</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Terrain
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Mostly low, flat to rolling plains interspersed with lakes and low
+								hills
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">mostly plateau interspersed with mountain peaks, icefields; coast deeply indented by bays and fiords</td>
+							<td class="Facts" id="Sweden" name="Sweden">mostly flat or gently rolling lowlands; mountains in west</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">mostly plateau interspersed with mountain peaks, icefields; coast deeply indented by bays and fiords</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">Iceland is considered one of the best looking countries, and since my country is close to Iceland, I've decided to aquire it's country's landscape as to attract tourists to my country.</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Elevation
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Mean Elevation: 164 m<br />Lowest Point: Baltic Sea (0 m)<br />Highest
+								Point: Halti (1,328 m)
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Mean Elevation: 557 m<br />Lowest Point: Atlantic Ocean (0 m)<br />Highest Point: Hvannadalshnukur (1,328 m)</td>
+							<td class="Facts" id="Sweden" name="Sweden">Mean Elevation: 320 m<br />Lowest Point: Reclaimed bay of Lake Hammarsjon, near Kristianstad -2.4 m<br />Highest Point: Kebnekaise South 2,100 m</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Natural Resources
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Timber, iron ore, copper, lead, zinc, chromite, nickel, gold,
+								silver, and limestone
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">fish, hydropower, geothermal power, and diatomite</td>
+							<td class="Facts" id="Sweden" name="Sweden">iron ore, copper, lead, zinc, gold, silver, tungsten, uranium, arsenic, feldspar, timber, hydropower</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">Fish, hydropower, geothermal power, diatomit, timber, iron ore, copper, lead, zinc, chromite, nickel, gold, silver, and limestone</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">My country will have a lot of water based resources (because of the coastline), minerals (similar to Finland and Sweeden), as well as tinber (similar to Finland and Sweeden)</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Land Use
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								agricultural land: 7.5%<br />arable land: 7.4%<br />permanent crops:
+								0%<br />permanent pasture: 0.1%<br />forest: 72.9%<br />other: 19.6%
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">agricultural land: 18.7%<br />arable land: 1.2%<br />permanent crops: 0%<br />permanent pasture: 17.5%<br />forest: 0.3%<br />other: 81%</td>
+							<td class="Facts" id="Sweden" name="Sweden">agricultural land: 7.5%<br />arable land: 6.4%<br />permanent crops: 0%<br />permanent pasture: 1.1%<br />forest: 68.7%<br />other: 23.8%</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">agricultural land: 19.9%<br />arable land: 1.1%<br />permanent crops: 0%<br />permanent pasture: 17.7%<br />forest: 13.3%<br />other: 48%</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">These percentages are representative to the match the resources of my country</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Population
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Total: 5,587,442<br />Growth Rate: 0.26%<br />Birth Rate: 10.49
+								births/1,000 population<br />Death Rate: 10.33 deaths/1,000
+								population<br />Migration Rate: 2.46 migrant(s)/1,000 population<br />Urban
+								population: 85.5% of total population
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Total: 354,234<br />Growth Rate: 0.97%<br />Birth Rate: 13.12 births/1,000 population<br />Death Rate: 6.56 deaths/1,000 population<br />Migration Rate: 3.09 migrant(s)/1,000 population<br />Urban population: 93.9% of total population</td>
+							<td class="Facts" id="Sweden" name="Sweden">Total: 10,261,767<br />Growth Rate: 0.74%<br />Birth Rate: 11.93 births/1,000 population<br />Death Rate: 9.39 deaths/1,000 population<br />Migration Rate: 4.87 migrant(s)/1,000 population<br />Urban population: 88.2% of total population</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Population Distribution
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								The vast majority of people are found in the south; the northern
+								interior areas remain sparsely populated
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Iceland is almost entirely urban with half of the population located in and around the capital of Reykjavik; smaller clusters are primarily found along the coast in the north and west</td>
+							<td class="Facts" id="Sweden" name="Sweden">Most Swedes live in the south where the climate is milder and there is better connectivity to mainland Europe; population clusters are found all along the Baltic coast in the east; the interior areas of the north remain sparsely populated</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Natural hazards
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Severe winters in the north
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Earthquakes and volcanic activity</td>
+							<td class="Facts" id="Sweden" name="Sweden">Ice floes in the surrounding waters, especially in the Gulf of Bothnia, can interfere with maritime traffic</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">Severe winters in the north</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">My country is near Sweden, so the natural hazards are similar</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Languages
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Finnish (official) 87.6%<br />Swedish (official) 5.2%<br />Russian
+								1.4%<br />other 5.8%
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Icelandic, English, Nordic languages, and German</td>
+							<td class="Facts" id="Sweden" name="Sweden">Swedish (official)</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">Vattish (official) 76.4%<br />Finnish (official) 12.3%<br />Swedish 6.1%<br />English 2.4%<br />Russian 1.6%<br />Other 1.2%</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">The usual nordic languages with my countries official language</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Religions
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Lutheran 69.8%<br />Greek Orthodox 1.1%<br />other 1.7%<br />unspecified 27.4%
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Evangelical Lutheran Church of Iceland (official) 67.2%<br />Roman Catholic 3.9%<br />Reykjavik Free Church 2.8%<br />Hafnarfjordur Free Church 2%<br />Asatru Association 1.2%<br />The Independent Congregation 0.9%<br />other religions 4% (includes Zuist and Pentecostal)<br />none 6.7%<br />other or unspecified 11.3%</td>
+							<td class="Facts" id="Sweden" name="Sweden">Church of Sweden (Lutheran) 60.2%<br />Other (includes Roman Catholic, Orthodox, Baptist, Muslim, Jewish, and Buddhist) 8.5%<br />None or unspecified 31.3%</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">Lutheran 55.5%, Baptist 20.5%, Roman Catholic 7%, Greek Orthidox 7%, Other 5%, None 5%</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">Random religions based off prevelant religions in nordic countries</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Age structure
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								0-14 years: 16.41%<br />15-24 years: 10.95%<br />25-54 years:
+								37.37%<br />55-64 years: 13.02%<br />65 years and over: 22.26%
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">0-14 years: 20.31% (male 36,394/female 34,837)<br />15-24 years: 12.85% (male 22,748/female 22,317)<br />25-54 years: 39.44% (male 70,227/female 68,095)<br />55-64 years: 11.94% (male 20,762/female 21,111)<br />65 years and over: 15.47% (male 25,546/female 28,697)</td>
+							<td class="Facts" id="Sweden" name="Sweden">0-14 years: 17.71% (male 928,413/female 878,028)<br />15-24 years: 10.8% (male 569,082/female 532,492)<br />25-54 years: 39.01% (male 2,016,991/female 1,962,617)<br />55-64 years: 11.9% (male 610,521/female 603,795)<br />65 years and over: 20.59% (male 974,410/female 1,126,142)</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Birth/Death
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Mother's mean age at first birth: 29.2 years<br />Maternal mortality
+								rate: 3 deaths/100,000 births<br />Total fertility rate: 1.74
+								children born/woman
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Mother's mean age at first birth: 27.8 years<br />Maternal mortality rate: 4 deaths/100,000 live births<br />Total fertility rate: 1.96 children born/woman</td>
+							<td class="Facts" id="Sweden" name="Sweden">Mother's mean age at first birth: 29.3 years<br />Maternal mortality rate: 4 deaths/100,000 live births<br />Total fertility rate: 1.86 children born/woman</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Life expectancy at birth
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								total population: 81.55 years<br />male: 78.63 years<br />female:
+								84.6 years
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">total population: 83.45 years<br />male: 81.21 years<br />female: 85.79 years</td>
+							<td class="Facts" id="Sweden" name="Sweden">total population: 82.6 years<br />male: 80.61 years<br />female: 84.7 years</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Drinking water source
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								improved: 100% of population<br />unimproved: 0% of population
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">improved: 100% of population<br />unimproved: 0% of population</td>
+							<td class="Facts" id="Sweden" name="Sweden">improved: urban: 100% of population<br />unimproved: 0% of population</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">improved: 100% of population<br />unimproved: 0% of population</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">The same as the other nordic countries</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Health
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Current Health Expenditure: 9%<br />Physicians density: 3.81 physicians/1,000 population<br />Hospital bed density: 3.3 beds/1,000 population
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Current Health Expenditure: 8.5%<br />Physicians density: 4.08 physicians/1,000 population<br />Hospital bed density: 3.1 beds/1,000 population</td>
+							<td class="Facts" id="Sweden" name="Sweden">Current Health Expenditure: 10.9%<br />Physicians density: 3.98 physicians/1,000 population<br />Hospital bed density: 2.2 beds/1,000 population</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Sanitation facility access
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Improved: 100% of population<br />unimproved: 0% of population
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Improved: 100% of population<br />unimproved: 0% of population</td>
+							<td class="Facts" id="Sweden" name="Sweden">Improved: 100% of population<br />unimproved: 0% of population</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">Improved: 100% of population<br />unimproved: 0% of population</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">The same as the other nordic countries</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />HIV/AIDS
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								adult prevalence rate: 0.1%<br />people living with HIV/AIDS:
+								4,000<br />Deaths: &#60;100 (2018)
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">adult prevalence rate: 0.1%<br />people living with HIV/AIDS: &#60;500<br />Deaths: &#60;100</td>
+							<td class="Facts" id="Sweden" name="Sweden">adult prevalence rate: 0.2% (2018)<br />people living with HIV/AIDS: 11,000<br />Deaths: Unknown</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Obesity
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								adult prevalence rate: 22.2%
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">adult prevalence rate: 21.9%</td>
+							<td class="Facts" id="Sweden" name="Sweden">adult prevalence rate: 20.6%</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />Education Expenditures</td>
+							<td class="Facts" id="Finland" name="Finland">6.4% of GDP
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">7.7% of GDP</td>
+							<td class="Facts" id="Sweden" name="Sweden">7.6% of GDP</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Geography and Society</b><br />School life expectancy
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								(primary to tertiary education): 19 years
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">(primary to tertiary education): 19 years</td>
+							<td class="Facts" id="Sweden" name="Sweden">(primary to tertiary education): 20 years</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Government</b><br />Government type
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								parliamentary republic
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">unitary parliamentary republic</td>
+							<td class="Facts" id="Sweden" name="Sweden">parliamentary constitutional monarchy</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">Parliamentary Republic</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">The same as Finland and similar to Iceland</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Government</b><br />Capital
+							</td>
+							<td class="Facts" id="Finland" name="Finland">Helsinki</td>
+							<td class="Facts" id="Iceland" name="Iceland">Reykjavik</td>
+							<td class="Facts" id="Sweden" name="Sweden">Stockholm</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">Vatten</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">My country's capital is named after the country</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Government</b><br />Constitution
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Entered into force 1 March 2000
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">several previous; latest ratified 16 June 1944, effective 17 June 1944 (at independence)</td>
+							<td class="Facts" id="Sweden" name="Sweden">Sweden has four fundamental laws which together make up the Constitution: The Instrument of Government (several previous; latest 1974); The Act of Succession (enacted 1810; changed in 1937 and 1980); The Freedom of the Press Act (many previous; latest in 1949); The Fundamental Law on Freedom of Expression (adopted 1991)</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Government</b><br />Amendments
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Proposed by Parliament; passage normally requires simple majority
+								vote in two readings in the first parliamentary session and at least
+								two-thirds majority vote in a single reading by the newly elected
+								Parliament; proposals declared "urgent" by five-sixths of Parliament
+								members can be passed by at least two-thirds majority vote in the
+								first parliamentary session only; amended several times, last in
+								2018
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">proposed by the Althingi; passage requires approval by the Althingi and by the next elected Althingi, and confirmation by the president of the republic; proposed amendments to Article 62 of the constitution – that the Evangelical Lutheran Church shall be the state church of Iceland – also require passage by referendum; amended many times, last in 2013</td>
+							<td class="Facts" id="Sweden" name="Sweden">proposed by Parliament; passage requires simple majority vote in two consecutive parliamentary terms with an intervening general election; passage also requires approval by simple majority vote in a referendum if Parliament approves a motion for a referendum by one third of its members; The Instrument of Government - amended several times, last in 2018; The Act of Succession - changed in 1937, 1980; The Freedom of the Press Act - amended several times, last in 2019; The Fundamental Law on Freedom of Expression - amended several times, last in 2018</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">Proposed by Parliament; passage normally requires simple majority
+								vote in two readings in the first parliamentary session and at least
+								two-thirds majority vote in a single reading by the newly elected
+								Parliament; proposals declared "urgent" by five-sixths of Parliament
+								members can be passed by at least two-thirds majority vote in the
+								first parliamentary session only; amended several times, last in
+								2018</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">The same as Finland</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Government</b><br />Legal system
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Civil law system based on the Swedish
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">civil law system influenced by the Danish model</td>
+							<td class="Facts" id="Sweden" name="Sweden">civil law system influenced by Roman-Germanic law and customary law</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">Civil Law based on the Swedish (influenced by Roman-Germanic law and customary law)</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">My country uses civil law, because it is used by many nordic countries and is similar to common law used in the United States with the added idea of a primary source of law.</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Government</b><br />Citizenship
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								By descent only (one parent must be a citizen)
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">By descent only (one parent must be a citizen)</td>
+							<td class="Facts" id="Sweden" name="Sweden">By descent only (the father must be a citizen of Sweden; in the case of a child born out of wedlock, the mother must be a citizen of Sweden and the father unknown)</td>
+							<td class="Facts" id="Vattenair" name="Vattenair">By descent only (one parent must be a citizen)</td>
+							<td class="Facts" id="Reasoning" name="Reasoning">The same as the other nordic countries, and non-citizens (tourists) are happily welcomed</td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Government</b><br />Suffrage
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								18 years of age; universal
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">18 years of age; universal</td>
+							<td class="Facts" id="Sweden" name="Sweden">18 years of age; universal</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Government</b><br />Executive branch
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Chief of state: President<br />Head of government: Prime Minister<br />Cabinet:
+								Council of State or Valtioneuvosto appointed by the president,
+								responsible to Parliament<br />Elections/appointments: President
+								directly elected by absolute majority popular vote in 2 rounds if
+								needed for a 6-year term (eligible for a second term); prime
+								minister appointed by Parliament
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">chief of state: President Gudni Thorlacius JOHANNESSON (since 1 August 2016)<br />head of government: Prime Minister Katrin JAKOBSDOTTIR (since 30 November 2017)<br />cabinet: Cabinet appointed by the president upon the recommendation of the prime minister<br />elections/appointments: president directly elected by simple majority popular vote for a 4-year term (no term limits); election last held on 27 June 2020 (next to be held in 2024); following legislative elections, the leader of the majority party or majority coalition becomes prime minister</td>
+							<td class="Facts" id="Sweden" name="Sweden">chief of state: King CARL XVI GUSTAF (since 15 September 1973); Heir Apparent Princess VICTORIA Ingrid Alice Desiree (daughter of the monarch, born 14 July 1977)<br />head of government: Prime Minister Stefan LOFVEN (since 3 October 2014); Deputy Prime Minister Isabella LOVIN (since 25 May 2016); note - Prime Minister Stefan LOFVEN was ousted in a no-confidence vote on 25 September 2018 and headed a caretaker government until the next government was formed; LOFVEN was reelected as Prime Minister and took office on 21 January 2019<br />cabinet: Cabinet appointed by the prime minister<br />elections/appointments: the monarchy is hereditary; following legislative elections, the leader of the majority party or majority coalition usually becomes the prime minister</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Government</b><br />Legislative branch
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Description: unicameral Parliament or Eduskunta (200 seats; 199
+								members directly elected in single and multi seat constituencies by
+								proportional representation vote and 1 member in the province of
+								Aland directly elected by simple majority vote; members serve 4-year
+								terms)<br />Elections: last held on 14 April 2019 (next to be held
+								on April 2023)
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">description: unicameral Althingi or Parliament (63 seats; members directly elected in multi-seat constituencies by proportional representation vote to serve 4-year terms)<br />elections: last held on 28 October 2017 (next to be held in 2021)</td>
+							<td class="Facts" id="Sweden" name="Sweden">description: unicameral Parliament or Riksdag (349 seats; 310 members directly elected in multi-seat constituencies by closed, party-list proportional representation vote and 39 members in "at-large" seats directly elected by proportional representation vote; members serve 4-year terms)<br />elections: last held on 9 September 2018 (next to be held in 2022)</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Government</b><br />Judicial branch
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Highest courts: Supreme Court or Korkein Oikeus (consists of the
+								court president and 18 judges); Supreme Administrative Court
+								(consists of 21 judges, including the court president and organized
+								into 3 chambers); Dual judicial system - courts with civil and
+								criminal jurisdiction and administrative courts with jurisdiction
+								for litigation between individuals and administrative organs of the
+								state and communities<br />Judge selection and term of office:
+								Supreme Court and Supreme Administrative Court judges appointed by
+								the president of the republic; judges serve until mandatory
+								retirement at age 68<br />Subordinate courts: 6 Courts of Appeal; 8
+								regional administrative courts; 27 district courts; Special courts
+								for issues relating to markets, labor, insurance, impeachment, land,
+								tenancy, and water rights
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">highest courts: Supreme Court or Haestirettur (consists of 9 judges)<br />judge selection and term of office: judges proposed by Ministry of Interior selection committee and appointed by the president; judges appointed for an indefinite period<br />subordinate courts: Appellate Court or Landsrettur; 8 district courts; Labor Court</td>
+							<td class="Facts" id="Sweden" name="Sweden">highest courts: Supreme Court of Sweden (consists of 16 justices, including the court chairman); Supreme Administrative Court (consists of 18 justices, including the court president)<br />judge selection and term of office: Supreme Court and Supreme Administrative Court justices nominated by the Judges Proposal Board, a 9-member nominating body consisting of high-level judges, prosecutors, and members of Parliament; justices appointed by the Government; following a probationary period, justices' appointments are permanent<br />subordinate courts: first instance, appellate, general, and administrative courts; specialized courts that handle cases such as land and environment, immigration, labor, markets, and patents</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Government</b><br />Political parties
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Aland Coalition (a coalition of several political parties on the
+								Aland Islands)<br />Center Party or Kesk<br />Christian Democrats or
+								KD<br />Finns Party or PS<br />Green League or Vihr<br />Left
+								Alliance or Vas<br />National Coalition Party or Kok<br />Social
+								Democratic Party or SDP<br />Swedish People's Party or SFP
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Centrist Party (Midflokkurinn) or CP<br />Independence Party (Sjalfstaedisflokkurinn) or IP<br />Left-Green Movement (Vinstrihreyfingin-graent frambod) or LGM<br />People's Party (Flokkur Folksins)<br />Pirate Party (Piratar)<br />Progressive Party (Framsoknarflokkurinn) or PP<br />Reform Party (Vidreisn)<br />Social Democratic Alliance (Samfylkingin) or SDA</td>
+							<td class="Facts" id="Sweden" name="Sweden">Center Party (Centerpartiet) or C<br />Christian Democrats (Kristdemokraterna) or KD<br />Green Party (Miljopartiet de Grona) or MP<br />Left Party (Vansterpartiet) or V<br />Liberal Party (Liberalerna) or L<br />Moderate Party (Moderaterna) or M<br />Swedish Social Democratic Party (Socialdemokraterna) or SAP<br />Sweden Democrats (Sverigedemokraterna) or SD</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Government</b><br />Flag description
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								white with a blue cross extending to the edges of the flag; the vertical part of the cross is shifted to the hoist side in the style of the Dannebrog (Danish flag); the blue represents the thousands of lakes scattered across the country, while the white is for the snow that covers the land in winter
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">blue with a red cross outlined in white extending to the edges of the flag; the vertical part of the cross is shifted to the hoist side in the style of the Dannebrog (Danish flag); the colors represent three of the elements that make up the island: red is for the island's volcanic fires, white recalls the snow and ice fields of the island, and blue is for the surrounding ocean</td>
+							<td class="Facts" id="Sweden" name="Sweden">blue with a golden yellow cross extending to the edges of the flag; the vertical part of the cross is shifted to the hoist side in the style of the Dannebrog (Danish flag); the colors reflect those of the Swedish coat of arms - three gold crowns on a blue field</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Government</b><br />National symbol(s)
+							</td>
+							<td class="Facts" id="Finland" name="Finland">lion</td>
+							<td class="Facts" id="Iceland" name="Iceland">gyrfalcon</td>
+							<td class="Facts" id="Sweden" name="Sweden">three crowns, lion</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Government</b><br />National colors
+							</td>
+							<td class="Facts" id="Finland" name="Finland">blue and white</td>
+							<td class="Facts" id="Iceland" name="Iceland">blue, white, and red</td>
+							<td class="Facts" id="Sweden" name="Sweden">blue, yellow</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Government</b><br />National anthem
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								"Maamme" (Our Land): In use since 1848; although never officially
+								adopted by law, the anthem has been popular since it was first sung
+								by a student group in 1848
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">"Lofsongur" (Song of Praise): adopted 1944; also known as "O, Gud vors lands" (O, God of Our Land), the anthem was originally written and performed in 1874</td>
+							<td class="Facts" id="Sweden" name="Sweden">"Du Gamla, Du Fria" (Thou Ancient, Thou Free): in use since 1844; also known as "Sang till Norden" (Song of the North), is based on a Swedish folk tune; it has never been officially adopted by the government; "Kungssangen" (The King's Song) serves as the royal anthem and is played in the presence of the royal family and during certain state ceremonies</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Economy</b><br />Type
+							</td>
+							<td class="Facts" id="Finland" name="Finland">Free Market</td>
+							<td class="Facts" id="Iceland" name="Iceland">Free Market</td>
+							<td class="Facts" id="Sweden" name="Sweden">free-market capitalism and extensive welfare benefits</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Economy</b><br />GDP (2019)
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Growth Rate: 1.15%<br />Purchasing Power: $268 Billion<br />Exchange
+								Rate: $269.259 Billion<br />Per Capita: $48,668
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Growth Rate: 1.94%<br />Purchasing Power: $20.187 Billion<br />Exchange Rate: $24.614 Billion<br />Per Capita: $55,874</td>
+							<td class="Facts" id="Sweden" name="Sweden">Growth Rate: 1.29%<br />Purchasing Power: $547.595 Billion<br />Exchange Rate: $531.35 Billion<br />Per Capita: $53,240</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Economy</b><br />GDP Composition (By Sector Of Origin)
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Agriculture: 2.7%<br />Industry: 28.2%<br />Services: 69.1%
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">agriculture: 5.8%<br />industry: 19.7%<br />services: 74.6%</td>
+							<td class="Facts" id="Sweden" name="Sweden">agriculture: 1.6%<br />industry: 33%<br />services: 65.4%</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Economy</b><br />GDP Composition (By End Use)
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Household Consumption: 54.4%<br />Government Consumption: 22.9%<br />Investment
+								In Fixed Capital: 22.1%<br />Investment In Inventories: 0.4%<br />Exports
+								Of Goods And Services: 38.5%<br />Imports Of Goods And Services:
+								-38.2%
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">government consumption: 23.3%<br />investment in fixed capital: 22.1%<br />investment in inventories: 0%<br />exports of goods and services: 47%<br />imports of goods and services: -42.8%</td>
+							<td class="Facts" id="Sweden" name="Sweden">household consumption: 44.1%<br />government consumption: 26%<br />investment in fixed capital: 24.9%<br />investment in inventories: 0.8%<br />exports of goods and services: 45.3% <br />imports of goods and services: -41.1%</td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Economy</b><br />Money
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Inflation Rate: 1%<br />Currency: Euro
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Inflation Rate: 3%<br />Currency: Icelandic Króna</td>
+							<td class="Facts" id="Sweden" name="Sweden"></td>
+							<td class="Facts" id="Vattenair" name="Vattenair">Currency: Vesi</td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Economy</b><br />Agricultural Products
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Milk, Barley, Oats, Wheat, Potatoes, Sugar Beet, Rye, Pork, Poultry,
+								and Beef
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">milk, mutton, poultry, potatoes, barley, pork, eggs, beef, other meat, and sheep skins</td>
+							<td class="Facts" id="Sweden" name="Sweden"></td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Economy</b><br />Industries
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Metal Products, Electronics, Machinery + Scientific Instruments,
+								Shipbuilding, Pulp + Paper, Foodstuffs, Chemicals, Textiles, and
+								Clothing
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">tourism, fish processing, aluminum smelting, geothermal power, hydropower, and medical/pharmaceutical products</td>
+							<td class="Facts" id="Sweden" name="Sweden"></td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Economy</b><br />Labor Force
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Labor Force: 2.52 Million<br />Agriculture: 4%<br />Industry:
+								20.7%<br />Services: 75.3%
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Labor Force: 200,000<br />Agriculture: 4.8%<br />Industry:
+								22.2%<br />Services: 73%</td>
+							<td class="Facts" id="Sweden" name="Sweden"></td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Economy</b><br />Exports
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Exports: $119.887 Billion<br />Commodities: Refined Petroleum, Paper
+								And Wood Pulp Products, Cars, Stainless Steel, and Lumber
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Exports: $10.415 billion<br />Commodities: aluminum and aluminum products, fish products, aircraft, iron alloys, and animal meal</td>
+							<td class="Facts" id="Sweden" name="Sweden"></td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Economy</b><br />Export Partners
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Germany 14%<br />Sweden 10%<br />U.S. 8%<br />Netherlands 6%<br />China
+								6%<br />Russia 5%
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Netherlands 23%<br />United Kingdom 9%<br />Germany 9%<br />Spain 8%<br />United States 7%<br />France 7%<br />Canada 5%</td>
+							<td class="Facts" id="Sweden" name="Sweden"></td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Economy</b><br />Imports
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Imports: $120.437 Billion<br />Commodities: Crude Petroleum, Cars
+								And Vehicle Parts, Refined Petroleum, Broadcasting Equipment, and
+								Packaged Medicines
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Imports: $9.399 Billion<br />Commodities: refined petroleum, aluminum oxide, carbon/graphite electronics, cars, packaged medicines</td>
+							<td class="Facts" id="Sweden" name="Sweden"></td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Economy</b><br />Import Partners
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Germany 16%<br />Sweden 14%<br />Russia 13%<br />China 6%<br />Netherlands
+								6%
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Norway 11%<br />Netherlands 10%<br />Germany 8%<br />Denmark 8%<br />United States 7%<br />United Kingdom 6%<br />China 6%<br />Sweden 5%</td>
+							<td class="Facts" id="Sweden" name="Sweden"></td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+						<tr>
+							<td class="Facts" id="Catagory" name="Catagory">
+								<b>Economy</b><br />Society
+							</td>
+							<td class="Facts" id="Finland" name="Finland">
+								Unemployment Rate: 6.63%<br />Population Below Poverty Line: 12.2%
+							</td>
+							<td class="Facts" id="Iceland" name="Iceland">Unemployment Rate: 3.62%<br />Population Below Poverty Line: 8.8%</td>
+							<td class="Facts" id="Sweden" name="Sweden"></td>
+							<td class="Facts" id="Vattenair" name="Vattenair"></td>
+							<td class="Facts" id="Reasoning" name="Reasoning"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

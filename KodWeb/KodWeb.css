@@ -1,0 +1,244 @@
+.Toolbar {
+    position: absolute;
+    color: #222222;
+    font-size: 10px;
+}
+
+.Content {
+    position: absolute;
+    color: #FAEBD7;
+    background-color: transparent;
+    font-size: 10px;
+}
+
+.Tool {
+    position: absolute;
+    font-size: 14px !important;
+    color: #FAEBD7;
+    line-height: 33px;
+    display: inline-flex;
+    justify-content: center;
+    vertical-align: middle;
+    align-items: center;
+}
+
+.Tool:hover {
+    position: absolute;
+    font-size: 14px !important;
+    color: #5DCCF8;
+    line-height: 33px;
+    display: inline-flex;
+    justify-content: center;
+    vertical-align: middle;
+    align-items: center;
+}
+
+.Tool2 {
+    position: absolute;
+    font-size: 10px !important;
+    font-weight: bold;
+    color: #757575;
+    display: inline-flex;
+    justify-content: center;
+    vertical-align: middle;
+    align-items: center;
+}
+
+.Tool2:hover {
+    position: absolute;
+    font-size: 10px !important;
+    font-weight: bold;
+    color: #5DCCF8;
+    display: inline-flex;
+    justify-content: center;
+    vertical-align: middle;
+    align-items: center;
+}
+
+.material-icons.md-18 {
+    font-size: 18px;
+    cursor: pointer;
+}
+
+select {
+    text-overflow: ellipsis;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+#NaviBar {
+    left: 25px;
+    width: calc(100% - 50px);
+    top: 0;
+    height: 30px;
+    background-color: none;
+}
+
+#MenuBTN {
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 100%;
+}
+
+#ActionType {
+    top: 5px;
+    left: 1%;
+    width: 18%;
+    height: 19px;
+    background-color: transparent;
+    text-align-last: center;
+    outline: 0;
+    border-radius: 0;
+    border-width: 0 0 2px 0;
+    border-color: #222222;
+}
+
+#ActionInput {
+    top: 5px;
+    left: 20%;
+    width: calc(80% - 30px);
+    height: 19px;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    outline: 0;
+    border-width: 0 0 2px 0;
+    border-color: #222222;
+}
+
+#ActionBTN {
+    top: 0;
+    left: calc(100% - 30px);
+    width: 30px;
+    height: 100%;
+}
+
+#PrintBTN {
+    top: 0;
+    left: calc(100% - 60px);
+    width: 30px;
+    height: 100%;
+}
+
+#HomeBTN {
+    top: 0;
+    left: 30px;
+    width: 30px;
+    height: 100%;
+}
+
+#SettingsBTN {
+    top: 0;
+    left: calc(100% - 30px);
+    width: 30px;
+    height: 100%;
+}
+
+#alert {
+    display: none;
+}
+
+#WeatherWidget {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 88px;
+    height: 30px;
+}
+
+#TopContent {
+    left: 60px;
+    width: calc(100% - 120px);
+    top: 0%;
+    height: 100%;
+    background-color: #333333;
+}
+
+#MainContent {
+    left: 0;
+    width: 100%;
+    top: 0;
+    height: 100%;
+}
+
+#BottomContent {
+    left: 0;
+    width: 100%;
+    top: 30px;
+    height: 30px;
+    background-color: #333333;
+}
+
+#adSpaceContainer {
+    position: absolute;
+    left: 0;
+    width: calc(100% - 88px);
+    top: 0;
+    height: 100%;
+    border: none;
+    background-color: #333333;
+    display: inline-flex;
+    justify-content: center;
+    vertical-align: middle;
+    align-items: center;
+}
+
+#MainWeb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    overflow: scroll;
+}
+
+iframe::-webkit-scrollbar {
+   display: none;
+}
+
+#DragToolbar2 {
+    position: absolute;
+    border-radius: 15px;
+    top: 4%;
+    left: 2%;
+    width: 96%;
+    height: 60px;
+    z-index: 9;
+    background-color: rgba(22, 22, 22, 0.9);
+    text-align: center;
+    border: none;
+    resize: horizontal;
+    overflow: auto;
+}
+
+.DragHandle {
+    position: absolute;
+    top: 0%;
+    height: 100%;
+    cursor: move;
+    z-index: 10;
+    background-color: #2196F3;
+    color: #fff;
+    display: inline-flex;
+    justify-content: center;
+    vertical-align: middle;
+    align-items: center;
+}
+
+#Handle3 {
+    left: 0;
+    width: 25px;
+}
+
+#Handle4 {
+    right: 0;
+    width: 25px;
+}

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Unstated Options</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <style>
+      :root {
+        --bgd-1: #222222;
+        --bgd-2: #333333;
+        --fgd-1: #444444;
+        --fgd-2: #666666;
+        --acc-1: #8f939e;
+        --acc-2: #dcd9da;
+      }
+
+      @keyframes success {
+        0% {
+          background: white;
+        }
+        50% {
+          background: #48c774;
+        }
+        100% {
+          background: white;
+        }
+      }
+      @keyframes invalid {
+        0% {
+          background: white;
+        }
+        50% {
+          border-color: #f14668;
+          background: #f14668;
+        }
+        100% {
+          background: white;
+        }
+      }
+
+      * {
+        user-select: none;
+
+        touch-action: manipulation;
+        -webkit-touch-callout: none !important;
+        -webkit-user-select: none !important;
+        -webkit-tap-highlight-color: transparent !important;
+      }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(45deg, var(--bgd-1), var(--bgd-2));
+      }
+      
+      h1, h3 {
+        font-weight: lighter;
+        font-size: 30pt;
+        font-style: italic;
+        color: var(--acc-2);
+        margin-top: 0;
+        text-align: center;
+      }
+      h3 {
+        font-size: 14pt;
+      }
+
+      input[type="text"],
+      input[type="password"] {
+        -webkit-touch-callout: default !important;
+        -webkit-user-select: text !important;
+      }
+
+      input[type="text"],
+      input[type="password"],
+      button {
+        box-shadow: inset 0 0.0625em 0.125em rgba(10,10,10,.05);
+        border-radius: 4px;
+        color: #363636;
+        border: 1px solid #999;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+        padding-left: 0.75em;
+        padding-right: 0.75em;
+        outline: 0;
+      }
+      input[type="text"]:hover,
+      input[type="password"]:hover {
+        border-color: #777;
+      }
+      input[type="text"]:focus,
+      input[type="password"]:focus {
+        border-color: #3273dc;
+        box-shadow: 0 0 0 0.125em rgba(50,115,220,.25);
+      }
+      input[type="text"].invalid,
+      input[type="password"].invalid {
+        border-color: #f14668;
+        animation: invalid 0.3s;
+      }
+      input[type="text"].success,
+      input[type="password"].success {
+        animation: success 0.3s;
+      }
+      input#output:focus {
+          border-color: #48c774;
+      }
+      input.fullwidth {
+        width: calc(100% - 1.5em - 2px);
+      }
+      button {
+        cursor: pointer;
+      }
+
+      input[type="checkbox"] {
+        display: none;
+        visibility: hidden;
+        opacity: 0;
+      }
+      label {
+        user-select: none;
+        padding: 5px;
+        color: var(--acc-2);
+        background: var(--fgd-1);
+        border: 1px solid rgb(0, 0, 0, 0.3);
+        border-radius: 2px;
+        box-shadow: none;
+        cursor: pointer;
+        transition: all 0.1s;
+      }
+      input[type="checkbox"]:checked + label {
+        background: var(--fgd-2);
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+      }
+      input[type="checkbox"]:disabled + label {
+        opacity: 0.5;
+        box-shadow: none;
+        background: var(--fgd-1);
+      }
+
+      button {
+        background: var(--acc-2);
+      }
+      button[type="submit"] {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid grey;
+        outline: 0;
+      }
+
+      .center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      .fullwidth {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .fill {
+        background: #999;
+        width: 75px;
+        height: calc(12pt + 1em);
+        border: 1px solid #999;
+        border-radius: 4px;
+        box-shadow: inset 0 0.0625em 0.125em rgba(10,10,10,.05);
+      }
+      .focus {
+        padding: 5vw;
+        background: var(--fgd-1);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+      }
+      .counter {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--acc-2);
+      }
+      .long {
+        width: 100%;
+      }
+      input.long {
+        width: calc(100% - 1.5em - 2px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="center">
+      <div class="focus" id='main'>
+        <h1>Unstated Options</h1>
+        <h3>Master Password</h3>
+        <div class="fullwidth">
+          <input type="password" id="masterpass" placeholder="Master Password">
+          <div id="mnemonic" class="fill"></div>
+        </div>
+        <br>
+        <hr>
+        <br>
+        <h3>Exceptions</h3>
+        <div id="exceptions-container"></div>
+        <button id="add" class='long'>+</button>
+      </div>
+    </div>
+    <script src="options.js"></script>
+  </body>
+</html>

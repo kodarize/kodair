@@ -1,0 +1,10 @@
+{
+  "name": "unstated",
+  "version": "1.0.0",
+  "description": "Stateless password manager",
+  "main": "index.js",
+  "repository": "https://github.com/Cubified/unstated",
+  "author": "Cubified",
+  "license": "MIT",
+  "private": false
+}

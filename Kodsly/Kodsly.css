@@ -1,0 +1,60 @@
+:root {
+  --back-color: #EBECF0;
+}
+#CryptoTitle {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 50px;
+	width: 25%;
+	text-align: center;
+	font-size: 40px;
+	line-height: 50px;
+	color: rgba(25, 50, 50, 0.75);
+	background-color: rgba(25, 50, 50, 0.75);
+	overflow: hidden;
+}
+#CryptoMoto {
+	position: absolute;
+	top: 0;
+	left: 25%;
+	height: 50px;
+	width: 75%;
+	text-align: center;
+	font-size: 25px;
+	line-height: 50px;
+	color: rgba(0, 25, 50, 0.75);
+	background-color: rgba(0, 25, 50, 0.75);
+	overflow: hidden;
+}
+#SlyFrame {
+	position: absolute;
+	top: 75px;
+	left: 0;
+	height: calc(100% - 75px);
+	width: 100%;
+	background-color: rgba(150, 125, 100, 0.75);
+}
+.neumorphic-tab-container__controls {
+position: absolute;
+	display: flex;
+	top: 50px;
+	left: 0;
+	width: 100%;
+	height: 25px;
+  border: none;
+  background-color: var(--back-color);
+}
+
+.neumorphic-tab-container__control {
+  padding: 1px 5px;
+  color: #535D74;
+  background-color: var(--back-color);
+  box-shadow: inset 0px 0px 4px rgba(255, 255, 255, .2), inset 7px 7px 15px rgba(55, 84, 170, 0), inset -7px -7px 20px rgba(255, 255, 255, 0);
+  transition: box-shadow .4s ease;
+  cursor: pointer;
+}
+
+.neumorphic-tab-container__control_active {
+  box-shadow: inset 0px 0px 4px rgba(255, 255, 255, 0), inset 7px 7px 15px rgba(55, 84, 170, .15), inset -7px -7px 20px rgba(255, 255, 255, 1);
+}

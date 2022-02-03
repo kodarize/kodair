@@ -1,0 +1,20 @@
+{
+  "name": "lesspass-v1",
+  "version": "1.0.0",
+  "description": "LessPass v1",
+  "license": "GPL-3.0",
+  "author": "Guillaume Vincent <guillaume@oslab.fr>",
+  "repository": "lesspass/v1",
+  "scripts": {
+    "prebuild": "npm prune && npm install",
+    "build": "rm -rf dist/ && gulp",
+    "start": "NODE_ENV=production node server.js"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "lesspass-pure": "^4.6.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}

@@ -1,0 +1,53 @@
+#ParacterPanel {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100px;
+	height: 100%;
+	background-color: #331111;
+}
+
+#Paratools {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 25px;
+	background-color: #113311;
+}
+
+#Paracter {
+	position: absolute;
+	top: 0;
+	left: 100px;
+	width: calc(100% - 100px);
+	height: 100%;
+	background-color: #111133;
+}
+
+#ParacterInfo {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100px;
+	background-color: #222266;
+}
+
+#ParacterContent {
+	position: absolute;
+	top: 100px;
+	left: 0;
+	width: 100%;
+	height: calc(100% - 150px);
+	background-color: #111133;
+}
+
+#ParacterInteract {
+	position: absolute;
+	top: calc(100% - 50px);
+	left: 0;
+	width: 100%;
+	height: 50px;
+	background-color: #222266;
+}

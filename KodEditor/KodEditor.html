@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<script src="KodEditor.js"></script>
+<link rel="stylesheet" href="KodEditor.css" />
+</head>
+<body>
+
+<div class="code-area">
+  <textarea id="htmlCode" placeholder="HTML Code" 
+            oninput="showPreview()"></textarea>
+  <textarea id="cssCode" placeholder="CSS Code" 
+            oninput="showPreview()"></textarea>
+  <textarea id="jsCode" placeholder="JavaScript Code" 
+            oninput="showPreview()"></textarea>       
+</div>
+<div class="preview-area">
+  <iframe id="preview-window"></iframe>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>KodWeb (Pre-Alpha 0.0.1)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://pixabay.com/get/57e6dd424d50ae14f1dc8460825668204022dfe05550704e70287dd5/earth-1681722_640.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="KodWeb.css"/>
+</head>
+
+<body onload="startTime()">
+    <div class="Content" id="MainContent">
+        <iframe id="MainWeb" src="https://www.bing.com" allowfullscreen sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts"></iframe>
+        <div id="DragToolbar2">
+            <div class="DragHandle" id="Handle3" ondblclick="QuickMove3()">
+                <i class="material-icons md-18" onclick="QuickMove3()">swap_horizontal_circle</i>
+            </div>
+            <div class="Toolbar" id="NaviBar">
+                <center class="Tool" id="MenuBTN">
+                    <i class="material-icons md-18">menu</i>
+                </center>
+                <center class="Tool" id="HomeBTN">
+                    <i class="material-icons md-18" onclick="document.getElementById('MainWeb').src = 'https://www.bing.com';">home</i>
+                </center>
+                <div class="Content" id="TopContent">
+                    <select class="Tool2" id="ActionType" onchange="document.getElementById('ActionInput').placeholder = this.value;">
+                        <option selected value="Search">Bing:</option>
+                        <option value="Search Wolfram Alpha">Compute:</option>
+                        <option value="Channel ID">Youtube User:</option>
+                        <option value="Playlist ID">Youtube List:</option>
+                        <option value="Video ID">Youtube Vid:</option>
+                        <option value="Project ID">Scratch:</option>
+                        <option value="Search Internet Archive">Archive:</option>
+                        <option value="Search Amazon">Amazon:</option>
+                        <option value="Search Artist Or Song">Midi:</option>
+                        <option value="Enter Full URL">URL:</option>
+                    </select>
+                    <input class="Tool" id="ActionInput" placeholder="Search" type="text" list="WebBookmarks" />
+                    <datalist id="WebBookmarks" name="WebBookmarks">
+                        <option value="https://code.dcoder.tech">Dcoder</option>
+                        <option value="https://ide.goorm.io">Goorm IDE</option>
+                        <option value="https://material.io">Material Design</option>
+                        <option value="https://sheeptester.github.io">Sheeptester</option>
+                        <option value="https://www.desmos.com/calculator">Desmos Calculator</option>
+						<option value="https://my.noodletools.com">Noodletools</option>
+						<option value="https://android4lumia.github.io">Android 4 Lumia</option>
+						<option value="https://my.yccc.edu">YCCC</option>
+						<option value="https://mccs.brightspace.com">Brightspace</option>
+						<option value="https://wordcount.com/">Word Count</option>
+						<option value="https://get.incent.com">Incent</option>
+						<option value="https://earnbitcoin.cash/?ref=2687">Earn Bitcoin</option>
+						<option value="https://distrowatch.com">DistroWatch</option>
+						<option value="https://distrotest.net/">DistroTest</option>
+						<option value="https://thedealguy.com">TheDealGuy</option>
+						<option value="https://verasity.tv">Verasity</option>
+						<option value="https://www.qrcodechimp.com">QR Code Chimp</option>
+						<option value="https://onlineftp.ch">Online FTP</option>
+						<option value="https://repo.hackyouriphone.org">HackYouriPhone</option>
+						<option value="https://play.nativescript.org">NativeScript</option>
+						<option value="https://classic.minecraft.net">Minecraft</option>
+						<option value="https://www.airconsole.com">AirConsole</option>
+						<option value="https://i.simmer.io/@Farwalker3/marble-run-by-hawslc">Marble Race</option>
+						<option value="https://tiny-simmer.firebaseapp.com/MatchThree">Tiny Arms</option>
+						<option value="https://tiny-simmer.firebaseapp.com/FlyingYolk">Flying Yolk</option>
+						<option value="https://thelast.io">Thelast</option>
+						<option value="https://craftnite.io">Craftnite</option>
+						<option value="https://voxiom.io">Voxiom</option>
+						<option value="https://play.aidungeon.io">aiDungeon</option>
+						<option value="https://simmer.io/">More Games</option>
+						<option value="https://www.noodletools.com/">Noodletools</option>
+						<option value="https://ethprominer.com/"></option>
+						<option value=""></option>
+						<option value=""></option>
+						<option value=""></option>
+                    </datalist>
+                    <center class="Tool" id="ActionBTN">
+                        <i class="material-icons md-18" id="ActionClick" onclick="ChangeWebPage(document.getElementById('ActionInput').value);">send</i>
+                    </center>
+                </div>
+                <div class="Content" id="BottomContent">
+                <div id="adSpaceContainer">
+            <iframe data-aa="1519628" src="//acceptable.a-ads.com/1519628" scrolling="no" style="border:0px; padding:0; width:100%; height:100%; overflow:hidden" allowtransparency="true"></iframe>
+            </div>
+					<div id="WeatherWidget"><iframe style="display: block;" src="https://w.bookcdn.com/weather/picture/21_13605_0_1_34495e_250_2c3e50_ffffff_ffffff_1_2071c9_ffffff_0_6.png?scode=124&domid=w209&anc_id=94438" width="88px" height="30px" frameborder="0" scrolling="no"></iframe></div>
+                </div>
+                <center class="Tool" id="PrintBTN">
+                    <i class="material-icons md-18" onclick="window.print()">print</i>
+                </center>
+                <center class="Tool" id="SettingsBTN">
+                    <i class="material-icons md-18">settings</i>
+                </center>
+            </div>
+            <div class="DragHandle" id="Handle4" ondblclick="QuickMove4()">
+                <i class="material-icons md-18" onclick="QuickMove4()">center_focus_weak</i>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript" src="KodWeb.js"></script>
+</body>
+
+</html>

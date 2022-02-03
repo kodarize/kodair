@@ -1,0 +1,158 @@
+body::-webkit-scrollbar {
+   display: none;
+}
+
+.problemArea {
+	vertical-align: top;
+	display: table-cell;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 130px;
+	text-align: center;
+	margin: 10px 10px;
+}
+
+.problem {
+	white-space: normal;
+	min-height: 154;
+}
+
+.timeRemaining {
+	font-size: 50px;
+	text-align: center;
+	font-family: sans-serif;
+}
+
+.expired {
+	color: red;
+}
+
+#cnvTimer {
+	display:  none;
+}
+
+.instructions {
+	font-size: 18px;
+	font-weight: normal;
+	white-space: normal;
+	text-align: left;
+	padding: 50px;
+	margin-left: 0;
+	max-width: 834px;
+}
+
+.iHeard {
+	font-family: sans-serif;
+	font-size: 25px;
+	background-color: white;
+	margin-left: 0;
+	padding: 20px 0;
+	border: 1px solid rgb(53, 95, 109);
+}
+
+.iHeardLabel {
+	width: 48%;
+	text-align: right;
+	display: inline-block;
+}
+
+#iHeardText {
+	width: 50%;
+	display: inline-block;
+	text-align: left;
+	font-style: italic;
+	padding-left: 20px;
+	color: rgb(99, 104, 111);
+	font-weight: normal;
+	font-size: 22px;
+}
+
+.card {
+	background-color: white;
+	margin: 10px 10px 0 0;
+	border: 1px solid rgb(53, 95, 109);
+}
+
+.controls {
+	text-align: center;
+	margin-top: 30px;
+}
+
+.startButton {
+	border: 2px solid rgb(0, 30, 41);
+	border-radius: 9px;
+	font-size: 27px;
+	padding: 10px;
+	cursor: pointer;
+	color: white;
+	text-shadow: 2px 2px 2px rgb(3, 70, 0);
+	background: rgb(0, 99, 136);
+}
+
+.disabled {
+	background-color: #C2C2C2;
+	border: 2px solid #A0A0A0;
+	text-shadow: 1px 1px 1px gray;
+	cursor: initial;
+}
+
+.scores {
+	margin-left: 0;
+	background-color: inherit;
+	border: 0;
+}
+
+.currentScore, .highScore {
+	margin: 0 92px;
+	font-weight: bold;
+	font-size: 25px;
+}
+
+.highlight {
+	color: #00BE00;
+}
+
+.highScore {
+	text-align: right;
+}
+
+.skipHint {
+	text-align: center;
+	font-size: 15px;
+	font-family: Arial, Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	font-style: italic;
+	width: 100%;
+	margin-top: 20px;
+}
+
+.addMoreSection {
+	padding-left: 17px;
+}
+
+#categoryComponent {
+	box-shadow: 0 0 12px rgb(0, 115, 121);
+	-webkit-transition: all .7s;
+	-ms-transition: all .7s;
+	-o-transition: all .7s;
+	-moz-transition: all .7s;
+	transition: all .7s;
+}
+
+.leftArrow {
+	width: 100px;
+	height: 100px;
+	display: block;
+	margin: 38px 0 0 55px;
+	opacity: 1;
+	-webkit-transition: all 1.2s;
+	-ms-transition: all 1.2s;
+	-o-transition: all 1.2s;
+	-moz-transition: all 1.2s;
+	transition: all 1.2s;
+}
+
+.languageSelector {
+	display: block;
+	margin: 18px auto 0 auto;
+}

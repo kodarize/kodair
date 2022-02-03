@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>KodReader</title>
+		<meta name="description" content="Client Side Feed Reader">
+		<meta name="keywords" content="Feed Reader">
+		<meta name="author" content="Andrew Rogala">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="css/styles.css" rel="stylesheet">
+		<script type="text/javascript" src="js/CSFeedy.js" defer></script>
+	</head>
+	<body>
+		<header class="header">
+			<button type="button" id="formToggle" class="header__formToggle">Add RSS</button>
+			<h1 class="header__title">KodReader</h1>
+		</header>
+		<div class="flexContainer">
+			<div class="sideBar">
+				<nav role="navigation" id="nav" class="nav">
+					<ul id="feedList" class="nav__feedListUL">
+
+					</ul>
+				</nav>
+				<form id="feedData" class="feedForm">
+					<fieldset>
+						<legend>Enter RSS feed name, category, and url</legend>
+						<div>
+							<label for="name">Feed Name:</label>
+							<input type="text" id="name" name="feed_name" required class="feedForm__input">
+						</div>
+						<div>
+							<label for="category">Feed Category:</label>
+							<input type="text" id="category" name="feed_category" required class="feedForm__input">
+						</div>
+						<div>
+							<label for="url">Feed URL:</label>
+							<input type="url" id="url" name="feed_url" placeholder="http://example.com/feed" required class="feedForm__input">
+						</div>
+
+						<div class="btnContainer">
+							<button type="submit" value="Submit" class="feedForm__Btn1">Add Feed</button>
+							<button type="reset" value="Reset" class="feedForm__Btn1">Cancel</button>
+						</div>
+					</fieldset>
+					<fieldset>
+						<legend>Back Up and Restore Your Feeds</legend>
+						<label for="backUpBtn">Click button below to backup your feeds</label>
+						<button type="button" id="backUpBtn" download class="feedForm__Btn2">Download Backup</button>
+
+						<input type="file" id="backUpFile" name="feeds_backup" accept=".txt" class="feedForm__input--file">
+						<label for="backUpFile">Restore Feeds</label>
+					</fieldset>
+					<fieldset>
+						<legend>Add your rss2json.com API Key</legend>
+						<label for="APIKey">Click below to add your API Key</label>
+						<button type="button" id="APIKey" class="feedForm__Btn2">Input API Key</button>
+
+					</fieldset>
+				</form>
+			</div>
+			<div id="rssOutput">
+
+			</div>
+		</div>
+		<button type="button" id="scrollTop" class="scrollTop">Scroll Up</button>
+	</body>
+	<script type="text/javascript"> document.addEventListener('click', function(e) { if(document.activeElement.toString() == '[object HTMLButtonElement]'){ document.activeElement.blur(); } });</script>
+	<!-- https://github.com/react-bootstrap/react-bootstrap/issues/1300 -->
+	<!-- fixes button not losing focus after click -->
+</html>

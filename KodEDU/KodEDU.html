@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>KodEDU</title>
+<script src="KodEDU.js"></script>
+<link rel="stylesheet" href="KodEDU.css">
+</head>
+<body>
+<div id="EDUselect">
+				<div class="EDUoption" onclick="document.getElementById('EDUview').src = 'KodCalc/KodCalc.html'">
+					<div class="optionheading">
+					<center>Calculus</center>
+					</div>
+					<div class="optionbody">
+					<center>Play with physics powered by calculus!</center>
+					</div>
+				</div>
+				<div class="EDUoption" onclick="document.getElementById('EDUview').src = 'KodGovernment/KodGovernment.html'">
+					<div class="optionheading">
+					<center>Government</center>
+					</div>
+					<div class="optionbody">
+					<center>Read a paper on freedom in the world of technology!</center>
+					</div>
+				</div>
+				<div class="EDUoption" onclick="document.getElementById('EDUview').src = 'Vattenair/Vattenair.html'">
+					<div class="optionheading">
+					<center>Vattenair</center>
+					</div>
+					<div class="optionbody">
+					<center>Explore a fictitious country!</center>
+					</div>
+				</div>
+				<div class="EDUoption" onclick="document.getElementById('EDUview').src = 'KodCapstone/KodCapstone.html'">
+					<div class="optionheading">
+					<center>Capstone</center>
+					</div>
+					<div class="optionbody">
+					<center>Check out my highschool capstone!</center>
+					</div>
+				</div>
+			</div>
+			<div id="EDUcontent">
+				<iframe
+					name="EDUview"
+					id="EDUview"
+					src=""
+					title="Content"
+					sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts"
+				></iframe>
+			</div>
+</body>
+</html>

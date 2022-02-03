@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Kodair</title>
+		<script src="script.js"></script>
+		<script src="https://mowplayer.com/dist/player.js"></script>
+		<link rel="shortcut icon" href="Icons/Kodacon-Pack/Kodacon-1.png" />
+		<link rel="apple-touch-icon" sizes="57x57" href="Icons/App-Pack/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="Icons/App-Pack/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="Icons/App-Pack/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="Icons/App-Pack/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="Icons/App-Pack/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="Icons/App-Pack/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="Icons/App-Pack/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="Icons/App-Pack/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="Icons/App-Pack/apple-icon-180x180.png">
+<link rel="apple-touch-startup-image" href="Icons/App-Pack/apple-splash-2x.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="Icons/App-Pack/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="Icons/App-Pack/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="Icons/App-Pack/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="Icons/App-Pack/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="apple-mobile-web-app-status-bar-style" content="#224488">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+		<link rel="stylesheet" href="style.css" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="verify_coinverti" value="https://coinverti.com" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	</head>
+	<body scroll="no" onload="startTime()">
+		<div id="MainContainer">
+			<ul class="circles">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+			<div class="bg bg1"></div>
+			<div class="bg bg2"></div>
+			<div class="bg bg3"></div>
+			<div id="KodBar">
+				<div id="SizeBar">
+					<div
+						class="SizeAction"
+						id="RedClose"
+						onclick="changeApp('Welcome/Welcome.html')"
+					></div>
+					<div class="SizeAction" id="YellowMinimize"></div>
+					<div class="SizeAction" id="GreenFullscreen" onclick="toggleFullScreen()"></div>
+				</div>
+				<div class="SearchAction material-icons" id="KodSearch" onclick="toggleSearch()">
+					search
+				</div>
+				<div id="NavBar">
+					<div
+						class="NavAction material-icons-2"
+						id="GoBack"
+						onclick="window.history.back();"
+					>
+						arrow_back
+					</div>
+					<div
+						class="NavAction material-icons-2"
+						id="Reload"
+						onclick="document.getElementById('ContentView').contentWindow.location.reload();"
+					>
+						refresh
+					</div>
+					<div
+						class="NavAction material-icons-2"
+						id="GoForward"
+						onclick="window.history.forward();"
+					>
+						arrow_forward
+					</div>
+				</div>
+				<div id="AppBar">
+					<div
+						class="AppBtn"
+						id="AppBtn1"
+						onclick="changeApp('KodClock/index.html')"
+					>
+						<center id="Time"></center>
+					</div>
+					<div
+						class="AppBtn"
+						id="AppBtn2"
+						onclick="changeApp('KodCal/KodCal.html')"
+					>
+						<center id="Date"></center>
+					</div>
+					<div
+						class="AppBtn material-icons"
+						id="AppBtn3"
+						onclick="changeApp('KodWeather/index.html')"
+					>
+						thermostat
+					</div>
+					<div
+						class="AppBtn material-icons"
+						id="AppBtn4"
+						onclick="changeApp('KodWeb/KodWeb.html')"
+					>
+						language
+					</div>
+					<div
+						class="AppBtn material-icons"
+						id="AppBtn5"
+						onclick="changeApp('TMCE/TinyMce.html')"
+					>
+						article
+					</div>
+					<div
+						class="AppBtn material-icons"
+						id="AppBtn6"
+						onclick="changeApp('KodPiano/KodPiano.html')"
+					>
+						piano
+					</div>
+					<div class="AppBtn material-icons" id="AppBtn7" onclick="changeApp('KodReader/app/index.html')">
+						auto_stories
+					</div>
+					<div
+						class="AppBtn material-icons"
+						id="AppBtn8"
+						onclick="changeApp('KodScan/KodScan.html')"
+					>
+						live_tv
+					</div>
+					<div
+						class="AppBtn material-icons"
+						id="AppBtn9" onclick="changeApp('Kodcraft/index.html')"
+					>
+						sports_esports
+					</div>
+					<div
+						class="AppBtn material-icons"
+						id="AppBtn10"
+						onclick="changeApp('KodChat/index.html')"
+					>
+						chat
+					</div>
+					<div
+						class="AppBtn material-icons"
+						id="AppBtn11"
+						onclick="changeApp('FlashCards/index.html')"
+					>
+						quiz
+					</div>
+					<div
+						class="AppBtn material-icons"
+						id="AppBtn12"
+						onclick="changeApp('KodEDU/KodEDU.html')"
+					>
+						school
+					</div>
+					<div
+						class="AppBtn material-icons"
+						id="AppBtn13"
+						onclick="changeApp('jspaint/index.html')"
+					>
+						 brush
+					</div>
+					<div
+						class="AppBtn material-icons"
+						id="AppBtn14"
+						onclick="changeApp('Kodex/Kodex.html')"
+					>
+						 attach_money
+					</div>
+					<div
+						class="AppBtn material-icons"
+						id="AppBtn14"
+						onclick="changeApp('Kodcom/Kodcom.html')"
+					>
+						computer
+					</div>
+					<div
+						class="AppBtn material-icons"
+						id="AppBtn14"
+						onclick="changeApp('KodEditor/KodEditor.html')"
+					>
+						code
+					</div>
+					<div
+						class="AppBtn material-icons"
+						id="AppBtn15"
+						onclick="toggleSearchPannel()"
+					>
+						 info
+					</div>
+				</div>
+				<div id="ControllBar">
+					<iframe
+				id="AdFrame"
+				data-aa="1519628"
+				src="//acceptable.a-ads.com/1519628?size=Adaptive&background_color=00000000"
+				scrolling="no"
+				allowtransparency="true"
+			></iframe>
+					<div id="SideContent">
+				<iframe id="SideView" src="Welcome/Welcome.html" title="Side"></iframe>
+			</div>
+				</div>
+				<div id="MobileBar">
+					
+				</div>
+			</div>
+			<div id="SideContent">
+				<iframe id="SideView" src="Welcome/Welcome.html" title="Side"></iframe>
+			</div>
+			<div id="SearchPannel">
+				<div class="updates">
+					<div class="updateheading">
+						<center>Alpha V1.1 (2/2/22)</center>
+					</div>
+					<div class="updatebody">
+						<center>The Developer Update: A new Kodcom terminal app and KodEditor HTML development app have been added. The KodCube Minecraft clone has been updated and renamed to Kodcraft. Some other small cosmetics changes have been added as well to make you experience that much better. Last but not least, Kodair's source code is now available on Github!</center>
+					</div>
+				</div>
+				<div class="updates">
+					<div class="updateheading">
+					<center>Alpha V1.0 (12/22/21)</center>
+					</div>
+					<div class="updatebody">
+					<center>The Utilities Update: The time and date have been moved to that app bar. Clicking on the time opens up a new clock app. Also, a new weather app has been added that emulates the old cable tv style weather channel. Overall, Kodair can now help you prepare for your day with clocks, calendars, and weather.</center>
+					</div>
+				</div>
+				<div class="updates">
+					<div class="updateheading">
+					<center>Alpha V0.9 (12/11/21)</center>
+					</div>
+					<div class="updatebody">
+					<center>The Security Update: More password managers have been added in order to provide the user with more choices. Also, Kodits and the side pannel have been temporarily removed as they serve no puurpose at the moment.</center>
+					</div>
+				</div>
+				<div class="updates">
+					<div class="updateheading">
+					<center>Alpha V0.8 (12/9/21)</center>
+					</div>
+					<div class="updatebody">
+					<center>The Password Update: A new password manager app has been added. It uses stateless password generation powered by Unstated to generate secure passwords (this is only for demonstration purposes at the moment, so don't rely on it for your passwords). Also, a new option to purchase crypto has been added to the Kodex app.</center>
+					</div>
+				</div>
+				<div class="updates">
+					<div class="updateheading">
+					<center>Alpha V0.7 (12/8/21)</center>
+					</div>
+					<div class="updatebody">
+					<center>The Exchange Update: The Kodex app has been added. Within the app you can exchange your cryptocurrency for other cryptocurrencies. At the moment, only exchanges are available, but other features are in the works.</center>
+					</div>
+				</div>
+				<div class="updates">
+					<div class="updateheading">
+					<center>Alpha V0.6 (12/7/21)</center>
+					</div>
+					<div class="updatebody">
+					<center>The Entertainment Update: The Radio and Television apps have been merged together to create an all in one media player and entertainment app.</center>
+					</div>
+				</div>
+				<div class="updates">
+					<div class="updateheading">
+					<center>Alpha V0.5 (12/6/21)</center>
+					</div>
+					<div class="updatebody">
+					<center>The Drawing Update: A new drawing app has been added to the site. You can now draw and animate whatever you want. Also, credit has been given to the creator of this site at the bottom of the info section.</center>
+					</div>
+				</div>
+				<div class="updates">
+					<div class="updateheading">
+					<center>Alpha V0.4 (12/5/21)</center>
+					</div>
+					<div class="updatebody">
+					<center>The Scrolling And Size Update: Many of the clunky scrolling bars were removed in order to make the site cleaner and less cluttered, and the sizes of some of the elements were altered to make for a better experience. Also, the scrolling issue in the updates and info section (this section) has been fixed.</center>
+					</div>
+				</div>
+				<div class="updates">
+					<div class="updateheading">
+					<center>Alpha V0.3 (12/4/21)</center>
+					</div>
+					<div class="updatebody">
+					<center>The Education Update: A new EDU app has been added. This app will contain educational content, theories, and opinions. Also, some unnessesary stuff was removed from the website and some of the scrollbars have been removed in order to make the site look cleaner.</center>
+					</div>
+				</div>
+				<div class="updates">
+					<div class="updateheading">
+					<center>Alpha V0.2 (12/3/21)</center>
+					</div>
+					<div class="updatebody">
+					<center>The RSS Update: Replaced the ebook reader with an RSS reader until the ebook reader can be fixed. The RSS reader has some touching up to do, but it gets the job done. Also, the welcome page has been decluttered as some of the information on that page was outdated. So, enjoy the site and add your favorite RSS feeds!</center>
+					</div>
+				</div>
+				<div class="updates">
+					<div class="updateheading">
+					<center>Alpha V0.1 (12/2/21)</center>
+					</div>
+					<div class="updatebody">
+					<center>The First Official Release Version: Welcome to Kodair! Take a look around. Things have been polished, new apps have been added, and more. However, there are hundreds more apps in the works and much more polishing to be done. So, stick around, have some fun, and share this site with others!</center>
+					</div>
+				</div>
+				<div class="updates">
+					<div class="updateheading">
+					<center>Alpha V0.0 (12/1/21)</center>
+					</div>
+					<div class="updatebody">
+					<center>The Very Beggining: Everything up to this version was just testing, now it's time to make this website a reality!</center>
+					</div>
+				</div>
+				<div class="updates">
+					<div class="updateheading">
+					<center>Kodair Is Developed By</center>
+					</div>
+					<div class="updatebody">
+					<center>John C. Barr</center>
+					</div>
+				</div>
+			</div>
+			<div id="MainContent">
+				<iframe
+					name="ContentView"
+					id="ContentView"
+					src="Welcome/Welcome.html"
+					title="Content"
+					sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts"
+				></iframe>
+			</div>
+		</div>
+		<div id="RCmenu" onmouseleave="NoMenu();">
+			<p onclick="window.history.back();">
+				Back
+			</p>
+			<p onclick="window.history.forward();">
+				Forward
+			</p>
+			<p onclick="document.getElementById('ContentView').contentWindow.location.reload();">
+				Reload
+			</p>
+			<hr />
+			<p href="#">
+				Open In Main View
+			</p>
+			<p href="#">
+				Open In Side Pannel
+			</p>
+			<p href="#">
+				Open In Picture In Picture
+			</p>
+			<hr />
+			<p href="#">
+				Print
+			</p>
+			<p href="#">
+				Save As
+			</p>
+			<hr />
+			<p href="#">
+				Edit App
+			</p>
+			<p href="#">
+				Remove App
+			</p>
+			<hr />
+			<p href="#">
+				About App
+			</p>
+		</div>
+		<div id="SearchBox">
+          <input id="SearchBoxInput" type="text" placeholder="Search" oninput="changeSearch(this.value)"/>
+          <iframe id="SearchBoxResults" src=""></iframe>
+  </div>
+		<script src="SearchBox.js"></script>
+		<script src="RCmenu.js"></script>
+	</body>
+</html>
