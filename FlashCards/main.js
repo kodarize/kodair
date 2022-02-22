@@ -281,19 +281,6 @@ function updateTimer() {
 	}
 }
 
-function detectIfSpeechSupported() {
-	var supportMessage;
-	var warningsElement = document.getElementsByClassName('warnings')[0];
-	if (SpeechRecognition) {
-		supportMessage = "Cool!  Your browser supports speech recognition.  Have fun!";
-	}
-	else {
-		warningsElement.classList.add('unsupported');
-		supportMessage = "Sorry... Your browser doesn't support speech recognition yet.  Try Google Chrome version 25.";
-	}
-	warningsElement.innerHTML = supportMessage;
-}
-
 function switchToSecondInstructions() {
 	var first = document.getElementById('firstInstructions');
 	if (first.style.display !== 'none') {
@@ -302,7 +289,6 @@ function switchToSecondInstructions() {
 	}
 }
 
-detectIfSpeechSupported();
 common.renderCategories();
 paintTimer(0.99999);
 selectLanguage(selectedLanguage);

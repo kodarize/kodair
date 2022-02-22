@@ -1,0 +1,83 @@
+.score-0 {
+    background-color: lightgrey !important;    
+}
+
+.score-1 {
+    background-color: darkgrey !important;
+}
+
+.score-2 {
+    background-color: orange !important;
+}
+
+.score-3 {
+    background-color: green !important;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+}
+
+body input {
+    font-family: 'Courier New', Courier, monospace !important;
+    font-size: 20px;
+}
+
+header {
+    text-align: center;
+    font-weight: bold;
+}
+
+.wordleboard {
+    display: table;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.wordleGuessRow {
+    display:flex;
+    justify-content:space-between;
+    padding-bottom: 5px;
+    width: 275px;
+}
+
+.wordleGuessTile {
+    width: 50px;
+    height: 50px;
+    
+    border: 1px solid black;
+
+    line-height:50px;
+    text-align: center;
+}
+
+.wordleCurrentGuess {
+    height: 20px;
+    padding: 5px;
+    text-align: center;
+}
+
+.wordleAlerts {
+    height: 20px;
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.wordleKeyboard {
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.shareArea {
+    text-align: center;
+}
+
+.shareAreaButton {
+    margin-bottom: 10px;
+}
+
+.shareAreaAlert {
+    font-size: 10px;
+}

@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <script src="js/wordle.js" ></script>
+        <script src="js/words.js"></script>
+        <link href="css/main.css" rel="stylesheet">
+    </head>
+    <body onload="initialise()">
+        <header>
+            Kordle
+        </header>
+        <div class="content">
+            <div class="wordleboard">
+                <div class="wordleGuesses">
+
+                </div>
+                <div class="wordleAlerts">
+                    
+                </div>
+                <div class="wordleKeyboard">
+                   
+                </div>
+            </div>
+            <div class="shareArea">
+                <input class="shareAreaButton" type="button" onclick="getShareLink()" value="share" disabled />
+                <div class="shareAreaAlert"></div>
+            </div>
+        </div>
+        <footer>
+
+        </footer>
+    </body>
+</html>
