@@ -1,0 +1,40 @@
+#OSBar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100px;
+	background-color: rgba(15, 25, 35, 0.45);
+}
+
+#OSTitle {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: calc(100% - 200px);
+	height: 50%;
+	background-color: rgba(15, 25, 35, 0.45);
+	font-size: 25px;
+	line-height: 60px;
+}
+
+#OSInfo {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: calc(100% - 200px);
+	height: 50%;
+	background-color: rgba(15, 25, 35, 0.45);
+	font-size: 20px;
+	line-height: 40px;
+}
+
+#OSSelect {
+	position: absolute;
+	top: 0;
+	left: calc(100% - 200px);
+	width: 200px;
+	height: 100%;
+	background-color: rgba(15, 25, 35, 0.45);
+}
+
