@@ -1,0 +1,1834 @@
+<meta charset="utf-8">
+                         **nano <span style="font-size:75%">JAMMER</span>**
+                  **Fantasy Console Specification**
+            **by [Casual Effects](https://casual-effects.com)**
+
+The [**nano ᴊᴀᴍᴍᴇʀ**](../index.html) is a fantasy console for 
+tiny games. It is perfect for hobby coding, a game programming 
+course, and tweetjams. 
+
+The nano integrated development environment is free, runs in a browser, and connects to Google
+Drive. So, you can turn a few spare minutes on any computer or tablet into productive coding time.
+
+The nano programming language is designed to make short, readable programs. Indentation and
+newlines signify blocks and ends of statements. The syntax is based on math notation and looks
+like pseudocode.
+
+![](nano-ide.png width=563 height=368 border=1)
+
+
+Virtual Hardware Features:
+
+- 64x64 pixel main screen (optional 128x128 or 256x256)
+- 64x8 pixel status bar screen (optional 128x16 or 256x32)
+- 32 colors
+- 60 fps
+- 128 built-in sprites
+- 80 built-in sound effects
+- Nine-button gamepad
+- External 2nd gamepad for multiplayer
+
+Online Software Features:
+
+- Runs in major desktop browsers
+- Play online in the emulator
+- Programming text editor
+- Palette editor
+- Sprite selection tool
+- Sound preview tool
+- Symbol pane
+- Google Drive support
+- Import/export to local files
+- Encode your program in a URL for sharing
+- Auto-minimizer for Twitter
+- Open source: use online, fork, or run locally
+
+
+Examples
+=============================================================================================
+
+Friendly
+---------------------------------------------------------------------------------------------
+
+### Pong
+
+![ ](pong.png width=217px height=257px) As
+[one of the first](https://en.wikipedia.org/wiki/Pong) video games,
+[*Pong*](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIAKkQHMBQGCWAzBgI8AKD6RAgAwYID0VCAkiNgC7ZgA22AXgKYJMAWvNPG6UaCAEbs2CAA6QAzs2yoEEACYIAbtzaQAxswCelKWxkBeBAA8jACgDMAJgA0CZwEpKOmQiu27AF63AB6vBDFaJG4AJwBaWTYwI1jtMBjWCTZuBUp1bBi-BABtAGoARjc48oBdSgV9SBjeK2KyNzIaiLkwdXVsouLnN2c6jHEAMSaEbjB9fjkklJiMXGnsBAAeBCdIhABZSB0+QR6+7MpZXv7uQCNcIrhsdUc3K-O7hFKz24A6azcAKwATi8eyQ1wGRjkimUqEoUKsTgB+Ri9y+zm6ewAIjEwAB3E68N43NQgTQNJqiBDqXF4uwAFnprwhdzcRjc5XCTG41iYdgpzVubiZCCMoOoURZkkgAFcQPoqXgEAAfYnZe5xSTSP7KrYIekIABkKqhmrMbB+Rl1212CAQCllZMc9PC2l0lqKcRCKNuWAlCAAQtIEGhIDkegomGcbj8DjK2CxElCJJABPanuGJCZ-RUENNqnxIGoE7FwNzCem0CA8-gBLxGnArhkHSAfpQleaPQAqakFe4APlFCB7Pso-oAKqdU4JColkqkBTkxw65c9PGPSqVF4BAgkA0QS+u2d6xFTsI9y2iLiHH4isKkDcwocECiNaFOwbbYADg81NpdiBlQIJ+2AjK4CAAaC4hBuYcj8EYSj6AosYAIIKAoMpwLwdZajBcBHOGCh6HibBGG2R6fFYPh-AA3DhFpQqUlHuiYSrKuRmrOLqg4OBQboWseVhxFR1j1I6zwAGyclgV60hW5oYDS+IMg4bhHqp2rsuB5QQUAA)
+is a great place to start. It is an endless and simplified tennis game for two players. The
+nano version is 100 lines of code, but shows how to implement multiple players, graphics,
+sounds, scores, and the basic physics of the game.
+
+Any nano program can be encoded as a URL. Click on the word "Pong" above to load this game directly
+into a browser and play it. If you're new to programming, experiment with its source code for a bit.
+
+For experienced programmers, I'll point out some of the unusual features of nano that you can see
+here. nano uses **unicode** characters. This means that some fractions, such as `¼`, can appear in the
+source code as numbers. Subscripts can also be used. These are array indices. The code
+`paddleᵢ` is a shorter form of `paddle[i]`. The special variable `τ` (which you can insert 
+from the Symbols window or type using autocorrect as `\tau`) is the frame counter. It is
+0 on the first frame, so `if τ≟0` branches to run specifying initialization code that only runs
+for frame zero.
+
+nano automatically wraps the whole program with a title screen, main loop, and screen clear
+inside of the main loop. This lets you get straight to the interesting parts of the program.
+Here's the full source code:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ C++ linenumbers
+#nanojam Pong
+
+if τ ≟ 0
+  // Initialize the game
+  // ball position and velocity
+  ball = xy(32, 32)
+  vel  = xy(½, ¼)
+ 
+  // Per-player variables
+  dir = [+1, -1]
+  score = [0, 0] 
+  paddle = [32, 32]
+
+// For each player
+for i < 2
+  // Move the paddle
+  paddleᵢ = mid(3, paddleᵢ + padᵢ.x, 59)
+
+  // Paddle y position
+  y = 25dirᵢ + 32 
+ 
+  // Draw the paddle and score
+  draw(44, paddleᵢ, y, 1)
+  text(scoreᵢ, 4, y)
+
+ // Paddle bounce
+ if |paddleᵢ - ball.x| < 4 & |y - ball.y| < 2
+   sound(34)
+   vel.y = -¼dirᵢ
+
+ // Ball goes past paddle. Multiply both sides by
+ // +1 or -1 to alternate the sign of the comparison.
+ if ball.y * dirᵢ > y * dirᵢ
+   // The other player scores
+   sound(32)
+   ++score₁₋ᵢ
+   ball.x = ball.y = 32
+  
+// Draw the center line
+for (i < 8) draw(91, 8i, 32, 91)
+
+// Ball physics. Assume the ball moves slowly.
+ball.x += vel.x; ball.y += vel.y
+if |ball.x - 32| > 30
+  vel.x = -vel.x
+  sound(61)
+
+// Draw the ball
+draw(43, ball.x, ball.y, 9191)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+### Rainbow
+
+[*Rainbow*](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIBKYCWIBGkDuAoAxgDYBOCAvAgIwBMuuA9PQgCLFjYJgJGQCuAJgl4BndAHMEAFwAWAUwZN+sgGZhehSQgAOYQrMmTZAcmEJs01Idw7CACgCUBVMXy3KABgA0VAKzeALN6UjvjOrpSBVABs3j4hYW4AHEHUAfEuttRevml0jCxsHIYgCMTiwrjKkKSoCAA8VO64CPkAyvrckITVCMCUCBhgwrKCkCUysgjSvPLaurbSwgButrVMHkFB9o4tTKzsnAj8qMIA1gjoUham+F18xM2hGf5+CFHJCADM7ggAtBdbZoKBAAYV4mgm3FkIEMpD4mhE4iukzOAE9Ot1eA8bG5qOlXC9vO9vNRKFsgA)
+is a simple scene of a sky after a summer shower.
+ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~ C++ linenumbers
+#nanojam Rainbow
+clr = 12
+
+// Draw a cloud using the
+// default palette's white
+pal()
+circ(10, 15, 4, 1)
+circ(14, 16, 5)
+circ(18, 12, 4)
+circ(20, 15, 4)
+
+// Draw ten rings
+for i < 10
+  // Set color #1 based on the hue
+  pal(hsv(i / 10, 1, 1))
+  
+  // Draw a disk in this colour
+  circ(45, 68, 30 - i, 1)
+ 
+// Cut the center out using the sky colour
+pal(12)
+circ(45, 68, 21, 1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+### Colours
+
+[*Colours*](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIDCkA2kCuAnAzgGgEYAoAM0iwQE8EAeBANgBYiEyKAPWh5hBACwwBTBAF4EnAPTcWCHGAAuoqgikBmAEwyAbmFRL1CALTK1m3gAccg+QAp2eKg744tNgYIdz5Dnagf2qAEpAoA)
+loops over every pixel `(x,y)` on the screen and computes a hue, saturation, and value for
+it. It then uses the `hsv` command to find the closest nano colour to those and sets the pixel
+value.
+
+The nano hues vary from 0 to 1, so to create a rainbow I used the horizontal pixel position divided by 64. I scaled
+`y` by 32 so that the top half of the screen would fade in from white (zero saturation)
+and the bottom half would fade out to black (zero value).
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~ C++ linenumbers
+#nanojam Colours,1
+for y < 64
+  for x < 64
+    hue = x / 64
+    sat = y / 32
+    val = 2 - y / 32
+    pset(x, y, hsv(hue, sat, val, x, y))
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+### Driver
+
+[*Driver*](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIAiAnAlgNwKYoFBoDMFAR4AUH0iBABlwQA8EBeBAZgCYaAxepgRmoQ4BPRlRoBnAA4ATEYGVCXAGMANihHNcEsEoAUPPZUoAOA5QCslAOwBKXFJRgA7touGANF3eDXpgGwAWGyERIIBqBEkpfCIggD4EY05uBH9APuBOYSYAWj9cFCwFABdtVkpXUr8-V39XVhsCSFVhAB4EAE5xEQiEACoSBABSeIRMhByEO0dtVp5XNldDYTCxV1bp1x4bJPow6EhBADpaXCS4MFptWhrKTZE4NBAL1z9mG00dHlY+IwNPyxsJpw+VyXPylZg+Uy1IA)
+is a peaceful drive down an empty highway with flowers on both sides. Can you figure out how to add oncoming traffic to make it more
+challenging?
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~ C++ linenumbers
+#nanojam Driver
+if τ ≟ 0
+  // Initialize variables at
+  // the beginning (time = 0)
+ 
+  // Car
+  x = 32
+ 
+  // Flower
+  Fx = 10
+  Fy = 0
+ 
+  // Speed
+  spd = ⅓
+ 
+// Grass
+clr = 3
+pal(111008000507)
+
+// Flowers
+draw(78, Fx, Fy, 564)
+// Move the flowers down the screen
+Fy = Fy + spd
+if Fy > 80
+  // Random position
+  Fx = 64ξ
+  Fy = -4
+
+// Road
+rect(20, 0, 44, 64, 2)
+
+// Scrolling divider line
+for y < 9
+  // Shift by a fraction of the current time
+  s = spd * τ % 8 - 4
+  draw(91, 32, 8y + s, 991, 1)
+
+// Update the player car position
+// from the joystick
+x = x + joy.x
+
+// Don't go off road
+x = max(x, 20)
+x = min(x, 43)
+
+// Update the flower position
+
+// Player car
+pal(121008002107)
+draw(6, x, 40, 3652)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Breaker
+
+[*Breaker*](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIBCAnApmA1mlAoA9PggMrwAOANmggMaQAm1ARgJ4IACAwmAM4CuYCgFEAZiLQ0ALj1y4AliIQAawCPAuBIQRyQcyXMFyAXtQBuYFPqZUZtCigQBeBAFZ1NCjwAUzgJTqygp4AzACMYQBMIQAMUQAsoSFBUQDsfrZyZJ5RADQAtCHh2QBsQcVBaQH09FSOCADeZJA8AFwIAB4swYUusT7ZCGhtkq0dnkX9IT4AvupMghQIi04NTSOdQd3OUX0DQ2ue3eE7JmgU+-l5kzMIFHInPLVB6gDukCgU9LUA2gC66iJvBDQBAAHgQsXUCAB9jkoIQAA5IQhXu96AA6MBVTwrFrtTrw2EAagQpXBwOJ8J2g2GeM8sX6RymfgIREgJ3eYDICB4Rmo0IQTAsNEwCAAFrpcFRJAgAOq1FEfQABBGjqWi2ghiXMKBQVUM1ZK0NKABLyt5K3WSNFsTXzC1W2SaGh8FDoEDSiCfEDUgXzBCNHl6SAgA3Sp32JxanX+kMIEBDWqjMNqjU+7Vok46tr9JPW1M6jNW5mEYsl0tl8sVytV-AshD0FBgZ43O5oGToKRZS6FEp5ZzZSm4STUzwAIlQGGwKBH2RC9Ny8OyqVw-M8ABk4bd7j46w3ngdkv0ilEELkXKv+vP+skAJzbh3Vh+Pp8l2tzYUAcxQkD4IE+ty9CCfpy4o0DI-KwmC0TqP+aCdiS4QprE8JQHIPCwfSCAqPgSQ5FoOw9vBiHIZAqHof0WE4Qy-RyDs5T3s+DGMa+QqYGBgKCnIwoIIAUETIma9AvLoop+k0-TerxHHCpCzxCe0-RsLx0aLDujZ0hhWYICw-SxOEziTJCSKaKukCQCK-KRrQkDaqhchBjYiwKAgngAD7qqecaWm0zlwjK24ek5zlsKeObeWCRppMpmhGroYpvEYQaSPMLBInxqJougcCeJJmA+AA3Ny36-gcvgpZG6anMmABUTj5EipyOS5bm0M6aqhbKfm-gFQWxnqLBteFKVRTF7J6DQSUpQq6IZVlLF5QVP70MVEWLGVBZsNVJ4hEiLKMbtj61pU1RoLgMmSMJ-pifGimYkdglnXJmk8SJ9kwZ4TWqhpuaqrmIT9OqxIffJKbfSmv0IhF7aSG9J67J5QOnt9f3A3qn3I5aWkIEuizqk4cByIt-1ApALBqpdcMICUMMfXeiw7Xt9MVq+8wnbJF2w-0GZPZG6j1qp8T9P6pPPVaEzXkc-hNMmhJOAWbT5YL1oyxVyXqJoTCFTQ1BtDzCiKE4gtNRs6iOc59C695AB8hEIyjkKywgG25Dw74gJ4ZtiA7CCy3NPCFYtRT6arRDqz+muacbigK1TvVwlEdvK7Uzlrc5+W+wtYz6bTGhEBQTTMMzWiR5LX0x1byRx4s9tOISIT5WttT5Fnws436N1UGiBuQlH+tt2gHfFzDh3tyDp5ld9kKbq2J5OFtiy83u4QHhTx6ns4k88BeC4Ire8toVDWOF829wIIApkQIMeTfzUVN5zUOQyjgACugPAPJIkAIKuYCh6KI7Lc8YASkWKcNCSI05FXCJSfKd8oYjgAOIAEEACyQgEAAHkABqQgABKv8kT-10PlZ+hoDKHzZDgCgnIsrzAFr3Dqnx65Wwrl7BOjta5X39oHBmXDyy1jQJ1d88BjqOUmmiKgIAECAH0ic+6gwGLWSL4KBw4RwAE1vyym0NOeC-QNhpHwZIQhrZiEIHkIoTwqhtzQMfs-V+79P7f1-vlPRQA)
+is a brick breaking game with win and lose conditions. It shows how to implement multiple lives,
+uses the top screen, and introduces some advanced nano syntax.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ C++ linenumbers
+#nanojam Breaker
+
+if ¬τ
+  // initialize variables
+  clr = 5
+  cls(5)
+  pal(311121004311307)
+  clip(0, -12, 63, 63)
+  paddle = {pos: xy(32, 54), ext: xy(6, 1)}
+  ball   = {pos: xy(32, 50), ext: xy(2, 2), vel: xy(-1,-1)}
+  lives = 3
+  world = []
+  for j < 4
+    for i < 8
+      world.add({pos: xy(8i + 3, 4j + 8), ext: xy(4, 2)})
+
+// overlap size for brick hit
+let W = world₀.ext.x + ball.ext.x
+let H = world₀.ext.y + ball.ext.y
+
+// current and next ball position
+let cur = ball.pos
+let nxt = xy(cur.x + ball.vel.x, cur.y + ball.vel.y)
+
+///////////////////////////////////////////////////////
+// draw lives
+rect(0,-12,63,-5,8)
+text("Breaker",14,-8,7)
+for (L < lives) draw(27, 60 - 5L, -8, 79) 
+
+///////////////////////////////////////////////////////
+// background line graphics
+for i < 10
+  line(0, 32 + 48noise(4, τ/300, i), 63, 32 + 48noise(4, τ/300, 2, i), 3)
+
+//////////////////////////////////////////////////
+// bricks
+for brick ∊ world
+  with pos, ext ∊ brick
+    with x, y ∊ pos
+      draw(44, x, y, 4251)
+  
+      // Look for ball collisions
+      if (|x - nxt.x| < W) and (|y - cur.y| < H)
+        // Hit horizontally
+        world.rem(brick); sound(25)
+        ball.vel.x *= -1
+      elif (|x - cur.x| < W) and (|y - nxt.y| < H)
+        // Hit vertically
+        world.rem(brick); sound(25)
+        ball.vel.y *= -1
+   
+//////////////////////////////////////////////////
+// paddle
+with pos, ext ∊ paddle
+  with x, y ∊ pos
+    line(x - ext.x, y + ext.y + 1, x + ext.x, y + ext.y + 1, 8)
+    rect(x - ext.x, y - ext.y, x + ext.x, y + ext.y, 7)
+    x = mid(x + joy.x, ext.x, 63 - ext.x) 
+  
+//////////////////////////////////////////////////
+// ball
+with pos, ext, vel ∊ ball
+  draw(43, pos.x, pos.y, 192)
+  pos.x += vel.x; pos.y += vel.y
+
+ // bounce x
+ diff = pos.x - 32
+ if |diff| > 32 - ext.x
+   vel.x *= -sgn(diff * vel.x); sound(61)
+
+ // bounce y
+ if pos.y - ext.y < 0
+   vel.y = |vel.y|; sound(61)
+  
+ // lose ball
+ if pos.y + ext.y > 70
+   vel.x = +1; vel.y = -1
+   pos.x = paddle.pos.x
+   pos.y = paddle.pos.y - paddle.ext.y - ball.ext.y
+   lives -= 1
+   draw(27, 60 - 5lives, -8, 89); pset(7)
+   if lives ≥ 0   
+     sound(79); text("Press to Launch")
+     wait
+   else
+     sound(28); text("GAME OVER")
+     wait; reset
+  
+ if overlap(ball, paddle) and vel.y > 0
+   vel.y *= -1; sound(61)
+
+//////////////////////////////////////////////////
+// end game
+if world.len ≟ 0
+  sound(75); text("You Win", 32, 32)
+  wait; reset
+ 
+if (¬τ) text("Press to Launch"); wait
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+### Star Attack
+
+[*Star Attack*](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIDKAXMAnBBBFaDGA1gFACWAZgoCPACg+kQIAMRCCAnggLwIDMATEwmAA2IDggDaAbwAeALgCM9egBoW85QGcZAFgC+S6fK3LVRpZp709BuQA5jMgGwbtOgLpEykTOoQAeBA5a-AAWosFg6sEAFOoAlPwADuoApihRgQgAtAhR6VoIANRUsQBUCKEApAFasWZKAOboYCxRgMqEwbHxbJxwJAAmUVoqhQjQkCwAdCxKTvF9TQDuUVw2SgoqM1py8QSigFDEgNqE1FU8gNDEHl4CCIAQRALC-PNgS2ATPkUESi9Sn1ObAKzxZjkHJfLIIBSxABNIyiLzY2RYUL84Ic-GYKGSUjSACIAEIAeXxAFkAITYpS8Ck8JQ1ADckUgCzRCAWYBIKFp6GSKRQ-FBmU4cn4wNB-kyQWYzFBgosIz+9EAfcDMuGifJFP4OBVAA)
+is a side-scrolling space game where you have to dodge aliens...until you lose. There's no way
+to win in this version. Maybe you can fix that.
+
+This program uses an array of aliens. Each alien is represented by a table of its `x` position,
+`y` position, and sprite index `s`. This lets the game use a loop to avoid repeating the
+code for each alien. You could have any number of aliens using this basic structure.
+
+I got a little fancy with the star field. So, don't worry if you don't understand that
+part. But you can copy it to use in your own games anyway.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ C++ linenumbers
+#nanojam Star Attack
+if τ ≟ 0
+  y = 32
+  // Aliens
+  aln = [{x:100, y:10, s:4}, {x:140, y:40, s:20}, {x:180, y:60, s:4}]
+
+// Stars
+for s < 64
+  // Compute a "random" column on each row
+  // for a star, and then cycle it left
+  h = hash(s)
+  pset(64 - ((64 + τ) * h % 64), s, gray(⅓h))
+
+y = y + joy.y
+y = max(4, y)
+y = min(60, y)
+
+// Player ship
+draw(38, 10, y, 641)
+
+// alternate animation frames
+k = ⌊⅛τ % 2⌋
+
+// Aliens
+for a ∈ aln
+  draw(a.s + k, a.x, a.y, 645)
+  if (a.x - 10)² + (a.y - y)² < 16
+    // Hit the ship!
+    text("BOOM!", 32, 32, 4)
+    show
+    wait
+    reset
+  
+  a.x -= 1
+  if a.x < -4
+    // Pick a new position when off screen
+    a.x = 120 + 50ξ
+    a.y = 4 + 56ξ
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+Tweetjam
+---------------------------------------------------------------------------------------------
+
+Because the nano syntax is very consise, it is possible to squeeze some full games down into
+a single page of code, or even a tweet. These aren't as readable as the nice examples shown
+in the previous section, but they present a fun challenge for advanced programmers.
+I give the code _before_ nano's automatic minification here to make them a little easier
+to understand.
+
+### Space Dash
+
+[*Space Dash*](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIDKAFAggYQKIICJqQAkAoASwDMAKAGsBHgASgA8BeAZgCZiB6LhAcXgBTALSQAboIBOCQYwAOAG0gBnUpBBkqtADwAGenLALKADgDUrQH3A9ANwBjUpLuVGAGgCsu1wE5vZ2q4AjN62duoALsTEypIQACaU7vTELHCkCd6ujGbs0JAAngB0bu4ALMnkkNIAroAmRABspcQIPMjhYJLKzcpsljZyyoLhlNWulOyAHgSW-sr0AKSTHmazza1YIIJw+QjKABakA80A1syAUMTs04GA0MQ2Ysy0R8KsUzZxsQDuiWaBpUeuo2JXBxSq5yjYKJQAD6MYTVSFmSFiYSeSHaer0WjMYS+KJrEBxBCKCBDYgOJyUDiuWjYgDNrnYJmS3F4KAUYHyUh2+zkxDeYE+rCyHi8jUCTNaADVSHZwlVtso7JJBIINBDaIBTIm8NPo4VkwwARABNADyAFUEAB1ACSADl9bZ3mBSOEbJjdMQgA) is a complete game in 270 characters (277 by Twitter's Unicode weighting--still
+less than one tweet!) once comments and blank lines are removed. 
+
+The player flies a space ship
+through enemy fighters to reach their home planet. It has a loading screen, background
+animation, controls, collision detection, and end-game scene.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ C++ linenumbers
+#nanojam Space Dash
+if(¬τ)x=32
+// Game-over explosion
+if(τ<0)pal(8+3ξ);circ(x,50,99+τ,19);cont
+
+srand(5)
+x=mid(9,x+2joy.x,54)
+for u≤64
+ // Stars
+ s=3ξ;pset(u,(2⁸ξ+τs)%2⁸,5+s)
+ // Enemy ships
+ k=⌊2ξ+1⌋;v=τk-3⁸ξ;draw(5+14k,u,v,324,4);if(|x-u|+|v-50|<6)τ=-99
+
+// End planet
+circ(32,τ-9³,28)
+
+// Player ship
+draw(3,x,50,641)
+
+// Victory screen
+if(τ≥9³)text("YOU WIN");wait;τ=0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The first real line of *Space Dash* initializes the `x` position of the player spaceship. The
+second line of code is the game-over animation. The next line resets the random number
+generator `ξ` every frame with `srand()` so that it can treat "random numbers" as stable
+game-level data.
+
+I see an opportunity to save two more characters in this program. Can you find it? Can you find
+*more*? With the remaining room, maybe you could remove the end planet to recover enough
+characters to add a third type of enemy, while staying in character limit of a single
+tweet. Now you're thinking like a nano programmer.
+
+
+### Pong Revisited
+
+Here's our original game, squeezed down into 266 characters: [*Pong*](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIAKkQHMBQBLAZgCgBrAR4AEoBXAXgDcKBmAJgG4BnCgbQAYAaDgXUYAe7MlzL8AXhQC9jAO4UAPRhyQATgiwAeehgQAjCvTxSAtFhKMAnoYCsegNQNGAE1VhZeACyeuAwEa4FHBYzni0vn72AA5gzn4AdAJcNgCcJFyWXACMFgAuAKYCOXjMflw+liS6uHgAPpYmVDXaAGQ1-iZkTZ4k8iYKelX4VABUegB8lqMk9vbMgIEEgNEEfoyUNAzKanhaABwkru54yZlc21hcDFxHlfsenmFk9hTiXFSPspeZV9j4ZGMAbN1JCYpN88GRNBwSJIpEA)
+revisited.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ C++ linenumbers
+#nanojam TweetPong
+// Ball = (u,v)
+// Velocity = (z,w)
+// Score = s
+// Player = x
+
+// Reset
+if(¬τ)u=v=32;s=[0,0];x=[u,u];z=½;w=¼
+
+for i<2
+ b=2(½-i);y=25b+32
+ // Paddle and score
+ draw(44,xᵢ=mid(3,xᵢ+padᵢ.x,59),y,1);text(sᵢ,4,y)
+ // Paddle bounce
+ if(|y-v|<2&|xᵢ-u|<4)w=-¼b
+ // Score
+ if(v*b>y*b)++s₁₋ᵢ;u=v=32
+
+// Line
+for(i<8)draw(91,8i,32,91)
+
+// Ball
+draw(43,u+=z,v+=w,9191)
+
+// Wall bounce
+if(u>64)z=-½
+if(u<0)z=½
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+### Plasma
+
+[*Plasma*](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIAKAbMBnOYA0BGAUAGaQBOCAngDwBsALPgsWQB430IKATwALzkDUgEeAA3ADducAJYATABRQJ6AKYyAzNkDahACbmGzZ2wAegM0CAlHwC92AAx5TDBAAclAFxk7y2ABboRMwOqEIpbYMrgAtCKmAHr+2CLYOpympkA) is a little graphics doodle instead of a game. It shows field of animated value
+noise. The two loops iterate over each pixel, computing its value independently.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ C++ linenumbers
+#nanojam Plasma,1
+for y<64
+ for x<64
+  ψ=y+τ;v=mid(noise(3,⅛²x,⅛²ψ,¼³τ)+½,0,1)
+  pset(x,y,hsv(⅗v+½,(1-v)^⅗,v,x,ψ))
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The same setup is great for computing fractals and ray marching in 3D.
+
+
+### Online
+
+Search Twitter for <a href="https://twitter.com/search?l=&q=%23nanojam%20since%3A2018-01-01&src=typd">#nanojam</a>
+to see the latest games others have posted, such as:
+
+- [Pong](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIAKkQHMBQB6LCBCYANoQgLwIAUArgDQBuAlNrgGoCmhkAxgJYAuATzKUAXjQDuTHAgDKXSACc2wgM7NkhMALYLhADwzqASmxVs+GHgDMKAGsAjwAyqk6pAMwAmANwrSAbQAGGgCAXS89f1oqMJFSAF6vcVIAHsMrRQQeAB4PDAQAI1IPCjiAWh4GLwEigFZ8gGpPPOkkMAATNsJlCDaEFXklPLaFMHEKABZxmj1AI1xSOB42ijdpmfqAB3aZgDo9GhqATgYaARoARkq+Nj0+ChUZmimBJgQW9s7lfMgqEC42POsFAAPgJSnQgTkAGRA2alKgQ8YMJKlZL5Zq4OSKf6ZGx0ABU+QAfAICQx6vUVIBAgkA0QQzLzOVxNdQAGR4IH+6QUFGyAA4GMNRhQDmcaDyeDRPDRhUx1ARiBgBWNxisqPVSGI6GrxFKztLDNIAOpEEhfH5-Sw2KiEgBsiNipTiFuoWQCDFicSAA) by [@CasualEffects](https://twitter.com/CasualEffects)
+- [Mandel](https://twitter.com/Jackson_T_Allen/status/951965451990552577) by [@Jackson_T_Allen](https://twitter.com/Jackson_T_Allen) ([Permalink](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAICyBBAcgEQKIBkA0AjAFACWAZgBQA1gI8ACUAHgLwC0AvQNwCeTADBwGcmBAGxEAxgBsATk0CgREQYBqJgCZokLgDoGAegFEuK9Zq1d9pShu1g6AgFTCtxchWtaARnd1PiZSNIIAG4APCIALEQI-oEA7mGRCAiAjcBMFLEsAMyqdPpKDFEIgE3AaUFZOXlchWB8HB61JHyF0EwArLy6uiQIcGAFSbEAFiSSAKYUJCHQCABkCGAATUoeCyHhdIUI4kyLLCtKyZv1qmD2HkpFmzXimyRKSoUADgKjAC7peEF4gwJBFIAahCRdNA6IQ8CwgdAlAQ6EA))
+- [Offroad](https://twitter.com/attilazz/status/979083374114598912) by [@attillazz](https://twitter.com/attilazz) [Permalink](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIDyAzFAnSYAmAoAligBQA1gI8ACUAbgLwAMA3AB40CMrArAMwMAWNAbQC6uAMYAbAM5FWAJgq4ADmHFEAHHS6z2dOgHYFKSOgT5AJkQA2ACy4EvQEa4NFDSt0AtLNlR8kgKZFZABo6ADo6WSJ8NyYKBQRxfBB-fEDrQJSUQKsKBmx0MAB3IisudMDMrgU8wqI9C0DZAGomLKtAjgBOViyFACMaXkBwgjdeQEiCXDAaNzAAFwgiXoaFJjcaKgAqUUhpMAUqVdC6VnWifehIAE8Qpkbeqvyiz0C1QLG3DkCOiw+6QN2GMT4dCiIgcIIvepyBQzXxMGZESgEFAIIhMAA8HQoBTA+BmDDI9CAA)
+- [Airplane Artist](https://twitter.com/Jackson_T_Allen/status/950120763595677696) by [@Jackson_T_Allen](https://twitter.com/Jackson_T_Allen) ([Permalink](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAICCBJASgBQDJIHIFFk0AVFAZWICgB6agFwCcBLAUwBMFwoEIO4w2LHiB4M6COpACelJgDMAFABrAI8ABKAB4BeAAwBuKbr2AO4CMAHLQG0AunoDGkEHUp2ANgGcFARgBMaymZgrt4AHF46OgCcvjohOgDs-sYA1FqASoTQ0gB0GpQaqYAahA6exv5She5MIAqlsnIImVJZYJQIZs1sbAoaALQALMU1askAzIB9wD1e-m0dXVL9ldWloxNTlHKQDAhMADztriwg1D6tZu4sdAojXslmlj5M1j0aADTXt-dMyV5PUi8AbMkfGN-GwGGAAO5XHxvLywl59EY+OE6F4pAC9gAHgNRAA))
+  - Even shorter version: [Fly](https://twitter.com/CasualEffects/status/959986975255285760) by [@CasualEffects](https://twitter.com/CasualEffects) ([Permalink](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIBiAbAngKAJYDMAUANYCPAAlAB4C8aFAxigE4WAdwBQIwBMA3IJXAFA2gF0MZANS1IAZyac0YiVhBMM3AHRgAJurx8ArhTKBKIgBsAZgA0ANyrGTAkspXqApijysVAVkB9wKpROQ9jiQ9Ag0gFBE3BgIAA4STgAueDSAAQRmNICBBPbq9GAA7ngm7GY6lmbsACysZh5mTGKA2oTQkGgqZCQIQA))
+- [MOVE!](https://twitter.com/ugoerra/status/952121400038391809) by [@ugoerra](https://twitter.com/ugoerra) ([Permalink](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAICyB5AagUQIQCgCWAZgBQA1gI8ACUADgLwDMA3ATQEyDuBDgMYA2AzkQEYWFHLwBOEACZEALCM40ZABgCcAlUoDsAmQICsOAFI1okAJ4A6AB45acPNLoAaKgGoAPYad6VIgpDEEK0ATIhlAVwIcBABrGkAoYhlAPuBXAUBoYkjJCQB3IjUnAA4rJwA2JWKimT0KBk48MU4iAFd6FisAWjJAJUIo1zoWJwA3Vk1XFhZePBAidzJAbUIKfKcWASqausaRgdaZRac6EQQqMG4iThGlFiiqjLBsmTzXKgBSPqpvPr0ZIr1FokMAHiUFH2hCIAB8Gq0qKDXKD+q09CxQX9fARWq0GCCSAQKJkwHgAC4MMg0JQ4fEAUys+KI2KAA))
+- [Jump](https://twitter.com/matthughson/status/951009171742191616) by [@matthughson](https://twitter.com/matthughson) ([Permalink](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIBSBVAsgBQFAEsBmAFAISAjwAJQAeAvAIwCsA3AJ5V0AMDAJixwMZUA2ACwMADlQ4BnWlgAuAUwqyCosrkIkAPGzK9IIWeoLRITAHRgwAMiaBTInZluVALSANQizcA1FTNsAzFgscDggBEye3AA0DljUwZwEbJEUnoDKhCbmFJHCarzOVJJGAD4UzrxFnkXszkxFmgJkJC4AnM1YeFQkgEqEHgBOYADuBADsNJ54AKQATMmRTJFTQgI0apz9QwAcbOMTfpG8kZIhBOQAVJKe7JFCdGr4BLzauoJCnsKAfcAM0u+eNGKennakF6CAAroATIg2WAQa0GBCEw0ioNOG2iqKmKyAA))
+- [MADCAR](https://twitter.com/ugoerra/status/951463468191899648) by [@ugoerra](https://twitter.com/ugoerra) ([Permalink](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAICyBBAIgYRQJQFAEsAzACgBrAR4AEoBPAXgAZcAHB3AYwBsBnYgFkuZgOxAKwBGAEz0AHPXoSpAdgFcAThAAmfSglx04+LRIDMAGmoBqaJGoA6aqePLcqgKZsALsQC0Y02MVTADZeU15QsSCBQkhVBAAPQBMiXkBXAlwEJi5XL15473IAXsc-ZwQAa1pAKGIJQD7gCzFAaGIAbgBXWl5ADwJiYxrKfKaAN1oATnreMvS2fFU2Yki8wtNvY3oLXnoysNMJAQQNdQB3YglQltMB0xFjUJ30omIAH0jvFoeLB4HvageAHijyBhNA5gfAeO4kFo-SKUJgWCy4fZgI4KfxBcyXa4CDyueJeJiUIA))
+- [Space Drop](https://twitter.com/MonstersGo/status/951518882283556864) by [@MonstersGo](https://twitter.com/MonstersGo) ([Tweaked permalink](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIDKAFAggYQKIICICUB5FAKAEsAzACgBrAR4AEoAPAXgGYAmAbgGcWAGLgE8WADi4BzAVwosAjP0EkeAJwgATKmwbKRcgGyA+4BIVIKhAFdAJkT6ALCQQAbMiACmVCwBo7nr3YC0PEI6CEH+LLb+osaUVAAOEq4ALlRMnsGABkT8DABuIoJJrkwpAEQAmoQAqnhYaLglDFwA7mBkSVx0Aggk6mpNWp5pQv62OjwA1CyASoTQkEIAdEzk1LMLYABkFAB82RLh-PP8bFy9YP2iAOyD6eOjMv7+JEyTPMKTEsoAVCyAGoSSk1MAE0kQrFKgUBhAA))
+- [Flappy Nano](https://twitter.com/ugoerra/status/951567004867194881) by [@ugoerra](https://twitter.com/ugoerra) ([Permalink](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIBiAbMAHdBPBA5CkAUAJYBmAFADWAjwAJQAeAvAMwBMA3FowIwBs76RgAZC6MCnIAWIQE4hADlYB2ec27dahAMYoATj1aEAzrogATcgFZNAFwCm9G+UCqhOk2CRpSLoT1AJkSsQpLyhAgA1oyAUMTMgH3AANTcgNDEoWamAO7kSjIANMxx8vQAtNQAvdm8rNmsrBqhXj7EADwhCAgAriysRdQAPezEcSzkxID6RGGarQBuLPnE7KlgGTLc2W3Zk+WWrNahCGTkAD58hW0HcQeThVgHzbTUwuxpYMQ2u-ttjXy06HFxhFiDagAUlYcWgkCwADosIQFhlmDk+NksLlJJZLHFpOQetRAJREGloQA))
+- [TRON](https://twitter.com/Jackson_T_Allen/status/951962772061020165) by [@Jackson_T_Allen](https://twitter.com/Jackson_T_Allen) ([Permalink](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIAqAlA8gOQFAEsBmAFADWAjwAJQAeAvANoAMANAGwDMAugNwCetLAjAxYAmTgBNajQAPAbLAHpZ+AiQCkQsgGNIIAC5Z1AGwBOVQKBEWPJEMIcAHiFYEeKmE0BnAgAcwowEa4AOgoyBwBzZ1ccEE9vfy4g60IvXwCAMl9AAyIAWjwAakkyXyo8B0VEmNSfTOD8nypghw9XAFNtAgofBi52gA5sgBYcOLbsqjcCXzjO4fDI8eKE4ObW9s6yNLoybUaKFqEMnGyAIgAFBAB1AEkMA8EhG4Y+Mg4AdzAcbQ4SKjogA))
+- [Rain](https://twitter.com/CasualEffects/status/952049699569139713) by [@CasualEffects](https://twitter.com/CasualEffects) ([Permalink](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIBKYCWIA0BGAUABzABsAKaAXgCYAWCgZgoqywAYB2AShwDNIAnBAB4AeLLRwIAFmQlgAzhOICA1AE5OCVGWLEAPQGbAI8DFWEpbXZLWzCe0CURFgCs7ALRNxPfgE8RuBAgAuAKYC-sQARICtwIATwABygAPAAI4GgHhEgKBEgH3ASADuzLaAVESAkMSAqUSAjcCATcCALcAAsg6AKcCAHcCA3cCAPcCAg8CAw8CAY8CAk8CAlcAA3lhhANpKStC2tFgAuhgOAhgAbBTOi54YcOjEqEpkAL1KexJL7OxAA))
+- [Alternative Boot Sequence](https://twitter.com/CasualEffects/status/950048407942516736) by [@CasualEffects](https://twitter.com/CasualEffects) ([Permalink](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIBClIBcA0BGAUADwDNIAnOACgGYAmDagShyOITAB4rB3AhwQE8BeOGDxkADBkAjwAFoKACzABnGWTB1JnOgG4ADvICmaMjwBUAY0jyWGY-ICWISzPkA3MoG1CHnQZME0VhW7eNqxYAKzcCDr6ZABskjYY0GoYZADaABwA7BRpGFRYaQAsIblYFBQiALqAPjSA3aQ2gJREWHRGAObEYDxkcDYAJmRYaoDeBIAeBOIYYk1GZOIA9FQi0gA+iViLnnRAA))
+- [Virtual Pet](https://twitter.com/Jackson_T_Allen/status/960757428114673664) by [@Jackson_T_Allen](https://twitter.com/Jackson_T_Allen) ([Permalink](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAJgDcCWAnALgVzAGwAcBTTWOAKFQDMAKAGsBHgASgA8BeARgBoBnNgbQCcXYaIC65dnFQATGgAYuLANTRIATwB0LFlwDMTSrTVawYJj0DJBG0HkZ6MAHcaAVgAsXN8o7zdLgGyGVJDoCKgAPG7kCDyARrgAtGyASoSAfcDKgK3ADNHoRADGmDQATN7yqFwuiv4lZRXxhXGGYbRx4fJM9k40-sJuABye-YpuTADcmEQsBQBEACIAogCCMwhTyswjjmComCMMbPLk45M0UwASiwAyACqnAJora4Ydzt0DA0xAA))
+- [Flower](https://twitter.com/CasualEffects/status/1033767948454977541) by [@CasualEffects](https://twitter.com/CasualEffects) ([Permalink](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIBiAbSB3ApgJwDQEYAoAMwGMQEBzbDACgA9cBPXQDuBcAZASkIQEtiCDgD4ATLwTFI2fgB4AzBISAx4AC8rANQBOWoD7gALQBejYE1CUpADOtQEqEAJsAjwFy4B6DgG4ArqvoaOAKnMLZTcAN1UmXz8LPhBglBjMBmZcD1wQ3Hl9WhF5LiyRAA4nN2o6VPTlXEAVQg59UV0eC2wIABNafB5SFGxVUQAWQgAHMBRaUQA2fFFRAFYABgB2fBnRXMJsTFIAF1o53D30VXH5XFE98Z4N7d3T-Fx0DL2Zy82dvfk7h-kZ3D6X6-e43uv3ePFK6Fo8lEuHGfVwRkAA8CnZ5AA))
+<!-- - [Snake](https://twitter.com/Jackson_T_Allen/status/950542136247767041) by [@Jackson_T_Allen](https://twitter.com/Jackson_T_Allen) ([Permalink](https://morgan3d.github.io/nano/index.html?code=MQOwhiD2BWYLYAIDKA5AggaQKICgCWAZgBQA1gI8ACUAzgLwDaAzAIwA0zAugNyAdwDQAycAxv04BTGkxwB3GgDYALDkBjwPUGQqLKnhDsc3ANQ1ASoTRIATwB0ADxwFIAJwR5AJkSSEVC2AAmXokSp0HgA2oiAAtABM7PpKgEa4RNwU+lIUAKQpnIREooD6RIIUOAjuFl6iQUR8BQhlVKKFCFY0AKyygH3A+vKcZs1tHTjigjgALqJWQ0T5OAAOteNWLGYsABwFdo5gADwMhWsIAEZb9WtEeBsAvcGhFIJ49oL+dBF40VIAVGBhUpqPePpML689p8WPIWE0ClkAD5WMJUQABBJD9JCzLDAIEEkI2smu+n0nBwZFSNAYgHcCIA)) -->
+
+
+Exporting Cartridges
+====================================================================================
+
+nano will prompt you to log in to Google Drive to save your cartridges. If you choose not to,
+there are still several ways to export the results.
+
+You can download your program to a text file by pressing the export button on the top of the
+code editor (it looks like an arrow pointing down into a bucket).
+
+Clicking on the "url" link at the bottom of the code editor opens a browser window with a URL
+that encodes your program. Copying that URL allows you to give links that directly load nano
+with your program in it. The code is in the URL itself--this does not save anything on the
+server.
+
+You can also export a minimized version of your code by clicking on the hyperlinked "chars" at
+the bottom of the editor. This is useful when exporting to Twitter if you need the minimizer to
+hit satisfy the Twitter weighted character quota.
+
+
+Emulator
+====================================================================================
+
+The emulator accepts keyboard and game controller input, as well as directly pressing its
+buttons on screen for mobile. On a gamepad, you must press a button before directional input
+will register in a web browser.
+
+Player 1
+: Directions: WASD or arrow keys
+  <br> A button: Z or Space
+  <br> B button: X or Enter 
+  <br> C button: E
+  <br> D button: R
+  <br> start button: 1
+
+Player 2 ("external gamepad")
+: Directions: IJKL
+  <br> A button: G or .
+  <br> B button: H or ;
+  <br> C button: O
+  <br> D button: P
+  <br> start button: 7
+
+Pressing the "run" button on the editor automatically transfers keyboard focus to the emulator.
+
+The emulator has special keyboard keys for:
+
+- F6: screenshot
+- F8: start/stop recording GIF
+
+
+Numbers
+=============================================================================================
+
+Numbers are stored internally as double-precision (64-bit) IEEE floating point
+values. Integer operators truncate the decimal places of their arguments. 
+
+The first 2^53=9007199254740992 contiguous positive integers are exactly
+representable. The largest finite representable number is about 1.7977x10^308. There are
+about seventeen decimal digits of precision on arbitrary numbers. NaN and positive and
+negative infinity are also exactly representable.
+
+Numeric literals contain an optional single plus or minus sign and one of:
+
+- a series of digits, followed by an optional decimal point and a series of digits
+- a decimal point followed by a series of digits
+- one of the following single-character fractions: `½⅓⅔¼¾⅕⅖⅗⅘⅙⅐⅛⅑⅒`
+
+Examples of legal numeric literals:
+
+~~~~~~~~~~~~~~ none
+1
+-21.4
+0
+-0
+.0
+0.5
+-½
++72.41
+~~~~~~~~~~~~~~
+
+No hexadecimal, octal, binary, or exponential notation are allowed. Trailing decimal points
+are not allowed.
+
+
+Booleans
+==========================================================================================
+
+There are no literals for booleans. Comparison operations create booleans, but explicit
+boolean values are never required because the logical operators work with any values.
+For logical operators and flow control, `0`, `∅`, and empty string act as false.
+
+
+Strings
+==========================================================================================
+
+String literals are enclosed in double quotes (`"..."`). They may not contain newlines or
+double quotes. 
+
+To enter a double quotation mark or slash, escape it with a slash: `"\\"` is the `\` character
+and `"\""` is the `"` character.
+
+The `+` operator performs string concatenation, coercing the right-hand argument if it is not a
+string. String characters are read-only substrings accessed using zero-based array syntax.
+
+The `.len` property of a string returns its length. The `|s|` syntax can also be used as a
+shorthand.
+
+
+Arrays
+==========================================================================================
+
+Arrays are zero-based and have dynamically typed elements.  Array literals are surrounded in
+square brackets and separated by commas. Square brackets are also used for l-value and r-value
+dereference. Arrays also support the special indexing syntax described in the Subscripts
+section.
+
+The `len` property of an Array is its length. It is both readable and writable. The `|a|`
+syntax can be used as a shorthand to read the length.
+
+Array examples:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ JavaScript
+a=[8,4,1]
+a[0]="hello"
+text(a[0],32,4)
+text(a.len,32,12)
+a₁+=2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Negative indices are permitted on arrays but will not be reported in the length. Reading an
+out-of-bounds value from an Array returns `∅`.
+
+
+Tables
+==========================================================================================
+
+Tables (also known as dictionaries and objects in other languages) map keys to values.
+Literals are created using key-value pairs separated by a colon, surrounded by curly braces,
+and delimited by commas. Table elements can be accessed using the string name of a property
+in square brackets or by a period. This allows them to act as objects/structs.
+
+Table examples:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ JavaScript
+t={x:3,y:10}
+t.x+=1
+text(t["x"],4,4)
+text(t.len,4,12)
+text(t.keys[0],4,20)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The `keys` property of a table returns an Array of its keys. The read-only `len` property
+of the Table directly gives the number of keys.
+
+
+Functions
+=============================================================================================
+
+Functions are first-class values. They can be passed to and returned from other functions,
+stored in data structures, and bound to variables. Declare functions with `fcn` and
+return values from them with `ret`:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ JavaScript
+// Multi-line function block
+fcn solve(a,b,c)
+  ret ½(sqrt(b²-4a*c)-b)/a
+
+// Inline function
+fcn foo(x) x+=1; ret 2x
+
+// Call a user function
+text(foo(3))
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There is no way to declare an anonymous function or use a function definition as an expression.
+
+The `wait` and `show` special syntax are not permitted inside of a function body. If a function
+body takes too long to execute then the nano interpreter may terminate the program to prevent
+the game from becoming unresponsive.
+
+To call a function returned from an expression that ends in parentheses or brackets, use the
+`call` function.
+
+
+Variables
+=============================================================================================
+
+Variables are implicitly declared by their first assignment. You may optionally use
+JavaScript-style declarations (see below) when writing longer programs to improve readability
+and limit scope further.
+
+Implicitly declared variables have the scope of the enclosing _function_ (as with JavaScript
+`var` and Python variables, and unlike C++ variables that have the scope of the enclosing
+_block_).  The variables captured by `for` and `with` or declared explicitly using
+`let` and `const` are scoped to the _block_.
+
+Variable name identifiers consist of an optional upper case delta plus a series of Roman
+letters, or the unambiguous-looking Greek letters `αβγδζηθιλμρσϕχψωΩ` by themselves, and
+optionally trailing a series of digits. The identifier also must not be a reserved word. No
+underscores or other unicode characters are allowed in identifiers.
+
+Examples of legal identifiers:
+
+~~~~~~~~~~~~~~~~~~~ none
+col
+scr
+L
+on
+i
+k
+Δx
+θ
+~~~~~~~~~~~~~~~~~~~
+
+
+Reserved
+------------------------------------------------------------------------------------------
+
+These are reserved tokens that cannot be used as variable names:
+
+`and`, `arguments`, `args`, `as`, `async`, `auto`, `await`, `begin`, `bitand`, `bitnot`, `bitor`, 
+`bitashl`, `bitshl`, `bitshr`, `break`, `catch`, `class`,
+`const`, `cont`, `continue`, `do`, `end`, `external`, `fcn`, `finally`, `for`, `from`, `function`, `get`, `global`,
+`go`, `goto`, `has`, `if`, `in`, `implements`, `inherits`, `include`, `import`, `len`, `let`, `local`, `loop`,
+`NaN`, `new`, `nil`, `nonlocal`, `not`, `null`, `or`, `ret`, `to`, `try`, `var`, `xor`, `set`,
+`until`, `while`, `with`, `then`, `else`, `elif`, `flip`, `reset`, `main`, `enum`, `throw`,
+`return`, `yield`, `template`, `public`, `private`, `protected`, `show`, `static`, `xor`.
+
+Built-in functions such as `tri` that are legal identifiers can be rebound. They are not
+reserved. `cos`, `sin`, and `tan` by themselves are bound to first-class functions, but the special
+syntax that allows them to be invoked without parentheses on single variables is tied to their
+exact names. If you rebind them, then the new functions that you have bound will be invoked.
+
+
+`extern`
+------------------------------------------------------------------------------------------
+
+Variables always have lexical scope. However, implicit declaration causes all assignments
+to shadow external ones from enclosing scopes. To assign to a variable declared in an 
+enclosing, external scope, use an `extern` statement on the first line of a function:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ JavaScript
+x = 3
+
+fcn A()
+ x = 4 // local variable
+ 
+fcn B()
+ extern x
+ x = 4 // the global x
+ 
+fcn C()
+ x = 2
+ 
+ fcn D()
+  extern x
+  x = 7 // the C-scope x
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Optional Declaration
+------------------------------------------------------------------------------------------
+
+Variables may optionally be explicitly declared with block scope, as in
+the following examples:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ JavaScript
+const x = 7 // x may not be rebound
+let y       // Declare y
+let z = 9   // Declare and initialize z
+
+// Declare and initialize two variables on the same line:
+let a = [1, 2]; let b = 'hello'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Note that only a single variable is permitted per `let` or `const` statement.  Multiple
+statements may be chained using semi-colons on a single line, however.
+
+
+`with` Statement
+------------------------------------------------------------------------------------------
+
+The `with` statement creates a local scope in which explicitly named keys from a table are
+variables bound to their current value. The results are stored back into the object at the end
+of the `with` statement. This allows compact syntax for repeated use of those keys. The local
+variables shadow any global (or enclosing `with` statement) variables. Until the end of the
+statement, those values are not visible on the original object.
+
+Example:
+
+~~~~~~~~~~~~~~~~~~~~~~ none
+G = {x:1, y:2, z:0}
+with x,y ∈ G
+ x = 100
+ y = 0
+ z = 4
+
+// G.x is now 100, G.y is now 0, G.z is still 0,
+// and global z is now 4
+~~~~~~~~~~~~~~~~~~~~~~
+
+The single-line version of the `with` statement is comparable to other single-line nano flow control:
+
+~~~~~~~~~~~~~~~~~~~~~~ none
+G = {x:1, y:2, z:0}
+with (x,y ∈ G) x = 100; y = 0; z = 4
+~~~~~~~~~~~~~~~~~~~~~~
+
+Comments
+==========================================================================================
+
+Comments follow C/C++/Java/JavaScript syntax of `//` for single line comments and `/*`...`*/`
+for multi-line comments. 
+
+Because comments are the front line in the conflict between nano's goals of letting you write
+*short* and *readable* programs, the editor shows the total character count with comments and
+blank lines removed in the "min" section of the status bar at the bottom.
+
+
+Operators
+==========================================================================================
+
+Symbol | Meaning
+-------|-----------
+`++`   | increment
+`--`   | decrement
+`=`    | assignment
+`≟`    | equality test
+`≠`    | inequality test (also logical XOR)
+`+`    | addition and string concatenation
+`-`    | negation
+`+=`   | mutating addition, string concatenation
+`-=`   | mutating subtraction
+`<`    | less-than
+`≤`    | less-than or equal to
+`>`    | greater-than
+`≥`    | greater-than or equal to
+`∈`    | `for` loop container element-of and `with` statement object
+`^`    | exponentiation
+`*`    | multiplication (see also implicit multiplication)
+`*=`   | mutating multiplication
+`/`    | floating-point division
+`/=`   | mutating division
+`%`    | remainder (modulo)
+`%=`   | mutating modulo
+`⌊⌋`   | floor function
+`⌈⌉`   | ceiling function
+`||`   | absolute value, or length for strings and arrays
+`[]`   | table/array element or array constructor
+`{}`   | table constructor (follow JavaScript syntax)
+`.`    | table string-named element ("object member")
+`()`   | grouping or function call
+`∩`    | bitwise AND (bit set intersection)
+`∩=`   | mutating bitwise AND
+`∪`    | bitwise OR (bit set union)
+`∪=`   | mutating bitwise OR
+`&`    | logical AND
+`or`   | logical OR (you can often use the shorter `∪`)
+`not`  | logical NOT (see also the shorter `¬`)
+`and`  | logical AND (see also the shorter `&`)
+`⊕`    | bitwise XOR
+`⊕=`   | mutating bitwise XOR
+`~`    | bitwise NOT
+`~=`   | mutating bitwise NOT
+`¬`    | logical NOT
+`◅`    | bit shift left
+`◅=`   | mutating bit shift left
+`▻`    | bit shift right
+`▻=`   | mutating bit shift right
+
+There is no conditional ("ternary ?:") operator or logical XOR in nano. 
+
+Spaces are not required around operators in most cases, so long as the text parses
+unambiguously. For example, `1or3` is equivalent to `1 or 3`.
+
+Behaviour of these operators is consistent with the JavaScript definition of the operation
+(even though JavaScript uses different operators). For example, the <b>logical</b>-AND expression 
+`4 & 1` evaluates to `1` because `4` is non-false and the result of non-false AND another
+value is the other value.
+
+The trigonometric functions `cos`, `sin`, and `tan` may be invoked as if they were operators
+when the order of operations is unambiguous. For example, `cos a` ==> `cos(a)`, `cosβ` ==>
+`cos(β)`, and `cosθ*sinφ` ==> `cos(θ) * sin(φ)`.  To avoid confusion and reserve future syntax,
+they may not be invoked in this form when a high-precedence operator follows the argument. Those
+operators are `.`, `[`, subscript, or exponentiation.
+
+Because back-to-back parentheses are interpreted as implicit multiplication, functions that
+are returned from other functions, determined by parenthesized expressions, or stored in 
+tables cannot be invoked using the `()` syntax. Instead, use the `call` function:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ JavaScript
+// Illegal:
+x = (a and abs or cos)(θ)
+y = tbl["myfunc"](3, 4)
+z = f(a)(b)
+
+// Legal:
+x = call(a and abs or cos, θ)
+y = call(tbl["myfunc"], 3, 4)
+z = call(f(a), b)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Exponents
+----------------------------------------------------------------------------------------------
+The characters `⁺⁻⁰¹²³⁴⁵⁶⁷⁸⁹ᵃᵝⁱʲˣᵏᵘⁿ⁽⁾` can form exponent expressions that operate as if
+the `^` operator or `pow` function was invoked using those expressions as a second argument.
+The entire exponent expression is implicitly surrounded in parentheses.
+
+The variables `a`, `β`, `i`, `j`, `x`, `n`, `k`, and `u` may appear only as single-character
+variable names in exponents.
+
+Exponentiation, including via exponent characters, may not be performed on a negative number
+without parentheses. This follows the rules from JavaScript's `**` operator. For example,
+`x=y-1²` is legal, but `x=y+-1²` is illegal and must be rewritten as `x=y+(-1)²` or (the
+confusing and redundant expression, if that's really what was intended) `x=y+-(1²)`.
+
+
+Subscripts
+----------------------------------------------------------------------------------------------
+
+The characters `₊₋₀₁₂₃₄₅₆₇₈₉ₐᵦᵢⱼₓₖᵤₙ₍₎` can form subscript expressions that operate as if
+the array/table element accessor was invoked using those expressions as the second
+argument.  For example, `aᵢ₊₂` is equivalent to `a[i+2]`. The entire subscript expression
+is implicitly surrounded in parentheses.
+
+The variables `a`, `β`, `i`, `j`, `x`, `n`, `k`, and `u` may appear only as single-character
+variable names in subscripts.
+
+
+Implicit Multiplication
+----------------------------------------------------------------------------------------------
+
+Multiplication is implicit wherever a number is immediately followed by a parenthesized
+expression or variable (including a function call). This also ocurs when any exponent
+appears immediately preceeding a parenthesized expression or variable, and where two
+parenthesized expressions are back to back. For example,
+`2x`, `x²y`, `3(x+y)`, `(y+2)(x+1)`.
+
+Implicit multiplication can be used within subscripts or exponents.
+
+
+Built-in Objects
+--------------------------------------------------------------------------------------------
+
+The following are special zero-argument operators for special functions and constants. They are
+not variable names and thus cannot be redefined.
+
+Name           | Value
+---------------|-----------
+`ε`            | `0.0000001`
+`π`            | `3.141592653589793115997963468544185161590576171875`
+`∞`            | infinity
+`NaN`          | floating-point "not-a-number" value
+`∅`            | nil ("undefined")
+`pad`          | array gamepad of tables 
+`joy`          | shorthand for `pad₀`
+`ξ`            | random number on [0, 1), resampled every time the expression is used
+`screenWidth`  | The width of the main screen, in pixels
+`screenHeight` | The height of the main screen, in pixels
+
+The main-loop variable `τ` is time, as integer number of frames. It may be reassigned 
+to reset time and is a built-in object, but is not an operator.
+
+
+Typing
+----------------------------------------------------------------------------------------------
+
+Because many of the characters used in nano operators and built-in objects do not appear on
+standard keyboards, there are two special text entry methods available in the development
+environment. (You can also copy and paste characters from other programs or documentation.)
+
+The Symbols panel marked with "ξ½≤" at the top of the editor brings up a virtual keyboard
+for entering these symbols. The tool tips on those buttons also explain the use of each.
+
+The editor automatically replaces certain typed sequences with their corresponding character
+as well ("autocorrect"). The list of replacements is:
+
+    Sequence    | Replacement
+   -------------|--------------
+    `\Delta`    |`Δ` 
+    `\alpha`    |`α` 
+    `\beta`     |`β` 
+    `\gamma`    |`γ` 
+    `\delta`    |`δ` 
+    `\epsilon`  |`ε` 
+    `\zeta`     |`ζ` 
+    `\eta`      |`η` 
+    `\theta`    |`θ` 
+    `\iota`     |`ι` 
+    `\lambda`   |`λ` 
+    `\mu`       |`μ` 
+    `\rho`      |`ρ` 
+    `\sigma`    |`σ` 
+    `\phi`      |`ϕ` 
+    `\chi`      |`χ` 
+    `\psi`      |`ψ` 
+    `\omega`    |`ω` 
+    `\Omega`    |`Ω` 
+    `\tau`      |`τ` 
+    `\time`     |`τ` 
+    `\xi`       |`ξ` 
+    `\rnd`      |`ξ` 
+    `==`        |`≟` 
+    `?=`        |`≟` 
+    `!=`        |`≠` 
+    `\neq`      |`≠` 
+    `\eq`       |`≟` 
+    `\not`      |`¬` 
+    `\leq`      |`≤` 
+    `<=`        |`≤`
+    `\geq`      |`≥` 
+    `>=`        |`≥`
+    `>>`        |`▻` 
+    `<<`        |`◅` 
+    `\bitand`   |`∩`
+    `\bitor`    |`∪`
+    `\bitxor`   |`⊕`
+    `\pi`       |`π` 
+    `\infty`    |`∞` 
+    `\nil`      |`∅` 
+    `\half`     |`½` 
+    `\third`    |`⅓` 
+    `\quarter`  |`¼` 
+    `\fifth`    |`⅕`
+    `sixth`     |`⅙`
+    `seventh`   |`⅐`
+    `eighth`    |`⅛`
+    `ninth`     |`⅑`
+    `tenth`     |`⅒'`
+    `\lfloor`   |`⌊`
+    `\rfloor`   |`⌋`
+    `\lceil`    |`⌈`
+    `\rceil`    |`⌉`
+
+
+Input
+==============================================================================================
+
+The gamepad objects in the `pad` array, or `joy` variable (which is equal to `pad[0]`) have
+the following fields:
+
+Field | Values   | Meaning
+------|----------|----------------------------------
+`x`   | -1,0,+1  | Current D-pad value on the $x$-axis (+1 = right)
+`xx`  | -1,0,+1  | Direction that was just pressed this frame on the $x$-axis
+`y`   | -1,0,+1  | Current D-pad value on the $y$-axis (+1 = forward)
+`yy`  | -1,0,+1  | Direction that was just pressed this frame on the $y$-axis
+`θ`   | -π to +π | `atan(y, x)`
+`a`   | 0 or 1   | 1 if the A button is currently pressed
+`aa`  | 0 or 1   | 1 if the A button was just pressed this frame
+`b`   | 0 or 1   | 1 if the B button is currently pressed
+`bb`  | 0 or 1   | 1 if the B button was just pressed this frame
+`c`   | 0 or 1   | 1 if the C button is currently pressed
+`cc`  | 0 or 1   | 1 if the C button was just pressed this frame
+`d`   | 0 or 1   | 1 if the D button is currently pressed
+`dd`  | 0 or 1   | 1 if the D button was just pressed this frame
+`s`   | 0 or 1   | 1 if the start button is currently pressed
+`ss`  | 0 or 1   | 1 if the start button was just pressed this frame
+
+
+Flow Control
+==============================================================================================
+
+The flow control statements are:
+
+- `if` conditional with optional `else` and `elif` clauses
+- `while` loop
+- `until` loop
+- `for` loop, with optional `with` expansion
+- `loop` infinite loop
+- `break` and `cont` within loops
+- `reset` to restart the game
+
+There is no switch, do loop, goto, try/catch, or other flow control.
+
+Whitespace is significant, as in Python. Indentation must be exactly a single space per nested
+block.
+
+For flow control purposes, the empty string, 0, and `∅` are false.  All other objects
+(including empty data structures) are true.
+
+The entire program is implicitly wrapped in an infinite loop. This loop:
+
+1. shows the buffer
+2. clears the screen to colour `clr` (set `clr=∅` to avoid clearing the screen)
+3. increments `τ`
+
+Explicitly setting `τ=0` within the main loop resets the game on the next loop iteration. 
+There is no way to reset the game on the first iteration.
+
+Within any loop, `cont` skips to the next iteration of the loop and `break` exits the loop.
+
+Because the entire program has an implicit time loop surrounding it, executing `cont` at the
+top level outside of any explicit loop will skip to the next `τ` loop iteration.  `break` at
+top level will restart the entire program at `τ=0` with the default palette and clear color.
+
+Multi-line `if` statements may be followed by `else` and `elif` clauses. These must always be
+multi-line.
+
+Numeric `for` loops increment by 1 each iteration and always count up. The loop variable must
+be on the left-side of a single comparison loop expression or the center of a multi-comparison
+expression.
+
+Container iteration `for` loops iterate over the keys of a table, the characters of a string,
+or the elements of an array _as of the beginning of the loop_. If the container is modified
+during iteration, the original is still used. That means that you can delete elements from the array
+without affecting the iteration. The Java/C++ equivalents of nano `for`-loop conditions
+are:
+
+nano              | Java/C++
+------------------|------------------------
+`for i≤k`         | `for (i = 0; i <= k; ++i)`
+`for i&lt;k`      | `for (i = 0; i &lt; k; ++i)`
+`for 4≤i&lt;k`    | `for (i = 4; i &lt; k; ++i)`
+`for 4&lt;i&lt;k` | `for (i = 5; i &lt; k; ++i)`
+`for x∈S`         | `for (x : S)`
+
+You can pack a `for` and `with` statement together by chaining `∈` expressions, in what
+is called a `for`-`with` loop:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ JavaScript
+for x,y ∈ point ∈ set
+  ...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+is the same as:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ JavaScript
+for point ∈ set
+  with x,y ∈ point
+    ...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The `for`-loop variable (in this case, `point`) cannot be the same as any of the `with`
+variables (in this case, `x` and `y`).
+
+The comparison operators in a `for` loop declaration are an overloaded syntax for comparison
+operators (just as many languages overload the `=` operator for `for` loops).  They have
+the lowest precedence. For example, `for i&lt;a||b` is equivalent to `for i&lt;(a||b)`.
+To use regular comparison operators within `for` loop preamble, you *must* use parentheses to
+make the parsing unambiguous, for example, `for i&lt;(a&lt;b)`.
+
+Single-line `for`, `if`, `while`, and `until` are permitted. In each case, the test must be
+enclosed in parentheses and the body runs to the end of the line. There can be multiple
+single-line expressions on the same line. No `else` is permitted with single-line `if`.
+
+
+
+Special
+---------------------------------------------------------
+
+The following are unconditional statements:
+
+- `show`: Show the current state of the framebuffer and update `pad`. Does not clear the screen.
+- `wait`: Show the framebuffer and update `pad` until a gamepad button (not direction) is pressed.
+
+
+They are not functions and cannot be bound to variables or invoked with parentheses.
+`show` and `wait` are not permitted inside `fcn` blocks.
+
+`flip` is a legacy synonym for `show`.
+
+
+Standard Library
+=========================================================
+
+Standard library functions are first-class values. They can be stored in data structures and
+variables.
+
+Array
+---------------------------------------------------------
+`array.add(x)`
+: Append `x` to the array. O(1) expected amortized time.
+
+`array.del(i)`
+: Delete element `i` from the array, preserving order. O(n) expected time.
+
+`array.find(x,i)`
+: Find the index of the element whose value is `x`, starting at optional index `i` (default 0).
+  Returns `∅` if not found. O(n)
+
+`array.kill(i)`
+: Delete element `i` from the array, swapping it with the last element. O(1) expected amortized time.
+
+`array.len`
+: Set or get the length of the array. O(1) time to read, O(n) amortized time to write.
+
+`array.rem(x)`
+: Delete the first instance of `x` in the array, maintaining order. O(n) time in the length of the array.
+  Does nothing if `x` is not in the array.
+
+`array.sort(k)`
+: Sort the array from least to greatest. If `k` is a string, then elements of the array are
+  assumed to be objects and are sorted by that key. If `k` is a number, then elements of the
+  array are assumed to be other arrays and are sorted by that index. If `k` is not specified
+  and the array contains objects, then elements are sorted by their alphabetically-first
+  key. If `k` is not specified and the array contains numbers or strings, then they are sorted
+  by natural order.
+
+
+String
+---------------------------------------------------------
+`string.find(x,i)`
+: Find the index of the substring whose value is `x`, starting at optional index `i` (default 0).
+  Returns `∅` if not found. O(n) time.
+
+`string.len`
+: Get the length of the string. O(1) time.
+
+`string.sub(s,e)`
+: Return the substring between `s` (inclusive) and optional `e` (exclusive, defaults to length).
+
+
+Table
+---------------------------------------------------------
+`table.del(k)`
+: Remove a key-value pair by key. Does nothing if `k` is not in the table.
+  Use `table[k] ≠ ∅` to test for containment explicitly.
+
+`table.keys`
+: An Array of the keys.
+
+`table.len`
+: The length of the table (read only).
+
+
+Function
+---------------------------------------------------------
+
+`call(f,a,b,...)`
+: Invoke function `f` with arguments `a`, `b`, etc.
+
+
+Math
+---------------------------------------------------------
+`abs(x)`
+: Absolute value
+
+`acos(x)`
+: Inverse cosine in radians
+
+`atan(y, x)`
+: Arctangent of y/x, in radians
+
+`asin(x)`
+: Inverse sine in radians
+
+`cos(x)`
+: Cosine, `x` in radians 
+
+`hash(x,y)`
+: A hash value of string or number `x`, returning a value on [0, 1].
+  If `y` is specified, the hash considers the union of the values.
+
+`lerp(a,b,t)`
+: Returns `a*(1-t)+b*t`
+
+`min(a,b,...)`
+: Smallest of the arguments
+
+`max(a,b,...)`
+: Largest of the arguments
+
+`mid(a,b,c)`
+: Middle argument once sorted. Can be used for clamping.
+
+`noise(octaves,x,y,z)`
+: Value noise on the range [-1, 1], bicubically interpolated between integer locations at
+  octave 0. Unused dimensions default to zero.
+
+`overlap(A,B)`
+: Assumes that `A` and `B` are tables of the form `{pos:vec(x,y), ext:vec(hw,hh)}` where
+  `hw` and `hh` are the half-width and half-height of a rectangle centered at `(x,y)`.
+  Returns true if those rectangles overlap.
+
+`pow(a,b)`
+: Exponent. See also the `^` operator.
+
+`rnd()`
+: Random number. See also the `ξ` operator.
+
+`sgn(x)`
+: Sign of `x`.
+
+`sqrt(x)`
+: Square root.
+
+`sin(x)`
+: Sine of `x` radians.
+
+`srand(seed)`
+: Reset the random number generator, using an optional seed.
+
+`tan(x)`
+: Tangent of `x` radians.
+
+`vec(x,y,z)`
+: Creates a mutable 2D or 3D vector (`z` is optional) table that cannot have extra keys
+  added to it later.
+
+`wrap(x,hi)`
+: Real-number modulus. Wraps `x` to the range [0, `hi`). `hi` defaults to `1.0` if not specified.
+
+
+Sound
+---------------------------------------------------------
+
+`sound(n)`
+: Play sound `n`.
+
+
+
+Graphics
+---------------------------------------------------------
+
+`cls(c)`
+: Clear the screen to colour `c`. Unlike all other rendering commands, 
+  requires a colour argument and does not set the current colour to `c`.
+  Obeys the clipping region.
+
+`circ(Ax,Ay,r,colourmap)`
+: Draw a circle centered at (`Ax`, `Ay`) with radius `r`.
+
+`clip(x1,y1,x2,y2)`
+: Set the clipping region to these coordinates. Unspecified values retain their 
+  current value.  Coordinates are clamped to the physical screen. The initial
+  clipping region in default 64x64 resolution is `clip(0,0,63,63)`, and
+  `clip()` resets to this default. Values are rounded to the nearest integer
+  and the min and max are taken, so the order of `y2` and `y1` and of `x1` 
+  and `x2` does not matter. It is impossible to set a clipping region smaller than
+  1x1 pixels. The clipping region for the top bar screen is `clip(0,0,-12,-4)`.
+  The clipping region of the entire screen together is `clip(0,-12,63,63)`.
+  The clipping region is not affected by `xform`. Higher resolutions are scaled
+  proportionally.
+
+`draw(s,x,y,colourmap,flips,rot)`
+: Draw sprite with index `s` centered at (`x`, `y`), remapping sprite colours by 4-digit
+  `colourmap` and transforming by `flips`. See the Sprites section for more information.
+  The result is undefined and may change between versions for the cases where `s` is less than
+  zero or greater than 127. `s` may also be a sprite created by `sprget` or `sprscale`,
+  in which case `colourmap` is ignored.
+
+`gray(v,x,y)`
+: Same as `rgb(v,v,v,x,y)`
+
+`hsv(h,s,v,x,y)`
+: Return the colour closest to the hue-saturate-value specification, which are each on [0, 1].
+  If `x` and `y` are specified, apply a dithering pattern based on the pixel position.
+
+`line(Ax,Ay,Bx,By,colourmap)`
+: Draw a line from (`Ax`, `Ay`) to (`Bx`, `By`) using the 1-digit colourmap.
+  
+`pget(x,y)`
+: Get the screen colour of pixel (`x`, `y`). Returns `∅` if out of bounds of the clipping region.
+  The area between the main screen and the bar screen exists in the framebuffer and can be
+  read back using `pget` if the clipping region includes it.
+
+`pal(p)`
+: Sets the draw palette colours 1-8 from the 12-digit palette. See the Colours section for details.
+  With no arguments, resets to the default palette.
+
+`pset(x,y,c)`
+: Set the colour of pixel (`x`, `y`) to colour `c` (*not* a colourmap). If `c` is not
+  specified, use the previous colour.
+
+`pset(c)`
+: Set the previous colour to `c` (*not* a colourmap) and draw a single pixel offscreen. 
+
+`rect(Ax,Ay,Bx,By,colourmap)`
+: Draw the rectangle from any two points. The 2-digit `colourmap` is the fill and the border.
+
+`rgb(r,g,b,x,y)`
+: Return the colour closest to (`r`,`g`,`b`), which are each on [0, 1].
+  If `x` and `y` are specified, apply a dithering pattern based on the pixel position.
+
+`sprget(x0,y0,x1,y1,t)`
+: Get a sprite from the screen. Values offscreen become transparent.  Ignores the current
+  `clip` and `xform`. The `t` value if specified is the color that will be treated as
+  transparent.
+
+`sprscale(spr,scale,quality)`
+: Return a new sprite that is `spr` rescaled by a `scale` factor in each dimension,
+  which must be `1/4`, `1/2`, `1`, `2`, or `4`. The `quality` is an optional integer from 
+  `0` (fastest) to `1` (best). The default quality is 0.
+
+`text(s,x,y,colourmap,align)`
+: Print string `s` centered at (`x`, `y`) using the 2-digit colourmap. The first digit (1's
+  place) is the text colour, the second digit (10's place) is the shadow colour, and the third
+  digit (100's place) is the outline colour. The second digit is handled differently for other
+  commands. 0 means transparent instead of "previous colour" so that single-digit colourmaps
+  render text with no outline or shadow.  If only `s` is provided, `text` defaults to drawing
+  in the center of the top of the screen in the previous color. `align` specifies the relative
+  alignment of the string to (`x`, `y`). Compute it as $u + 4v$, where $u$ is the x-alignment
+  of 0 = left, 1 = center, 2 = right; and $v$ is the y-alignment of 0 = top, 1 = middle, 2 =
+  baseline, 3 = bottom. If unspecified, the default alignment is 5 = center, middle. 
+  The current nano font has the baseline at the bottom, so there is no difference between
+  $v=2$ and $v=3$.
+  
+`tri(Ax,Ay,Bx,By,Cx,Cy,colourmap)`
+: Draw the triangle using the 2-digit colourmap for fill and border.
+
+`xform(addX,addY,scaleX,scaleY)`
+: Set the transformation applied to all draw coordinates and `pget`. The default transform
+  is (0, 0). The scale parameters must be +1 or -1 and are primarily intended for flipping the
+  Y axis. Scaling affects the location of sprites and text but not their own axes; text will
+  always render right side up. `xform()` resets to the default transformation.
+
+The default colourmap is 0, which corresponds to the colour from the previous command.
+
+Borders are drawn inside shape coordinate boundaries and on top of fills, so a transparent 
+border is identical to a border that is the same colour as the fill. Shapes include their
+endpoints and borders.
+
+Pixel centers are at integer locations. That is, pixel (0,0) covers (-½, -½) to (½, ½).
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ JavaScript
+#nanojam Text Style,1
+cls(7)
+pal(408001307)
+text("Normal",32,10,4)
+text("Shadow",32,25,954)
+text("Outline",32,40,334)
+text("Shadow+Outline",32,55,354)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[Text styling options]
+
+![Text styling options. The grid shows `align` values from 0-8](text-style.png)
+
+
+### Colours
+
+The nano can display 32 different *colours*. The first 16 colours follow the order of the [PICO-8](https://www.lexaloffle.com/pico-8.php) colours by 
+Joseph White, but are shifted slightly towards [DawnBringer's DB16](http://pixeljoint.com/forum/forum_posts.asp?TID=12795) and tweaked
+to give a better grayscale. The second 16 colours fill some holes between them and add the original Gameboy palette.
+
+ ![<center>The nano Palette Tool</center>](palette-tool.png width=50%)
+
+
+The *palette* is a set of 10 colours available for drawing shapes and sprites, which are
+selected from the full 32 possible colours on the screen. In the palette, eight colours are
+user-selectable and two are special values that are not configurable.
+
+The `pal` command changes configurable part of the palette by specifying a 12-digit integer.
+Every two digits are one colour. Changing the palette does not affect colours already
+written to the screen.
+
+A *colourmap* is a mapping from parts of a shape or sprite to colours in the palette.
+These are used for specifying the borders and fill colours (as a two-digit integer) of a 
+shape, the colour of a line (as a one-digit integer), and remapping the four colours 
+from a sprite (as a 1-4 digit integer).
+
+The interpretation of colour map digits within the palette is:
+
+- 0 = default colour for this command
+- 1-8 = configurable
+- 9 = transparent
+
+For example, to set the first six configurable colours to a grayscale ramp (0,1,5,13,6,7) of
+PICO-8 colours, use `pal(70613050100)`. Note that there cannot be a leading zero on the number.
+
+The default colour for most commands is the previous colour used. For text, the default is the
+previous colour for the main stroke and transparent for the outline and shadow.
+
+The initial configurable palette is equivalent to `pal(2911121008001307)`. This corresponds to
+white, gray, black, red, yellow, aqua, lime, purple. The initial default colour is white. Changing the
+palette preserves the default colour.
+
+Note that unlike other drawing commands, `pset` and `pget` operate directly on colours instead
+of palette values.
+
+
+<!-- 
+Largest palette value in this scheme:
+3131313131313131
+
+Largest consecutively-representable double:
+9007199254740992
+
+(so, it is fine to represent the palette as a single integer!)
+-->
+
+### Sprites
+
+There are 96 hard-coded 8x8 sprites provided in read-only memory:
+
+  ![<center>The nano Spritesheet</center>](../sprites.png width=512 border=2 style="image-rendering: pixelated; image-rendering: -moz-crisp-edges; -ms-interpolation-mode: nearest-neighbor;")
+
+They are designed so that the colourmap for `draw()` allows animation and re-use of individual
+sprites as multiple images. For example, the heart sprite can be shown as an outline, half
+full, completely full, or full and small by changing the colourmap.
+
+`draw` renders centered sprites. Centering for an 8x8 sprite means offsetting x,y by 3.5 in each dimension. This makes 
+(3,3) the "center" for integer coordinates.
+
+The optional `flips` parameter to `draw` encodes in three bits:
+  - if `(flips ∩ 1)`, flip diagonally
+  - if `(flips ∩ 2)`, flip horizontally
+  - if `(flips ∩ 4)`, flip vertically
+    
+This allows all axis-aligned transformations to be encoded in a single digit. The 90-degree
+clockwise rotations are thus (xor these with with 2 or 4 if you want to also flip H or V):
+
+ CW Rotation |VHD Bits| `flips`
+ -----------:|--------|---------
+ 0 degrees   | 000    | 0
+ 90 degrees  | 011    | 3
+ 180 degrees | 110    | 6
+ 270 degrees | 101    | 5
+
+The `rot` argument rotates an arbitrary amount clockwise in radians *after* the `flips`
+transformation. It defaults to zero.
+
+For rotating by 0 &leq; `i` &lt; 4 integer 90-degree clockwise intervals programmatically,
+consider these three different methods:
+
+~~~~~~~~~~~~~~~~~~~~~ JavaScript
+draw(s,x,y,c,0,½πi)
+
+draw(s,x,y,c,3i-4⌊⅓i⌋)
+
+r=[0,3,6,5]
+draw(s,x,y,c,rᵢ)
+~~~~~~~~~~~~~~~~~~~~~
+
+The first approach has the advantage that it works for all (reasonably small) integer values of
+`i`, including negative ones.
+
+
+
+
+Sound
+---------------------------------------------------------
+
+`sfx(s)`
+: Play sound effect `s`
+
+
+Title Flags
+---------------------------------------------------------
+
+The first line of a nano program must be `#nanojam` followed by the game title and an optional
+comma and integer flags. You can construct flags by adding property bits:
+
+Property         | Flag
+-----------------|---------:
+No title screen  | 1
+Run at 128x128   | 2
+Run at 256x256   | 4
+
+For example, `#nanojam mygame,5` (= 1 + 4) runs with no title screen at 256x256 resolution.
+
+The default is a title screen and all 64x64 graphics with cartridge color automatically
+selected based on the game name. Keep in mind that 128x128 graphics render
+4x slower due to the increased pixel count and 256x256 runs 16x slower; it may be hard to make
+some programs reach the full 60fps at "high resolution".
+
+Future flags will affect the rendering of the title screen and cartridge label.
+
+
+Advanced
+====================================================================================
+
+Offline and Self-Hosting
+------------------------------------------------------------------------------------
+
+nano is self-contained and open source. It will be hosted online indefinitely at github.
+You may also host a specific version on your own server or run nano offline (which
+can be handy for airplane flights and schools with unreliable internet connections).
+To do so, download the files from http://morgan3d.github.io and in the directory that
+you've expanded them to, run the following at the command line:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ bash
+python3 -m http.server 9120
+
+# Linux and MacOS:
+open http://localhost:9120/index.html
+
+# Windows:
+start http://localhost:9120/index.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Google Drive support will still work in this context for local files but not ones hosted on a
+different website (this is a Google Drive security restriction). If you are running offline or
+hosted on another website, then will be restricted to importing and exporting nano programs
+from the local file system.
+
+Implementation
+------------------------------------------------------------------------------------
+
+The current implementation compiles the nano source code to JavaScript for execution, and
+passes through many JavaScript expressions even if not defined by the nano specification.
+
+JavaScript features not explicitly mentioned in this specification are illegal. They might
+sneak past the current version of the compiler, but are likely to break in future versions
+or as the surrounding code changes.
+
+
+Limitations
+------------------------------------------------------------------------------------
+
+The following features are documented but not implemented in the current Beta build. They
+are scheduled for upcoming releases:
+
+- `for` loops that count down
+- Title screen animations
+
+The following is a permanent limitation: when converting values to strings, the `∞` value becomes the string `"Infinity"` and the `∅`
+value becomes `"undefined"`.
+
+
+Credits
+====================================================================================
+
+The nano's influences include Atari 2600, Commodore VIC-20, PICO-8, APL, Python, Shadertoy, and
+Arduboy.  The 3x5 nano font is original, but was informed by Yuji Oshimoto's 04B-24 freeware
+font http://www.04.jp.org/ and Joseph White's PICO-8 font.
+
+The <span style="font-size:118%">nano</span> <span style="font-size:90%">JAMMER</span> IDE,
+compiler, font, palette, and artwork are copyright 2018 Morgan McGuire. They were created as a
+one-week vacation "game" jam challenge (and reworked during a second vacation), which should 
+set your expectation level for support and acceptance of patches at zero. The nano package 
+and implementation, including:
+
+- [`index.html`](../index.html)
+- [`nano.css`](../nano.css)
+- [`nano-compiler.js`](../nano-compiler.js)
+- [`nano-runtime.js`](../nano-runtime.js)
+- [`nano-ide.js`](../nano-ide.js)
+- [`color.js`](../color.js)
+
+and excluding the content described below, are licensed under the
+[GPL 3.0](https://opensource.org/licenses/GPL-3.0), but may be relicensed in the future.
+
+The cherry, apple, and chicken leg sprites are by Justin Cyr ([@JUSTIN_CYR](https://twitter.com/JUSTIN_CYR)). 
+The ghost and plumber character are based on sprites by Johan Vinet ([@johanvinet](https://twitter.com/johanvinet)).
+
+GIF support via [gif.js](https://github.com/jnordberg/gif.js/) (c) 2013 Johan Nordberg,
+used under the MIT license. It includes code by Kevin Weiner, Thibault Imbert, and Anthony
+Dekker.
+
+The random number generator is derived from [an implementation](https://github.com/AndreasMadsen/xorshift/blob/master/xorshift.js) 
+of xorshift (c) 2014 Andreas Madsen and Emil Bay used under the MIT license.
+
+The 4x4 character art is inspired by Parlor's
+[CRATER](https://www.lexaloffle.com/bbs/?tid=30293) sprite for PICO8 (although it is not the
+same).
+
+The code editor for the nano IDE is [ace.js](https://ace.c9.io/) used under the BSD license.
+
+URL encoding uses [lz-string.js](https://github.com/pieroxy/lz-string) (c) 2014 Pieroxy under
+its license, which permits any use.
+
+
+# Change Log
+
+Changes for both the specification and implementation:
+
+2018 Nov 8:
+ - Made custom sprites align exactly with regular sprites for `draw`
+ - Custom sprites now support rotation and xform
+ - Extended the sprite sheet to 128 sprites
+ - Added new 4x4 character
+
+2018 Oct 8:
+ - Implemented `text` border and shadow colours
+ - Added `text` alignment options
+ - Made indent guides brighter in the editor
+ - Minifier now reduces indentation
+ - Fixed implicit multiplication miscompiling after subscripts
+ - Added `screenWidth` and `screenHeight`
+ - Changed `ε` to 10<sup>-7</sup>
+ - Documented that `pget` works between the bar and main screens
+ - Added `sprget` and `sprscale` sprite creation functions
+ - `draw` now supports sprites from `sprget`
+ - High resolution modes now draw the title large on the bar screen
+
+2018 Sep 15:
+ - `joy.aa` and other just-pressed values no longer repeat incorrectly when using keyboard controls
+ - Permitted arbitrary indentation conventions
+ - Changed tab to two space indentation by default
+ - Added errors for inconsistent indentation
+ - Added errors for passing the wrong type to some functions
+ - Fixed `hash` to be on the range [0, 1]
+ - Fixed circle rendering with fractional radius
+ - Fixed single-line `fcn` definitions
+ - Added `for`-`with` loops
+
+2018 Sep 9:
+ - Optimized loading cartridge list from Google Drive
+ - Optimized sound loading
+ - Made the save button pink when unsaved
+ - Reduced IDE margins to fit smaller screens
+ - IDE auto-loads the previous program from Google Drive on start
+ - Added C and D buttons to gamepad
+
+2018 Sep 1:
+ - Rewrote manual with more friendly examples
+ - Fixed `let` and `const` compilation
+ - Added `lerp`
+ - Fixed `tri`
+ - Fixed `mid`
+ - Exposed 256x256 quad-resolution screen
+
+2018 Aug 27:
+ - Optional 128x128 double-resolution screen
+ - `xform` now allows flipping axes
+ - Exposed palette slots 7 and 8
+ - Documented the start button
+ - Can now click on cartridges to select them
+
+2018 Aug 24:
+ - Rate limited access to Google Drive to prevent quota errors
+ - Added sounds
+ - IDE autocorrect for typing special characters
+ - Can now hide the editor
+ - Starting a program from a URL automatically hides the editor
+
+2018 Aug 20:
+ - Added optional `and` and `not` operators for readability in long-form programs
+ - Added second "bar" screen for status
+ - Added `xform` for camera transformation
+ - Added `clip` for clipping region
+ - Added frame timer for profiling
+ - Added `call` to support first-class functions
+ - Added `fcn` and `ret` for user-defined functions, `extern` for scoping
+ - Renamed `flip` to `show`
+ - Changed variable name rules: more Greek letters permitted, no limit on variable name length, allowed numbers in variable names
+ - Complete compiler rewrite to support nested scopes and single-line control flow after other statements
+ - Disabled editor auto-completion of brackets and parentheses
+
+2018 Aug 5:
+ - Added sprites 41 and 42
+ - Made `cosτ`, `sinτ`, `tanτ` legal
+
+2018 Jul 28:
+ - Implicit multiplication for back-to-back parenthesized expressions
+ - Added `with` statements
+ - Added mutating bitwise XOR `⊕=` operator
+ - Added mutating bit shift operators `◅=` and `▻=`
+ - Fixed parsing of `2cosθ` without spaces
+
+2018 Feb 4:
+ - Added `joy.θ` field
+ - Added `∪=` and `∩=` operators
+ - Added a custom Google Drive `nano` property
+ - User name displayed
+ - Fixed cart cloning
+ - Changed scope of `for` variable declaration
+ - Paste into the Palette tool
+
+2018 Jan 29:
+ - Google Drive support
+ - Added built-in carts
+ - Optimized exponent performance
+ - Optimized `if` performance
+ - More examples in the manual
+ - Increased GIF limit to 12s
+ - Banana sprite
+
+2018 Jan 21:
+ - `tri()`
+ - Ctrl-R reloads the emulator (not the web page)
+ - Search box for IDE (Ctrl-F)
+
+2018 Jan 14:
+ - Container iteration (`for x ∈ S`) loops
+ - Text culling optimization
+ - `text` now defaults to `y=3` (top of screen)
+ - Fixed `rect` and vertical `line`
+ - GIF recording indicator
+ - Fixed lower-bound `for` loops
+ - Start button
+ - Buttons on emulator work
+ - Comments allowed on line 1
+ - Title screen button prompt
+ - Fixed multiple `if` statements on one line
+ - Fixed sprite 95
+ - URL encoding
+ - Made octal constants illegal
+ - fixed Chrome + Windows pasting
+ - Export minified code
+ - Aggressive character minification
+ - AdBlock warning
+ - Twitter character counts
+ - implicit multiplication in exponents and subscripts
+ - `array.sort()`
+ - fixed `pget()`
+
+
+<style class="fallback">body{color:#FFF}</style>
+v<script>markdeepOptions = {tocStyle:'medium'};</script>
+<link rel="stylesheet" href="https://casual-effects.com/markdeep/latest/apidoc.css?">
+<style>
+.md div.title {font-family:Helvetica; line-height:14px;font-size:30px;margin-top:50px;}
+.md div.title, .md div.subtitle {text-align: center}
+</style>
+<!-- Markdeep: --><script src="https://casual-effects.com/markdeep/latest/markdeep.min.js"></script>
+

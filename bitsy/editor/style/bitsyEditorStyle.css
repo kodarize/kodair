@@ -1,0 +1,656 @@
+/* theme */
+:root {
+	--bitsy-color-main-1: #ffffff;
+	--bitsy-color-main-2: #6767b2;
+	--bitsy-color-accent-1: #e8e8ff;
+	--bitsy-color-accent-2: #ccccff;
+	--bitsy-color-neutral-1: #eee;
+	--bitsy-color-neutral-2: #888;
+	--bitsy-space-xxs: 0.05rem;
+	--bitsy-space-xs: 0.125rem;
+	--bitsy-space-s: 0.25rem;
+	--bitsy-space-m: 0.5rem;
+	--bitsy-space-l: 1.0rem;
+	--bitsy-space-xl: 1.5rem;
+	--bitsy-size-xxs: 4rem;
+	--bitsy-size-xs: 8rem;
+	--bitsy-size-s: 16rem;
+	--bitsy-size-m: 24rem;
+	--bitsy-size-l: 32rem;
+}
+
+/* remove browser default styles */
+button, input[type=text], input[type=radio], input[type=checkmark] {
+	font-size: inherit;
+	font-family: inherit;
+	line-height: inherit;
+	background: inherit;
+	color: inherit;
+	padding: 0;
+	margin: 0;
+	border: none;
+	border-radius: 0;
+	outline: none;
+	box-shadow: none;
+	-webkit-appearance: none;
+}
+
+/* page */
+html {
+	font-family: "Nunito", Helvetica, Arial, sans-serif;
+	font-size: 100%;
+	line-height: 100%;
+	width: 100%;
+	height: 100%;
+	background: var(--bitsy-color-accent-2);
+	color: var(--bitsy-color-main-2);
+	overscroll-behavior: none;
+	scrollbar-color: var(--bitsy-color-main-2) var(--bitsy-color-accent-1);
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+/* canvas */
+canvas {
+	width: 100%;
+}
+
+/* button */
+button {
+	background: var(--bitsy-color-accent-1);
+	padding: var(--bitsy-space-s);
+	margin: var(--bitsy-space-xs);
+	border-radius: var(--bitsy-space-s);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+button:active {
+	background: var(--bitsy-color-main-2);
+	color: var(--bitsy-color-main-1);
+}
+
+button:disabled {
+	opacity: 0.5;
+}
+
+/* label */
+label {
+	background: var(--bitsy-color-accent-1);
+	padding: var(--bitsy-space-s);
+	margin: var(--bitsy-space-xs);
+	border-radius: var(--bitsy-space-s);
+	display: inline-flex;
+	align-items: center;
+}
+
+/* textarea */
+textarea {
+	font-family: monospace;
+	font-size: 100%;
+}
+
+/* form */
+.bitsy-menu-group form {
+	display: flex;
+	flex-grow: 1;
+}
+
+/* input */
+input {
+	font-family: monospace;
+}
+
+input:checked + label {
+	background: var(--bitsy-color-main-2);
+	color: var(--bitsy-color-main-1);
+}
+
+/* text input */
+input[type=text] {
+	font-family: monospace;
+	min-width: 0;
+	flex-grow: 1;
+	border-radius: var(--bitsy-space-s);
+	padding: var(--bitsy-space-s);
+	margin: var(--bitsy-space-xs);
+	color: var(--bitsy-color-main-2);
+	background: var(--bitsy-color-accent-1);
+	border: solid var(--bitsy-space-xxs) var(--bitsy-color-accent-1);
+}
+
+input[type=text]:not([readonly]) {
+	color: black;
+	background: var(--bitsy-color-neutral-1);
+	border-color: var(--bitsy-color-neutral-1);
+}
+
+input[type=text]:hover:not([readonly]) {
+	text-decoration: underline;
+	border-color: var(--bitsy-color-neutral-2);
+}
+
+input[type=text]:focus:not([readonly]) {
+	background: var(--bitsy-color-main-1);
+	border-color: var(--bitsy-color-neutral-2);
+	text-decoration: none;
+}
+
+input[type=text].bitsy-input-style-with-badge {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	margin-left: 0;
+}
+
+/* radio */
+input[type=radio] {
+	display: none;
+}
+
+input[type=radio] + label {
+	flex-grow: 1;
+	align-content: center;
+	justify-content: center;
+}
+
+input[type=radio] + label.left {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+input[type=radio] + label.middle {
+	border-radius: 0;
+}
+
+input[type=radio] + label.right {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+input[type=radio] + label:hover {
+	text-decoration: underline;
+}
+
+/* checkbox */
+input[type=checkbox] {
+	display: none;
+}
+
+input[type=checkbox] + label {
+	align-content: center;
+	justify-content: center;
+}
+
+input[type=checkbox] + label:hover {
+	text-decoration: underline;
+}
+
+/* icons */
+.bitsy_icon svg {
+	width: 1em;
+	height: 1em;
+	fill: currentColor;
+}
+
+.icon_anim_frame0 {
+	display: none;
+}
+
+.bitsy_icon_anim.icon_anim0 .icon_anim_frame0 {
+	display: inherit;
+}
+
+.icon_anim_frame1 {
+	display: none;
+}
+
+.bitsy_icon_anim.icon_anim1 .icon_anim_frame1 {
+	display: inherit;
+}
+
+/* cards */
+.bitsy-card {
+	background: var(--bitsy-color-main-1);
+	margin: var(--bitsy-space-m);
+	margin-right: 0;
+	display: inline-flex;
+	flex-direction: column;
+	max-height: calc(100% - (3 * var(--bitsy-space-m)));
+	border-radius: var(--bitsy-space-s);
+	border-bottom: solid var(--bitsy-space-xs) var(--bitsy-color-main-2);
+}
+
+.bitsy-card-main {
+	flex-grow: 1;
+	margin: var(--bitsy-space-m);
+	max-height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	resize: both;
+	display: flex;
+	flex-direction: column;
+}
+
+.bitsy-card-xs .bitsy-card-main {
+	width: var(--bitsy-size-xs);
+}
+
+.bitsy-card-s .bitsy-card-main {
+	width: var(--bitsy-size-s);
+}
+
+.bitsy-card-m .bitsy-card-main {
+	width: var(--bitsy-size-m);
+}
+
+.bitsy-card-l .bitsy-card-main {
+	width: var(--bitsy-size-l);
+}
+
+.bitsy-card-titlebar {
+	display: flex;
+	padding: var(--bitsy-space-s);
+	background: var(--bitsy-color-accent-1);
+	border-radius: var(--bitsy-space-s) var(--bitsy-space-s) 0 0;
+	align-items: center;
+}
+
+.bitsy-card-title {
+	flex-grow: 1;
+	margin-left: var(--bitsy-space-m);
+	user-select: none;
+}
+
+.panelShadow { /* TODO : rename */
+	display: inline-block;
+	vertical-align: top;
+	border-radius: var(--bitsy-space-s);
+	margin: var(--bitsy-space-m);
+	margin-right: 0;
+	background: var(--bitsy-color-main-2);
+}
+
+/* card mobile */
+@media (max-aspect-ratio: 3/4) {
+	#editorWindow {
+		scroll-snap-type: x mandatory;
+	}
+
+	.bitsy-card {
+		scroll-snap-align: center;
+		width: calc(100vw - (4 * var(--bitsy-space-m)));
+		/*height: 100%;*/ /* FOR FULL HEIGHT CARDS */
+	}
+
+	.bitsy-card .bitsy-card-main {
+		width: calc(100% - (2 * var(--bitsy-space-m)));
+	}
+
+	.bitsy-card-main {
+		resize: none;
+	}
+}
+
+/* card animations */
+@keyframes flashAnim {
+	50% {
+		background: var(--bitsy-color-main-2);
+		color: var(--bitsy-color-main-1);
+	}
+}
+
+.flash {
+	animation-name: flashAnim;
+	animation-duration: 0.4s;
+}
+
+@keyframes closeAnim {
+	80% {
+		transform: translate(0px, -50px);
+		opacity: 0;
+	}
+}
+
+.close {
+	animation-name: closeAnim;
+	animation-duration: 0.5s;
+}
+
+@keyframes dropAnim {
+	0% {
+		transform: translate(0px,-30px) scale(1,1);
+	}
+	50% {
+		transform: translate(0px,0px) scale(1.03,0.97);
+	}
+	100% {
+		transform: scale(1,1);
+	}
+}
+
+.drop {
+	animation-name: dropAnim;
+	animation-duration: 0.3s;
+}
+
+/* nav control */
+.navControl {
+	display: flex;
+	margin-bottom: var(--bitsy-space-m);
+	align-items: stretch;
+}
+
+.navControl .spacer {
+	width: var(--bitsy-space-s);
+}
+
+/* menu */
+.bitsy-menu-group {
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: var(--bitsy-space-s);
+}
+
+.bitsy-menu-label .bitsy_icon {
+	margin-right: var(--bitsy-space-s);
+}
+
+.bitsy-label-style-badge {
+	background: var(--bitsy-color-neutral-1);
+	color: var(--bitsy-color-neutral-2);
+	margin-right: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.bitsy-menu-scrollview {
+	flex-grow: 1;
+	flex-basis: 100%;
+	border: solid var(--bitsy-space-xs);
+	border-color: var(--bitsy-color-accent-1);
+	padding: var(--bitsy-space-m);
+	overflow-y: auto;
+	border-radius: var(--bitsy-space-s);
+	height: var(--bitsy-size-m);
+}
+
+.bitsy-menu-scrollcontent {
+	white-space: normal;
+}
+
+/* thumbnail */
+.bitsy-thumbnail {
+	display: inline-flex;
+	margin: var(--bitsy-space-s);
+	flex-direction: column;
+	width: 5em;
+	image-rendering: crisp-edges;
+	image-rendering: pixelated;
+}
+
+.bitsy-thumbnail.bitsy-thumbnail-selected .bitsy-thumbnail-image-container {
+	border-color: var(--bitsy-color-main-2);
+}
+
+.bitsy-thumbnail.bitsy-thumbnail-selected .bitsy-menu-label {
+	color: var(--bitsy-color-main-1);
+	background: var(--bitsy-color-main-2);
+}
+
+.bitsy-thumbnail-image-container {
+	display: inline-flex;
+	align-self: center;
+	align-items: center;
+	border: solid var(--bitsy-space-xs) var(--bitsy-color-main-1);
+	border-radius: var(--bitsy-space-xs);
+	padding: var(--bitsy-space-s);
+}
+
+.bitsy-thumbnail-image-container .bitsy_icon svg {
+	width: 4em;
+	height: 4em;
+}
+
+.bitsy-thumbnail-image-container img {
+	width: 4em;
+	height: 4em;
+}
+
+.bitsy-thumbnail .bitsy-menu-label {
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+/* app root container */
+/* TODO : can this be removed? */
+#appRoot {
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+}
+
+/* main menu */
+/* TODO
+ - share more with other styles?
+ - turn IDs into classes?
+*/
+#bitsyLogo {
+	width: var(--bitsy-space-xl);
+}
+
+#topbar {
+	border-bottom: solid var(--bitsy-space-xs) var(--bitsy-color-main-2);
+}
+
+#topbar {
+	width: 100%;
+	background: var(--bitsy-color-main-1);
+	padding: var(--bitsy-space-m);
+	padding-left: var(--bitsy-space-l);
+	padding-right: var(--bitsy-space-l);
+	box-sizing: border-box;
+	flex: 0 1 auto;
+	align-items: center;
+}
+
+#topbarFlexContainer {
+	width: 100%;
+	display: flex;
+	flex-flow: row;
+	overflow: hidden;
+}
+
+#logoFlexItem {
+	flex: 1 0 auto;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+#titleFlexItem {
+	flex: 1 100%;
+	padding-left: var(--bitsy-space-m);
+	padding-right: var(--bitsy-space-m);
+}
+
+#toolsCheckFlexItem {
+	flex: 1 0 auto;
+}
+
+#bitsyLogoTitle {
+	font-size: 150%;
+}
+
+#toolsPanel { /* TODO : rename */
+	padding-top: var(--bitsy-space-m);
+	display: none;
+	flex-wrap: wrap;
+}
+
+#resetGameButton {
+	margin-left: var(--bitsy-space-l);
+}
+
+/* main menu mobile */
+@media (max-aspect-ratio: 3/4) {
+	#topbar {
+		flex-grow: 0;
+	}
+
+	#bitsyTitle {
+		display: none;
+	}
+
+	#toolsCheckLabelText {
+		display: none;
+	}
+
+	#toolsPanel {
+		flex-direction: column;
+	}
+
+	#resetGameButton {
+		margin-left: inherit;
+		margin-top: var(--bitsy-space-l);
+	}
+
+	.bitsy-toolbar-open #topbar {
+		margin-bottom: var(--bitsy-space-xl);
+		flex-grow: 1;
+	}
+
+	.bitsy-toolbar-open #editorWindow {
+		display: none;
+	}
+}
+
+/* workbench */
+/* TODO 
+  - rename stuff to be more consistent
+*/
+#editorWindow {
+	overscroll-behavior: none;
+	overflow-x: scroll;
+	display: flex;
+	flex-grow: 1;
+}
+
+#editorContent {
+	display: flex;
+	align-items: flex-start;
+	white-space: nowrap;
+	padding-right: var(--bitsy-space-m);
+}
+
+/* control box */
+/* TODO : I think I want to deprecate this sometime soon */
+.controlBox {
+	padding: var(--bitsy-space-s);
+	margin: var(--bitsy-space-xs);
+	border-radius: var(--bitsy-space-s);
+	display: flex;
+	align-items: center;
+	background: var(--bitsy-color-accent-1);
+}
+
+.controlBox button {
+	background: var(--bitsy-color-accent-2);
+}
+
+.controlBox .cancelButton {
+	background: var(--bitsy-color-main-2);
+	color: var(--bitsy-color-main-1);
+}
+
+.controlBox input + label {
+	background: var(--bitsy-color-accent-2);
+}
+
+.controlBox input:checked + label {
+	background: var(--bitsy-color-main-2);
+}
+
+/* language styles */
+.lang_ar {
+	direction: rtl;
+}
+
+/* flip the directional radio buttons for arabic */
+.lang_ar input[type=radio] + label.left {
+	border-radius: var(--bitsy-space-s);
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.lang_ar input[type=radio] + label.right {
+	border-radius: var(--bitsy-space-s);
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.dir_ltr .gameTextDir { /* TODO : is this working? */
+	direction: ltr;
+	unicode-bidi: bidi-override;
+}
+
+.dir_rtl .gameTextDir {
+	direction: rtl;
+	unicode-bidi: bidi-override;
+}
+
+/* TODO : this is supposed to maintain tool order, but it's not working */
+/*#editorWindow {
+	direction: ltr;
+}*/
+
+#game_data {
+	direction: ltr;
+}
+
+#dialogCodeText {
+	direction: ltr;
+}
+
+/* play mode */
+.bitsy-playmode .bitsy-playmode-hide {
+	display: none !important;
+}
+
+.bitsy-playmode .bitsy-playmode-disable {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+.bitsy-playmode-show {
+	display: none;
+}
+
+.bitsy-playmode .bitsy-playmode-show {
+	display: inherit;
+}
+
+.bitsy-playmode .bitsy-card-titlebar.bitsy-playmode-reverse-color {
+	background: var(--bitsy-color-main-2);
+	color: var(--bitsy-color-main-1);
+}
+
+.bitsy-playmode .bitsy-card-titlebar.bitsy-playmode-reverse-color button {
+	background: var(--bitsy-color-main-2);
+	color: var(--bitsy-color-main-1);
+}
+
+.bitsy-playmode .bitsy-card-titlebar.bitsy-playmode-reverse-color button:active {
+	background: var(--bitsy-color-main-1);
+	color: var(--bitsy-color-main-2);
+}
+
+/* all tools are disabled by default during play mode */
+.bitsy-playmode .bitsy-card:not(.bitsy-playmode-enable) .bitsy-card-main {
+	pointer-events: none;
+	opacity: 0.5;
+}
