@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Decentralized Paint</title>
+        <link rel="icon" href="./assets/icon.png">
+        <link rel="stylesheet" href="./style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div id="nav-wrapper">
+            <div id="metamask-connect" class="nav-option">
+                <img class="nav-icon" src="./assets/metamask.svg">
+                <span class="nav-title">Connect MetaMask Wallet</span>
+            </div>
+            <div id="github-connect" class="nav-option">
+                <img class="nav-icon" src="./assets/github.svg">
+                <span class="nav-title">View on GitHub</span>
+            </div>
+            <div id="get-eth" class="nav-option">
+                <img class="nav-icon" src="./assets/ethereum.svg">
+                <span class="nav-title">Get Test ETH</span>
+            </div>
+            <div id="refresh-painting" class="nav-option">
+                <img class="nav-icon" src="./assets/refresh.svg">
+                <span class="nav-title">Refresh Painting</span>
+            </div>
+            <div class="nav-option" id="color-div">
+                <input type="color" id="color-input">
+                <span id="color-label">Select a Color</span>
+            </div>
+            <span id="paint-hint"><i>Double click a pixel to paint it</i></span>
+        </div>
+        <div id="content-wrapper">
+            <div id="top-displays">
+                <div id="display-status">Status: </div>
+                <div id="display-cursor">0 x 0</div>
+            </div>
+            <div id="canvas-wrapper">
+                <div id="pixel-1"></div>
+            </div>
+            <div id="account-wrapper">
+                <div id="account-status-icon"></div>
+                <span id="account-status">Loading account...</span>
+                <span id="network-status">No Network</span>
+            </div>
+        </div>
+
+        <i><span id="contract-address">Contract: </span></i>
+        <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+        <script src="./script.js"></script>
+    </body>
+</html>

@@ -38,3 +38,49 @@
 	background-color: rgba(15, 25, 35, 0.45);
 }
 
+#OS {
+	position: absolute;
+	top: 100px;
+	left: 0;
+	width: 100%;
+	height: calc(100% - 100px);
+	background-color: rgba(15, 25, 35, 0.45);
+}
+
+#Apple {
+	position:absolute;
+	top: 30%;
+	left: 0;
+}
+
+#Windows {
+	position:absolute;
+	top: 35%;
+	left: 20%;
+}
+
+#Linux {
+	position:absolute;
+	top: 34%;
+	left: 37%;
+}
+
+#Chrome {
+	position:absolute;
+	top: 33%;
+	left: 55%;
+}
+
+#Web {
+	position:absolute;
+	top: 33%;
+	left: 75%;
+}
+
+.OSVG {
+	color: black;
+}
+
+.OSVG:hover {
+	color: blue;
+}

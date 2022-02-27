@@ -1,2 +1,0 @@
-drawInventory()
-if joy.qq or joy.bb: pop_mode("ⓟ or ⓑ")
