@@ -3,12 +3,19 @@
 	<head>
 		<title>Kodex</title>
 		<link rel="stylesheet" href="Kodex.css" />
+		<script src="Kodex.js"></script>
 	</head>
 	<body>
-		<div class="WelcomeContainer">
-			<center id="CryptoTitle">Welcome To Kodex</center>
-			<center id="CryptoMoto">Your crypto marketplace</center>
-			<iframe id="simpleswap-frame" name="SimpleSwap Widget" src="https://simpleswap.io/widget/eab40eec-f5b1-48cf-9957-70269d547ef3" frameborder="0"></iframe>
+		<canvas id="canvas"></canvas>
+		<center id="KodexTitle">Kodex_</center>
+		<center id="KodexSlogan">Your crypto marketplace</center>
+		<div id="KodexNav">
+			<center id="KodexHome" onclick="alert('Comming Soon')">Home</center>
+			<center id="KodexExchange" onclick="document.getElementById('KodexFrame').src = 'https://simpleswap.io/widget/eab40eec-f5b1-48cf-9957-70269d547ef3'">Exchange</center>
+			<center id="KodexNFA" onclick="alert('Comming Soon')">NFAs</center>
+			<center id="KodexAbout" onclick="document.getElementById('KodexFrame').src = 'CryptoInfo/CryptoInfo.html'">About</center>
 		</div>
+		<iframe id="KodexFrame" src="https://simpleswap.io/widget/eab40eec-f5b1-48cf-9957-70269d547ef3" frameborder="0"></iframe>
+		<script src="Kodex.js"></script>
 	</body>
 </html>

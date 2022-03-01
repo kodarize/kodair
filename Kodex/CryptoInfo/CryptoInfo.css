@@ -1,0 +1,343 @@
+#Title{
+	position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 500px;
+    height: 50px;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+    line-height: 50px;
+}
+#Author{
+	position: absolute;
+    top: 10px;
+    left: 520px;
+    width: calc(100% - 530px);
+    height: 50px;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+    line-height: 50px;
+}
+#Bitcoin{
+	position: absolute;
+    top: 70px;
+    left: 10px;
+    width: 500px;
+    height: 500px;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+    line-height: 50px;
+}
+#BitcoinTitle{
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 20px;
+    line-height: 40px;
+}
+#Miner{
+	position: absolute;
+    top: 10%;
+    left: 0;
+    width: 26%;
+    height: 24%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+}
+#Left1{
+    top: 12%;
+    left: 27%;
+}
+#Right1{
+    top: 23%;
+    left: 27%;
+}
+#Down1{
+	top: 34%;
+    left: 3%;
+}
+#Up1{
+	top: 34%;
+    left: 14%;
+}
+#MiningSoftware{
+	position: absolute;
+    top: 10%;
+    left: 37%;
+    width: 26%;
+    height: 24%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+}
+#Right2{
+    top: 23%;
+    left: 64%;
+}
+#Authenticates{
+	position: absolute;
+    top: 10%;
+    left: 74%;
+    width: 26%;
+    height: 24%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+}
+#LeftUp1{
+    top: 34%;
+    left: 64%;
+}
+#Down2{
+	top: 34%;
+    left: 77%;
+}
+#Up2{
+	top: 34%;
+    left: 88%;
+}
+#Wallet{
+	position: absolute;
+    top: 43%;
+    left: 0;
+    width: 26%;
+    height: 24%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+}
+#Right3{
+    top: 56%;
+    left: 27%;
+}
+#Down3{
+	top: 67%;
+    left: 3%;
+}
+#Up3{
+	top: 67%;
+    left: 14%;
+}
+#Linked1{
+	top: 45%;
+    left: 27%;
+}
+#Blockchain{
+	position: absolute;
+    top: 43%;
+    left: 37%;
+    width: 26%;
+    height: 24%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+}
+#Left2{
+    top: 45%;
+    left: 64%;
+}
+#Up4{
+	top: 67%;
+    left: 51%;
+}
+#Linked2{
+	top: 56%;
+    left: 64%;
+}
+#Linked3{
+	top: 67%;
+    left: 40%;
+}
+#Coin{
+	position: absolute;
+    top: 43%;
+    left: 74%;
+    width: 26%;
+    height: 24%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+}
+#User{
+	position: absolute;
+    top: 76%;
+    left: 0;
+    width: 26%;
+    height: 24%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+}
+#Left3{
+    top: 78%;
+    left: 27%;
+}
+#Right4{
+    top: 89%;
+    left: 27%;
+}
+#CryptoMarket{
+	position: absolute;
+    top: 76%;
+    left: 37%;
+    width: 26%;
+    height: 24%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+}
+#Linked4{
+	top: 78%;
+    left: 64%;
+}
+#NotEqual1{
+	top: 89%;
+    left: 64%;
+}
+#StockMarket{
+	position: absolute;
+    top: 76%;
+    left: 74%;
+    width: 26%;
+    height: 24%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+}
+#Sources{
+	position: absolute;
+    top: 580px;
+    left: 10px;
+    width: calc(100% - 20px);
+    height: calc(100% - 590px);
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 25px;
+    overflow: scroll;
+}
+#OpenSource{
+	position: absolute;
+    top: 70px;
+    left: 520px;
+    width: calc(100% - 530px);
+    height: 220px;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+    line-height: 50px;
+}
+#OpenSourceHeader{
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 20px;
+    line-height: 40px;
+}
+#Developer{
+	position: absolute;
+    top: 20%;
+    left: 0;
+    width: 26%;
+    height: 60%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+}
+#Right5{
+    top: 50%;
+    left: 27%;
+}
+#RightUp1{
+    top: 80%;
+    left: 2%;
+}
+#CodeEdit{
+	position: absolute;
+    top: 20%;
+    left: 37%;
+    width: 26%;
+    height: 60%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+}
+#Right6{
+    top: 50%;
+    left: 64%;
+}
+#Token{
+	position: absolute;
+    top: 20%;
+    left: 74%;
+    width: 26%;
+    height: 60%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+}
+#Down4{
+    top: 80%;
+    left: 90%;
+}
+#Examples{
+	position: absolute;
+    top: 300px;
+    left: 520px;
+    width: calc(100% - 530px);
+    height: 270px;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+    line-height: 50px;
+}
+#Tokens{
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #336644;
+    color: #ffffff;
+    border: none;
+    outline: none;
+}
+.arrow{
+	position: absolute;
+    width: 9%;
+    height: 9%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+    line-height: 50px;
+}
+.arrow2{
+    position: absolute;
+    width: 9%;
+    height: 20%;
+    background-color: #336644;
+    color: #ffffff;
+    font-size: 25px;
+    line-height: 50px;
+}
+.icon{
+	position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    background-color: #336644;
+    color: #ffffff;
+}

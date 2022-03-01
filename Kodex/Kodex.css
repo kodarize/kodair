@@ -1,40 +1,117 @@
-#CryptoTitle {
+canvas {
+	background: #232323;
 	position: absolute;
 	top: 0;
 	left: 0;
-	height: 75px;
 	width: 100%;
-	text-align: center;
-	font-size: 40px;
-	line-height: 100px;
-	color: rgba(25, 50, 50, 0.75);
-	overflow: hidden;
+	height: 100%;
 }
-#CryptoMoto {
+#KodexTitle {
 	position: absolute;
-	top: 75px;
+	top: 0;
 	left: 0;
-	height: 50px;
-	width: 100%;
-	text-align: center;
-	font-size: 25px;
-	line-height: 50px;
-	color: rgba(25, 50, 50, 0.75);
-	overflow: hidden;
+	width: 200px;
+	height: 100px;
+	font-size: 50px;
+	line-height: 75px;
+	color: #00FF00;
+	z-index: 2;
 }
-#simpleswap-frame {
-	position: absolute;
-	top: 150px;
-	left: 5%;
-	height: calc(100% - 175px);
-	width: 90%;
-	border-radius: 25px;
+#KodexTitle:hover {
+	outline: 1px dotted #00FF00;
+	cursor: crosshair;
 }
-#paxful {
+#KodexSlogan {
 	position: absolute;
-	top: 150px;
-	left: 70%;
-	height: calc(100% - 175px);
+	top: 65px;
+	left: 0;
+	width: 200px;
+	height: 35px;
+	font-size: 16px;
+	line-height: 25px;
+	color: #00FF00;
+	z-index: 2;
+}
+#KodexSlogan:hover {
+	outline: 1px dotted #00FF00;
+	cursor: crosshair;
+}
+#KodexNav {
+	position: absolute;
+	top: 0;
+	left: 200px;
+	width: calc(100% - 200px);
+	height: 100px;
+	z-index: 2;
+}
+#KodexNav:hover {
+	outline: 1px dotted #00FF00;
+	cursor: crosshair;
+}
+#KodexHome {
+	position: absolute;
+	top: 0;
+	left: 0;
 	width: 25%;
-	border-radius: 25px;
+	height: 100%;
+	font-size: 25px;
+	line-height: 100px;
+	color: #00FF00;
+	z-index: 2;
+}
+#KodexHome:hover {
+	outline: 1px dotted #00FF00;
+	cursor: crosshair;
+}
+#KodexExchange {
+	position: absolute;
+	top: 0;
+	left: 25%;
+	width: 25%;
+	height: 100%;
+	font-size: 25px;
+	line-height: 100px;
+	color: #00FF00;
+	z-index: 2;
+}
+#KodexExchange:hover {
+	outline: 1px dotted #00FF00;
+	cursor: crosshair;
+}
+#KodexNFA {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 25%;
+	height: 100%;
+	font-size: 25px;
+	line-height: 100px;
+	color: #00FF00;
+	z-index: 2;
+}
+#KodexNFA:hover {
+	outline: 1px dotted #00FF00;
+	cursor: crosshair;
+}
+#KodexAbout {
+	position: absolute;
+	top: 0;
+	left: 75%;
+	width: 25%;
+	height: 100%;
+	font-size: 25px;
+	line-height: 100px;
+	color: #00FF00;
+	z-index: 2;
+}
+#KodexAbout:hover {
+	outline: 1px dotted #00FF00;
+	cursor: crosshair;
+}
+#KodexFrame {
+	position: absolute;
+	top: 100px;
+	left: 0;
+	height: calc(100% - 100px);
+	width: 100%;
 }
