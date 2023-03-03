@@ -1,0 +1,57 @@
+<!----------------------------------------------------------------------------->
+<!-- BEEFAX -- MAIN PAGE                                                     -->
+<!----------------------------------------------------------------------------->
+<!-- (C) 2022 - Benjamin Sykes. All rights reserved.                         -->
+<!-- Please do not copy or rebrand my work.                                  -->
+<!----------------------------------------------------------------------------->
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+		<meta charset="utf-8">
+
+		<title>BeeFax</title>
+
+		<link rel="stylesheet" href="emulation/front/font.css">
+		<link rel="stylesheet" href="emulation/front/main.css">
+
+	</head>
+
+	<body tabindex="-1">
+
+		<canvas id="display-1" class="show"></canvas>
+		<canvas id="display-2"></canvas>
+
+		<audio autoplay="autoplay" id="bgm" src="hardware/bgm/connect.mp3"></audio>
+
+		<script src="software/etc/settings.js"></script>
+		<script src="software/etc/netcheck.js"></script>
+		<script src="software/etc/getjson.js"></script>
+		<script src="software/etc/textwrap.js"></script>
+		
+		<script src="emulation/front/autofocus.js"></script>
+		<script src="emulation/front/autohide.js"></script>
+
+		<script src="hardware/bgm/music.js"></script>
+		<script src="hardware/graphical/display.js"></script>
+		<script src="hardware/support/bufferinterface.js"></script>
+		<script src="hardware/graphical/decoder.js"></script>
+
+		<script src="software/external/main.js"></script>
+		<script src="software/external/headsup.js"></script>
+		<script src="software/external/news.js"></script>
+		<script src="software/external/quotes.js"></script>
+		<script src="software/external/setup.js"></script>
+
+		<script src="software/menu/objects.js"></script>
+		<script src="software/menu/data.js"></script>
+		<script src="software/menu/engine.js"></script>
+
+		<script src="emulation/back/main.js"></script>
+
+	</body>
+
+</html>

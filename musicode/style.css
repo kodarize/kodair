@@ -1,0 +1,232 @@
+html
+{
+	height: 100%;
+	min-height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+body
+{
+	height: 100%;
+	min-height: 100%;
+	margin: 0;
+	border: 1em solid white;
+	box-sizing: border-box;
+}
+
+#divCode
+{
+	width: 50%;
+	height: 100%;
+	float: left;
+}
+
+#divViewer
+{
+	width: 50%;
+	height: 100%;
+	float: right;
+	overflow-y: scroll;
+}
+
+#svgViewer
+{
+	width: 100%;
+}
+
+#tempPlaybackLabel
+{
+	margin-left: 10px;
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
+}
+
+.CodeMirror
+{
+	border: 1px solid gray;
+	height: 100%;
+}
+
+.codeEditorErrorText
+{
+	background: #ffa;
+	color: red;
+	padding: 2px 5px 3px;
+}
+
+.codeEditorErrorIcon
+{
+	color: white;
+	background-color: red;
+	font-weight: bold;
+	border-radius: 50%;
+	padding: 0 3px;
+	margin-right: 7px;
+}
+
+.viewerBlockBackground
+{
+	stroke: black;
+	stroke-width: 0px;
+	fill: #eee;
+}
+
+.viewerBlockFrame
+{
+	stroke: black;
+	stroke-width: 2px;
+	fill: rgba(0, 0, 0, 0);
+}
+
+.viewerBeat
+{
+	stroke: white;
+	stroke-width: 2px;
+}
+
+.viewerDegree0
+{
+	stroke-width: 0px;
+	fill: #f00;
+}
+
+.viewerDegree1
+{
+	stroke-width: 0px;
+	fill: #f40;
+}
+
+.viewerDegree2
+{
+	stroke-width: 0px;
+	fill: #f80;
+}
+
+.viewerDegree3
+{
+	stroke-width: 0px;
+	fill: #fa0;
+}
+
+.viewerDegree4
+{
+	stroke-width: 0px;
+	fill: #fd0;
+}
+
+.viewerDegree5
+{
+	stroke-width: 0px;
+	fill: #0d0;
+}
+
+.viewerDegree6
+{
+	stroke-width: 0px;
+	fill: #068;
+}
+
+.viewerDegree7
+{
+	stroke-width: 0px;
+	fill: #00f;
+}
+
+.viewerDegree8
+{
+	stroke-width: 0px;
+	fill: #40f;
+}
+
+.viewerDegree9
+{
+	stroke-width: 0px;
+	fill: #80f;
+}
+
+.viewerDegree10
+{
+	stroke-width: 0px;
+	fill: #a0f;
+}
+
+.viewerDegree11
+{
+	stroke-width: 0px;
+	fill: #f0f;
+}
+
+.viewerChordBackground
+{
+	stroke-width: 0px;
+	fill: white;
+}
+
+.viewerChordLabel
+{
+	fill: black;
+	font-family: Verdana, sans-serif;
+	font-size: 20px;
+	text-anchor: middle;
+	alignment-baseline: central;
+}
+
+.viewerChordLabelSuperscript
+{
+	fill: black;
+	font-family: Verdana, sans-serif;
+	font-size: 14px;
+	text-anchor: middle;
+	alignment-baseline: central;
+	baseline-shift: super;
+}
+
+.viewerMeterLine
+{
+	stroke: #0af;
+	stroke-width: 2px;
+}
+
+.viewerMeterLabel
+{
+	fill: #0af;
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
+	text-anchor: left;
+	alignment-baseline: middle;
+}
+
+.viewerKeyLine
+{
+	stroke: #f04;
+	stroke-width: 2px;
+}
+
+.viewerKeyLabel
+{
+	fill: #f04;
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
+	text-anchor: left;
+	alignment-baseline: middle;
+}
+
+.viewerCursor
+{
+	stroke: blue;
+	stroke-width: 2px;
+}
+
+.viewerCursorGhost
+{
+	stroke: rgba(0, 0, 255, 0.25);
+	stroke-width: 2px;
+}
+
+.viewerCursorPlayback
+{
+	stroke: red;
+	stroke-width: 2px;
+}

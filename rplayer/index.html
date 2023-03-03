@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HWN97K462C"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-HWN97K462C');
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>rPlayer - JavaScript library</title>
+  <meta name="description" content="rPlayer is a player play streaming radio, this player, offers the possibility to change different audio format. Example: .m3u8, .mp3, .aac." />
+  <meta name="theme-color" content="#000000" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="icon" href="favicon.png" />
+  <link rel="apple-touch-icon" href="icons-192.png" />
+  <meta property="og:url" content="https://rplayer.js.org/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="rPlayer in action" />
+  <meta property="og:description" content="rPlayer is a player play streaming radio, this player, offers the possibility to change different audio format. Example: .m3u8, .mp3, .aac." />
+  <meta property="og:image" content="https://rplayer.js.org/rplayer-in-action.jpg" />
+  <meta property="og:image:secure_url" content="https://rplayer.js.org/rplayer-in-action.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1080" />
+  <meta property="og:image:height" content="1080" />
+  <meta property="fb:app_id" content="401821003744476"/>
+  <meta name="google-site-verification" content="2OEEwDyyW4QtWtDaa9-nDbNgiRWI6g8L2LqLIMvMJK4" />
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" media="screen and (min-width: 1024px)" href="https://cdn.jsdelivr.net/npm/w3--css@1.0.0/w3.css" integrity="sha256-Fu+tXj10rCX9//ELpE4eawJbwzshqhWQTV6b2Attp3o=" crossorigin="anonymous" type="text/css" />
+  <style type="text/css">
+    .blog-container { display: none; }
+
+    * { box-sizing: border-box; }
+
+    :root {
+      --clr-white: #ffffff;
+      --clr-black: #000000;
+      --clr-flame: #f2552c;
+      --clr-blue: #00477e;
+      --clr-js-org: #ffe70b;
+      --clr-red: #a6001a;
+      --clr-green: #004d33;
+      --clr-neutral-gray: #898e8c;
+      --clr-marina: #4f84c4;
+      --clr-yellow: #ffab00;
+      --clr-tawny-port: #FF1493;
+      --clr-greenery: #92B558;
+    }
+
+    html, body, .app-container, #app, .info-container, #info { margin: 0; width: 100%; height: 100%; }
+    
+    #app { display: flex; flex-direction: column; font-family: 'Poppins', sans-serif; }
+    #app header { padding: 5px 10px; background-color: var(--clr-black); color: var(--clr-yellow); text-align: center; }
+    #app header h1 { margin: 0; font-size: 20px; line-height: 40px; font-weight: 600; }
+    #app section { flex: 1 1 100%; display: grid; grid-template-columns: repeat(2, 50%); padding: 5px 10px; }
+    #app section button { color: var(--clr-white); margin: 5px 0; border: 0; font-size: 30px; cursor: pointer; }
+    #app section button:nth-child(even) { margin-left: 5px; }
+    #app section button:nth-child(odd) { margin-right: 5px; }
+    #app section button:nth-of-type(1) { background-color: var(--clr-flame); color: var(--clr-black); } 
+    #app section button:focus:nth-of-type(1) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-flame); }
+    #app section button:nth-of-type(2) { background-color: var(--clr-blue); }
+    #app section button:focus:nth-of-type(2) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-blue); }
+    #app section button:nth-of-type(3) { background-color: var(--clr-js-org); color: var(--clr-black); }
+    #app section button:focus:nth-of-type(3) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-js-org); }
+    #app section button:nth-of-type(4) { background-color: var(--clr-marina); color: var(--clr-black); }
+    #app section button:focus:nth-of-type(4) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-marina); }
+    #app section button:nth-of-type(5) { background-color: var(--clr-yellow); color: var(--clr-black); }
+    #app section button:focus:nth-of-type(5) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-yellow); }
+    #app section button:nth-of-type(6) { background-color: var(--clr-neutral-gray); color: var(--clr-black); }
+    #app section button:focus:nth-of-type(6) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-neutral-gray); }
+    #app section button:nth-of-type(7) { background-color: var(--clr-green); }
+    #app section button:focus:nth-of-type(7) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-green); }
+    #app section button:nth-of-type(8) { background-color: var(--clr-red); }
+    #app section button:focus:nth-of-type(8) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-red); }
+    #app section button:nth-of-type(9) { background-color: var(--clr-tawny-port); color: var(--clr-black); }
+    #app section button:focus:nth-of-type(9) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-tawny-port); }
+    #app section button:nth-of-type(10) { background-color: var(--clr-greenery); color: var(--clr-black); }
+    #app section button:focus:nth-of-type(10) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-greenery); }
+    #app section button:nth-of-type(11) { background-color: var(--clr-greenery); color: var(--clr-black); }
+    #app section button:focus:nth-of-type(11) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-greenery); }
+    #app section button:nth-of-type(12) { background-color: var(--clr-greenery); color: var(--clr-black); }
+    #app section button:focus:nth-of-type(12) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-greenery); }
+    #app section button:nth-of-type(13) { background-color: var(--clr-greenery); color: var(--clr-black); }
+    #app section button:focus:nth-of-type(13) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-greenery); }
+    #app section button:nth-of-type(14) { background-color: var(--clr-greenery); color: var(--clr-black); }
+    #app section button:focus:nth-of-type(14) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-greenery); }
+    #app footer { padding: 5px 10px 10px; text-align: center; }
+    #app footer a { background-color: #8a2e83; color: var(--clr-white); display: inline-block; margin-left: 10px; padding: 10px; text-decoration: none;}
+    #app footer a:focus { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px #8a2e83; }
+
+    #info { background-color: var(--clr-black); color: var(--clr-white); padding: 20px; font-family: "Courier New", Courier, monospace; line-height: 1.5; }
+
+    @media screen and (orientation: portrait) and (max-width: 1024px) { .info-container { display: none; } }
+    @media screen and (orientation: landscape) { .app-container { display: none; } }
+
+    @media screen and (min-width: 1024px) {
+      .app-container { position: fixed; display: flex; justify-content: flex-end; align-items: center; width: 33%; height: 100%; }
+      .app-container #app { width: 250px; height: 500px; font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif; }
+      .app-container #app button { font-size: 20px; }
+      .app-container #app button:hover:nth-of-type(1) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-flame); }
+      .app-container #app button:hover:nth-of-type(2) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-blue); }
+      .app-container #app button:hover:nth-of-type(3) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-js-org); }
+      .app-container #app button:hover:nth-of-type(4) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-marina); }
+      .app-container #app button:hover:nth-of-type(5) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-yellow); }
+      .app-container #app button:hover:nth-of-type(6) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-neutral-gray); }
+      .app-container #app button:hover:nth-of-type(7) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-green); }
+      .app-container #app button:hover:nth-of-type(8) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-red); }
+      .app-container #app button:hover:nth-of-type(9) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-tawny-port); }
+      .app-container #app button:hover:nth-of-type(10) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-greenery); }
+      .app-container #app button:hover:nth-of-type(11) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-greenery); }
+      .app-container #app button:hover:nth-of-type(12) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-greenery); }
+      .app-container #app button:hover:nth-of-type(13) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-greenery); }
+      .app-container #app button:hover:nth-of-type(14) { outline: none; box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 5px var(--clr-greenery); }
+      .app-container #app header { background-color: var(--clr-white); color: var(--clr-black); }
+
+      .info-container { position: fixed; bottom: 0; left: 33%; height: 200px; z-index: 1; }
+      .info-container #info { margin-left: 30px; }
+
+      .blog-container { position: absolute; display: inline; width: 67%; margin-left: 33%; padding: 20px; padding-bottom: 200px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div id="app">
+      <header>
+        <h1>rPlayer in Action</h1>
+      </header>
+      <section>
+        <button @click="add">Add</button>
+        <button @click="rewind">Rewind</button>
+        <button @click="up">Up</button>
+        <button @click="down">Down</button>
+        <button @click="mute">Mute</button>
+        <button @click="pause">Pause</button>
+        <button @click="play">Play</button>
+        <button @click="stop">Stop</button>
+        <button @click="hls">HLS</button>
+        <button @click="mp3">MP3</button>
+        <button @click="radioMood">Mood</button>
+        <button @click="radioPop">Pop</button>
+        <button @click="radioRock">Rock</button>
+        <button @click="radioMeditation">Meditation</button>
+      </section>
+      <footer>
+        You listening <a @click="trackEvent('button', 'Listening')" href="https://www.thebeat925.ca/music/recently-played" target="_blank" rel="noreferrer noopener">The Beat 92.5</a>
+      </footer>
+    </div>
+  </div>
+  <div class="info-container">
+    <div id="info">
+        <div>Playing: {{ playing }}</div>
+        <div>Paused: {{ paused }}</div>
+        <div>Muted: {{ muted }}</div>
+        <div>Volume: {{ volume }}%</div>
+        <div>Source: {{ src }}</div>
+        <div>HLS: {{ isHls }}</div>
+        <div>Time: {{ time }}</div>
+      </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.prod.min.js" integrity="sha512-8GokEWxcB/NrPU4O8BHTgd9dkLouAsvqCnk6BSa2CZw7QXh0QM8GHfS53xYW1QJJVyJWctlcdRQwu5UxeLVsNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript" src="dist/rplayer.js"></script>
+  <script type="text/javascript">
+    const info = Vue.createApp({
+      data: () => ({
+        playing: false,
+        volume: null,
+        paused: false,
+        muted: false,
+        isHls: false,
+        src: null,
+        time: 0
+      })
+    }).mount('#info');
+
+    Vue.createApp({
+      data: () => ({
+        audio: null,
+        url: null,
+        urls: {
+          mp3: 'https://18213.live.streamtheworld.com/CKBEFMAAC.aac',
+          hls: 'https://ectvradio.earthcam.com/earthcamradio/pop/playlist.m3u8',
+          radioMood: 'https://ectvradio.earthcam.com/earthcamradio/mood/playlist.m3u8',
+          radioPop: 'https://ectvradio.earthcam.com/earthcamradio/pop/playlist.m3u8',
+          radioRock: 'https://ectvradio.earthcam.com/earthcamradio/rock/playlist.m3u8',
+          radioMeditation: 'https://ectvradio.earthcam.com/earthcamradio/meditation/playlist.m3u8'
+        }
+      }),
+      created: function () {
+        this.init();
+      },
+      methods: {
+        init: function () {
+          this.audio = new rPlayer();
+          this.url = this.urls.hls;
+
+          this.log();
+
+          const self = this;
+          this.audio.ontimeupdate = function() {
+            self.log();
+          };
+        },
+        add: function () {
+          let url;
+          url = prompt('Add your url');
+
+          if (Boolean(url)) {
+            this.url = url;
+            this.play();
+
+            this.trackEvent('button', 'Add');
+            this.trackEvent('url', url);
+          } else {
+            alert('Your url is not valid!');
+          }
+        },
+        rewind: function () {
+          this.audio.rewind(10);
+          this.log();
+
+          this.trackEvent('button', 'Rewind');
+        },
+        up: function () {
+          this.audio.upVolume();
+          this.log();
+          
+          this.trackEvent('button', 'Up');
+        },
+        down: function () {
+          this.audio.downVolume();
+          this.log();
+
+          this.trackEvent('button', 'Down');
+        },
+        mute: function () {
+          this.audio.mute();
+          this.log();
+
+          this.trackEvent('button', 'Mute');
+        },
+        pause: function () {
+          this.audio.pause();
+          this.log();
+
+          this.trackEvent('button', 'Pause');
+        },
+        play: function () {
+          this.audio.playSrc(this.url);
+          this.log();
+          
+          this.trackEvent('button', 'Play');
+        },
+        stop: function () {
+          this.audio.stop();
+          this.log();
+
+          this.trackEvent('button', 'Stop');
+        },
+        hls: function () {
+          this.url = this.urls.hls;
+          this.play();
+
+          this.trackEvent('button', 'Hls');
+        },
+        mp3: function () {
+          this.url = this.urls.mp3;
+          this.play();
+
+          this.trackEvent('button', 'Mp3');
+        },
+        radioMood: function () {
+          this.url = this.urls.radioMood;
+          this.play();
+          
+          this.trackEvent('button', 'Hls');
+        },
+        radioPop: function () {
+          this.url = this.urls.radioPop;
+          this.play();
+          
+          this.trackEvent('button', 'Hls');
+        },
+        radioRock: function () {
+          this.url = this.urls.radioRock;
+          this.play();
+          
+          this.trackEvent('button', 'Hls');
+        },
+        radioMeditation: function () {
+          this.url = this.urls.radioMeditation;
+          this.play();
+          
+          this.trackEvent('button', 'Hls');
+        },
+        trackEvent: function (category, label) {
+          gtag('event', 'click', {'event_category': category, 'event_label': label});
+        },
+        log: function () {
+          info.playing = this.audio.playing;
+          info.volume = this.audio.volume * 100;
+          info.paused = this.audio.paused;
+          info.muted = this.audio.muted;
+          info.src = this.audio.url;
+          info.isHls = this.audio.isHls;
+          info.time = this.audio.currentTime;
+        }
+      }
+    }).mount('#app');
+
+    // W3 code color
+    if (window.matchMedia("(min-width:1024px)").matches) {
+      const script = document.createElement('script');
+      script.setAttribute('type', 'text/javascript');
+      script.setAttribute('src', 'https://www.w3schools.com/lib/w3codecolor.js');
+      script.onload = function () {
+        w3CodeColor();
+      };
+
+      document.body.appendChild(script);
+    }
+  </script>
+</body>
+</html>

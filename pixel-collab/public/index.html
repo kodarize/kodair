@@ -1,0 +1,67 @@
+<html>
+<head>
+  <meta
+    charset="UTF-8"
+    name='viewport' 
+    content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'/>
+  <script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
+  <script language="javascript" src="libraries/p5.dom.js"></script>
+  <script language="javascript" src="libraries/jscolor.js"></script>
+  <script language="javascript" src="libraries/html5kellycolorpicker.js"></script>
+  <script language="javascript" type="text/javascript" src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
+  <script language="javascript" type="text/javascript" src="firebaseMain.js" defer></script>
+  <script language="javascript" type="text/javascript" src="main.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/all.min.css">
+  <title>Pixel Board</title>
+</head>
+
+<body>
+  
+  <div class="overlay" id="bottombar">
+    <canvas id="picker" width="150" height="150" style="width: 150px; height: 150px;"></canvas>
+    <div id="toolbar">
+      <button class="toolbtn btn tool toolselect" id="pen"><i class="fas fa-pen"></i></button>
+      <button class="toolbtn btn tool" id="eraser"><i class="fas fa-eraser"></i></button>
+      <button class="toolbtn btn tool" id="dropper"><i class="fas fa-eye-dropper"></i></button>
+    </div>
+  </div>
+
+  <div class="centerDiv" id="boardMenu">
+    <p>Subscribe to the Public Canvas:</p>
+    <button class="btn" id="publicBtn1" style="display:inline-block" >Public Canvas 1</button>
+    <button class="btn" id="publicBtn2" style="display:inline-block" >Public Canvas 2</button>
+    <button class="btn" id="publicBtn3" style="display:inline-block" >Public Canvas 3</button>
+    <button class="btn" id="publicBtn4" style="display:inline-block" >Public Canvas 4</button>
+    <p>Connect to canvas by ID:</p>
+    <input class="btn" type="text" id="idInput" placeholder="Canvas Id">
+  </div>
+
+  <div class="centerDiv" id="settingsMenu" style="display: none;">
+    <p>Mesh thickness:</p>
+    <p id="gridWidth">1</p>
+    <input type="range" min="0" max="2" value="1" class="slider" id="gridWidthRange" oninput="updateGridWidth(this.value)">
+    <p>Grid color:</p>
+    <div id="gridColors">
+      <button class="toolbtn btn gridColor" id="gridColorBlack" style="background: black;"></button>
+      <button class="toolbtn btn gridColor" id="gridColorWhite" ></button>
+    </div>
+    <button class="btn" style="display:inline-block;" id="savesettings">Save</button>
+
+  </div>
+
+  <div id="blackglass"></div>
+  
+  <div class="overlay" id="topbar">
+    <div style="display: flex; flex-direction: row; width: 100px; justify-content: space-evenly;">
+      <button id="settings" class="toolbtn btn" ><i class="fas fa-cog"></i></button>
+      <button id="savepixelart" class="toolbtn btn" ><i class="fas fa-download"></i></button>  
+    </div>
+    <button id="name" class="btn">---------</button>
+  </div>
+
+</body>
+
+</html>

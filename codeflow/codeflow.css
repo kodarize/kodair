@@ -1,0 +1,117 @@
+body {
+	color: #586e75;
+	background-color: #eee8d5;
+}
+textarea {
+	color: #eee8d5;
+	background-color: #586e75;
+}
+button {
+	color: #586e75;
+	margin:none;
+	cursor:pointer;
+	font-size: 70%;
+	font-family; arial,sans-serif;
+	background-color: #eee8d5;
+}
+#title {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 40%;
+	height: 10%;
+	line-height: 60px;
+	font-size: 25px;
+	border: none;
+}
+#sample_1_btn {
+	position: absolute;
+	top: 90%;
+	left: 0;
+	width: 5%;
+	height: 10%;
+	border: none;
+}
+#sample_2_btn {
+	position: absolute;
+	top: 90%;
+	left: 5%;
+	width: 5%;
+	height: 10%;
+	border: none;
+}
+#sample_3_btn {
+	position: absolute;
+	top: 90%;
+	left: 10%;
+	width: 5%;
+	height: 10%;
+	border: none;
+}
+#sample_4_btn {
+	position: absolute;
+	top: 90%;
+	left: 15%;
+	width: 5%;
+	height: 10%;
+	border: none;
+}
+#sample_5_btn {
+	position: absolute;
+	top: 90%;
+	left: 20%;
+	width: 5%;
+	height: 10%;
+	border: none;
+}
+#sample_6_btn {
+	position: absolute;
+	top: 90%;
+	left: 25%;
+	width: 5%;
+	height: 10%;
+	border: none;
+}
+#graphviz_data {
+	position: absolute;
+	top: 10%;
+	left: 0;
+	width: 40%;
+	height: 40%;
+	resize: none;
+	vertical-align:top;
+	margin: 0;
+	padding: 0;
+	border-left: none;
+	border-right: none;
+}
+#graphviz_code {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 40%;
+	height: 40%;
+	resize: none;
+	vertical-align:top;
+	margin: 0;
+	padding: 0;
+	border-left: none;
+	border-right: none;
+}
+#generate_btn {
+	position: absolute;
+	top: 90%;
+	left: 30%;
+	width: 10%;
+	height: 10%;
+	border: none;
+}
+#graphviz_svg_div {
+	position: absolute;
+	top: 0;
+	left: 40%;
+	width: 60%;
+	height: 100%;
+	overflow: scroll;
+	background-color: #073642;
+}

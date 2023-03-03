@@ -1,0 +1,32 @@
+/******************************************************************************/
+/* BEEFAX * MAIN STYLING                                                      */
+/******************************************************************************/
+/* (C) 2022 - Benjamin Sykes. All rights reserved.                            */
+/* Please do not copy or rebrand my work.                                     */
+/******************************************************************************/
+
+body {
+	font-family: 'Press Start 2P', sans-serif;
+	width: 100vw;
+	height: 100vh;
+	padding: 0;
+	margin: 0;
+	background: black;
+	overflow: hidden;
+}
+
+canvas#display-1, canvas#display-2 {
+	font-family: 'Press Start 2P', sans-serif;
+	border: none;
+	padding: 0;
+	margin: 0;
+	display: none;
+	/* The following is adapted from: https://www.html5gamedevs.com/topic/1342-nearest-neighbour-resizing-for-pixelart/ */
+	image-rendering: crisp-edges;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: -webkit-optimize-contrast;
+	image-rendering: -o-crisp-edges;
+	image-rendering: optimize-contrast;
+	-ms-interpolation-mode: nearest-neighbor;
+}
+canvas#display-1.show, canvas#display-2.show { display: initial !important; }
