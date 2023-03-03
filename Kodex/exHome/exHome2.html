@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<!-- TradingView Widget BEGIN -->
+		<div class="tradingview-widget-container">
+			<div id="tradingview_3dfa7" style="height: 100%;"></div>
+			<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+			<script type="text/javascript">
+				var body = document.body,
+				html = document.documentElement;
+				
+				var height = (Math.max( body.scrollHeight, body.offsetHeight, 
+					html.clientHeight, html.scrollHeight, html.offsetHeight ) - 20);
+				new TradingView.widget(
+					{
+						"width": "100%",
+						"height": height,
+						"symbol": "BITSTAMP:BTCUSD",
+						"interval": "D",
+						"timezone": "Etc/UTC",
+						"theme": "dark",
+						"style": "1",
+						"locale": "en",
+						"toolbar_bg": "#f1f3f6",
+						"enable_publishing": false,
+						"withdateranges": true,
+						"hide_side_toolbar": false,
+						"allow_symbol_change": true,
+						"details": true,
+						"hotlist": true,
+						"calendar": true,
+						"container_id": "tradingview_3dfa7"
+					}
+				);
+			</script>
+		</div>
+		<!-- TradingView Widget END -->
+	</body>
+</html>

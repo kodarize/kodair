@@ -9,32 +9,7 @@
 </head>
 
 <body>
-    <div id="TheBox1" style="position:absolute;top:2%;left:24%;width:74%;height:8%;border-style:solid;border-color:rgb(120,80,80);"><center>If your on a computer, try playing with capslock on!</center></div>
-    <div id="TheBox2" style="position:absolute;top:12%;left:24%;width:74%;height:15%;border-style:solid;border-color:rgb(20,80,120);">
-		<select id="waveform" style="position:absolute;top:0%;left:0%;width:100%;height:50%;">
-            <option value="sine">Waveform: Sine</option>
-            <option value="square">Waveform: Square</option>
-            <option value="sawtooth" selected="selected">Waveform: Sawtooth</option>
-            <option value="triangle">Waveform: Triangle</option>
-        </select>
-		<select id="filterType" style="position:absolute;top:50%;left:0%;width:100%;height:50%;">
-            <option value="lowpass" selected="selected">Filter Type: Lowpass</option>
-            <option value="highpass">Filter Type: Highpass</option>
-            <option value="bandpass">Filter Type: Bandpass</option>
-        </select>
-    </div>
-    <div id="TheBox3" style="position:absolute;top:2%;left:2%;width:20%;height:25%;border-style:solid;border-color:rgb(20,120,40);">
-		<div id="GainDiv" style="position:absolute;top:0;left:0%;width:50%;height:100%;background-color:rgb(150,150,150);">
-            <center style="position:absolute;top:0%;left:0;width:100%;height:15%;">Gain Vol.</center>
-            <input id="gain" type="range" orient="vertical" min="0.0" max="1.0" step="0.01" value="1.0" name="volume" style="position:absolute;top:25%;left:10%;width:80%;height:70%;">
-        </div>
-        
-        <div id="FilterDiv" style="position:absolute;top:0;left:50%;width:50%;height:100%;background-color:rgb(150,150,150);">
-            <center style="position:absolute;top:0%;left:0;width:100%;height:15%;">Filter Freq.</center>
-            <input id="filterFrequency" type="range" orient="vertical" min="20.0" max="10000.0" step="0.01" value="1000.0" name="filter" style="position:absolute;top:25%;left:10%;width:80%;height:70%;">
-        </div>
-    </div>
-    <div id="TheBox4" style="position:absolute;top:29%;left:2%;width:96%;height:68%;border-style:solid;border-color:rgb(120,140,80);overflow:hidden;background-repeat:no-repeat;background-size:contain;background-position:center;">
+    <div id="Piano" style="position:absolute;top:2%;left:2%;width:96%;height:96%;border:none;overflow:hidden;background-repeat:no-repeat;background-size:contain;background-position:center;">
         <button class="TopRowWhiteKey" value="20" id="Key" style="left:0;"></button>
         <button class="TopRowBlackKey" value="49" id="Key" style="left:5%;" onmousedown="OnButtonDown(this)" onmouseup="OnButtonUp(this)" ontouchstart="OnButtonDown(this)" ontouchend="OnButtonUp(this)">1</button>
         <button class="TopRowWhiteKey" value="81" id="Key" style="left:7%;" onmousedown="OnButtonDown(this)" onmouseup="OnButtonUp(this)" ontouchstart="OnButtonDown(this)" ontouchend="OnButtonUp(this)">q</button>
@@ -80,78 +55,106 @@
         <button class="BottomRowWhiteKey" value="16" id="Key27" style="left:77%;" onmousedown="OnButtonDown(this)" onmouseup="OnButtonUp(this)" ontouchstart="OnButtonDown(this)" ontouchend="OnButtonUp(this)"></button>
     </div>
     
+    <div id="Selectors" style="position:absolute;top:50%;left:82.5%;width:13.5%;height:15%;border:none;background-color:rgb(20,80,120);">
+        <select id="waveform" style="position:absolute;top:2%;left:2%;width:96%;height:46%;">
+            <option value="sine">Waveform: Sine</option>
+            <option value="square">Waveform: Square</option>
+            <option value="sawtooth" selected="selected">Waveform: Sawtooth</option>
+            <option value="triangle">Waveform: Triangle</option>
+        </select>
+        <select id="filterType" style="position:absolute;top:50%;left:2%;width:96%;height:46%;">
+            <option value="lowpass" selected="selected">Filter Type: Lowpass</option>
+            <option value="highpass">Filter Type: Highpass</option>
+            <option value="bandpass">Filter Type: Bandpass</option>
+        </select>
+    </div>
+    
+    <div id="Sliders" style="position:absolute;top:65%;left:82.5%;width:13.5%;height:33%;border:none;">
+        <div id="GainDiv" style="position:absolute;top:0;left:0%;width:50%;height:100%;background-color:rgb(20,120,40);">
+            <center style="position:absolute;top:0%;left:0;width:100%;height:15%;">Gain Vol.</center>
+            <input id="gain" type="range" orient="vertical" min="0.0" max="1.0" step="0.01" value="1.0" name="volume" style="position:absolute;top:25%;left:10%;width:80%;height:70%;">
+        </div>
+        
+        <div id="FilterDiv" style="position:absolute;top:0;left:50%;width:50%;height:100%;background-color:rgb(20,120,40);">
+            <center style="position:absolute;top:0%;left:0;width:100%;height:15%;">Filter Freq.</center>
+            <input id="filterFrequency" type="range" orient="vertical" min="20.0" max="10000.0" step="0.01" value="1000.0" name="filter" style="position:absolute;top:25%;left:10%;width:80%;height:70%;">
+        </div>
+    </div>
+    
     <!-- Create an audio element and hide it with css: display:none -->
-<audio id="audio49" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums1.wav"></audio>
-<audio id="audio50" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A1.wav"></audio>
-<audio id="audio51" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B1.wav"></audio>
-<audio id="audio52" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C1.wav"></audio>
-<audio id="audio53" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D1.wav"></audio>
-<audio id="audio54" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E1.wav"></audio>
-<audio id="audio55" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Tom1.wav"></audio>
-<audio id="audio56" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note1.wav"></audio>
+<audio class="soundbite" id="audio49" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums1.wav"></audio>
+<audio class="soundbite" id="audio50" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A1.wav"></audio>
+<audio class="soundbite" id="audio51" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B1.wav"></audio>
+<audio class="soundbite" id="audio52" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C1.wav"></audio>
+<audio class="soundbite" id="audio53" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D1.wav"></audio>
+<audio class="soundbite" id="audio54" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E1.wav"></audio>
+<audio class="soundbite" id="audio55" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Tom1.wav"></audio>
+<audio class="soundbite" id="audio56" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note1.wav"></audio>
 
-<audio id="audio81" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums2.wav"></audio>
-<audio id="audio87" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A2.wav"></audio>
-<audio id="audio69" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B2.wav"></audio>
-<audio id="audio82" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C2.wav"></audio>
-<audio id="audio84" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D2.wav"></audio>
-<audio id="audio89" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E2.wav"></audio>
-<audio id="audio85" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Tom2.wav"></audio>
-<audio id="audio73" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note2.wav"></audio>
+<audio class="soundbite" id="audio81" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums2.wav"></audio>
+<audio class="soundbite" id="audio87" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A2.wav"></audio>
+<audio class="soundbite" id="audio69" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B2.wav"></audio>
+<audio class="soundbite" id="audio82" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C2.wav"></audio>
+<audio class="soundbite" id="audio84" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D2.wav"></audio>
+<audio class="soundbite" id="audio89" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E2.wav"></audio>
+<audio class="soundbite" id="audio85" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Tom2.wav"></audio>
+<audio class="soundbite" id="audio73" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note2.wav"></audio>
 
-<audio id="audio65" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums3.wav"></audio>
-<audio id="audio83" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A3.wav"></audio>
-<audio id="audio68" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B3.wav"></audio>
-<audio id="audio70" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C3.wav"></audio>
-<audio id="audio71" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D3.wav"></audio>
-<audio id="audio72" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E3.wav"></audio>
-<audio id="audio74" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Rim.wav"></audio>
-<audio id="audio75" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note3.wav"></audio>
+<audio class="soundbite" id="audio65" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums3.wav"></audio>
+<audio class="soundbite" id="audio83" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A3.wav"></audio>
+<audio class="soundbite" id="audio68" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B3.wav"></audio>
+<audio class="soundbite" id="audio70" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C3.wav"></audio>
+<audio class="soundbite" id="audio71" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D3.wav"></audio>
+<audio class="soundbite" id="audio72" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E3.wav"></audio>
+<audio class="soundbite" id="audio74" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Rim.wav"></audio>
+<audio class="soundbite" id="audio75" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note3.wav"></audio>
 
-<audio id="audio90" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums4.wav"></audio>
-<audio id="audio88" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A4.wav"></audio>
-<audio id="audio67" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B4.wav"></audio>
-<audio id="audio86" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C4.wav"></audio>
-<audio id="audio66" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D4.wav"></audio>
-<audio id="audio78" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E4.wav"></audio>
-<audio id="audio77" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Crash.wav"></audio>
-<audio id="audio188" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note4.wav"></audio>
+<audio class="soundbite" id="audio90" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums4.wav"></audio>
+<audio class="soundbite" id="audio88" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A4.wav"></audio>
+<audio class="soundbite" id="audio67" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B4.wav"></audio>
+<audio class="soundbite" id="audio86" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C4.wav"></audio>
+<audio class="soundbite" id="audio66" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D4.wav"></audio>
+<audio class="soundbite" id="audio78" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E4.wav"></audio>
+<audio class="soundbite" id="audio77" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Crash.wav"></audio>
+<audio class="soundbite" id="audio188" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note4.wav"></audio>
 
-<audio id="audiox49" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums5.wav"></audio>
-<audio id="audiox50" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A5.wav"></audio>
-<audio id="audiox51" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B5.wav"></audio>
-<audio id="audiox52" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C5.wav"></audio>
-<audio id="audiox53" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D5.wav"></audio>
-<audio id="audiox54" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E5.wav"></audio>
-<audio id="audiox55" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Riser.wav"></audio>
-<audio id="audiox56" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note5.wav"></audio>
+<audio class="soundbitex" id="audiox49" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums5.wav"></audio>
+<audio class="soundbitex" id="audiox50" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A5.wav"></audio>
+<audio class="soundbitex" id="audiox51" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B5.wav"></audio>
+<audio class="soundbitex" id="audiox52" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C5.wav"></audio>
+<audio class="soundbitex" id="audiox53" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D5.wav"></audio>
+<audio class="soundbitex" id="audiox54" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E5.wav"></audio>
+<audio class="soundbitex" id="audiox55" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Riser.wav"></audio>
+<audio class="soundbitex" id="audiox56" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note5.wav"></audio>
 
-<audio id="audiox81" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums6.wav"></audio>
-<audio id="audiox87" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A6.wav"></audio>
-<audio id="audiox69" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B6.wav"></audio>
-<audio id="audiox82" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C6.wav"></audio>
-<audio id="audiox84" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D6.wav"></audio>
-<audio id="audiox89" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E6.wav"></audio>
-<audio id="audiox85" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Fill1.wav"></audio>
-<audio id="audiox73" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note6.wav"></audio>
+<audio class="soundbitex" id="audiox81" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums6.wav"></audio>
+<audio class="soundbitex" id="audiox87" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A6.wav"></audio>
+<audio class="soundbitex" id="audiox69" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B6.wav"></audio>
+<audio class="soundbitex" id="audiox82" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C6.wav"></audio>
+<audio class="soundbitex" id="audiox84" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D6.wav"></audio>
+<audio class="soundbitex" id="audiox89" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E6.wav"></audio>
+<audio class="soundbitex" id="audiox85" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Fill1.wav"></audio>
+<audio class="soundbitex" id="audiox73" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note6.wav"></audio>
 
-<audio id="audiox65" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums7.wav"></audio>
-<audio id="audiox83" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A7.wav"></audio>
-<audio id="audiox68" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B7.wav"></audio>
-<audio id="audiox70" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C7.wav"></audio>
-<audio id="audiox71" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D7.wav"></audio>
-<audio id="audiox72" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E7.wav"></audio>
-<audio id="audiox74" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Granular_Riser.wav"></audio>
-<audio id="audiox75" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note7.wav"></audio>
+<audio class="soundbitex" id="audiox65" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums7.wav"></audio>
+<audio class="soundbitex" id="audiox83" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A7.wav"></audio>
+<audio class="soundbitex" id="audiox68" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B7.wav"></audio>
+<audio class="soundbitex" id="audiox70" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C7.wav"></audio>
+<audio class="soundbitex" id="audiox71" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D7.wav"></audio>
+<audio class="soundbitex" id="audiox72" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E7.wav"></audio>
+<audio class="soundbitex" id="audiox74" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Granular_Riser.wav"></audio>
+<audio class="soundbitex" id="audiox75" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note7.wav"></audio>
 
-<audio id="audiox90" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums8.wav"></audio>
-<audio id="audiox88" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A8.wav"></audio>
-<audio id="audiox67" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B8.wav"></audio>
-<audio id="audiox86" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C8.wav"></audio>
-<audio id="audiox66" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D8.wav"></audio>
-<audio id="audiox78" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E8.wav"></audio>
-<audio id="audiox77" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/AmbiVox.wav"></audio>
-<audio id="audiox188" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note8.wav"></audio>
+<audio class="soundbitex" id="audiox90" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums8.wav"></audio>
+<audio class="soundbitex" id="audiox88" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/A8.wav"></audio>
+<audio class="soundbitex" id="audiox67" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/B8.wav"></audio>
+<audio class="soundbitex" id="audiox86" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/C8.wav"></audio>
+<audio class="soundbitex" id="audiox66" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/D8.wav"></audio>
+<audio class="soundbitex" id="audiox78" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/E8.wav"></audio>
+<audio class="soundbitex" id="audiox77" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/AmbiVox.wav"></audio>
+<audio class="soundbitex" id="audiox188" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Note8.wav"></audio>
+
+<script src="KodPiano.js"></script>
 </body>
 
 </html>

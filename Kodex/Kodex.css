@@ -112,6 +112,16 @@ canvas {
 	position: absolute;
 	top: 100px;
 	left: 0;
-	height: calc(100% - 100px);
+	height: calc(100% - 180px);
 	width: 100%;
+	border: none;
+}
+#exTicker {
+	position: absolute;
+	top: calc(100% - 80px);
+	left: 0;
+	height: 80px;
+	overflow: hidden;
+	width: 100%;
+	border: none;
 }

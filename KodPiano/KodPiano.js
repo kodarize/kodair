@@ -76,11 +76,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
   //CALLED ON KEYDOWN EVENT - CALLS PLAYNOTE IF KEY PRESSED IS ON MUSICAL
   //KEYBOARD && THAT KEY IS NOT CURRENTLY ACTIVE
   function keyDown(event) {
+    var bites = document.getElementsByClassName('soundbite');
+    var bitexs = document.getElementsByClassName('soundbitex');
     if (event.getModifierState("CapsLock")) {
       if (event.getModifierState("Shift")) {
 		  document.getElementById('audiox' + event.keyCode).play();
+        for(var i = 0, len = bites.length; i < len;i++){
+          bites[i].pause();
+          bites[i].currentTime = 0;
+        }
 	  } else {
 		  document.getElementById('audio' + event.keyCode).play();
+        for(var i = 0, len = bitexs.length; i < len;i++){
+          bitexs[i].pause();
+          bitexs[i].currentTime = 0;
+        }
 	  }
     } else {
       const key = (event.detail || event.which).toString();
@@ -94,13 +104,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
   //KEYBOARD && THAT KEY IS CURRENTLY ACTIVE
   function keyUp(event) {
     if (event.getModifierState("CapsLock")) {
-		if (event.getModifierState("Shift")) {
 		  document.getElementById('audiox' + event.keyCode).pause();
       document.getElementById('audiox' + event.keyCode).currentTime = 0;
-	  } else {
 		  document.getElementById('audio' + event.keyCode).pause();
       document.getElementById('audio' + event.keyCode).currentTime = 0;
-	  }
     } else {
       const key = (event.detail || event.which).toString();
       if (keyboardFrequencyMap[key] && activeOscillators[key]) {

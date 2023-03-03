@@ -4,18 +4,21 @@
 		<title>Kodex</title>
 		<link rel="stylesheet" href="Kodex.css" />
 		<script src="Kodex.js"></script>
+		<script defer src="https://www.livecoinwatch.com/static/lcw-widget.js"></script>
 	</head>
 	<body>
 		<canvas id="canvas"></canvas>
 		<center id="KodexTitle">Kodex_</center>
 		<center id="KodexSlogan">Your crypto marketplace</center>
 		<div id="KodexNav">
-			<center id="KodexHome" onclick="alert('Comming Soon')">Home</center>
-			<center id="KodexExchange" onclick="document.getElementById('KodexFrame').src = 'https://simpleswap.io/widget/eab40eec-f5b1-48cf-9957-70269d547ef3'">Exchange</center>
+			<center id="KodexHome" onclick="document.getElementById('KodexFrame').src = 'exHome/exHome2.html'">Home</center>
+			<center id="KodexExchange" onclick="document.getElementById('KodexFrame').src = 'exHome/exHome.html'">Convert</center>
 			<center id="KodexNFA" onclick="alert('Comming Soon')">NFAs</center>
 			<center id="KodexAbout" onclick="document.getElementById('KodexFrame').src = 'CryptoInfo/CryptoInfo.html'">About</center>
 		</div>
-		<iframe id="KodexFrame" src="https://simpleswap.io/widget/eab40eec-f5b1-48cf-9957-70269d547ef3" frameborder="0"></iframe>
+		<iframe id='KodexFrame' src='exHome/exHome2.html'></iframe>
+		 <div id="exTicker" class="livecoinwatch-widget-5" lcw-base="USD" lcw-color-tx="#00FF00" lcw-marquee-1="coins" lcw-marquee-2="movers" lcw-marquee-items="30" ></div>
+		<script defer type='text/javascript' src='https://changenow.io/embeds/exchange-widget/v2/stepper-connector.js'></script>
 		<script src="Kodex.js"></script>
 	</body>
 </html>
