@@ -14,6 +14,18 @@ $(function() {
             if ($(this).val().substring(0, 3) === 'cd ') {
                 $('#path').html($(this).val().substring(3) + '&nbsp;>&nbsp;');
             }
+            if ($(this).val().substring(0, 18) === 'what is a komanoid') {
+                $('#history').append('<br/>' + 'A Komanoid [koÊŠËˆhhjmÉ™ËŒnd] (from English man and -oid "resembling") is any creature or being with human-like form or characteristics that is part living and part technology/artificial' + '<br/>' + '<br/>');
+            }
+            if ($(this).val().substring(0, 17) === 'what is a kodagen') {
+                $('#history').append('<br/>' + 'A Kodagen is a type of Komanoid that is more than 50% technology/artificial' + '<br/>' + '<br/>');
+            }
+            if ($(this).val().substring(0, 17) === 'what is a kodogen') {
+                $('#history').append('<br/>' + 'A Kodogen is a type of Komanoid that is less than 50% technology/artificial' + '<br/>' + '<br/>');
+            }
+            if ($(this).val().substring(0, 17) === 'what is a kodigen') {
+                $('#history').append('<br/>' + 'A Kodigen is a type of Komanoid that frequently or easily changes between a Kodagen and a Kodogen, or has parts that are both technological/artificial and real at the same time (a superposition between real and technological/artificial)' + '<br/>' + '<br/>');
+            }
             if ($(this).val().substring(0, 5) === 'hello' || $(this).val().substring(0, 2) === 'hi') {
                 $('#history').append('hello user' + '<br/>');
             }

@@ -5,6 +5,25 @@
 		<link rel="stylesheet" href="KodCal.css" /> 
 	</head>
 	<body>
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g>
+				<circle r="126"/>
+				<g id="numbers"/>
+				<g id="ticks"/>
+				<g id="hands">
+					<g id="hour">
+						<line x1="-6" y1="0" x2="60" y2="0"/>
+					</g>
+					<g id="minute">
+						<line x1="-9" y1="0" x2="90" y2="0"/>
+					</g>
+					<g id="second">
+						<line x1="-12" y1="0" x2="120" y2="0"/>
+					</g>
+				</g>
+				<circle r="4"/>
+			</g>
+		</svg>
 		<div class="calendar">
 	<div class="header">
 		<a data-action="prev-month" href="javascript:void(0)" title="Previous Month"><i></i></a>
