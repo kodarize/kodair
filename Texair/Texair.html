@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Texair</title>
+		<link rel="stylesheet" href="Texair.css" />
+		<script src="jquery.min.js"></script>
+		<script>
+			function startup() {
+				document.getElementById('Notepad').innerHTML = localStorage.getItem("document");
+				document.getElementById('title').value = localStorage.getItem("title");
+				countWordsInDiv();
+			}
+		</script>
+	</head>
+	<body onload="startup();">
+		<div id="RibbonBar">
+			<div id="TexairIcon">
+				<svg id="TxtIcn" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-text-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" fill="#FFFFFF"></path> </svg>
+			</div>
+			<input id="title" type="text" placeholder="Title" onkeyup="save();">
+			<div id="file">
+			<input id="file-btn" type="button" value="File">
+			<div id="file-content">
+				<input id="save" type="button" value="Save">
+				<input id="restore" type="button" value="Restore">
+				<input id="download" type="button" value="Download">
+				<input id="import" type="button" value="Import">
+			</div>
+			</div>
+			<div id="edit">
+				<input id="edit-btn" type="button" value="Edit">
+				<div id="edit-content">
+					<input id="speak" type="button" value="Speak">
+				</div>
+			</div>
+			<div id="text">
+				<input id="text-btn" type="button" value="Text">
+				<div id="text-content">
+					<input id="font" type="button" value="Font">
+				</div>
+			</div>
+			<div id="view">
+				<input id="view-btn" type="button" value="View">
+				<div id="view-content">
+					<input id="read-mode" type="button" value="Read Mode">
+					<input id="edit-mode" type="button" value="Edit Mode">
+				</div>
+			</div>
+		</div>
+		<div id="Notepad" contenteditable="true" onkeyup="save(); countWordsInDiv();"></div>
+		<div id="NoteInfo">Wordcount: <span id="TotalWords"></span> - Charactercount: <span id="TotalChars"></span></div>
+		<script src="Texair.js"></script>
+	</body>
+</html>

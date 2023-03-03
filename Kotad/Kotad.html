@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Kotad</title>
+		<link rel="stylesheet" type="text/css" href="Kotad.css">
+	</head>
+	<body>
+		<svg id="wowy" version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g>
+				<circle r="126"/>
+				<g id="numbers"/>
+				<g id="ticks"/>
+				<g id="hands">
+					<g id="hour">
+						<line x1="-6" y1="0" x2="60" y2="0"/>
+					</g>
+					<g id="minute">
+						<line x1="-9" y1="0" x2="90" y2="0"/>
+					</g>
+					<g id="second">
+						<line x1="-12" y1="0" x2="120" y2="0"/>
+					</g>
+				</g>
+				<circle r="4"/>
+			</g>
+		</svg>
+		<div id="d">
+			<button class="left">
+				<svg height="100%" width="100%" viewbox="0 0 10 10">
+					<path d="m 7 1 L 1 5 L 7 9 Z" fill="rgba(255,255,255,0.8)" />
+				</svg></button>
+			<button class="right">
+				<svg height="100%" width="100%" viewbox="0 0 10 10">
+					<path d="m 3 1 L 9 5 L 3 9 Z" fill="rgba(255,255,255,0.8)" />
+				</svg>
+			</button>
+		</div>
+		<script src="Kotad.js"></script>
+	</body>
+</html>

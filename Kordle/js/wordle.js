@@ -1,3 +1,14 @@
+function keyboardPress() {
+    if (event.keyCode == 8){
+        backspacePress();
+    } else if (event.keyCode == 13){
+        enterPress();
+    } else {
+        var keyPressed = String.fromCharCode(event.keyCode).toUpperCase();
+        keyPress(keyPressed);
+    }
+}
+
 dictionary = [];
 
 keyboardKeys = [

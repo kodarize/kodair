@@ -3,10 +3,12 @@ function changeApp(AppValue) {
 }
 
 function changeSearch(SearchValue) {
-	if (SearchValue.indexOf("Game:") >= 0){
-		document.getElementById('SearchBoxResults').src = 'KodGames/KodGames.html';
-	} else if (SearchValue.indexOf("App:") >= 0){
-		document.getElementById('SearchBoxResults').src = 'KodApps/KodApps.html';
+	if (SearchValue.indexOf("AirStore") >= 0){
+		document.getElementById('SearchBoxResults').src = 'AirStore.html';
+	} else if (SearchValue.indexOf("App") >= 0){
+		document.getElementById('SearchBoxResults').src = 'AirStore.html';
+	} else if (SearchValue.indexOf("e621Browser") >= 0){
+		document.getElementById('SearchBoxResults').src = 'NSFW.html';
 	} else {
 		document.getElementById('SearchBoxResults').src = 'https://www.wolframalpha.com/widget/input/?input=' + SearchValue + '&id=1a23efcb39da8db7ca95ea8085d096a1';
 	}
@@ -65,7 +67,7 @@ function toggleSearch(PreSearch) {
 		x.style.display = 'none';
 	} else {
 		x.style.display = 'block';
-		y.placeholder = PreSearch;
+		y.placeholder = 'Search';
 	}
 }
 
@@ -105,14 +107,12 @@ function toggleSidePannel(SideAppValue) {
 	}
 }
 
-function toggleSearchPannel(PreAppSearch) {
-	var x = document.getElementById('SearchPannel');
-	var y = document.getElementById('AppBoxInput');
+function toggleInfoPannel() {
+	var x = document.getElementById('InfoPannel');
 	if (x.style.display === 'block') {
 		x.style.display = 'none';
 	} else {
 		x.style.display = 'block';
-		y.placeholder = PreAppSearch;
 	}
 }
 
@@ -122,9 +122,11 @@ function startTime() {
 	var minutes = today.getMinutes();
 	var seconds = today.getSeconds();
 	var ampm = hours >= 12 ? 'PM' : 'AM';
-	var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fr', 'Sat'];
+	var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+	var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 	var dayName = days[today.getDay()];
 	var month = today.getMonth() + 1;
+	var monthName = months[today.getMonth()];
 	var year = today.getFullYear().toString().slice(-2);
 	var day = today.getDate();
 	hours = hours % 12;
@@ -133,10 +135,41 @@ function startTime() {
 	seconds = seconds < 10 ? '0' + seconds : seconds;
 	month = month < 10 ? '0' + month : month;
 	day = day < 10 ? '0' + day : day;
-	var date = dayName + '<br>' + month + '<br>' + day + '/' + year;
-	var time = hours + ':' + minutes + '<br>' + ampm;
-	var dateTime = time + '\n' + date;
-	document.getElementById('Time').innerHTML = time;
-	document.getElementById('Date').innerHTML = date;
+	var date = dayName + ' ' + monthName + ' ' + day;
+	var time = hours + ':' + minutes + ' ' + ampm;
+	var dateTime = date + ' ' + time;
+	document.getElementById('DateTime').innerHTML = dateTime;
 	var t = setTimeout(startTime, 500);
+}
+
+function startWeather() {
+	fetch("https://ipapi.co/json/")
+	.then((response) => {
+		if (response.ok) {
+			return response.json();
+		} else {
+			throw new Error("NETWORK RESPONSE ERROR");
+		}
+	})
+	.then(data => {
+		console.log(data);
+		fetch("https://api.openweathermap.org/data/2.5/weather?zip=" + data.postal + "&id=524901&APPID=710a8a155ade8daf23d7240bf1ca4d6f&units=imperial")
+		.then((response) => {
+			if (response.ok) {
+				return response.json();
+			} else {
+				throw new Error("NETWORK RESPONSE ERROR");
+			}
+		})
+		.then(data => {
+			console.log(data);
+			document.getElementById("temp").innerHTML = data.main.temp + "F";
+		}).catch(function() {
+			document.getElementById("temp").innerHTML = "Weather";
+			console.error("FETCH ERROR:", error);
+		});
+	}).catch(function() {
+		console.error("FETCH ERROR:", error);
+	});
+	var t = setTimeout(startWeather, 3600000);
 }

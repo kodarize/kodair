@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Komidi</title>
+		<script src="Komidi.js"></script>
+		<link rel="stylesheet" type="text/css" href="Komidi.css">
+	</head>
+	<body>
+		<midi-player id="KomidiPlayer"
+			src="https://magenta.github.io/magenta-js/music/demos/melody.mid"
+			sound-font visualizer="#myVisualizer">
+		</midi-player>
+		<midi-visualizer type="piano-roll" id="myVisualizer"></midi-visualizer>
+		<p>
+			<label for="midiFile">Load MIDI file:</label>
+			<input type="file" id="midiFile" name="midiFile" accept="audio/midi, audio/x-midi" onchange="document.getElementById('KomidiPlayer').src = window.URL.createObjectURL(this.files[0])">
+		</p>
+		<select id="TypeSelect" onchange="document.getElementById('myVisualizer').type = this">
+			<option value="" disabled selected>Visualization Type</option>
+			<option value="staff">Sheet Music</option>
+			<option value="piano-roll">Piano Roll</option>
+			<option value="waterfall">Waterfall</option>
+		</select>
+	</body>
+</html>
