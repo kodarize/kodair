@@ -1,0 +1,48 @@
+#BuddyViewer {
+	position: absolute;
+	top: 5%;
+	left: 0;
+	width: 75%;
+	height: 95%;
+}
+#BuddySearch {
+	position: absolute;
+	top: 0;
+	left: 75%;
+	width: 25%;
+	height: 5%;
+	border: none;
+	text-align: center;
+	background-color: #012345;
+	color: #f9f8f7;
+}
+#BuddySelect {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 75%;
+	height: 5%;
+	border: none;
+	border-radius: 0;
+	background-color: #012345;
+	color: #f9f8f7;
+}
+#BuddyInfo {
+	position: absolute;
+	top: 5%;
+	left: 75%;
+	width: 25%;
+	height: 95%;
+	overflow-y: scroll;
+	background-color: #012345;
+	color: #f9f8f7;
+	padding-left: 15px;
+	padding-right: 15px;
+	box-sizing: border-box;
+	-ms-overflow-style: none;
+  	scrollbar-width: none;
+	text-align: center;
+}
+#BuddyInfo::-webkit-scrollbar {
+  display: none;
+}

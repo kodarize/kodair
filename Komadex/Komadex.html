@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="Komadex.css" />
+		<script src="markdown-it.min.js"></script>
+		<script src="jquery.min.js"></script>
+	</head>
+	<body>
+		
+		<select id="BuddySelect" onchange="ChangeInfo(this.value)">
+			<option value="Komadex" selected disabled>Choose Your Komanoid</option>
+			<optgroup label="Kodagen [?]">
+				<option value="Duck">Dabby (Duck Mode)</option>
+				<option value="Rabbit">Dabby (Rabbit Mode)</option>
+			</optgroup>
+			<optgroup label="Kodogen [?]">
+				<option value="Tanuki">Tellik</option>
+				<option value="Gecko">Viggy</option>
+				<option value="Cougar">Carrah</option>
+				<option value="Tiger">Sinbar</option>
+				<option value="Orca">Archy</option>
+			</optgroup>
+			<optgroup label="Kodigen [?]">
+			
+			</optgroup>
+		</select>
+		<input type="search" id="BuddySearch" placeholder="Search Komadex">
+		
+<!-- Import the component -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+<!-- Use it like any other HTML element -->
+<model-viewer id="BuddyViewer" src="" alt="A 3D model of an astronaut" bounds="tight" enable-pan ar ar-modes="webxr scene-viewer quick-look" camera-controls environment-image="neutral" poster="poster.webp" shadow-intensity="1" autoplay></model-viewer>
+
+<div id="BuddyInfo"></div>
+		<script src="Komadex.js"></script>
+	</body>
+</html>
