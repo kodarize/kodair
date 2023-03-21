@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>XaudYo</title>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="An online YX-Oscilloscope">
+	<meta name="keywords" content="audio,xy,vector-graphics,vectorscope,xy-oscilloscope ">
+	<style>
+body {
+	background-color: #222;
+	color: #EEE;
+	font-family: sans-serif;
+}
+
+#ui_div {
+	display:flex;
+	flex-direction: row;
+}
+
+@media (max-aspect-ratio: 5/4) {
+    #ui_div {
+		flex-direction: column !important;
+    }
+}
+
+#scope_div, #control_panel {
+	height: max-content;
+	max-height: 95vh;
+	margin: 5px;
+}
+#scope_div { width: 100%; }
+#control_panel { width: calc(min(max-content, 40vw)); }
+
+#XYscope {
+	display: block;
+	margin: auto;
+	border: 3px solid #888;
+	max-height: 95vh;
+}
+
+.control_mode { display: none; }
+
+button, input, select {
+	background-color: #333;
+	color: #FFF;
+	border: solid #AAA 2px;
+	margin: 2px;
+	border-radius: 5px;
+}
+
+.fullscreen_block {
+	display: flex;
+	justify-content:center;
+	align-items:center;
+	background: black;
+	
+	z-index: 99;
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.option_line {
+	width: 100%;
+	white-space: nowrap;
+}
+
+#start_button {
+	max-width: 90vw;
+	font-size: 3em;
+}
+</style>
+</head>
+<body>
+	<div id="ui_div">
+		<div id="scope_div">
+			<canvas id="XYscope" width=256 height = 256></canvas>
+		</div>
+
+		<div id="control_panel">
+			<h1>XaudYo</h1>
+			<hr>
+			<div class="fullscreen_block"> <button id="start_button" onclick="ac.resume(); this.parentElement.remove();">CLICK TO START</button> <noscript><br>JS Required</noscript></div>
+	
+			<span class="option_line">FPS: <span id="fps_counter">??</span></span>
+			<br>		
+			<span class="option_line"><label for="time_base">Sampling Time: </label><input type="range" min="8" value="13" max="15" step="1" onchange="time_base_text.innerText=aAnL.fftSize=aAnR.fftSize=Math.pow(2,this.value);" id="time_base" autocomplete="off"> <span id="time_base_text">8192</span></span>
+			<br>
+			<span class="option_line"><label for="audio_gain">Gain: </label><input type="range" min="0.1" value="1" max="4" step="0.1" onchange="audio_gain_text.innerText=aG.gain.value=this.value;" id="audio_gain" autocomplete="off"> <span id="audio_gain_text">1</span></span>
+			<br>
+			<span class="option_line"><label for="swap_channels">Swap Channels: </label> <input type="checkbox" id="swap_channels" onchange="swapLR(this.checked );" autocomplete="off"></span>
+			<br>
+			<span class="option_line"><label for="phosphor_decay">Phosphor-like Decay: </label> <input type="checkbox" id="phosphor_decay" onchange="phosphor_decay_speed.disabled = !(phosD = this.checked);" autocomplete="off"></span>
+			<br>
+			<span class="option_line"><label for="phosphor_decay_speed">Phosphor Decay Speed: </label><input type="range" min="0.01" value="0.1" max="0.25" step="0.01" onchange="phosphor_decay_speed_text.innerText=phosDS=this.value;" id="phosphor_decay_speed" autocomplete="off" disabled> <span id="phosphor_decay_speed_text">0.1</span></span>
+			<br>
+			<label for="draw_scale">Scale: </label><select onchange="selSource();" id="draw_scale" name="draw_scale" type="select" autocomplete="off">
+				<option value="none">None</option>
+				<option value="grid">Grid</option>
+				<option value="cross">Cross</option>
+			</select>
+			<br>
+			<br>
+			<span class="option_line"><label for="playback_vol">Playback Volume: </label><input type="range" min="0" value="1" max="2" step="0.1" onchange="playback_vol_text.innerText=aGO.gain.value=this.value;" id="playback_vol" autocomplete="off"> <span id="playback_vol_text">1</span></span>
+			<br>
+			<label for="input_mode">Mode: </label><select onchange="selSource();" id="input_mode" name="input_mode" type="select" autocomplete="off">
+				<option value="file">File</option>
+				<option value="mic">Mic</option>
+				<option value="osc">Oscillators</option>
+			</select>
+			<br>
+			
+			<div class="control_mode" id="file_control">
+				<input type="file" onchange="fileSel(this);" style="max-width: 20vw;" id="file_sel" autocomplete="off"><br>
+				<audio id="file_player" controls loop></audio><br>
+				<!--<span class="option_line"><label for="file_speed">Speed: </label><input type="range" min="0.01" value="1" max="2" step="0.1" id="file_speed" onchange="file_speed_text.innerText = (file_player.playbackRate=this.value) + 'x';"> <span id="file_speed_text">1x</span><button onclick="file_speed.value=1">R</button></span>-->
+			</div>
+			
+			<div class="control_mode" id="mic_control">
+			
+			</div>
+			
+			</input>
+			
+		</div>
+	</div>
+
+	<script>
+//canvas
+const cnv = document.getElementById('XYscope');
+const vc = cnv.getContext('2d');
+//vc.imageSmoothingEnabled = false;
+vc.lineWidth = 1;
+function resChange() {
+	let m256 = scope_div.clientWidth - (scope_div.clientWidth % 256); //integer scaling
+	cnv.width = m256;
+	cnv.height = m256;
+}
+resChange();
+window.addEventListener('resize', resChange);
+
+var phosD = false;
+var phosDS = 0.1; //phosphor decay speed
+
+
+//audio main
+const ac = new (window.AudioContext || window.webkitAudioContext)();
+const aG = ac.createGain();
+const aS = ac.createChannelSplitter(2); //split input and connect left and right analyzer
+const aGO = ac.createGain();
+aG.connect(aS);
+var aAnL = ac.createAnalyser();
+aAnL.fftSize=8192;
+aS.connect(aAnL,0);
+var aAnR = ac.createAnalyser();
+aAnR.fftSize=8192;
+aS.connect(aAnR,1);
+const aM = ac.createChannelMerger(2); //merge back into output
+aAnL.connect(aM,0,0);
+aAnR.connect(aM,0,1);
+aM.connect(aGO);
+aGO.connect(ac.destination);
+
+//audio sources
+//file
+const aFP = document.getElementById("file_player");
+const aPM = ac.createMediaElementSource(aFP);
+function fileSel(e) {
+	const fR = new FileReader();
+	fR.addEventListener('load', (event) => {
+		aFP.src = event.target.result;
+		//aFP.play();
+	});
+	fR.readAsDataURL(e.files[0]);
+}
+//mic
+var aMi;
+function getMic() {
+	try {aMi.disconnect();} catch {}
+	navigator.mediaDevices.getUserMedia({audio:{
+		echoCancellation: false,
+		autoGainControl: false,
+		noiseSuppression: false,
+		channelCount: 2
+	}})
+	.then((stream) => {
+			aMi = ac.createMediaStreamSource(stream);
+			aMi.connect(aG);
+	})
+	.catch((err) => {
+		alert(err);
+	});
+}
+
+//stuff
+function mapfloat(x, in_min, in_max, out_min, out_max) {//arduino style map()
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+function selSource() {
+	aPM.disconnect();
+	try {aMi.disconnect();} catch {}
+	file_control.style.display="none";
+	mic_control.style.display="none";
+	switch (input_mode.value) {
+		case "file":
+			file_control.style.display="inline-block";
+			aPM.connect(aG);
+			break;
+		case "mic":
+			mic_control.style.display="inline-block";
+			getMic();
+			break;
+	}
+}
+selSource();
+
+function swapLR(on) {
+	aS.disconnect();
+		
+	if (on) {
+		aS.connect(aAnL,1);
+		aS.connect(aAnR,0);
+	}
+	else {
+		aS.connect(aAnL,0);
+		aS.connect(aAnR,1);
+	}
+}
+
+var frC = 0; //frame counter
+function drawBuf() {
+	vc.fillStyle = phosD ? 'rgba(0,0,0,' + phosDS + ')' : 'black';
+	vc.fillRect(0,0,cnv.width,cnv.height);
+	
+	/*
+	 * TODO: Use sth like the buffer node to get full 16bit data instead of the shitty 8bit from the analyzers
+	 */
+	const bLen = Math.max(aAnL.frequencyBinCount, aAnR.frequencyBinCount);
+	let datL = new Uint8Array(bLen);
+	let datR = new Uint8Array(bLen);
+	aAnL.getByteTimeDomainData(datL);
+	aAnR.getByteTimeDomainData(datR);
+	
+	vc.lineWidth = 1;
+	vc.strokeStyle = '#0AF';
+	if (draw_scale.value === "cross" | draw_scale.value === "both") {
+		vc.moveTo(0, cnv.height/2); //hor line
+		vc.lineTo(cnv.width, cnv.height/2);
+		vc.moveTo(cnv.width/2, 0);  //vert line
+		vc.lineTo(cnv.width/2, cnv.height);
+		vc.moveTo(0, 0); //x
+		vc.lineTo(cnv.width, cnv.height);
+		vc.moveTo(cnv.width, 0); //x
+		vc.lineTo(0, cnv.height);
+		vc.stroke();
+	}
+
+	vc.strokeStyle = '#FA0';
+	if (draw_scale.value === "grid" | draw_scale.value === "both") {
+
+	}
+	
+	/*
+	 * TODO: better drawing routine:
+	 * Have persistant array of pixels.
+	 * Subtract 8 (or some other value) from each pixel every frame.
+	 * Add 192 to each Pixel that gets hit by "audio beam" in draw cycle
+	 * Wait for next frame.
+	 */
+	
+	vc.fillStyle = phosD ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.5)';
+	for (let i=0; i<bLen; i++){
+		vc.fillRect( //very horrible
+			mapfloat(datL[i],255,0,cnv.width,0) - (cnv.width/256/2), //stuff at the end just centers the pixels
+			mapfloat(datR[i],0,255,cnv.height,0) - (cnv.height/256/2),
+			cnv.width/256,
+			cnv.height/256
+		);
+	}
+	frC++;
+	requestAnimationFrame(drawBuf);
+}
+drawBuf();
+
+setInterval(function(){
+	fps_counter.innerText=frC;
+	frC=0;
+},1000);
+	</script>
+</body>

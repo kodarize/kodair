@@ -140,6 +140,15 @@ function restoreFeeds(evt) {
     }
 }
 
+//parse default feeds into allFeeds and save allFeeds back to localStorage
+function DefaultFeeds() {
+			allFeeds = JSON.parse('[{"name":"Raccoon Toons Videos","category":"Raccoon Toons","url":"http://www.raccoontoons.com/feed","id":1},{"name":"Raccoon Toons Comics","category":"Raccoon Toons","url":"http://www.raccoontoons.com/category/archive/comics/feed","id":2},{"name":"Raccoon Toons Comments","category":"Raccoon Toons","url":"http://www.raccoontoons.com/comments/feed","id":3},{"name":"The Oatmeal","category":"Web Comics","url":"http://feeds.feedburner.com/oatmealfeed","id":4},{"name":"Scurry","category":"Web Comics","url":"https://www.scurrycomic.com/scurry-comic?format=rss","id":5},{"name":"Housepets!","category":"Web Comics","url":"https://www.housepetscomic.com/feed/","id":6}]');
+			localStorage.setItem('allFeeds', JSON.stringify(allFeeds));
+			//build the feed buttons and reset the form
+			buildFeedButtons();
+			formElement.reset();
+}
+
 //backup code ends
 
 

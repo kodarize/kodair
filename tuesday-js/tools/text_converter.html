@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="shortcut icon" href="icon.jpg" type="image/x-icon">
+<title>Text to TuesdayJS</title>
+<style>
+*{
+	font-family:Arial;
+    font-size:12px;
+	border-collapse:collapse;
+	border:none;
+	margin:0;
+	padding:0;
+	border-spacing:0px;
+	outline:none;
+}
+textarea{
+    resize:none;
+    width:calc(100% - 2px);
+    height:calc(100vh - 84px);
+    background-color:#efefff;
+    border:1px solid #cec8e3;
+}
+.main{
+    width:25%;height:32px; border:1px solid #cec8e3;padding-left:8px;padding-right:8px;
+}
+button{border-radius:8px;background-color:#efefff;cursor:pointer;}
+button:hover{background-color:#cec8e3;}
+.input_text{
+	border:0;
+	font-family:Arial;
+	font-size:12px;
+	-webkit-appearance:none;
+	border-bottom:1px solid var(--cb);
+	background-color:transparent;
+	cursor:text;
+	height:28px;
+	width:128px;
+	-webkit-touch-callout:text;-webkit-user-select:text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;
+}
+.icon_save{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 256 256'%3e%3cpath fill='none' fill-opacity='0' stroke='%23000' stroke-width='12' stroke-linejoin='round' d='M238,51V228a10,10,0,0,1-10,10H27a10,10,0,0,1-10-10V27A10,10,0,0,1,27,17H203ZM39,238V127a10,10,0,0,1,10-10H205a10,10,0,0,1,10,10V238H39ZM174,95H79a10,10,0,0,1-10-10V17H184V85A10,10,0,0,1,174,95ZM168,42a10,10,0,0,0-10-10H144a10,10,0,0,0-10,10V71a10,10,0,0,0,10,10h14a10,10,0,0,0,10-10V42ZM63,162H192m0,49H63'/%3e%3c/svg%3e")}
+.icon_close{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 128 128'%3e%3cpath fill='none' fill-opacity='0' stroke='%23000' stroke-width='6' stroke-linejoin='round' d='M53,113H24L3,92V73L73,3l45,45ZM20,56l45,45M74,28L45,58M9,123H64M120,112h6M105,112h6M70,112H96'/%3e%3c/svg%3e")}
+.icon_del{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 256 256'%3e%3cpath fill='none' fill-opacity='0' stroke='%23000' stroke-width='12' stroke-linejoin='round' d='M194,62V230H63V62M47,45H210M108,23h39V45H108V23ZM128,62V213M92,62V213M164,62V213'/%3e%3c/svg%3e")}
+.icon_refrash{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 256 256'%3e%3cpath fill='none' fill-opacity='0' stroke='%23000' stroke-width='12' d='M251,94l-23,34-34-23M6,161l24-33,35,25M228,128m-15,52c-17.112,28.088-47.628,47-83,47-54.186,0-99.434-43.948-100-98M46,76c17.3-28.1,47.608-47,83-47a99.178,99.178,0,0,1,99,99'/%3e%3c/svg%3e")}
+.icon{background-size:22px 22px;background-repeat:no-repeat;background-position:center;height:32px;width:32px;}
+</style>
+</head>
+<body  onload='big_languares();new_story()'>
+<a id="downloadAnchorElem" style="display:none;position:fixed;"></a>
+<table style="width:100%;height:100vh;">
+	<tbody>
+		<tr>
+			<td colspan="4" style='height:48px;padding-left:8px;' align='left'>
+                <button type="button" onclick='new_story()' style='width:94px;height:32px;'>New Story</button>
+                <select class='input_text' id='language_view' style='height:32px;border-right:1px solid #cec8e3;border-bottom:1px solid #cec8e3;width:84px;' onchange='del_lan()'><option value='en'>EN</option></select>
+                <input id="title" type="text" style='height:31px;border-bottom:1px solid #cec8e3;width:164px;' onchange="story_script.parameters.title[story_script.parameters.languares[0]]=this.value;edit_2.value=JSON.stringify(story_script,null,'\t');">
+                <button type="button" onclick='apply_edit(0)' style='width:94px;height:32px;'>Add block =></button>
+                <select class='input_text' id='blocks' style='height:32px;border-bottom:1px solid #cec8e3;width:84px;' onchange='del_lan()'><option value='block_1'>block_1</option></select>
+                <button type="button" onclick='re_block()' class='icon icon_refrash' title='rewrite block' >&nbsp;</button>
+                <button type="button" onclick='del_block()' class='icon icon_del' title='delete block' >&nbsp;</button>
+                <button type="button" onclick='apply_edit(1)' style='width:94px;height:32px;'>Add scene +></button>
+            </td>
+		</tr>
+		<tr>
+			<td class='main' style='border-right:0px;'>Original text</td>
+			<td class='main' style='border-left:0px;' align='right'><div class='icon icon_close' style='cursor:pointer;' onclick='edit_1.value="";'></div></td>
+   			<td class='main' style='border-right:0px;'>Tuesday JSON</td>
+			<td class='main' style='border-left:0px;' align='right'><div class='icon icon_save' style='cursor:pointer;' onclick='save_json()'></div></td>
+		</tr>
+  		<tr>
+			<td colspan="2"><textarea id='edit_1' onchange='this.value+="\n"'></textarea></td>
+			<td colspan="2"><textarea id='edit_2' wrap='off'></textarea></td>
+		</tr>
+	</tbody>
+</table>
+<script>
+    let languares= {"English":"en","Japanese":"ja","French":"fr","Russian":"ru","Spanish":"es","Chinese":"zh","Korean":"ko","Dutch":"nl","Afar":"aa","Abkhazian":"ab","Afrikaans":"af","Akan":"ak","Albanian":"sq","Amharic":"am","Arabic":"ar","Aragonese":"an","Armenian":"hy","Assamese":"as","Avaric":"av","Avestan":"ae","Aymara":"ay","Azerbaijani":"az","Bambara":"bm","Bashkir":"ba","Basque":"eu","Belarusian":"be","Bengali (Bangla)":"bn","Bihari":"bh","Bislama":"bi","Bosnian":"bs","Breton":"br","Bulgarian":"bg","Burmese":"my","Catalan":"ca","Chamorro":"ch","Chechen":"ce","Chichewa,Chewa,Nyanja":"ny","Chinese (Simplified)":"zh-Hans","Chinese (Traditional)":"zh-Hant","Chuvash":"cv","Cornish":"kw","Corsican":"co","Cree":"cr","Croatian":"hr","Czech":"cs","Danish":"da","Divehi,Dhivehi,Maldivian":"dv","Dzongkha":"dz","Esperanto":"eo","Estonian":"et","Ewe":"ee","Faroese":"fo","Fijian":"fj","Finnish":"fi","Fula,Fulah,Pulaar,Pular":"ff","Galician":"gl","Gaelic (Scottish)":"gd","Gaelic (Manx)":"gv","Georgian":"ka","German":"de","Greek":"el","Greenlandic":"kl","Guarani":"gn","Gujarati":"gu","Haitian Creole":"ht","Hausa":"ha","Hebrew":"he","Herero":"hz","Hindi":"hi","Hiri Motu":"ho","Hungarian":"hu","Icelandic":"is","Ido":"io","Igbo":"ig","Indonesian":"id","Interlingua":"ia","Interlingue":"ie","Inuktitut":"iu","Inupiak":"ik","Irish":"ga","Italian":"it","Javanese":"jv","Kalaallisut,Greenlandic":"kl","Kannada":"kn","Kanuri":"kr","Kashmiri":"ks","Kazakh":"kk","Khmer":"km","Kikuyu":"ki","Kinyarwanda (Rwanda)":"rw","Kirundi":"rn","Kyrgyz":"ky","Komi":"kv","Kongo":"kg","Kurdish":"ku","Kwanyama":"kj","Lao":"lo","Latin":"la","Latvian (Lettish)":"lv","Limburgish ( Limburger)":"li","Lingala":"ln","Lithuanian":"lt","Luga-Katanga":"lu","Luganda,Ganda":"lg","Luxembourgish":"lb","Manx":"gv","Macedonian":"mk","Malagasy":"mg","Malay":"ms","Malayalam":"ml","Maltese":"mt","Maori":"mi","Marathi":"mr","Marshallese":"mh","Moldavian":"mo","Mongolian":"mn","Nauru":"na","Navajo":"nv","Ndonga":"ng","Northern Ndebele":"nd","Nepali":"ne","Norwegian":"no","Norwegian bokmål":"nb","Norwegian nynorsk":"nn","Nuosu":"ii","Occitan":"oc","Ojibwe":"oj","Old Church Slavonic,Old Bulgarian":"cu","Oriya":"or","Oromo (Afaan Oromo)":"om","Ossetian":"os","Pāli":"pi","Pashto,Pushto":"ps","Persian (Farsi)":"fa","Polish":"pl","Portuguese":"pt","Punjabi (Eastern)":"pa","Quechua":"qu","Romansh":"rm","Romanian":"ro","Sami":"se","Samoan":"sm","Sango":"sg","Sanskrit":"sa","Serbian":"sr","Serbo-Croatian":"sh","Sesotho":"st","Setswana":"tn","Shona":"sn","Sichuan Yi":"ii","Sindhi":"sd","Sinhalese":"si","Siswati":"ss","Slovak":"sk","Slovenian":"sl","Somali":"so","Southern Ndebele":"nr","Sundanese":"su","Swahili (Kiswahili)":"sw","Swati":"ss","Swedish":"sv","Tagalog":"tl","Tahitian":"ty","Tajik":"tg","Tamil":"ta","Tatar":"tt","Telugu":"te","Thai":"th","Tibetan":"bo","Tigrinya":"ti","Tonga":"to","Tsonga":"ts","Turkish":"tr","Turkmen":"tk","Twi":"tw","Uyghur":"ug","Urdu":"ur","Uzbek":"uz","Venda":"ve","Vietnamese":"vi","Volapük":"vo","Wallon":"wa","Welsh":"cy","Wolof":"wo","Western Frisian":"fy","Xhosa":"xh","Yiddish":"yi","Yoruba":"yo","Zhuang,Chuang":"za","Zulu":"zu"}
+    var base='{"parameters":{"text_panel":{"size":["95%","25%"],"color":"#efefff","indent_text":"8px","indent_bottom":"32px","size_text":"20px","style":"border-radius:16px;","dialog_speed":"10"},"name_panel":{"size":["0","48px"],"position":["0","0","-48px","0"],"size_text":"18px"},"title":{"en":"story name"},"launch_story":"block_1","key":{"next":"","back":"","save":"","load":"","full_screen":"","launch_story":"","load_autosave":""},"languares":["en"],"buttons":[{"name":"tue_back","style":"border-radius:26px;","position":["2.5%","0","0","32px"],"size":["38px","38px"],"color":"","size_text":"28px","text":"<"},{"name":"tue_next","style":"border-radius:26px;","position":["0","2.5%","0","32px"],"size":["38px","38px"],"color":"","size_text":"28px","text":">"}],"style_file":"","autosave":false,"font":"Arial","font_size":"18px","variables":{},"sounds":{}}}';
+    let story_script={};
+    var i,s,t,z=0,w;
+    function apply_edit(b){
+    if(edit_1.value.length>1){
+        pars_text();
+        if(b==0){
+            z++
+            if(story_script[s]){
+                var x=Object.keys(story_script[s]).length-1;
+                var y=Object.keys(story_script[s][x].dialogs).length-1;
+                story_script[s][x].dialogs[y].go_to='block_'+z;
+            }
+            s='block_'+z
+            story_script[s]=[{"dialogs":[]}];
+            for (i=0;i<w.length-1;i++){if(w[i].length>0){story_script[s][0].dialogs.push(text_cut(w[i]));}}
+            blocks.innerHTML=option_block(s);
+        } else if(b==1){
+            if(!story_script['block_'+z]&&z>0){story_script['block_'+z]=[];blocks.innerHTML=option_block(s);} else if(!story_script.block_1&&z==0){story_script.block_1=[];}
+            story_script[blocks.value].push({"dialogs":[]});
+            for (i=0;i<w.length-1;i++){if(w[i].length>0){story_script[blocks.value][story_script[blocks.value].length-1].dialogs.push(text_cut(w[i]));}}
+        }
+        edit_2.value=JSON.stringify(story_script,null,'\t');
+    }}
+    function text_cut(j){j.trim();return {'text':j};}
+    function pars_text(){
+        t=document.getElementById('edit_1').value.replace(/[.]\s/g,'.§').replace(/[!]\s/g,'!§').replace(/[?]\s/g,'?§').replace(/[,]\s/g,',§').replace(/[\n]/g,'§');
+        w=t.split('§');
+    }
+    function big_languares(){
+        var lang='<optgroup>';
+        for(i=0;i<Object.keys(languares).length;i++){lang+="<option value='"+languares[Object.keys(languares)[i]]+"' "+((languares[Object.keys(languares)[i]]==s)?"selected":"")+">"+languares[Object.keys(languares)[i]].toUpperCase()+" - "+Object.keys(languares)[i]+"</option>"+((i==7)?"</optgroup><optgroup>":"")}
+        lang+='</optgroup>';
+        language_view.innerHTML=lang
+    }
+    function save_json(){
+        var n=story_script.parameters.title[story_script.parameters.languares[0]],dataStr="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(story_script)),dlAnchorElem=document.getElementById('downloadAnchorElem');
+        dlAnchorElem.setAttribute("href",dataStr);
+        dlAnchorElem.setAttribute("download",n+'.json');
+        dlAnchorElem.click();
+    }
+    function new_story(){
+        story_script=JSON.parse(base);
+        edit_2.value='';
+        z=0;
+        blocks.innerHTML='<option value="block_1">block_1</option>';
+        title.value=story_script.parameters.title[story_script.parameters.languares[0]];
+    }
+    function del_lan(){
+        var l=story_script.parameters.languares[0],n=story_script.parameters.title[l];
+        story_script.parameters.languares[0]=language_view.value;
+        story_script.parameters.title[language_view.value]=n;
+        delete story_script.parameters.title[l];
+        edit_2.value = JSON.stringify(story_script,null,'\t');
+    }
+    function option_block(d){
+        var scene_list="";
+        for(i=0;i<Object.keys(story_script).length;i++){if(Object.keys(story_script)[i]!="parameters"){scene_list+="<option value='"+Object.keys(story_script)[i]+"' "+((d==Object.keys(story_script)[i])?"selected":"")+">"+Object.keys(story_script)[i]+"</option>"}}
+        return scene_list+'</optgroup>'
+    }
+    function del_block(){delete story_script[blocks.value];blocks.innerHTML=option_block(s);edit_2.value=JSON.stringify(story_script,null,'\t');}
+    function re_block(){
+        pars_text();
+        story_script[blocks.value]=[];
+        story_script[blocks.value].push({"dialogs":[]});
+        for (i=0;i<w.length-1;i++){if(w[i].length>0){story_script[blocks.value][0].dialogs.push(text_cut(w[i]));}};
+        edit_2.value=JSON.stringify(story_script,null,'\t');
+    }
+</script>
+</body>
+</html>

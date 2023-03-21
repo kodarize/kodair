@@ -9,6 +9,8 @@ function changeSearch(SearchValue) {
 		document.getElementById('SearchBoxResults').src = 'AirStore.html';
 	} else if (SearchValue.indexOf("e621Browser") >= 0){
 		document.getElementById('SearchBoxResults').src = 'NSFW.html';
+	} else if (SearchValue.indexOf("Search") >= 0){
+		document.getElementById('ContentView').src = 'https://mwmbl.org';
 	} else {
 		document.getElementById('SearchBoxResults').src = 'https://www.wolframalpha.com/widget/input/?input=' + SearchValue + '&id=1a23efcb39da8db7ca95ea8085d096a1';
 	}

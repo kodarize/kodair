@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link rel="shortcut icon" href="icon.jpg" type="image/x-icon">
+<title>TuesdayJS Structure</title>
+<link rel="shortcut icon" href="icon.jpg" type="image/x-icon">
+<meta content="#5f5196" name="theme-color" charset="UTF-8">
+<meta name="description" content="simple web-based free and open source visual novel editor, it can be used in web browser. The engine uses standard HTML elements DOM this allows the use any media format supported by browsers, including vector graphics svg, gif animations and css styles.">
+<meta name="keywords" content="Editor, Maker, Interactive Fiction, Visual Novel, Fairy Tale, Kinetic Novel, Open Source,">
+<meta name='viewport' content='width=device-width, initial-scale=1'/>
+<meta name="author" content="Kirill Live">
+<style>
+ * {
+    font-family: Arial;
+    font-size: 14px;
+    border-collapse: collapse;
+    border: none;
+    margin: 0;
+    padding: 0;
+    border-spacing: 0px;
+    outline: none;
+}
+a:{text-decoration: underline;}
+a:link {color: #000;}
+a:visited {color: #000;}
+a:hover {color: #000;}
+a:active {color: #000;}
+#bookmarks{
+    width:256px;
+    height:100vh;
+    position:fixed;
+    overflow-y: auto;
+    overflow-x: hidden;
+	background-color: #fff;
+}
+.border_t {
+    border-bottom: 1px solid #cec8e3;
+    border-left: 8px solid #cec8e3;
+}
+.shadow{box-shadow: 0px 2px 24px rgba(110,95,165,0.25);}
+.accordion {
+    width:100%;
+    outline: none;
+}
+.block:hover {
+    background-color: #cec8e3;
+}
+.panel {
+    display: none;
+}
+.element {
+	background-color: #cec8e3;
+	padding: 16px;
+	border-radius: 16px;
+}
+.block {
+    padding: 8px;
+    padding-bottom: 10px;
+}
+.block_open {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij4NCiAgPHBhdGggZmlsbD0ibm9uZSIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMTIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGQ9Ik0yNDYsNDBIMTAiLz4NCiAgPHBhdGggZmlsbD0ibm9uZSIgZmlsbC1vcGFjaXR5PSIwIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMTIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGQ9Ik0yNDYsMTMwSDEwIi8+DQogIDxwYXRoIGZpbGw9Im5vbmUiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEyIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNMjQ2LDIyMEgxMCIvPg0KPC9zdmc+");
+    background-position: right 6px top 9px;
+    background-size: 14px 14px;
+    background-repeat: no-repeat;
+}
+.three_1 {margin-left: 16px;}
+.three_2 {margin-left: 24px;}
+.three_3 {margin-left: 32px;}
+#search_bookmarks {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 48 48'%3e %3ccircle fill='none' stroke='%23ccc' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' cx='32' cy='17' r='14' /%3e %3cpath fill='none' stroke='%23ccc' stroke-width='4' stroke-linejoin='round' stroke-linecap='round' d='M 4,45 22,27'/%3e%3c/svg%3e");
+  background-position: 6px 6px;
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  width: calc(100% - 32px);
+  height: 32px;
+  padding-left: 32px;
+  border-bottom: 1px solid #cec8e3;
+  -webkit-appearance: none;
+}
+.code_box {
+	font-family: monospace;
+	color: #777;
+	padding: 10px;
+	margin-top: 10px;
+	background-color: #fff;
+	white-space: pre;
+	border-radius: 8px;
+}
+.text_name {
+	margin-top: 16px;
+	font-weight:bold ;
+}
+.comm {
+    color: #aae;
+}
+a.code_link {text-decoration: none; color: #777;}
+hr {border: solid 1px #cec8e3;}
+.title_name {font-size:30px;}
+.svg_text {
+  text-anchor: middle;
+  cursor:pointer;
+}
+</style>
+</head>
+<body onload="start_hash()">
+<table style="width:100vw; height:100vh;">
+<tbody>
+<tr>
+<td valign="top" align="left" style="width:256px; min-width:220px;">
+<div id="bookmarks" class="shadow">
+<input type="text" id="search_bookmarks" oninput="search_bookmarks()" placeholder="Element search" title="Type in a name">
+<a href="#description" style="text-decoration: none;"><div class="block">Description</div></a>
+<a href="#compatibility" style="text-decoration: none;"><div class="block">Compatibility</div></a>
+<a href="#structure" style="text-decoration: none;"><div class="block">Structure</div></a>
+<a href="#start_use" style="text-decoration: none;"><div class="block">Getting started</div></a>
+<div class="accordion "><a href="#parameters" style="text-decoration: none;"><div class="block block_open">Parameters</div></a></div>
+<div class="panel border_b border_t">
+	<a href="#autosave" style="text-decoration: none;"><div class="block"><span class="three_1">autosave</span></div></a>
+    <div class="accordion"><a href="#buttons" style="text-decoration: none;"><div class="block block_open"><span class="three_1">buttons</span></div></a></div>
+	    <div class="panel border_b border_t">
+		<a href="#art" style="text-decoration: none;"><div class="block"><span class="three_2">art</span></div></a>
+        <a href="#art_size" style="text-decoration: none;"><div class="block"><span class="three_2">art_size</span></div></a>
+		<a href="#className" style="text-decoration: none;"><div class="block"><span class="three_2">className</span></div></a>
+		<a href="#color" style="text-decoration: none;"><div class="block"><span class="three_2">color</span></div></a>
+		<a href="#indent_text" style="text-decoration: none;"><div class="block"><span class="three_2">indent_text</span></div></a>
+        <a href="#buttons_name" style="text-decoration: none;"><div class="block"><span class="three_2">name</span></div></a>
+        <a href="#position" style="text-decoration: none;"><div class="block"><span class="three_2">position</span></div></a>
+        <a href="#size" style="text-decoration: none;"><div class="block"><span class="three_2">size</span></div></a>
+        <a href="#style" style="text-decoration: none;"><div class="block"><span class="three_2">style</span></div></a>
+        <a href="#size_text" style="text-decoration: none;"><div class="block"><span class="three_2">size_text</span></div></a>
+    </div>
+	<a href="#characters" style="text-decoration: none;"><div class="block"><span class="three_1">characters</span></div></a>
+	<a href="#languages" style="text-decoration: none;"><div class="block"><span class="three_1">languages</span></div></a>
+	<a href="#launch_story" style="text-decoration: none;"><div class="block"><span class="three_1">launch_story</span></div></a>
+    <div class="accordion"><a href="#name_panel" style="text-decoration: none;"><div class="block block_open"><span class="three_1">name_panel</span></div></a></div>
+    <div class="panel border_b border_t">
+		<a href="#className" style="text-decoration: none;"><div class="block"><span class="three_2">className</span></div></a>
+		<a href="#indent_text" style="text-decoration: none;"><div class="block"><span class="three_2">indent_text</span></div></a>
+		<a href="#position" style="text-decoration: none;"><div class="block"><span class="three_2">position</span></div></a>
+        <a href="#size" style="text-decoration: none;"><div class="block"><span class="three_2">size</span></div></a>
+		<a href="#size_text" style="text-decoration: none;"><div class="block"><span class="three_2">size_text</span></div></a>
+        <a href="#style" style="text-decoration: none;"><div class="block"><span class="three_2">style</span></div></a>
+    </div>
+	<a href="#sounds" style="text-decoration: none;"><div class="block"><span class="three_1">sounds</span></div></a>
+    <div class="accordion "><a href="#text_panel" style="text-decoration: none;"><div class="block block_open"><span class="three_1">text_panel</span></div></a></div>
+    <div class="panel border_b border_t">
+		<a href="#color" style="text-decoration: none;"><div class="block"><span class="three_2">color</span></div></a>
+        <a href="#color_text" style="text-decoration: none;"><div class="block"><span class="three_2">color_text</span></div></a>
+		<a href="#className" style="text-decoration: none;"><div class="block"><span class="three_2">className</span></div></a>
+		<a href="#position" style="text-decoration: none;"><div class="block"><span class="three_2">position</span></div></a>
+        <a href="#dialog_speed" style="text-decoration: none;"><div class="block"><span class="three_2">dialog_speed</span></div></a>
+        <a href="#indent_bottom" style="text-decoration: none;"><div class="block"><span class="three_2">indent_bottom</span></div></a>
+        <a href="#indent_text" style="text-decoration: none;"><div class="block"><span class="three_2">indent_text</span></div></a>
+        <a href="#size" style="text-decoration: none;"><div class="block"><span class="three_2">size</span></div></a>
+		<a href="#size_text" style="text-decoration: none;"><div class="block"><span class="three_2">size_text</span></div></a>
+        <a href="#style" style="text-decoration: none;"><div class="block"><span class="three_2">style</span></div></a>
+    </div>
+	<a href="#title" style="text-decoration: none;"><div class="block"><span class="three_1">title</span></div></a>
+    <a href="#key" style="text-decoration: none;"><div class="block"><span class="three_1">key</span></div></a>
+    <a href="#variables" style="text-decoration: none;"><div class="block"><span class="three_1">variables</span></div></a>
+</div>
+<div class="accordion"><a href="#block" style="text-decoration: none;"><div class="block block_open">Story block</div></a></div>
+<div class="panel border_b border_t">
+    <a href="#background_music" style="text-decoration: none;"><div class="block"><span class="three_1">background_music</span></div></a>
+    <a href="#background_image" style="text-decoration: none;"><div class="block"><span class="three_1">background_image</span></div></a>
+    <a href="#html" style="text-decoration: none;"><div class="block"><span class="three_1">html</span></div>
+    </a><div class="accordion"><a href="#html" style="text-decoration: none;"></a><a href="#dialogs" style="text-decoration: none;"><div class="block block_open"><span class="three_1">dialogs</span></div></a></div>
+    <div class="panel border_b border_t">
+        <a href="#back_to" style="text-decoration: none;"><div class="block"><span class="three_2">back_to</span></div>
+        </a><a href="#color" style="text-decoration: none;"><div class="block"><span class="three_2">color</span></div>
+        </a><a href="#color_text" style="text-decoration: none;"><div class="block"><span class="three_2">color_text</span></div>
+		</a><a href="#sound" style="text-decoration: none;"><div class="block"><span class="three_2">sound</span></div>
+		</a><a href="#sound_stop" style="text-decoration: none;"><div class="block"><span class="three_2">sound_stop</span></div>
+        </a><a href="#e_text" style="text-decoration: none;"><div class="block"><span class="three_2">text</span></div>
+		</a><a href="#text_add" style="text-decoration: none;"><div class="block"><span class="three_2">text_add</span></div>
+        </a><a href="#e_name" style="text-decoration: none;"><div class="block"><span class="three_2">name</span></div>
+        </a><a href="#html" style="text-decoration: none;"><div class="block"><span class="three_2">html</span></div>
+        </a><a href="#go_to" style="text-decoration: none;"><div class="block"><span class="three_2">go_to</span></div>
+        </a><a href="#back_to" style="text-decoration: none;"><div class="block"><span class="three_2">back_to</span></div>
+        </a><a href="#e_variable" style="text-decoration: none;"><div class="block"><span class="three_2">variables</span></div>
+		</a><a href="#controll" style="text-decoration: none;"><div class="block"><span class="three_2">controll</span></div>
+        </a><a href="#event" style="text-decoration: none;"><div class="block"><span class="three_2">event</span></div>
+        </a><div class="accordion"><a href="#event" style="text-decoration: none;"></a><a href="#e_art" style="text-decoration: none;"><div class="block block_open"><span class="three_2">art</span></div></a></div>
+        <div class="panel border_b border_t">
+            <a href="#style" style="text-decoration: none;"><div class="block"><span class="three_3"><span class="three_2"></span>style</span></div></a>
+            <a href="#url" style="text-decoration: none;"><div class="block"><span class="three_3"><span class="three_2"></span>url</span></div></a>
+            <a href="#position" style="text-decoration: none;"><div class="block"><span class="three_3"><span class="three_2"></span>position</span></div></a>
+            <a href="#size" style="text-decoration: none;"><div class="block"><span class="three_3"><span class="three_2"></span>size</span></div></a>
+			<a href="#className" style="text-decoration: none;"><div class="block"><span class="three_3"></span><span class="three_2"></span>className</div></a>
+        </div>
+        <div class="accordion"><a href="#choice" style="text-decoration: none;"><div class="block block_open"><span class="three_2">choice</span></div></a></div>
+        <div class="panel border_b border_t">
+            <a href="#go_to" style="text-decoration: none;"><div class="block"><span class="three_3"></span>go_to</div></a>
+            <a href="#position" style="text-decoration: none;"><div class="block"><span class="three_3"></span>position</div></a>
+            <a href="#size" style="text-decoration: none;"><div class="block"><span class="three_3"></span>size</div></a>
+            <a href="#className" style="text-decoration: none;"><div class="block"><span class="three_3"></span>className</div></a>
+			<a href="#e_variable" style="text-decoration: none;"><div class="block"><span class="three_3"></span>variables</div></a>
+			<a href="#sound" style="text-decoration: none;"><div class="block"><span class="three_2">sound</span></div>
+			</a><a href="#sound_stop" style="text-decoration: none;"><div class="block"><span class="three_2">sound_stop</span></div>
+            </a><a href="#text" style="text-decoration: none;"><div class="block"><span class="three_3"></span>text</div></a>
+            <a href="#color" style="text-decoration: none;"><div class="block"><span class="three_3"></span>color</div></a>
+            <a href="#art_size" style="text-decoration: none;"><div class="block"><span class="three_3"></span>art_size</div></a>
+            <a href="#art" style="text-decoration: none;"><div class="block"><span class="three_3"></span>art</div></a>
+            <a href="#color_text" style="text-decoration: none;"><div class="block"><span class="three_3"></span>color_text</div></a>
+        </div>
+    </div>
+</div>
+<div class="accordion"><a href="#legacy_choice" style="text-decoration: none;"><div class="block block_open">legacy_choice</div></a></div>
+<div class="panel border_b border_t">
+	<a href="#go_to" style="text-decoration: none;"><div class="block"><span class="three_1">go_to</span></div></a>
+</div>
+<div class="accordion "><a href="#system_Buttons" style="text-decoration: none;"><div class="block block_open">System Buttons</div></a></div>
+<div class="panel border_b border_t">
+	<a href="#tue_load" style="text-decoration: none;"><div class="block"><span class="three_1">tue_load</span></div></a>
+	<a href="#tue_save" style="text-decoration: none;"><div class="block"><span class="three_1">tue_save</span></div></a>
+	<a href="#tue_home" style="text-decoration: none;"><div class="block"><span class="three_1">tue_home</span></div></a>
+	<a href="#tue_next" style="text-decoration: none;"><div class="block"><span class="three_1">tue_next</span></div></a>
+	<a href="#tue_back" style="text-decoration: none;"><div class="block"><span class="three_1">tue_back</span></div></a>
+	<a href="#tue_load_autosave" style="text-decoration: none;"><div class="block"><span class="three_1">tue_load_autosave</span></div></a>
+</div>
+<div class="accordion "><a href="#function" style="text-decoration: none;"><div class="block block_open">Function</div></a></div>
+<div class="panel border_b border_t">
+    <a href="#load_story" style="text-decoration: none;"><div class="block"><span class="three_1">load_story(tip, url)</span></div></a>
+	<a href="#go_story" style="text-decoration: none;"><div class="block"><span class="three_1">go_story()</span></div></a>
+	<a href="#back_story" style="text-decoration: none;"><div class="block"><span class="three_1">back_story()</span></div></a>
+	<a href="#save_stag" style="text-decoration: none;"><div class="block"><span class="three_1">save_stag(tip)</span></div></a>
+	<a href="#load_stag" style="text-decoration: none;"><div class="block"><span class="three_1">load_stag(tip)</span></div></a>
+	<a href="#go_to2" style="text-decoration: none;"><div class="block"><span class="three_1">go_to(go)</span></div></a>
+</div>
+<div class="accordion "><a href="#events" style="text-decoration: none;"><div class="block block_open">Events</div></a></div>
+<div class="panel border_b border_t">
+	<a href="#dialog_end" style="text-decoration: none;"><div class="block"><span class="three_1">dialog_end</span></div></a>
+    <a href="#event_save" style="text-decoration: none;"><div class="block"><span class="three_1">save</span></div></a>
+	<a href="#event_load" style="text-decoration: none;"><div class="block"><span class="three_1">load</span></div></a>
+	<a href="#event_script_loaded" style="text-decoration: none;"><div class="block"><span class="three_1">script_loaded </span></div></a>
+	<a href="#event_add" style="text-decoration: none;"><div class="block"><span class="three_1">_add</span></div></a>
+	<a href="#event_set" style="text-decoration: none;"><div class="block"><span class="three_1">_set</span></div></a>
+</div>
+<div class="accordion "><a href="#plugins" style="text-decoration: none;"><div class="block block_open">Plugins</div></a></div>
+<div class="panel border_b border_t">
+    <a href="#touch_swipe" style="text-decoration: none;"><div class="block"><span class="three_1">Touch Swipe</span></div></a>
+	<a href="#toast" style="text-decoration: none;"><div class="block"><span class="three_1">Toast</span></div></a>
+</div>
+</div></td>
+<td valign="top" style="background-color:#efefff;">
+<div id="textbook" align="center">
+<div style="max-width:800px;margin-bottom:128px;" align="left">
+<a id="description"></a>
+<div align="center" style="margin-top:32px; margin-bottom:32px;">
+	<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+	  <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="8px" d="M17,10.015H64c26.346,0,48,21.763,48,48.18s-21.654,48.18-48,48.18V102.36"></path>
+	  <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="8px" d="M42,108V10m22,0v98"></path>
+	  <circle fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="8px" cx="53" cy="108" r="11"></circle>
+	</svg>
+	<p style="font-size: 64px;">TuesdayJS</p><p style="font-size:36px;">visual novel engine</p>
+</div>
+<p><span class="three_2"></span><b>Tuesday</b> is a free open source engine to create visual novels, interactive stories and text-based adventure games. Written in JavaScript language without using third-party libraries. There is support for the Apache Cordova framework to create native applications for mobile devices and desktops. The engine uses standard HTML document elements like div and img, which makes it possible to use almost any media format supported by browser, including vector graphics in svg format, gif animation and extensive css styling capabilities. This structure allows you to easily extend the functionality with standard html methods.</p>
+<br>
+<p>This documentation describes the structure of a JSON file and the capabilities of RunTime tuesday.js <b>without using a visual editor.</b></p>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<a id="compatibility"></a>
+<p><span class="text_name">Compatibility</span></p>
+<br>
+<p>Currently, there are compatibility issues with "Internet Explorer" and partially in "Microsoft Edge"</p>
+<br>
+<p>When running locally, there may be a problem with browser protection <a href="#cross_domain_error" target="_blank"><b>cross domain web security</b> the solution to this problem is described below. </a></p>
+<br>
+<p>Any current version of FrameWorks will work for porting to a mobile device:<br>
+	<a href="https://ionicframework.com/" target="_blank"><span class="three_2"></span><b>ionic</b></a><br>
+	<a href="https://cordova.apache.org/" target="_blank"><span class="three_2"></span><b>Cordova</b></a><br>
+	<a href="https://phonegap.com/" target="_blank"><span class="three_2"></span><b>PhoneGap</b></a></p>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<a id="structure"></a>
+<p><span class="text_name">Structure</span></p>
+<br>
+<p>The project consists of 3 main elements. Html file (index.html) with tuesday.js engine file connected to it and the history script in json file or let array.
+The display of the script on the html page occurs through the div element with <b>id="tuesday"</b>. Display options can be set in css style or any other suitable way. All content will be displayed subject to the parameters of this item.</p>
+<br>
+<p>The story script with all elements is specified in the format structure <b><a href="https://ru.wikipedia.org/wiki/JSON" target="_blank">JSON</a></b>. This format can be read by almost any other programming language or engine(which allow, if is necessary, transfer the history to another engine).</p>
+<br>
+<p>Script start function <b>load_story( 'tip', file / array )</b> specifying the data type (data or file) and their source (file address or array)</p><br>
+<p><span class="three_2"></span><b>data</b>: specifying a variable with a script array from JavaScript code</p>
+<p><span class="three_2"></span><b>file</b>: path to the json file with the script (may not work locally if <a href="#cross_domain_error" target="_blank">cross domain</a> protection is enabled in the browser)</p>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<a id="start_use"></a>
+<p><span class="text_name">Getting started</span></p>
+<p>Any text editor or IDE is suitable for work</p>
+<br>
+<p>Recommended software:</p>
+<br>
+<p><b><span class="three_2"></span>MS Windows</b>: <a href="https://notepad-plus-plus.org/" target="_blank">Notepad++</a></p>
+<p><b><span class="three_2"></span>Mac OS</b>: <a href="https://developer.apple.com/xcode/" target="_blank">Xcode</a></p>
+<br>
+<p>The base for displaying the script consists in 3 elements</p>
+<br>
+<p><span class="text_name">Step 1 - tuesday.js Engine file</span></p><p>It can be downloaded from <a href="https://github.com/Kirilllive/Tuesday" target="_blank">GitHub</a>. </p><p>Or directly from <a href="https://kirilllive.github.io/tuesday-js/tuesday.js" target="_blank">https://kirilllive.github.io/tuesday-js/tuesday.js </a></p>
+<pre class="code_box"><code>
+<span class="comm">&lt;!-- locally along with the rest of the project files --&gt;</span>
+&lt;script type="text/javaScript" src="tuesday.js"&gt;&lt;/script&gt;
+
+<span class="comm">&lt;!-- link to file from GitHub --&gt;</span>
+&lt;script type="text/javaScript" src="https://kirilllive.github.io/tuesday-js/tuesday.js"&gt;&lt;/script&gt;
+
+</code></pre>
+<br>
+<br>
+<p><span class="text_name">Step 2 - Index.html</span> file with <b>id='tuesday'</b> elements to display the novel</p>
+<pre class="code_box"><code>&lt;html&gt;
+	&lt;head&gt;
+	&lt;/head&gt;
+	<span class="comm">&lt;!--After loading, the load_story function is launched with the specified file or array with history--&gt;</span>
+	&lt;body onload="load_story('file','story.json')"&gt;
+		<span class="comm">&lt;!--Display area--&gt;</span>
+		&lt;div id='tuesday' style='width:100%; height:90vh;'&gt;&lt;/div&gt;
+		<span class="comm">&lt;!--path to the engine file, always at the end of the page--&gt;</span>
+		&lt;script type="text/javaScript" src="https://kirilllive.github.io/tuesday-js/tuesday.js"&gt;&lt;/script&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<br>
+<br>
+<p><span class="text_name">Step 3 - Story.json</span> script file</p>
+<pre class="code_box"><code>{
+	"<a href="#parameters" class="code_link">parameters</a>": {
+		"<a href="#text_panel" class="code_link">text_panel</a>": {
+			"<a href="#size" class="code_link">size</a>": ["95%","25%"],
+			"<a href="#color" class="code_link">color</a>": "#9cf",
+			"<a href="#indent_bottom" class="code_link">indent_bottom</a>": "32px",
+			"<a href="#size_text" class="code_link">size_text</a>": "20px",
+			"<a href="#dialog_speed" class="code_link">dialog_speed</a>": 20
+		},
+		"<a href="#name_panel" class="code_link">name_panel</a>": {
+			"<a href="#size" class="code_link">size</a>": ["0","48px"],
+			"<a href="#position" class="code_link">position</a>": ["0","0","0px","0"],
+			"<a href="#size_text" class="code_link">size_text</a>": "18px"
+		},
+		"<a href="#launch_story" class="code_link">launch_story</a>": "main_menu",
+		"<a href="#languages" class="code_link">languages</a>": ["en"],
+		"<a href="#buttons" class="code_link">buttons</a>": [
+			{
+				"<a href="#name" class="code_link">name</a>": "tue_back",
+				"<a href="#position" class="code_link">position</a>": ["0","55%","0","8px"],
+				"<a href="#size" class="code_link">size</a>": ["52px","52px"],
+				"<a href="#color" class="code_link">color</a>": "#888",
+				"<a href="#size_text" class="code_link">size_text</a>": "48px",
+				"<a href="#text" class="code_link">text</a>":"&lt;"
+			},{
+				"<a href="#name" class="code_link">name</a>": "tue_next",
+				"<a href="#position" class="code_link">position</a>": ["55%","0","0","8px"],
+				"<a href="#size" class="code_link">size</a>": ["52px","52px"],
+				"<a href="#color" class="code_link">color</a>": "#888",
+				"<a href="#size_text" class="code_link">size_text</a>": "48px",
+				"<a href="#text" class="code_link">text</a>":"&gt;"
+			}
+		]
+	},"<a href="#block" class="code_link">main_menu</a>":[
+		{
+			"<a href="#dialogs" class="code_link">dialogs</a>":[
+				{
+					"<a href="#choice" class="code_link">choice</a>":[
+						{
+							"<a href="#go_to" class="code_link">go_to</a>": "story",
+							"<a href="#position" class="code_link">position</a>": ["50%","0","0","50%"],
+							"<a href="#size" class="code_link">size</a>": ["128px","48px"],
+							"<a href="#color" class="code_link">color</a>": "#888",
+							"<a href="#color_text" class="code_link">color_text</a>": "#fff",
+							"<a href="#text" class="code_link">text</a>": "Start"
+						}
+					]
+				}
+			]
+		}
+	],"<a href="#block" class="code_link">story</a>": [
+		{
+			"<a href="#dialogs" class="code_link">dialogs</a>":[
+				{
+					"<a href="#back_to" class="code_link">back_to</a>": "main_menu",
+					"<a href="#text" class="code_link">text</a>":"1234567890",
+					"<a href="#e_name" class="code_link">name</a>":"numbers"
+				},{
+					"<a href="#go_to" class="code_link">go_to</a>": "main_menu",
+					"<a href="#text" class="code_link">text</a>":"ABCDEFZHIKLMNOPQRSTVX",
+					"<a href="#e_name" class="code_link">name</a>":"letters"
+				}
+			]
+		}
+	]
+}
+</code></pre>
+<br>
+<a download="tuesday_base_example.zip" href="data:@file/zip;base64,UEsDBBQDAAAIAF1kVlGrlKnR1wAAAE8BAAAKAAAAaW5kZXguaHRtbE1QXWvDMAx8L/Q/GMPwBmucPS6xA/sPex9u7dTK1DjYajb/++VrJXoQOiHuTqc83bA5HthUyjtjt3nBBISu+by7ZE1WcoH/t3J3rM7BZhZ6DMZqPvevRCHmZ9ECOvEqFlR0KfTihe8VLIwMrBa0agiWKKPTog09nVpzA8zVRwSDNfsBS756K8unmnkHV0/Vezn6WjRKTjR71nSJMBCjPDjNyf2S7Mxo1i1nKV4090RDqqT8hgiICKMrrkD+fi4gyM3NqUvbOHvnk85K8YhgfnsCSm4hHg9/UEsDBBQDAAAIAMdqL1FuMamXzQEAAGEHAAAKAAAAc3RvcnkuanNvbs2VXWvCMBSGrzfwP0hkdw5q1a3KGOyTjX3PMcaGlFijlrVJaVNwE//7ktiaNrEGxi5WUNOeJ5687zlJF7XdOrtABGMYIoriBPTr2UMRoGhO3QhiFMjAOpj434g9/gC97h5oApt9D5sK45GAxAwCjZ43AWrUx2OEqTsilJKQU207mjNKz+PylXDCtjYQYx8GZOomEUJjBtmWjC8LLMBMpVmOxcR0HJZGUxORxKc+wTkmPvucFePh1pW3OFaxsACm2Ju5CSXxF2dD6GM3RDgFZQpPUxijRORHuJQQjFLmIhax0jIUodIJnoimyB1B7zPPs11ulxdajFR7dBe7opT8R5IVreE4Tp6/0j5RkY3UCgBHmbfSX5NuzCaadWea/63uY1W3vB2yoey0Ylf1Cy2y2LiZkhKjsLqmGfE9JKbsiKsM6hOmxKWEyxMtr+ozVMQqVITfaT5XV6dlCzuFq+ZpxlLp9LpujclkYpySwwMKYwqq4aUekgXWSZ2QkVw0yA+bP24Ffpqw2iqnWNYXmWBWhnane3Do9KzcooqdCnAajvh7aUUpGzz/1ykxZjw5PTu/uHy/ur65vbt/eHx6Hry8vpmSB4iKl+JvbK7tstEPUEsBAj8DFAMAAAgAXWRWUauUqdHXAAAATwEAAAoAJAAAAAAAAAAggLSBAAAAAGluZGV4Lmh0bWwKACAAAAAAAAEAGAAATUqbVqjWAQDU3Z5WqNYBANTdnlao1gFQSwECPwMUAwAACADHai9RbjGpl80BAABhBwAACgAkAAAAAAAAACCAtIH/AAAAc3RvcnkuanNvbgoAIAAAAAAAAQAYAADPZBRKi9YBANTdnlao1gGATiiRVqjWAVBLBQYAAAAAAgACALgAAAD0AgAAAAA="><b><p>Download base example </p></b></a>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<br>
+<a id="cross_domain_error"></a>
+<p><span class="text_name">Possible startup problems and solutions</span></p>
+<br>
+<p>If the script is not displayed, then there may be a problem with the cross domain web security limitation. This can be solved in different ways.</p>
+<br>
+<p><b>1. decision</b> - Move content from json file to index.html as JavaScript array</p>
+<pre class="code_box"><code>&lt;html&gt;
+	&lt;head&gt;
+	&lt;/head&gt;
+	<span class="comm">&lt;!--Change load_story value c ('file', 'story.json') to ('data', story) --&gt;</span>
+	&lt;body onload="load_story('data',story)"&gt;
+	&lt;div id='tuesday' style='width:100%; height:90vh;'&gt;&lt;/div&gt;
+		<span class="comm">&lt;!-- Add script tag before tuesday.js --&gt;</span> ;
+		&lt;script&gt;
+			<span class="comm">&lt;!-- create array let --&gt;</span> ;
+			let story = <span class="comm">&lt;!-- insert content from file story.json --&gt;</span> ;
+		&lt;/script&gt;
+		&lt;script type="text/javaScript" src="https://kirilllive.github.io/tuesday-js/tuesday.js"&gt;&lt;/script&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<br>
+<a download="tuesday_base_example_array.zip" href="data:@file/zip;base64,UEsDBBQDAAAIANFkVlHhXX9flQIAABEMAAAKAAAAaW5kZXguaHRtbN1X/Y+aMBj+/ZL7H0gvF7bEO9A7Nz/AZJ/Zsu+5LMsWQwpUqQctocXpFv/3tXwoRhTwliwZidrC87x9+7xPSzU8Hvij8zNFXIaHoJu3tWLHpu5KocSn0DWB/LYYp9HqgepCDtVW0nkIcrSLFwp2TZXHiLlwpSqMr3xkqj+xy71BW9cvh4qH8Mzjg76+8IbqyNAEJ6MnIZgT4ZAnd7aXj7iSDKWYyu/80fYCIYxggDiKGBjkgD0QR0tuhZAgfwsqBTL8CwnID9DvXoIW6IjvSesI3qE+jQQBXPSdKTiGxMRFhFs25ZwGknHTCZeCcTwXS2Yu0R29Au1i6NOZxUKEXEHo6OXY9YEYgAgVm0mkC4Fue+HyuEIhZZhjSnJK8rmSvKQ9qa1AW1IaTsqHMXG81LcyRgAxsQJEYnCYQWYxjBBL8kXkYILAjkUlSYI7PIV9IfdVl4mJVWPZ0LnL86ovZ1caNWkVS1FdvW5iP/FTh7W1ea/Xq8xxp2yy0pWMFAyMrL7lNW6iJREBK0ctapnr+N9oOTqmZfmjyflZnZVVWEUDYf2Gts82Krbhnrh0Ui09ih1UGapByE3oGbU4laKnm0erAXXXV3rBV7JX6ZByj7U7ovh1dtz7GW6fuXHfxXQ6bUTPiWMOIw7qEdfVMGHTEyMIZk1GmcAgf438Y9PL94TwZq33WUk9hJNubruPHvf6ei1Wuq0CEge2PGSljJN36Wxt3Sf/J0+fPX/x8vur12/evnv/4eOnz+MvX7/VCpBNRRwpeY2p/BUf7d5aD7d9Q0vPu/snYIWvQmQm09XmcAHHyV2gsMgxgcd5yAaadocj7Ps+XqDrGeZebF9jqmWH76s5y5vXcwZGhaHSkeXRXnQMLfsj8AdQSwECPwMUAwAACADRZFZR4V1/X5UCAAARDAAACgAkAAAAAAAAACCAtIEAAAAAaW5kZXguaHRtbAoAIAAAAAAAAQAYAICycBtXqNYBgAzTHVeo1gGADNMdV6jWAVBLBQYAAAAAAQABAFwAAAC9AgAAAAA="><b><p>Download base example array</p></b></a>
+<br>
+<br>
+<p><b>2. decision</b> - Cross domain protection can be disabled in some browsers (not recommended)</p>
+<br>
+<p><span class="text_name">FireFox</span> - in the address bar, enter about:config in the settings that appear, find the element called <i>security.fileuri.strict_origin_policy</i> and set it to false to disable, or true to enable.</p>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<p style="font-size:30px;" align="center">Project parameters</p>
+<br>
+<a id="parameters"></a>
+<p>The main parameters and settings of the entire project are set in the "parameters" section. The default appearance of the project and some functions depend of it. </p>
+<pre class="code_box"><code>{
+    "parameters": {
+		"<a href="#autosave" class="code_link">autosave</a>": <span class="comm">setting autosave progress (true / false)</span>,
+		"<a href="#buttons" class="code_link">buttons</a>": [<span class="comm">Interface buttons and their parameters</span>],
+		"<a href="#characters" class="code_link">characters</a>" : [<span class="comm">Global character display settings</span>],
+		"<a href="#languages" class="code_link">languages</a>": [<span class="comm">language codes into which the project is translated</span>],
+		"<a href="#launch_story" class="code_link">launch_story</a>": "<span class="comm">id of the block from which the script starts</span>",
+		<span class="comm">Panel options to display avatar and character name</span>
+		"<a href="#name_panel" class="code_link">name_panel</a>": {
+			"<a href="#art" class="code_link">art</a>":"<span class="comm">path to the background image</span>",
+			"<a href="#art_size" class="code_link">art_size</a>": ["<span class="comm">width</span>", "<span class="comm">height</span>"] <span class="comm">Panel size</span>,
+			"<a href="#className" class="code_link">className</a>": "<span class="comm">a set of css style classes</span>",
+			"<a href="#color_text" class="code_link">color_text</a>": "<span class="comm">Text color</span>",
+			"<a href="#color" class="code_link">color</a>": "<span class="comm">panel color</span>",
+			"<a href="#indent_bottom" class="code_link">indent_bottom</a>": "<span class="comm">indent the text bar from the bottom edge</span>",
+			"<a href="#position" class="code_link">position</a>": [<span class="comm">left</span>, <span class="comm">right</span>, <span class="comm">top</span>, <span class="comm">bottom</span>] <span class="comm">the position of the element relative to the text panel</span>,
+			"<a href="#size" class="code_link">size</a>": ["<span class="comm">width</span>", "<span class="comm">height</span>"],
+			"<a href="#size_text" class="code_link">size_text</a>": "<span class="comm">Text size</span>",
+			"<a href="#style" class="code_link">style</a>": "<span class="comm">css style parameters and their values</span>"
+		},
+		<span class="comm">Panel options to display texts</span>
+		"<a href="#text_panel" class="code_link">text_panel</a>": {
+			"<a href="#className" class="code_link">className</a>": "<span class="comm">a set of css style classes</span>",
+			"<a href="#color" class="code_link">color": "<span class="comm">color panel</span>",
+			"</a><a href="#color_text" class="code_link">color_text</a>": "<span class="comm">text color</span>"
+			"<a href="#position" class="code_link">position</a>": [<span class="comm">left</span>, <span class="comm">right</span>, <span class="comm">top</span>, <span class="comm">bottom</span>] <span class="comm">position relative to the edges of the scene</span>,
+			"<a href="#dialog_speed" class="code_link">dialog_speed</a>": <span class="comm">symbol spawn rate</span>,
+                        "<a href="#indent_text" class="code_link">indent_text</a>": "<span class="comm">indents for text</span>",
+			"<a href="#indent_bottom" class="code_link">indent_bottom</a>": "<span class="comm">indent the text bar from the bottom edge</span>",
+			"<a href="#size" class="code_link">size</a>": ["<span class="comm">width</span>", "<span class="comm">height</span>"],
+			"<a href="#size_text" class="code_link">size_text</a>": "<span class="comm">text size</span>",
+			"<a href="#style" class="code_link">style</a>": "<span class="comm">css style parameters and their values</span>",
+		},
+		"<a href="#title" class="code_link">title</a>": "<span class="comm">the name of the project</span>",
+		"<a href="#key" class="code_link">key</a>": [<span class="comm">Specifying Keyboard Control Buttons</span>],
+		"<a href="#variables" class="code_link">variables</a>": [<span class="comm">set of global variables</span>],
+}
+</code></pre>
+<br>
+<br>
+
+<div class="element" align="center">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800" height="500" viewBox="16 0 800 500">
+    <path style="fill: none;stroke: #000;stroke-linecap: round;stroke-linejoin: round;stroke-width: 2px;fill-rule: evenodd;" d="M67,406a19,19,0,1,1-19,19A19,19,0,0,1,68,406ZM733,406a19,19,0,1,1-19,19A19,19,0,0,1,733,406ZM68,26a19,19,0,1,1-19,19A19,19,0,0,1,68,26ZM76,53H59m0-16H76M59,45H76M69.8,436L59.5,426l10.246-10.246M730.2,436L740.5,425.8l-10.246-10.246M407,143a56,56,0,1,1-56,56A56.1,56,0,0,1,407,143ZM300.5,353.5c0-41.355,47.668-75,106-75s106,34,106.47,74.88M95,373H199V476H95V373ZM199,373H704V476H199V373ZM315,124v14H300M261.7,84.667l50,49.5M580,141h36.2a16,16,0,0,1,16,16v6.2a16,16,0,0,1-16,16H580a16,16,0,0,1-15.5-15.5v-6.2A15.5,15.5,0,0,1,580,141ZM512,200h48.2a16,16,0,0,1,16,16v6.2a16,16,0,0,1-16,16H512a16,16,0,0,1-16-16v-6.2A16,16,0,0,1,511.7,200ZM634,234.906h48.2a16,16,0,0,1,16,16v6.2a16,16,0,0,1-16,16H634a16,16,0,0,1-16-16v-6.2A15.5,15.5,0,0,1,634.1,234.906ZM595.8,351.706v-173.2h8.4v173.2M592.2,273.306H543a12,12,0,0,1-12-12v-20.4M592.2,264.906H549c-6.627,0-8.4-1.772-8.4-8.4v-18M604.2,308.106h49.2a12,12,0,0,0,12-12v-20.4M604.2,299.706h43.2c6.627,0,8.4-1.772,8.4-8.4v-18M200,142h36.2a16,16,0,0,1,16,16v6.2a16,16,0,0,1-16,16H200a16,16,0,0,1-16-16v-6.2A16,16,0,0,1,200.1,142.306ZM132,255.106h48.2a16,15.5,0,0,1,15.5,15.5v6.2a15.5,15.5,0,0,1-15.5,15.5H132a15.5,15.5,0,0,1-15.5-15.5v-6.2A15.5,15.5,0,0,1,131.7,255.106ZM254,195.906h48.2a15.5,15.5,0,0,1,15.5,15.5v6.2a15.5,15.5,0,0,1-15.5,15.5H254a15.5,15.5,0,0,1-15.5-15.5v-6.2A15.5,15.5,0,0,1,254.1,195.906ZM215.8,352.706v-173.2h8.4v173.2M212.2,328.306H163a12,12,0,0,1-12-12v-20.4M212.2,319.906H169c-6.627,0-8.4-1.772-8.4-8.4v-18M224.2,269.106h49.2a12,12,0,0,0,12-12v-20.4M224.2,260.706h43.2c6.627,0,8.4-1.772,8.4-8.4v-18M592,110L602,120l10-10M603,75v40M57,375L67,385l10-10M68,260v120M57,90L67,80,78,90M68,205v-120"></path>
+    <text onclick="window.location.href=&#39;#background_image&#39;" class="svg_text" x="602" y="54"><tspan x="602">Background image</tspan></text>
+    <text onclick="window.location.href=&#39;#text_panel&#39;" class="svg_text" x="289" y="432"><tspan x="289">Text panel</tspan></text>
+    <text onclick="window.location.href=&#39;#name_panel&#39;" class="svg_text" x="146" y="416"><tspan x="146">Name</tspan><tspan x="146" dy="28">panel</tspan></text>
+    <text onclick="window.location.href=&#39;#buttons&#39;" class="svg_text" x="70" y="241"><tspan x="70">Buttons</tspan></text>
+    <text onclick="window.location.href=&#39;#e_art&#39;" class="svg_text" x="234" y="76"><tspan x="234">Art</tspan></text>
+</svg>
+</div>
+<br>
+<br>
+<div class="element">
+<a id="autosave"></a>
+<p class="title_name">AutoSave</p>
+<br>
+<p>The parameter is responsible for automatic saving of the script execution progress and values ​​from the array <b><a href="#variables">variables</a></b> in each dialog. This will allow the continue to script from the end of the last session.</p>
+<pre class="code_box"><code>	"autosave": <span class="comm">setting autosave progress (true / false)</span>,</code></pre>
+<br>
+<p>The attribute is responsible for loading autosave. "<b><a href="#tue_load_autosave">tue_load_autosave</a></b>" is specified in "<b><a href="#buttons_name">name</a>"</b> or "<b><a href="#go_to">go_to</a>"</b></p>
+<br>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="buttons"></a>
+<p class="title_name">Buttons</p>
+<br>
+<p>A set of buttons and parameters for the main interface (dialog management, saving and loading). They will not appear in the block specified in <b><a href="#launch_story">launch_story</a></b>.</p>
+<pre class="code_box"><code>	"buttons": [{
+		"<a href="#buttons_name" class="code_link">name</a>": "<span class="comm">Functional name or id button id</span>",
+		"<a href="#art" class="code_link">art</a>":"<span class="comm">path to the background image of the button</span>",
+		"<a href="#art_size" class="code_link">art_size</a>": ["<span class="comm">width</span>", "<span class="comm">height</span>"] <span class="comm">images on the button</span>,
+		"<a href="#position" class="code_link">position</a>": [<span class="comm">left</span>, <span class="comm">right</span>, <span class="comm">top</span>, <span class="comm">bottom</span>] <span class="comm">position relative to the edges of the scene</span>,
+		"<a href="#size" class="code_link">size</a>": ["<span class="comm">width</span>", "<span class="comm">height</span>"],
+		"<a href="#color" class="code_link">color</a>": "<span class="comm">button color</span>",
+		"<a href="#color_text" class="code_link">color_text</a>": "<span class="comm">Text color</span>",
+		"<a href="#className" class="code_link">className</a>": "<span class="comm">a set of css style classes</span>",
+		"<a href="#style" class="code_link">style</a>": "<span class="comm">css style parameters and their values</span>",
+		"<a href="#indent_text" class="code_link">indent_text</a>": "<span class="comm">indents for text</span>",
+		"<a href="#size_text" class="code_link">size_text</a>": "<span class="comm">text size</span>"
+	}]</code></pre>
+
+	<br>
+	<a id="buttons_name"></a>
+	<p><b>"name"</b> - button identifier (analogous <a href="https://www.w3schools.com/html/html_id.asp" target="_blank">attribute  id</a> in html), it defines the button functionality. The names and descriptions of all available buttons can be found in the <a href="#system_Buttons">System Buttons</a> section</p>
+	<pre class="code_box"><code>		"name": "<span class="comm">Functional name or button id</span>",</code></pre>
+	<br>
+	<p>Adding third party functions to buttons using javaScript,</p>
+	<pre class="code_box"><code>document.getElementById('<span class="comm">/** name button */</span>').onclick = function(){ '<span class="comm">/** button functionality */</span> }</code></pre>
+	<br>
+	<p>In the "buttons" section. Add all the buttons to the interface by adding them to an array in curly brackets, with all required elements separated by commas.</p>
+<pre class="code_box"><code>"buttons": [{
+		<span class="comm">"first button parameters"</span>
+	},{
+		<span class="comm">"first button parameters"</span>
+	}]
+</code></pre>
+<br>
+<p><b>Working example "buttons"</b></p>
+<pre class="code_box"><code>"buttons": [
+			{
+				"<a href="#buttons_name" class="code_link">name</a>": "tue_back",
+				"<a href="#position" class="code_link">position</a>": ["0","55%","0","8px"],
+				"<a href="#size" class="code_link">size</a>": ["52px","52px"],
+				"<a href="#color" class="code_link">color</a>": "#888",
+				"<a href="#size_text" class="code_link">size_text</a>": "48px",
+				"<a href="#text" class="code_link">text</a>":"&lt;"
+			},{
+				"<a href="#buttons_name" class="code_link">name</a>": "tue_next",
+				"<a href="#position" class="code_link">position</a>": ["55%","0","0","8px"],
+				"<a href="#size" class="code_link">size</a>": ["52px","52px"],
+				"<a href="#color" class="code_link">color</a>": "#888",
+				"<a href="#size_text" class="code_link">size_text</a>": "48px",
+				"<a href="#text" class="code_link">text</a>":"&gt;"
+			},{
+				"<a href="#buttons_name" class="code_link">name</a>": "tue_home",
+				"<a href="#position" class="code_link">position</a>": ["50%","0","0","8px"],
+				"<a href="#size" class="code_link">size</a>": ["52px","52px"],
+				"<a href="#color" class="code_link">color</a>": "#888",
+				"<a href="#size_text" class="code_link">size_text</a>": "48px",
+				"<a href="#style" class="code_link">style</a>": "transform: translateX(-50%);",
+				"<a href="#text" class="code_link">text</a>":"M"
+			}
+		]
+    },
+</code></pre>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="characters"></a>
+<p class="title_name">Characters</p>
+<br>
+<p>Global parameters for most characteristics can be found on <b>"<a href="#name_panel">name_panel</a>"</b>. By specifying id, character identifier and parameters required for it, including localization. Also, if you specify this id in the <b>"<a href="#e_name">name</a>"</b> dialog parameter, then, all values ​​for this symbol will be taken from this array. Unless the dialog itself has its own parameters set in <b>"<a href="#name_panel">name_panel</a>"</b>.</p>
+<pre class="code_box"><code>	"characters": {
+		"<span class="comm">character id</span>": {
+			"<a href="#color" class="code_link">color</a>": "<span class="comm">background color name panel</span>",
+			"<a href="#color_text" class="code_link">color_text</a>": "<span class="comm"> text color name panel</span>",
+			"<a href="#className" class="code_link">className</a>": "<span class="comm">a set of css style classes для name panel</span>",
+			"en": "<span class="comm">English name localization</span>",
+			"ja": "<span class="comm">日本語名のローカリゼーション</span>",
+			"ru": "<span class="comm">Локализация имени на английском языке</span>"
+		}</code></pre>
+<br>
+<p><b>Working example "characters"</b></p>
+<pre class="code_box"><code>	"characters": {
+		"boss": {
+			"className": "negativ",
+			"ru": "Босс",
+			"en": "Boss",
+			"ja": "ボス"
+		},"doctor": {
+			"className": "girl",
+			"ru": "Врачь",
+			"en": "Doctor",
+			"ja": "医師"
+		},"assis": {
+			"className": "assistent",
+			"ru": "Assistant 5000",
+			"en": "Assistant 5000",
+			"ja": "Assistant 5000"
+		}
+	},
+</code></pre>
+<br>
+<p>In case of character change, there is no need to make changes to the whole script, it will be enough only to make changes to this array.</p>
+<br>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="languages"></a>
+<p class="title_name">Languages</p>
+<br>
+<p>Array of supported project languages, English "en" is set by default. At the start, the engine automatically detects the browser language and, if there is a suitable localization, it automatically switches to it. Otherwise, the default language will be English if it is available, if not then the first language in this list. Language dialect values ​​(like en_GB and en_US) are not supported.</p>
+<pre class="code_box"><code>	"languages": [<span class="comm">language codes available in the project</span>],</code></pre>
+<br>
+<p>All language codes can be found at: <a href="https://www.w3schools.com/tags/ref_language_codes.asp" target="_blank">"HTML Language Code Reference"</a></p>
+<br>
+<p><b>Working example "languages"</b></p>
+<pre class="code_box"><code>	"languages": ["en","ja","ru"],</code></pre>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="launch_story"></a>
+<p class="title_name">Launch story</p>
+<br>
+<p>Id name of the block from which the script starts (for example, the block with the main menu). If this parameter is not specified, the script will start from the first block in the list.</p>
+<pre class="code_box"><code>	"launch_story": "<span class="comm">id of the block with which the script starts</span>",</code></pre>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="name_panel"></a>
+<p class="title_name">Name panel</p>
+<br>
+<p>Panel to display the name and avatar image of the character. Its location relative to the text panel parameters <b><a href="#text_panel">text_panel</a></b></p>
+<pre class="code_box"><code>	"name_panel": {
+		"<a href="#art" class="code_link">art</a>":"<span class="comm">path to character avatar or photon drawing</span>",
+		"<a href="#art_size" class="code_link">art_size</a>": ["<span class="comm">width</span>", "<span class="comm">height</span>"] <span class="comm">Image size</span>,
+		"<a href="#className" class="code_link">className</a>": "<span class="comm">a set of css style classes</span>",
+		"<a href="#color_text" class="code_link">color_text</a>": "<span class="comm">Text color</span>",
+		"<a href="#color" class="code_link">color</a>": "<span class="comm">color elements</span>",
+		"<a href="#indent_bottom" class="code_link">indent_bottom</a>": "<span class="comm">indent the text bar from the bottom edge</span>",
+		"<a href="#position" class="code_link">position</a>": [<span class="comm">left</span>, <span class="comm">right</span>, <span class="comm">top</span>, <span class="comm">bottom</span>] <span class="comm">position relative to the edges of the text_panel</span>,
+		"<a href="#size" class="code_link">size</a>": ["<span class="comm">width</span>", "<span class="comm">height</span>"],
+		"<a href="#size_text" class="code_link">size_text</a>": "<span class="comm">text size</span>",
+		"<a href="#style" class="code_link">style</a>": "<span class="comm">css style parameters and their values</span>"
+	},</code></pre>
+<br>
+<p><b>Working example "name_panel"</b></p>
+<pre class="code_box"><code>	"name_panel": {
+		"<a href="#size" class="code_link">size</a>": ["0","48px"],
+		"<a href="#position" class="code_link">position</a>": ["0","0","0px","0"],
+		"<a href="#size_text" class="code_link">size_text</a>": "18px"
+	},
+</code></pre>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="text_panel"></a>
+<p class="title_name">Text panel</p>
+<br>
+<p>Basic panel settings to display texts in the scene</p>
+<pre class="code_box"><code>	"text_panel": {
+                "<a href="#className" class="code_link">className</a>": "<span class="comm">a set of css style classes</span>",
+                "<a href="#color" class="code_link">color</a>": "<span class="comm">color of element</span>",
+                "<a href="#color_text" class="code_link">color_text</a>": "<span class="comm">Text color</span>"
+                "<a href="#position" class="code_link">position</a>": [<span class="comm">left</span>, <span class="comm">right</span>, <span class="comm">top</span>, <span class="comm">bottom</span>] <span class="comm">position relative to the edges of the scene</span>,
+                "<a href="#dialog_speed" class="code_link">dialog_speed</a>": <span class="comm">symbol spawn rate</span>,
+                "<a href="#indent_text" class="code_link">indent_text</a>": "<span class="comm">indents for text</span>",
+                "<a href="#indent_bottom" class="code_link">indent_bottom</a>": "<span class="comm">indent the text bar from the bottom edge</span>",
+                "<a href="#size" class="code_link">size</a>": ["<span class="comm">width</span>", "<span class="comm">height</span>"],
+                "<a href="#size_text" class="code_link">size_text</a>": "<span class="comm">text size</span>",
+                "<a href="#style" class="code_link">style</a>": "<span class="comm">css style parameters and their values</span>",
+	},</code></pre>
+<br>
+<a id="dialog_speed"></a>
+<p><b>"dialog_speed"</b> is the speed apparition of text in the text panel, set in milliseconds, where 0 - the text appears immediately and 1000 -is one character per second.</p>
+<pre class="code_box"><code>	"dialog_speed": <span class="comm">symbol spawn rate</span>,</code></pre>
+<br>
+<a id="indent_bottom"></a>
+<p><b>"indent_bottom"</b> is the text bar's indent from the bottom of the scene is 0 by default.</p>
+<pre class="code_box"><code>	"indent_bottom": "<span class="comm">indent the text bar from the bottom edge</span>",</code></pre>
+<br>
+<p><b>Working example "text_panel"</b></p>
+<pre class="code_box"><code>	"text_panel": {
+		"<a href="#size" class="code_link">size</a>": ["95%","25%"],
+		"<a href="#color" class="code_link">color</a>": "#9cf",
+		"<a href="#indent_bottom" class="code_link">indent_bottom</a>": "32px",
+		"<a href="#size_text" class="code_link">size_text</a>": "20px",
+		"<a href="#dialog_speed" class="code_link">dialog_speed</a>": 20
+	},
+</code></pre>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="sounds"></a>
+<p class="title_name">Sounds</p>
+<br>
+<p>An array of sound files used in the project. Due to the specifics of the browser support for audio formats (mpeg or ogg), you need to specify a file without an extension, the engine itself will determine the supported format .ogg or .mp3. The project can use only mp3, it can be played in almost all browsers. But in case this is not the case, it is recommended to duplicate the audio data in .ogg format with the same name and in the same folder.</p>
+<pre class="code_box"><code>	"sounds": {
+			"id_sound_1":"<span class="comm">File path without extension</span>",
+			"id_sound_2":"<span class="comm">File path without extension</span>",
+		}
+</code></pre>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="title"></a>
+<p class="title_name">Title</p>
+<br>
+<p>The name of the project to display in the page tab and other headings.</p>
+<pre class="code_box"><code>	"title": "<span class="comm">the name of project</span>",</code></pre>
+<br>
+<p>Localization is supported for the specified languages ​​in the <b><a href="#languages">languages</a></b> options.</p>
+<pre class="code_box"><code>	"title": {
+			"en":"<span class="comm">Name in English</span>",
+			"ja":"<span class="comm">日本語での名前</span>",
+			"ru":"<span class="comm">Имя на русском</span>"
+		}
+</code></pre>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="key"></a>
+<p class="title_name">Key</p>
+<br>
+<p>Assigning functionality to keyboard keys via key ID <a href="https://www.w3schools.com/tags/ref_language_codes.asp" target="_blank">event.code</a>.</p>
+<pre class="code_box"><code>	"key": "<span class="comm">keyboard control settings</span>",</code></pre>
+<br>
+<p><b>load_autosave</b> - Continue from last autosave</p>
+<p><b>launch_story</b> - Go to the block specified in parameters / launch_story (main menu)</p>
+<p><b>next</b> - next line</p>
+<p><b>back</b> - previous line</p>
+<p><b>save</b> - save script stage</p>
+<p><b>load</b> - load the last stage of the script (not autosave)</p>
+<p><b>full_screen</b> - puts the Tuesday element in full screen mode</p>
+<br>
+<p><b>Working example "key"</b></p>
+<pre class="code_box"><code>	"key": {
+		"load_autosave": "KeyC",
+		"launch_story": "Escape",
+		"full_screen": "KeyF",
+		"next": "ArrowRight",
+		"back": "ArrowLeft",
+		"save": "KeyS",
+		"load": "KeyL"
+	},
+</code></pre>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="variables"></a>
+<p class="title_name">Variables</p>
+<br>
+<p>Array of variables to store data. When you save the progress of the script, this data is also saved.</p>
+<p>These values ​​are used in script elements such as <b>"<a href="#variables">variables</a>"</b> to change the value and during script, and <b>"<a href="#legacy_choice">legacy_choice</a>"</b> to automatically determine the next block of the script.</p>
+<pre class="code_box"><code>	"variables": [<span class="comm">set of global variables used in the project</span>],</code></pre>
+<br>
+<p><b>Working example "variables"</b></p>
+<pre class="code_box"><code>	"variables": [
+		"experience_points": 80,
+		"magic_points": 100,
+		"health_points": 100
+	],
+</code></pre>
+<br>
+<p>Variable values can be displayed in the <b><a href="#text_panel">text_panel</a></b> specifying its name in angle brackets</p>
+<pre class="code_box"><code>{
+	"parameters": {
+		<span class="comm">other values</span>
+		"<a href="#variables" class="code_link">variables</a>": [
+			"health_points": 100
+		],
+	}
+	"example_block_1": [{
+		"<a href="#dialogs" class="code_link">dialogs</a>": [{
+			"text": "You have &lt;<span class="comm">health_points</span>&gt; health points left"
+		}]
+	}]
+}</code></pre>
+<br>
+<p>In this case, the phrase "You have 100 health points left" will appear.</p>
+</div>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<p style="font-size:30px;" align="center">Story script</p>
+<br>
+<a id="block"></a>
+<p>The script structure is divided into various elements. The main element is a "block" that is part of a narrative or a storyline, and their sequence will be determined by the user's choices (choosing to go left or right may mean that the player continues the current plot block or move on to another block with an alternative plot development). Blocks consist of scenes with a set of graphic and sound elements. And already inside the scene, a sequence of dialogues and other elements is indicated as a choice "<b><a href="#text_panel">choice</a></b>" and "<b><a href="#go_to">go_to</a></b>", which can lead to another block.</p>
+<br>
+<pre class="code_box"><code>"<span class="comm">Block 1</span>": [
+	{
+		<span class="comm">Scene 1</span>:[
+			{<span class="comm">Dialogue 1</span>},
+			{<span class="comm">Dialogue 2</span>},
+			{<span class="comm">Dialogue 3</span>}
+		]
+	},{
+		<span class="comm">Scene 2</span>:[
+			{<span class="comm">Dialogue 1</span>},
+			{<span class="comm">Dialogue 2</span>},
+			{<span class="comm">Dialogue 3</span>}
+		]
+	}
+],
+<span class="comm">Block 2</span>": [
+	{
+		<span class="comm">Scene 1</span>:[
+			{<span class="comm">Dialogue 1</span>},
+			{<span class="comm">Dialogue 2</span>},
+			{<span class="comm">Dialogue 3</span>}
+		]
+	},{
+		<span class="comm">Scene 2</span>:[
+			{<span class="comm">Dialogue 1</span>},
+			{<span class="comm">Dialogue 2</span>},
+			{<span class="comm">Dialogue 3</span>}
+		]
+	}
+]
+</code></pre>
+<br>
+<p>Complete plot block structure with all elements</p>
+<pre class="code_box"><code>"<span class="comm">Id block</span>": [
+	{
+		"<a href="#background_music" class="code_link">background_music</a>": "<span class="comm">path to audio file without extension only its name</span>"
+		"<a href="#background_image" class="code_link">background_image</a>": "<span class="comm">path to the image file</span>"
+                "html": "<span class="comm">html code</span>",
+		"<a href="#dialogs" class="code_link">dialogs</a>":[
+			{
+				"<a href="#back_to" class="code_link">back_to</a>": "<span class="comm">id of the previous block</span>",
+				"<a href="#event" class="code_link">event</a>": "<span class="comm">event name for javaScript</span>",
+				"<a href="#controll" class="code_link">controll</a>": "<span class="comm">'hidden' / 'visible' displaying interface buttons in a dialog</span>",
+				"<a href="#variables" class="code_link">variables</a>": [
+					["<span class="comm">variable name</span>", "<span class="comm">variable operation</span>", <span class="comm">value</span>]
+				],
+				"<a href="#sound" class="code_link">sound</a>": "<span class="comm">Sound id</span>"
+				"<a href="#sound_stop" class="code_link">sound_stop</a>": "<span class="comm">Sound id to stop</span>"
+                                "html": "<span class="comm">html code</span>",
+				"<a href="#e_text" class="code_link">text</a>": {
+					"<a href="#className" class="code_link">className</a>": "<span class="comm">a set of css style classes</span>",
+					"<a href="#style" class="code_link">style</a>": "<span class="comm">css style parameters and their values</span>",
+					"en":"<span class="comm">Translation of the text into English</span>",
+					"ja":"<span class="comm">テキストの日本語への翻訳</span>",
+					"ru":"<span class="comm">Перевод текста на русский</span>"
+				},
+				"<a href="#text_add" class="code_link">text_add</a>": {
+					"en":"<span class="comm">Translation of the text into English</span>",
+					"ja":"<span class="comm">テキストの日本語への翻訳</span>",
+					"ru":"<span class="comm">Перевод текста на русский</span>"
+				},
+				"<a href="#e_name" class="code_link">name</a>": "<span class="comm">id персонажа из parameters/characters</span>"
+				"<a href="#e_art" class="code_link">art</a>": [{
+					"<a href="#className" class="code_link">className</a>": "<span class="comm">a set of css style classes</span>",
+					"<a href="#style" class="code_link">style</a>": "<span class="comm">css style parameters and their values</span>",
+					"<a href="#url" class="code_link">url</a>":"<span class="comm">path to the image file</span>",
+					"<a href="#position" class="code_link">position</a>": [<span class="comm">X position, Y position</span>],
+					"<a href="#size" class="code_link">size</a>": ["<span class="comm">width</span>", "<span class="comm">height</span>"],
+				}],
+				"<a href="#choice" class="code_link">choice</a>": [{
+					<a href="#go_to" class="code_link">"go_to"</a>: "<span class="comm">id of the block for the transition</span>",
+					<a href="#position" class="code_link">"position"</a>: [<span class="comm">X position, Y position</span>],
+					<a href="#size" class="code_link">"size"</a>: ["<span class="comm">width</span>", "<span class="comm">height</span>"],
+					<a href="#className" class="code_link">"className"</a>: "<span class="comm">a set of css style classes</span>",
+					<a href="#style" class="code_link">"style"</a>: "<span class="comm">css style parameters and their values</span>",
+					<a href="#sound" class="code_link">"sound"</a>: "<span class="comm">Sound id</span>"
+					<a href="#sound_stop" class="code_link">"sound_stop"</a>: "<span class="comm">Sound id to stop</span>"
+					<a href="#color" class="code_link">"color"</a>: "<span class="comm">background color</span>",
+					<a href="#color_text" class="code_link">"color_text"</a>: "<span class="comm">Text color</span>",
+					<a href="#variables" class="code_link">"variables"</a>: [
+						["<span class="comm">variable name</span>", "<span class="comm">variable operation</span>", <span class="comm">value</span>]
+					],
+					"<a href="#text_add" class="code_link">text</a>": {
+						"en":"<span class="comm">Translation of the text into English</span>",
+						"ja":"<span class="comm">テキストの日本語への翻訳</span>",
+						"ru":"<span class="comm">Перевод текста на русский</span>"
+						}
+					}
+				]
+		},{"<a href="#legacy_choice" style="text-decoration: none;">legacy_choice</a>": [
+				["<span class="comm">variable name</span>", "<span class="comm">comparison operator</span>", <span class="comm">comparison value</span>, "<span class="comm">id of the block for the transition</span>"]
+			]
+		}]
+	}
+]
+</code></pre>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<p style="font-size:30px;" align="center">Scene elements</p>
+<br>
+<div class="element">
+<a id="background_music"></a>
+<p class="title_name">Background music</p>
+<br>
+<p>Launches looped background music in the scene.</p>
+<pre class="code_box"><code>	"background_music": "<span class="comm">path to audio file without extension only its name</span>"</code></pre>
+<br>
+<p>Localization supported</p>
+<pre class="code_box"><code>	"background_music": {
+			"en":"<span class="comm">path to audio file for English</span>",
+			"ja":"<span class="comm">path to audio file for Japanese</span>",
+			"ru":"<span class="comm">path to audio file for Russian</span>"
+		}
+</code></pre>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="background_image"></a>
+<p class="title_name">Background image</p>
+<br>
+<p>Analogue of the css parameter <a href="https://www.w3schools.com/cssref/pr_background-image.asp" target="_blank">css background_image</a>. Designed to display the background in the scene.</p>
+<pre class="code_box"><code>	"background_image": "<span class="comm">path to the image file</span>"</code></pre>
+<br>
+<p>By default, it is aligned to the center of the scene and proportionally fills the entire background, regardless of the size of the scene or the file itself.</p>
+<br>
+<p>Supports localization if there is a background image for the specific translation.</p>
+<pre class="code_box"><code>	"background_image": {
+			"en":"<span class="comm">path to image file for English</span>",
+			"ja":"<span class="comm">path to image file for Japanese</span>",
+			"ru":"<span class="comm">path to image file for Russian</span>"
+		}
+</code></pre>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="dialogs"></a>
+<p class="title_name">Dialogs</p>
+<br>
+<p>An array of the sequence of dialogues in the scene and its attributes such as <b><a href="#art">art</a></b> and selection buttons <b><a href="#choice">Choice</a></b>.</p>
+<pre class="code_box"><code>	"dialogs":[
+			{<span class="comm">Parameters and elements of the replica of the 1st dialogue</span>},
+			{<span class="comm">Parameters and elements of the replica of the 2nd dialogue</span>},
+			{<span class="comm">Parameters and elements of the replica of the 3rd dialogue</span>}
+	]
+</code></pre>
+</div>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<p style="font-size:30px;" align="center">Dialogue elements</p>
+<br>
+<div class="element">
+<a id="e_art"></a>
+<p class="title_name">Art</p>
+<br>
+<p>Also "sprite" or "image". Analogue of the html tag <a href="https://www.w3schools.com/tags/tag_img.asp" target="_blank">&lt;img&gt;</a>. Designed to display graphic elements in the scene such as characters or objects.</p>
+<pre class="code_box"><code>"art": [{
+		"<a href="#className" class="code_link">url</a>":"<span class="comm">path to the image file</span>",
+		"<a href="#className" class="code_link">position</a>": [<span class="comm">X position, Y position</span>],
+		"<a href="#className" class="code_link">size</a>": ["<span class="comm">width</span>", "<span class="comm">height</span>"],
+		"<a href="#className" class="code_link">style</a>": "<span class="comm">css style parameters and their values</span>",
+		"<a href="#className" class="code_link">className</a>": "<span class="comm">a set of css style classes</span>"
+	}]
+</code></pre>
+<br>
+<p>It supports localization if there are images created for a specific translation specified in the <b>"parameters" / "<a href="#languages">languages</a>"</b> section.</p>
+<pre class="code_box"><code>		"url": {
+				{<span class="comm">Parameters and elements of the replica of the 1st dialogue</span>},
+				{<span class="comm">Parameters and elements of the replica of the 2nd dialogue</span>},
+				{<span class="comm">Parameters and elements of the replica of the 3rd dialogue</span>}
+			}
+</code></pre>
+<br>
+<p>You can add multiple images to the scene by creating additional elements in curly brackets in the array with all the necessary parameters.</p>
+<pre class="code_box"><code>"art": [{
+		"<a href="#url" class="code_link">url</a>":"<span class="comm">Images 1</span>",
+		"<a href="#position" class="code_link">position</a>": [<span class="comm">X position, Y position</span>],
+		"<a href="#size" class="code_link">size</a>": ["<span class="comm">width", "height</span>"]
+	},{
+		"<a href="#url" class="code_link">url</a>":"<span class="comm">Images 2</span>",
+		"<a href="#position" class="code_link">position</a>": [<span class="comm">X position, Y position</span>],
+		"<a href="#size" class="code_link">size</a>": ["<span class="comm">width", "height"</span>]
+	}]
+</code></pre>
+<br>
+<p><b>Working example "art"</b></p>
+<pre class="code_box"><code>"art": [{
+		"<a href="#e_text" class="code_link">position</a>": ["75%", "50%"],
+		"<a href="#e_text" class="code_link">size</a>": ["auto", "90%"],
+		"<a href="#e_text" class="code_link">style</a>": "transform: translateX(-50%) translateY(-50%);",
+		"<a href="#e_text" class="code_link">className</a>": "example",
+		"<a href="#e_text" class="code_link">url</a>": {
+				"en":"img/example_en.png",
+				"ja":"img/example_ja.png",
+				"ru":"img/example_ru.png"
+		}
+	},{
+		"<a href="#e_text" class="code_link">position</a>": ["25%", "50%"],
+		"<a href="#e_text" class="code_link">size</a>": ["auto", "90%"],
+		"<a href="#e_text" class="code_link">style</a>": "transform: translateX(-50%) translateY(-50%);",
+		"<a href="#e_text" class="code_link">url</a>":"img/character.png"
+	}]
+</code></pre>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="e_text"></a>
+<p class="title_name">Text</p>
+<br>
+<p>Character dialogue or other texts in a specific scene. Also, elements to change the "<b><a href="#text_panel">text_panel</a></b>" in the text.</p>
+<pre class="code_box"><code>	"text": {
+		"<a href="#className" class="code_link">className</a>": "<span class="comm">a set of css style classes</span>",
+		"<a href="#style" class="code_link">style</a>": "<span class="comm">css style parameters and their values</span>"
+		"en":"<span class="comm">Boss</span>"
+	}
+</code></pre>
+<br>
+<p>You can simply specify a replica, in this case, all missing parameters will be taken by default from the <b>"parameters" / "<a href="#text_panel">text_panel</a>"</b> section.</p>
+<pre class="code_box"><code>	"text": "<span class="comm">Hello how are you</span>"</code></pre>
+<br>
+<p>It is possible to add a localized dialogue option for the specified languages in the <b>"parameters" / "<a href="#languages">languages</a>"</b> section.</p>
+<pre class="code_box"><code>	"text": {
+		"en":"<span class="comm">Hello how are you</span>",
+		"ja":"<span class="comm">こんにちは、元気ですか</span>",
+		"ru":"<span class="comm">Привет как дела</span>"
+		}
+</code></pre>
+<br>
+<p>The dialog box can display the values ​​of the variable from the <b>"parameters" / "<a href="#variables">variables</a>"</b>. section. If you specify the name of the variable in angle brackets, then the value from the variable of the same name will appear in the text instead.</p>
+<pre class="code_box"><code>{
+	"parameters": {
+		<span class="comm">other values</span>
+		"<a href="#variables" class="code_link">variables</a>": [
+			"health_points": 100
+		],
+	}
+	"example_block_1": [{
+		"<a href="#dialogs" class="code_link">dialogs</a>": [{
+			"text": "You have &lt;<span class="comm">health_points</span>&gt; health points left"
+		}]
+	}]
+}</code></pre>
+<br>
+<p>In this case, the phrase "You have 100 health points left" will appear.</p>
+<br>
+<p>One location may have more or fewer lines than another. In this case, you can specify the value 'skip', then this line will be automatically skipped.</p>
+<pre class="code_box"><code>{
+	"text": {
+		"en":"Hello!",
+		"ja":"こんにちは、元気ですか",
+		"ru":"Привет!"
+	}
+},{
+	"text": {
+		"en":"How are you",
+		"ja":"<span class="comm">skip</span>",
+		"ru":"Kак дела"
+	}
+}
+</code></pre>
+<br>
+<p>In this case, the 2nd line will be skipped in the Japanese localization.</p>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="text_add"></a>
+<p class="title_name">Text add</p>
+<br>
+<p>Analogous to the usual <b>"<a href="#text">text</a>"</b> element, except that the text from this element is added to the already existing text in the "<b><a href="#text_panel">text_panel</a></b>". Basic element for visual novels</p>
+<pre class="code_box"><code>	"text_add": {
+		"<a href="#art" class="code_link">art</a>":"<span class="comm">path to the background image of the panel</span>",
+		"<a href="#art_size" class="code_link">art_size</a>": ["<span class="comm">width</span>", "<span class="comm">height</span>"] <span class="comm">size background image</span>,
+		"<a href="#className" class="code_link">className</a>": "<span class="comm">a set of css style classes</span>",
+		"<a href="#color_text" class="code_link">color_text</a>": "<span class="comm">Text color</span>",
+		"<a href="#color" class="code_link">color</a>": "<span class="comm">color element</span>",
+		"<a href="#indent_bottom" class="code_link">indent_bottom</a>": "<span class="comm">indent the text bar from the bottom edge</span>",
+		"<a href="#position" class="code_link">position</a>": [<span class="comm">left</span>, <span class="comm">right</span>, <span class="comm">top</span>, <span class="comm">bottom</span>] <span class="comm">position relative to the edges of the scene</span>,
+		"<a href="#size" class="code_link">size</a>": ["<span class="comm">width</span>", "<span class="comm">height</span>"],
+		"<a href="#size_text" class="code_link">size_text</a>": "<span class="comm">text size</span>",
+		"<a href="#style" class="code_link">style</a>": "<span class="comm">css style parameters and their values</span>"
+		"en":"<span class="comm">Boss</span>"
+	}
+</code></pre>
+<br>
+<p><b>Working example "variables"</b></p>
+<pre class="code_box"><code>{
+	"text": "Hello! "
+},{
+	"text_add": "will you go for a walk?"
+}
+</code></pre>
+<br>
+The text bar will first show "Hello!" then the whole phrase "Hello! will you go for a walk?"
+<br>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="e_name"></a>
+<p class="title_name">Name</p>
+<br>
+<p>Parameter to display the name and avatar of the character in the text panel. This data can be specified in various forms.</p>
+<br>
+<p>The easiest option is just provide his name. If this name does not match the id identifier in the <b>"parameters" / "<a href="#characters">characters</a>"</b> section, then the name will be displayed as specified in this parameter. </p>
+<pre class="code_box"><code>	"name": "<span class="comm">Boss</span>"</code></pre>
+<br>
+<p>In the <b>"parameters" / "<a href="#languages">languages</a>"</b> ​​section, you can specify a localized variant of the name for other lenguages.</p>
+<pre class="code_box"><code>	"name": {
+		"en":"<span class="comm">Boss</span>",
+		"ja":"<span class="comm">ボス</span>",
+		"ru":"<span class="comm">Босс</span>"
+		}
+</code></pre>
+<br>
+<p>If you often use the same name, you can specify it in the <b>"parameters" / "<a href="#characters">characters</a>"</b> section. This greatly simplifies the name change process.</p>
+<pre class="code_box"><code>{
+	"parameters": {
+		<span class="comm">other values</span>
+		"<a href="#characters" class="code_link">characters</a>": {
+			"boss": {
+				"en":"<span class="comm">Boss</span>",
+				"ja":"<span class="comm">ボス</span>",
+				"ru":"<span class="comm">Босс</span>"
+			}
+		}
+	}
+	"example_block_1": [{
+		"<a href="#characters" class="code_link">dialogs</a>": [{
+			"name": "boss"
+		}]
+	}]
+}
+</code></pre>
+<br>
+<p>Parameters for changing "<b><a href="#name_panel">name_panel</a></b>" can be specified both in "<b><a href="#dialogs">dialogs</a></b>" for the current line, and in the "<b><a href="#characters">characters</a></b>"  array for a specific name.</p>
+<pre class="code_box"><code>	"text": {
+		"<a href="#art" class="code_link">art</a>":"<span class="comm">path to the background image of the button</span>",
+		"<a href="#art_size" class="code_link">art_size</a>": ["<span class="comm">width</span>", "<span class="comm">height</span>"] <span class="comm">изображения на панеле</span>,
+		"<a href="#className" class="code_link">className</a>": "<span class="comm">a set of css style classes</span>",
+		"<a href="#color_text" class="code_link">color_text</a>": "<span class="comm">Text color</span>",
+		"<a href="#color" class="code_link">color</a>": "<span class="comm">color of element</span>",
+		"<a href="#indent_bottom" class="code_link">indent_bottom</a>": "<span class="comm">indent the text bar from the bottom edge</span>",
+		"<a href="#position" class="code_link">position</a>": [<span class="comm">left</span>, <span class="comm">right</span>, <span class="comm">top</span>, <span class="comm">bottom</span>] <span class="comm">position relative to the edges of the scene</span>,
+		"<a href="#size" class="code_link">size</a>": ["<span class="comm">width</span>", "<span class="comm">height</span>"],
+		"<a href="#size_text" class="code_link">size_text</a>": "<span class="comm">text size</span>",
+		"<a href="#style" class="code_link">style</a>": "<span class="comm">css style parameters and their values</span>",
+		"en":"<span class="comm">Boss</span>"
+	}
+</code></pre>
+<br>
+<p>If some element is not specified, then the default value from <b>"parameters" / "<a href="#name_panel">name_panel</a>"</b> will be taken. If the name or its ID is not specified, then this panel will not appear in the scene.</p>
+<br>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="choice"></a>
+<p class="title_name">Choice</p>
+<br>
+<p>Buttons to select the next block of the chart and changing values ​​in the <b>"parameters" / "<a href="#variables">variables</a>"</b>. Same as <b>"<a href="#buttons">buttons</a>"</b> except that select buttons appear on a specific line.</p>
+<pre class="code_box"><code>	"choice": [{
+		"<a href="#go_to" class="code_link">go_to</a>": "<span class="comm">id of the block for the transition</span>",
+		"<a href="#position" class="code_link">position</a>": [<span class="comm">X position, Y position</span>],
+		"<a href="#size" class="code_link">size</a>": ["<span class="comm">width</span>", "<span class="comm">height</span>"],
+		"<a href="#className" class="code_link">className</a>": "<span class="comm">a set of css style classes</span>",
+		"<a href="#sound" class="code_link">sound</a>": "<span class="comm">Sound id</span>"
+		"<a href="#sound_stop" class="code_link">sound_stop</a>": "<span class="comm">Sound id to stop</span>"
+		"<a href="#style" class="code_link">style</a>": "<span class="comm">css style parameters and their values</span>",
+		"<a href="#color" class="code_link">color</a>": "<span class="comm">background color</span>",
+		"<a href="#color_text" class="code_link">color_text</a>": "<span class="comm">Text color</span>",
+		"<a href="#variables" class="code_link">variables</a>": [
+			["<span class="comm">variable name</span>", "<span class="comm">variable operation</span>", <span class="comm">value</span>]
+		],
+		"<a href="#text" class="code_link">text</a>": {
+			"en":"<span class="comm">Translation of the text into English</span>",
+			"ja":"<span class="comm">テキストの日本語への翻訳</span>",
+			"ru":"<span class="comm">Перевод текста на русский</span>"
+			}
+		}
+	]
+</code></pre>
+<br>
+<p>The <b>"<a href="#go_to">go_to</a>"</b> parameter transfers further narration to the specified block. If the <b>"<a href="#go_to">go_to</a>"</b> parameter is missing, the current block will continue.</p>
+<br>
+<p>The <b>"<a href="#variables">variables</a>"</b> parameters make changes to the variables at the moment the select button is pressed.</p>
+<br>
+<p><b>Working example "choice"</b></p>
+<pre class="code_box"><code>{ "<a href="#e_name" class="code_link">name</a>": "inga",
+	"<a href="#text" class="code_link">text</a>": "which road to take?"
+	"<a href="#choice" class="code_link">choice</a>": [{
+		"<a href="#go_to" class="code_link">go_to</a>": "block_left",
+		"<a href="#position" class="code_link">position</a>": ["25%", "0", "0", "50%"],
+		"<a href="#size" class="code_link">size</a>": ["256px", "0"],
+		"<a href="#className" class="code_link">className</a>": "buttons hot_center",
+		"<a href="#text" class="code_link">text</a>": "&lt;== to the left"
+	},{
+		"<a href="#go_to" class="code_link">go_to</a>": "block_right",
+		"<a href="#position" class="code_link">position</a>": ["75%", "0", "0", "50%"],
+		"<a href="#size" class="code_link">size</a>": ["256px", "0"],
+		"<a href="#className" class="code_link">className</a>": "buttons hot_center",
+		"<a href="#text" class="code_link">text</a>": "on the right ==&gt;"
+	}]
+}</code></pre>
+</div>
+<br>
+<br>
+<br>
+<div class="element">
+<a id="e_variable"></a>
+<p class="title_name">Variables</p>
+<br>
+<p>Parameter to change values ​​from <b>"parameters" / "<a href="#variables">variables</a>"</b> section in specific <b>"<a href="#dialogs">dialogs</a>"</b> or when choosing <b>"<a href="#choice">choice</a>"</b></p>
+<pre class="code_box"><code>	"variables": [
+		["<span class="comm">variable name</span>", "<span class="comm">variable operation</span>", <span class="comm">value</span>]
+	],
+</code></pre>
+<br>
+<p>Variable operation</p>
+<p><b>"set"</b> - set a value in a variable (analog of the "=" operator in JavaScript)</p>
+<p><b>"add"</b> - add a value to the already specified value in a variable (analog of the "+ =" operator in JavaScript)</p>
+<br>
+<p><b>Working example "variables"</b></p>
+<pre class="code_box"><code>{
+    "parameters": {
+		<span class="comm">other values</span>
+		"variables": [
+			"experience_points": 80,
+			"magic_points": 100,
+			"health_points": 100
+		],
+	},
+	"example_block_1": [{
+		"<a href="#dialogs" class="code_link">dialogs</a>": [{
+			"variables": [
+				["experience_points", "add", 10],
+				["magic_points", "add", -15],
+				["health_points", "set", 200]
+			]
+		}]
+	}]
+}
+</code></pre>
+<br>
+<p>When starting the block "Example block 1"<br>10 experience points will be added to the value of "Experience Points",<br>15 points will be removed from the "Magic Points".<br>and "Health Points" will be set to 200 points.</p>
+<br>
+</div>
+
+
+<br>
+<br>
+<br>
+<div class="element">
+<a id="event"></a>
+<p class="title_name">Events</p>
+<br>
+<p>An element intended for external use in JavaScript. It marks the beginning of the moment on the script where this element is indicated.</p>
+<br>
+tusday - creation event
+<pre class="code_box"><code>	"event": "<span class="comm">id_event</span>",</code></pre>
+<br>
+JavaScript - event response
+<pre class="code_box"><code>tuesday.addEventListener(<span class="comm">id_event</span>', function(event) { <span class="comm">alert("event starting")</span> } );</code></pre>
+<br>
+</div>
+
+
+<br>
+<br>
+<br>
+<div class="element">
+<a id="controll"></a>
+<p class="title_name">Controll</p>
+<br>
+<p>Hides the interface buttons in the dialogues specified in the ( <b>parameters / <a href="#buttons">buttons</a></b> ) section. After a dialog with the "controll": "hidden" parameter is set, buttons will be hidden in all subsequent dialogs until the end of the block. To display buttons you need to specify "controll": "visible".</p>
+<br>
+<pre class="code_box"><code>	"controll": "<span class="comm">'hidden' / 'visible' displaying interface buttons in a dialog</span>",</code></pre>
+<br>
+</div>
+
+
+<br>
+<br>
+<br>
+<div class="element">
+<a id="legacy_choice"></a>
+<p class="title_name">Legacy choice</p>
+<br>
+<p>Automatic transition to another block of history when the specified conditions are met in variables (<b>parameters / <a href="#variables">variables</a></b>)</p>
+<pre class="code_box"><code>{
+	"legacy_choice": [
+		["<span class="comm">variable name</span>", "<span class="comm">comparison operator</span>", <span class="comm">comparison value</span>, "<span class="comm">id of the block for the transition</span>"]
+	]
+}
+</code></pre>
+<br>
+<p>Important! This element is not part of the <b>"dialogs"</b> array. And run as part of a block next to the <b>"<a href="#dialogs">dialogs</a>"</b> elements. </p>
+<pre class="code_box"><code>"example_block_1": [{
+		"<a href="#dialogs" class="code_link">dialogs</a>": [{"text": "hello"}]
+	},{
+		"legacy_choice": [
+			["<span class="comm">variable name</span>", "<span class="comm">comparison operator</span>", <span class="comm">comparison value</span>, "<span class="comm">id of the block for the transition</span>"]
+		]
+	}
+]
+</code></pre>
+<br>
+<p>If the conditions do not match the values in the variables, then you can specify the <b>"<a href="#go_to">go_to</a>"</b> parameter, in this case the history will go to the specified block.</p>
+<pre class="code_box"><code>{
+	"legacy_choice": [
+		["<span class="comm">variable name</span>", "<span class="comm">comparison operator</span>", <span class="comm">comparison value</span>, "<span class="comm">id of the block for the transition</span>"],
+		{"<a href="#go_to" class="code_link">go_to</a>": "example_block_4"}
+	]
+}
+</code></pre>
+<br>
+<p><b>Working example "legacy_choice"</b></p>
+<pre class="code_box"><code>{
+    "parameters": {
+		<span class="comm">other values</span>
+		"<a href="#variables" class="code_link">variables</a>": [
+			"experience_points": 80,
+			"magic_points": 100,
+			"health_points": 100
+		],
+	},
+	"example_block_1": [{
+		"legacy_choice": [
+			["experience_points", "=", 80, "example_block_2"],
+			["experience_points", "&lt;", 80, "example_block_3"],
+			{"<a href="#go_to" class="code_link">go_to</a>": "example_block_4"}
+		]
+	}],
+	"example_block_2": [{
+		"<a href="#dialogs" class="code_link">dialogs</a>": [{
+			"<a href="#text" class="code_link">text</a>": "Awesome!!!"
+		}]
+	}],
+	"example_block_3": [{
+		"<a href="#dialogs" class="code_link">dialogs</a>": [{
+			"<a href="#text" class="code_link">text</a>": "you cool"
+		}]
+	}],
+	"example_block_4": [{
+		"<a href="#dialogs" class="code_link">dialogs</a>": [{
+			"<a href="#text" class="code_link">text</a>": "hello"
+		}]
+	}]
+}
+</code></pre>
+</div>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<a id="Item_parameters"></a>
+<p style="font-size:30px;" align="center">elements parameters</p>
+<br>
+<br>
+<a id="art"></a>
+<p><b>"art"</b> -  Analogue of css style <a href="https://www.w3schools.com/cssref/pr_background-image.asp" target="_blank">background_image</a>. indicates a background picture.</p><p></p>
+<pre class="code_box"><code>		"art":"<span class="comm">path to the image file</span>",</code></pre>
+<br>
+Localization option supported
+<pre class="code_box"><code>	"art": {
+		"en":"<span class="comm">path to image file in English</span>",
+		"ja":"<span class="comm">path to image file in Japanese</span>",
+		"ru":"<span class="comm">path to image file in Russian</span>"
+		}
+	}
+</code></pre>
+<br>
+<br>
+<a id="art_size"></a>
+<p><b>"art_size"</b> - Sets the size of the image inside the element, otherwise it will be displayed at its original size. By setting the size of the height and width to 100%, the size of the image will fully match the size of the button (<a href="#size">size</a> option). replacing one of the values ​​with "auto", then the image size will be proportional to the size of the specified height or width</p><p></p>
+<pre class="code_box"><code>		"art_size": ["<span class="comm">width</span>", "<span class="comm">height</span>"] <span class="comm">the size of the image inside the element</span>,</code></pre>
+<br>
+<br>
+<a id="size_text"></a>
+<p><b>"size_text"</b> - The size of the text inside the element</p>
+<pre class="code_box"><code>		"size_text": "<span class="comm">text size</span>",</code></pre>
+<br>
+<br>
+<a id="back_to"></a>
+<p><b>"back_to"</b> - Jump to the specified id of the block name (previous block along the storyline) by pressing the back button (tue_back)</p>
+<pre class="code_box"><code>		"back_to": <span class="comm">Previous block id</span>",</code></pre>
+<br>
+<br>
+<a id="className"></a>
+<p><b>"className"</b> - The analogue <a href="https://www.w3schools.com/JSREF/prop_html_classname.asp" target="_blank">attribute  className</a> allows to use standard css classes specified in the "<a href="https://www.w3schools.com/html/html_css.asp" target="_blank">style</a>"  section of the html document.</p>
+<pre class="code_box"><code>		"className": "<span class="comm">a set of css style classes</span>",</code></pre>
+<br>
+<br>
+<a id="go_to"></a>
+<p><b>"go_to"</b> - Go to the block with the specified id name, or you can specify the functionality of one of the <a href="#system_Buttons"><b>System Buttons</b></a></p>
+<pre class="code_box"><code>		"go_to": "<span class="comm">Next block id</span>",</code></pre>
+<br>
+<br>
+<a id="style"></a>
+<p><b>"style"</b> - optional parameter (analogue <a href="https://www.w3schools.com/html/html_styles.asp" target="_blank">attribute  style</a> in html) personal css style for this image</p>
+<pre class="code_box"><code>		"style": "<span class="comm">parameters and their css values</span>",</code></pre>
+<br>
+<br>
+<a id="sound"></a>
+<p><b>"sound"</b> - Runs the specified sound, you cannot specify the file address, only the id name from <b>"parameters" / "<a href="#sounds">sounds</a>"</b> </p>
+<pre class="code_box"><code>		"sound": "<span class="comm">Sound id</span>",</code></pre>
+<br>
+Localization option supported
+<pre class="code_box"><code>	"sound": {
+		"en":"<span class="comm">Sound id for English</span>",
+		"ja":"<span class="comm">Sound id for Japanese</span>",
+		"ru":"<span class="comm">Sound id for Russian</span>"
+		}
+	}
+</code></pre>
+<br>
+<br>
+<a id="sound_stop"></a>
+<p><b>"sound_stop"</b> - Stops the specified sound </p>
+<pre class="code_box"><code>		"sound_stop": "<span class="comm">Sound id to stop</span>",</code></pre>
+<br>
+<br>
+<a id="position"></a>
+<p><b>"position"</b> - The position of the element relative to the edges of the scene. For example, values ​​[0, 10px, 10px, 0] mean that the element will appear in the upper right corner with a 10px padding.</p>
+<pre class="code_box"><code>		"position": [<span class="comm">left</span>, <span class="comm">right</span>, <span class="comm">top</span>, <span class="comm">bottom</span>] <span class="comm">position relative to the edge of the scene</span>,  </code></pre>
+<br>
+<br>
+<a id="url"></a>
+<p><b>"url"</b> - Specifies the path to a file or other resource (analogue <a href="https://www.w3schools.com/tags/att_src.asp" target="_blank">attribute  src</a> in html).  </p>
+<pre class="code_box"><code>		"url": "<span class="comm">the path to the file</span>",</code></pre>
+<br>
+<br>
+<a id="size"></a>
+<p><b>"size"</b> - Is an element size. It is possible to use proportional values ​​relative to the scene size.</p>
+<pre class="code_box"><code>		"size": ["<span class="comm">width</span>", "<span class="comm">height</span>"],</code></pre>
+<br>
+<br>
+<a id="size_text"></a>
+<p><b>"size_text"</b> - The size of the text inside the element</p>
+<pre class="code_box"><code>		"size_text": "<span class="comm">text size</span>"</code></pre>
+<br>
+<br>
+<a id="color"></a>
+<p><b>"color"</b> - The background color of an element in hexadecimal format hex (#fff #ffffff) or in rgb (255,255,255) and rgba (255,255,255,1) formats. By default, the item is transparent</p>
+<pre class="code_box"><code>		"color": "<span class="comm">background color</span>",</code></pre>
+<br>
+<br>
+<a id="color_text"></a>
+<p><b>"color_text"</b> - Text color, is an optional parameter, if is not specified, the color will be the default one, the color can be set in hexadecimal format hex (#fff #ffffff) or in rgb (255,255,255) and rgba (255,255,255,1) formats.</p>
+<pre class="code_box"><code>		"color_text": "<span class="comm">Text color</span>",</code></pre>
+<br>
+<br>
+<a id="html"></a>
+<p><b>"html"</b> - Displaying html elements inside a tuesday element</p>
+<pre class="code_box"><code>        "html": "<span class="comm">html code</span>",</code></pre>
+<br>
+<br>
+<a id="indent_text"></a>
+<p><b>"indent_text"</b> - Similar to the css <a href="https://www.w3schools.com/css/css_padding.asp" target="_blank">padding parameter</a>, determines the amount of padding from the edges of the element. You can use multiple values ​​according to css filling rules. For different vertical and horizontal padding "10px, 5px". If you need padding for each side or just one "16px, 5px, 5px, 5px"</p>
+<pre class="code_box"><code>		"indent_text": "<span class="comm">indents for text</span>",</code></pre>
+<br>
+<br>
+<a id="text"></a>
+<p><b>"text"</b> - text to display inside the element</p>
+<pre class="code_box"><code>		"text": "<span class="comm">text</span>",</code></pre>
+<br>
+Localization option supported
+<pre class="code_box"><code>	"text": {
+		"en":"<span class="comm">Translation of the text into English</span>",
+		"ja":"<span class="comm">テキストの日本語への翻訳</span>",
+		"ru":"<span class="comm">Перевод текста на русский</span>"
+		}
+	}
+</code></pre>
+
+<br>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<a id="system_Buttons"></a>
+<p style="font-size:30px;" align="center">System button</p>
+<br>
+<br>
+<a id="tue_load"></a>
+<p><b>"tue_load"</b> - Loading stage</p>
+<br>
+<a id="tue_save"></a>
+<p><b>"tue_save"</b> - Saving stage</p>
+<br>
+<a id="tue_home"></a>
+<p><b>"tue_home"</b> - Go to the main screen specified in launch_story parameters</p>
+<br>
+<a id="tue_next"></a>
+<p><b>"tue_next"</b> - The next dialogue of history</p>
+<br>
+<a id="tue_back"></a>
+<p><b>"tue_back"</b> - Previous story dialogue</p>
+<br>
+<a id="tue_load_autosave"></a>
+<p><b>"tue_load_autosave"</b> - Loading a stage from autosave</p>
+<br>
+<a id="tue_fullScreen"></a>
+<p><b>"tue_fullScreen"</b> - puts the Tuesday element in fullscreen mode</p>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<a id="function"></a>
+<p style="font-size:30px;" align="center">Function tuesday.js</p>
+<br>
+<br>
+<a id="load_story"></a>
+<p><b>load_story(tip, url)</b> - starting a history script, the <i>tip</i> parameter is responsible for the type of script</p>
+<p><span class="three_2"></span>tip <b>"file"</b> if the script is in a json file and in the "url" value you need to specify the path to the file</p>
+<p><span class="three_2"></span>tip <b>"data"</b> if the script is in the let array and in the "url" value you need to specify the name of the array</p>
+<br>
+<a id="go_story"></a>
+<p><b>go_story()</b> - moves the story forward in the plot. Automatically advances to the next block, scene, and dialogue in strict sequence. go to the next block by parameter <a href="#go_to"><b>go_to</b></a></p><a href="#go_to">
+<br>
+</a><a id="back_story"></a>
+<p><b>back_story()</b> - Rolls history back. Automatically moves to the previous block, scene and dialogue strictly according to their sequence. Is a transition to the echo sounder block by parameters <a href="#back_to"><b>back_to</b></a></p>
+<br>
+<a id="save_stag"></a>
+<p><b>save_stag(tip)</b> - Saving the current state of the history state, values ​​such as the current scene dialog and all values ​​from the <a href="#variables"><b>variables</b></a> section in the <i>localStorage</i>, the "tip" parameter will mean the name of the save. If you specify a "slot" then in localStorage it will be displayed as tue_slot_data. Occupied bookmark names for manual saving and auto for automatic saving.</p>
+<br>
+<a id="load_stag"></a>
+<p><b>load_stag(tip)</b> - Loading an array of history stages. The "hint" parameter is the name of the save, a bookmark for manual saving and auto for automatic saving. Or you can use any other name that was used when using the save_stag (tip) function</p>
+<br>
+<a id="go_to2"></a>
+<p><b>go_to(go)</b> - Go to an specified history block by specifying its name in the <i>go</i> parameter.</p>
+<br>
+<a id="full_screen"></a>
+<p><b>full_screen()</b> - puts the Tuesday element in fullscreen mode.</p>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<a id="events"></a>
+<p style="font-size:30px;" align="center">Events</p>
+<br>
+<a id="event_save"></a>
+<p><b>dialog_end</b> - Completing the appearance of text in text_panel (Can be used to determine the end of a character's conversation animation.)</p>
+<pre class="code_box"><code>tuesday.addEventListener('dialog_end', function(event) { <span class="comm">alert("dialog_end")</span> } );</code></pre>
+<br>
+<a id="event_save"></a>
+<p><b>save</b> - Save manually (does not work with autosave)</p>
+<pre class="code_box"><code>tuesday.addEventListener('save', function(event) { <span class="comm">alert("save")</span> } );</code></pre>
+<br>
+<a id="event_load"></a>
+<p><b>load</b> - Loading a previously saved state</p>
+<pre class="code_box"><code>tuesday.addEventListener('load', function(event) { <span class="comm">alert("load")</span> } );</code></pre>
+<br>
+<a id="event_script_loaded"></a>
+<p><b>script_loaded</b> - History script loaded successfully</p>
+<pre class="code_box"><code>tuesday.addEventListener('script_loaded ', function(event) { <span class="comm">alert("script_loaded ")</span> } );</code></pre>
+<br>
+<a id="event_add"></a>
+<p><b>_add</b> - Adding or subtracting from a specific variable, variable name with "_add" appended</p>
+<pre class="code_box"><code>tuesday.addEventListener('<span class="comm">variabl</span>_add ', function(event) { <span class="comm">alert("change")</span> } );</code></pre>
+<br>
+<a id="event_set"></a>
+<p><b>_set</b> - Modify specific variable, variable name with "_set" appended</p>
+<pre class="code_box"><code>tuesday.addEventListener('<span class="comm">variabl</span>_set ', function(event) { <span class="comm">alert("set")</span> } );</code></pre>
+<br>
+<a id="event_script_loaded"></a>
+<p><b>creation_dialog</b> - Finish creating a new scene or dialogue</p>
+<pre class="code_box"><code>tuesday.addEventListener('creation_dialog ', function(event) { <span class="comm">alert("creation_dialog ")</span> } );</code></pre>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<a id="plugins"></a>
+<p style="font-size:30px;" align="center">Plugins</p>
+<br>
+<div class="element">
+<a id="touch_swipe"></a>
+<br>
+<p class="title_name">Touch Swipe</p>
+<br>
+<p>Allows you to switch dialogs by swiping your finger across the touchscreen. Mouse not supported</p>
+<pre class="code_box"><code> &lt;script type="text/javaScript" src="touch_swipe.js"&gt;&lt;/script&gt; </code></pre>
+</div>
+<br><br><br>
+<div class="element">
+<a id="toast"></a>
+<p class="title_name">Toast</p>
+<br>
+<p>A small message appears for a while</p>
+<pre class="code_box"><code> &lt;script type="text/javaScript" src="toast.js"&gt;&lt;/script&gt; </code></pre>
+<br>
+<p>Customizing CSS by Toast ID</p>
+<pre class="code_box"><code>#toast {
+	background-color: rgba(74,64,69,0.7);
+	border-radius: 24px;
+	border: 0.1em solid rgba(207,173,156,0.7);
+	height: 48px;
+	width: 256px;
+}</code></pre>
+<br>
+<p><b>toast (message)</b> - shows the message, the message parameter sets the message text.</p>
+<br>
+<p>Example of use in javaScript (text output to progress loading event)</p>
+<pre class="code_box"><code>tuesday.addEventListener('load', function(event) {toast("load")});</code></pre>
+<br>
+<p>An example of use in tusday. used in the parameters "dialogs", "choice" and "legacy_choice"</p>
+<pre class="code_box"><code>"toast": " <span class="comm">Message text</span>",</code></pre>
+</div>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<script>
+var textbook = document.getElementById("textbook");
+var acc = document.getElementsByClassName("accordion");
+for (var i = 0; i < acc.length; i++) {
+	acc[i].addEventListener("click", function() {
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {panel.style.display = "none";}
+	else {panel.style.display = "block";}
+  });
+}
+function go_to(name) {window.location.hash = name; scroll_to(name);}
+function start_hash() {if(window.location.hash){scroll_to(window.location.hash.replace('#',''))}}
+function scroll_to(name) {var e = document.getElementById('5ready'); textbook.scrollTop = e.offsetTop;}
+function search_bookmarks() {
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById("search_bookmarks");
+    filter = input.value.toUpperCase();
+	bookmarks = document.getElementById("bookmarks");
+	li = bookmarks.getElementsByClassName("block");
+	if (filter.length == 0) {
+		var panel =  document.getElementsByClassName("panel");
+		for (var i = 0; i < panel.length; i++) {
+            panel[i].style.display = "none";
+            panel[i].className = "panel border_t";
+        }
+	} else {
+		var panel =  document.getElementsByClassName("panel");
+		for (var i = 0; i < panel.length; i++) {
+            panel[i].style.display = "block";
+            panel[i].className = "panel";
+        }
+	}
+    for (i = 0; i < li.length; i++) {
+        a = li[i];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "block";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+</script>
+
+
+</body></html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html><head>
+<title>Decode and Encode file to base64 converter</title>
+<style>
+*{font-family:Arial;font-size:12px;border-collapse:collapse;border:none;margin:0;padding:0;border-spacing:0px;outline:none;}
+.icon_load{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 256 256'%3e%3cpath fill='none' fill-opacity='0' stroke='%23000' stroke-width='12' stroke-linejoin='round' d='M48,85H252L208,226H5ZM48,85L5,226V51L18,34H65l13,17H208V85H48Z'/%3e%3c/svg%3e")}
+.icon_copy{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 64 64'%3e%3cpath fill='none' fill-opacity='0' stroke='%23000' stroke-width='3' stroke-linejoin='round' d='M8,61L29,40M30,53V39H16M17,31V14a4,4,0,0,1,4-4h6v4H45V10h6a4,4,0,0,1,4,4V48a4,4,0,0,1-4,4H37M27,18V7h5a4,4,0,0,1,8,0h5V18H27Z'/%3e%3c/svg%3e")}
+.icon_save{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 256 256'%3e%3cpath fill='none' fill-opacity='0' stroke='%23000' stroke-width='12' stroke-linejoin='round' d='M238,51V228a10,10,0,0,1-10,10H27a10,10,0,0,1-10-10V27A10,10,0,0,1,27,17H203ZM39,238V127a10,10,0,0,1,10-10H205a10,10,0,0,1,10,10V238H39ZM174,95H79a10,10,0,0,1-10-10V17H184V85A10,10,0,0,1,174,95ZM168,42a10,10,0,0,0-10-10H144a10,10,0,0,0-10,10V71a10,10,0,0,0,10,10h14a10,10,0,0,0,10-10V42ZM63,162H192m0,49H63'/%3e%3c/svg%3e")}
+.icon_clear{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 128 128'%3e%3cpath fill='none' fill-opacity='0' stroke='%23000' stroke-width='6' stroke-linejoin='round' d='M53,113H24L3,92V73L73,3l45,45ZM20,56l45,45M74,28L45,58M9,123H64M120,112h6M105,112h6M70,112H96'/%3e%3c/svg%3e")}
+.icon{background-size:22px 22px;background-repeat:no-repeat;background-position:center;height:40px;width:40px;}
+textarea{resize:none;width:100%;height:calc(100vh - 2px);background-color:#efefff;border-top:1px solid #cec8e3;padding:8px;box-sizing:border-box;}
+.input_text{
+	border:0;
+	font-family:Arial;
+	font-size:12px;
+	-webkit-appearance:none;
+	border-bottom:1px solid #cec8e3;
+	background-color:transparent;
+	cursor:text;
+	height:28px;
+	width:100%;
+	-webkit-touch-callout:text;-webkit-user-select:text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;
+}
+button{border-radius:8px;background-color:#efefff;cursor:pointer;margin:8px 0 8px 8px;}
+button:hover{background-color:#cec8e3;}
+</style>
+</head><body>
+<input id="file" type="file" style="display:none;position:fixed;"/>
+<a id="dwonload" style="display:none;position:fixed;"></a>
+<table style="width:100vw;" border="0">
+<tbody>
+<tr>
+<td style="width:210px;" valign="top">
+    <button type="button" onclick='file.click();' class='icon icon_load' title='Load file' >&nbsp;</button>
+    <button type="button" onclick='dwonload();' class='icon icon_save' title='Save file' >&nbsp;</button>
+    <button type="button" onclick='text.select();document.execCommand("copy");' class='icon icon_copy' title='copy base64' >&nbsp;</button>
+    <button type="button" onclick='text.value=""' class='icon icon_clear' title='clear' >&nbsp;</button>
+    <table width="100%" style="margin-top:8px;">
+    <tbody><tr>
+        <td align="right" style="padding-right:8px;" height="40px">Name file</td>
+        <td><input id="name_file" class="input_text" onchange="proportion(false);" type="text" style="width:100%;" value="decoder_file"></td>
+    </tr><tr>
+        <td align="right" height="40px" style="width:80px;padding-right:8px;">File size</td>
+        <td id="size_file"></td>
+    </tr><tr>
+        <td align="right" style="padding-right:8px;" height="40px">Base64 size</td>
+        <td id="size_base"></td>
+    </tr><tr>
+        <td valign="center" align="center" height="210px" colspan="2"><div id="preview" style="cursor:pointer;width:90%;height:90%;background-size:contain;background-position:center;background-repeat:no-repeat;background-color:#efefff;border-radius:8px;"></div></td>
+    </tr>
+    </tbody>
+    </table>
+</td>
+<td valign="top"><textarea id="text" oninput="dataBase64(this.value);size_file.innerHTML=fileSize((this.value.length*(3/4))-22)"></textarea></td>
+</tr>
+</tbody>
+</table>
+<script>
+var files=document.getElementById('file')
+file.addEventListener('change',function(){getBase64(files.files[0])});
+function getBase64(file) {
+    var reader=new FileReader();
+    name_file.value=file.name
+    size_file.innerHTML=fileSize(file.size)
+    reader.readAsDataURL(file);
+    reader.onload=function(){
+        text.value=reader.result;
+        dataBase64(reader.result)
+    };
+    reader.onerror=function(error){alert('Error: '+error);};
+}
+function dataBase64(d){
+    size_base.innerHTML=fileSize(encodeURI(d).split(/%..|./).length-1)
+    preview.style.backgroundImage="url('"+d+"')"
+    preview.setAttribute("onclick","window.open(text.value)")
+}
+function fileSize(b){
+      if(b>=1000000000){b=(b/1000000000).toFixed(2)+' GB';}
+      else if(b>=1000000){b=(b/1000000).toFixed(2)+' MB';}
+      else if(b>=1000){b=(b/1000).toFixed(2)+' KB';}
+      else if(b>=1){b=b+' bytes';}
+      else {b='0 byte';}
+      return b;
+}
+function dwonload(){
+    var a=document.getElementById('dwonload');
+    a.setAttribute("href",document.getElementById('text').value);
+    a.setAttribute("download",name_file.value);
+    a.click();
+}
+var drop = {
+    init:function(){
+        if (window.File&&window.FileReader&&window.FileList&&window.Blob) {
+            window.addEventListener("dragover",function(e){
+                e.preventDefault();
+                e.stopPropagation();
+            });
+            window.addEventListener("drop",function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                getBase64(e.dataTransfer.files[0])
+            });
+        }
+    },
+};
+window.addEventListener("DOMContentLoaded", drop.init);
+</script>
+</body></html>
+
