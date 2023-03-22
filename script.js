@@ -1,12 +1,19 @@
+const bc=new window.BroadcastChannel('test_channel');
+
+bc.onmessage=(message)=>{
+	let AirReciever = message.data;
+	document.getElementById('ContentView').src = AirReciever;
+}
+
 function changeApp(AppValue) {
 	document.getElementById('ContentView').src = AppValue;
 }
 
 function changeSearch(SearchValue) {
 	if (SearchValue.indexOf("AirStore") >= 0){
-		document.getElementById('SearchBoxResults').src = 'AirStore.html';
+		document.getElementById('SearchBoxResults').src = 'https://airstore.on.fleek.co';
 	} else if (SearchValue.indexOf("App") >= 0){
-		document.getElementById('SearchBoxResults').src = 'AirStore.html';
+		document.getElementById('SearchBoxResults').src = 'https://airstore.on.fleek.co';
 	} else if (SearchValue.indexOf("e621Browser") >= 0){
 		document.getElementById('SearchBoxResults').src = 'NSFW.html';
 	} else if (SearchValue.indexOf("Search") >= 0){
