@@ -1,19 +1,29 @@
-const bc=new window.BroadcastChannel('test_channel');
-
-bc.onmessage=(message)=>{
-	let AirReciever = message.data;
-	document.getElementById('ContentView').src = AirReciever;
-}
+document.addEventListener('DOMContentLoaded', init, false);
+function init(){
+	const bc=new window.BroadcastChannel('test_channel');
+	
+	
+	bc.onmessage=(message)=>{
+		let AirReciever = message.data;
+		document.getElementById('ContentView').src = AirReciever;
+	}
+	
+	bc.addEventListener("message", function(event) {
+		let AirReciever = event.data;
+		document.getElementById('ContentView').src = AirReciever;
+	});
+};
 
 function changeApp(AppValue) {
-	document.getElementById('ContentView').src = AppValue;
+	const bc=new window.BroadcastChannel('test_channel');
+	bc.postMessage(AppValue);
 }
 
 function changeSearch(SearchValue) {
 	if (SearchValue.indexOf("AirStore") >= 0){
 		document.getElementById('SearchBoxResults').src = 'https://airstore.on.fleek.co';
 	} else if (SearchValue.indexOf("App") >= 0){
-		document.getElementById('SearchBoxResults').src = 'https://airstore.on.fleek.co';
+		document.getElementById('SearchBoxResults').src = '/Users/farwalker3/Farcode/airstore/index.html';
 	} else if (SearchValue.indexOf("e621Browser") >= 0){
 		document.getElementById('SearchBoxResults').src = 'NSFW.html';
 	} else if (SearchValue.indexOf("Search") >= 0){
