@@ -1,3 +1,17 @@
+fetch("https://dweb.link/api/v0/ls?arg=QmVPF1uDfiuhXkBGUdaa8diuUxLuNZ8CuxQy3xTaoHK3Bs")
+.then((response) => {
+	if (response.ok) {
+		return response.json();
+	} else {
+		throw new Error("NETWORK RESPONSE ERROR");
+	}
+})
+.then(data => {
+	console.log(data.Objects[0].Links);
+}).catch(function() {
+	console.error("FETCH ERROR:", error);
+});
+
 document.addEventListener('DOMContentLoaded', init, false);
 function init(){
 	const bc=new window.BroadcastChannel('test_channel');
@@ -15,15 +29,19 @@ function init(){
 };
 
 function changeApp(AppValue) {
+	document.getElementById('ContentView').src = AppValue;
+}
+
+function changeAppUniversal(AppValue) {
 	const bc=new window.BroadcastChannel('test_channel');
 	bc.postMessage(AppValue);
 }
 
 function changeSearch(SearchValue) {
 	if (SearchValue.indexOf("AirStore") >= 0){
-		document.getElementById('SearchBoxResults').src = 'https://airstore.on.fleek.co';
+		document.getElementById('SearchBoxResults').src = 'AirStore.html';
 	} else if (SearchValue.indexOf("App") >= 0){
-		document.getElementById('SearchBoxResults').src = '/Users/farwalker3/Farcode/airstore/index.html';
+		document.getElementById('SearchBoxResults').src = 'AirStore.html';
 	} else if (SearchValue.indexOf("e621Browser") >= 0){
 		document.getElementById('SearchBoxResults').src = 'NSFW.html';
 	} else if (SearchValue.indexOf("Search") >= 0){
