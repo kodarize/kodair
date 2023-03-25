@@ -222,7 +222,7 @@ body {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 90px;
+	width: 95px;
 	height: 100%;
 	background-image: linear-gradient(#66ff88, #6688ff);
 }
@@ -367,8 +367,7 @@ body {
 	height: 20px;
 	background-color: rgba(150, 150, 200, 0.5);
 	text-align: center;
-	overflow-x: hidden;
-	overflow-y: auto;
+	overflow: hidden;
 }
 
 #DateTime {
@@ -390,8 +389,8 @@ body {
 #MainContent {
 	position: absolute;
 	top: 0;
-	left: 90px;
-	width: calc(100% - 90px);
+	left: 95px;
+	width: calc(100% - 95px);
 	height: 100%;
 	background-color: transparent;
 }
@@ -487,13 +486,14 @@ body {
 	position: absolute;
 	display: none;
 	top: 0;
-	left: 90px;
+	left: 95px;
 	width: calc(35% - 50px);
 	height: 100%;
 	background-color: rgba(200, 250, 200, 0.75);
 	z-index: 2;
 	flex: 1 1 auto;
 	overflow-y: auto;
+	backdrop-filter: blur(6px);
 }
 
 #InfoPannel::-webkit-scrollbar {

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./resources/D moviesand tv show.png" />
+    <title>Home | Cinemaa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Pacifico&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body class="body" onload="">
+    
+    <main class="main">
+        <!--  <section class="alertMsg">
+            <h2 class="alertMsg_header">TV shows added</h2>
+            <p class="alertMsg_para">Search now includes movies and tv shows.
+                More updates coming soon !!! <br> stay tuned Thank You!😊</p>
+            <button class="okaybtn">Okay</button>
+        </section>-->
+        
+        <div class="overlay"></div>
+        <div class="overlay_side_navabar"></div>
+        <div class="sidenav_container">
+            <nav class="sidenav">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#ffff"
+                    class="arrow_left bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                </svg>
+                <h3 class="title">CINEMAA</h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor"
+                    class="hamburger bi-list" viewBox="0 0 16 16">
+                    <path class="pathh pathhphone" fill-rule="evenodd"
+                        d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+                </svg>
+                <div class="menu">
+                    <h4 class="menu_title">Menu</h4>
+                    <ul class="menu_ul">
+                        <li class="home">
+                            <a class="sidenavlinks" href="./index.html"><svg xmlns="http://www.w3.org/2000/svg"
+                                    width="22" height="22" fill="currentColor" class="bi bi-house-fill"
+                                    viewBox="0 0 16 16">
+                                    <path class="path" fill-rule="evenodd"
+                                        d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
+                                    <path class="path" fill-rule="evenodd"
+                                        d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
+                                </svg><span class="Home_title title_span">Home</span></a>
+                        </li>
+                        <li class="movie">
+                            <a class="sidenavlinks" href="./moviesGenre.html">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                    class="bi bi-play-fill" viewBox="0 0 16 16">
+                                    <path class="path"
+                                        d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                                </svg>
+                                <span class="movie_name title_span">Movies</span></a>
+                        </li>
+                        <li class="tv_shows">
+                            <a class="sidenavlinks" href="./tvShows.html">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                    class="bi bi-tv-fill" viewBox="0 0 16 16">
+                                    <path class="path"
+                                        d="M2.5 13.5A.5.5 0 0 1 3 13h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zM2 2h12s2 0 2 2v6s0 2-2 2H2s-2 0-2-2V4s0-2 2-2z" />
+                                </svg>
+                                <span class="tv_shows_title title_span">Shows</span></a>
+                        </li>
+                        <li class="settings">
+                            <a class="sidenavlinks" href="./About.html">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                    class="bi bi-info-square-fill" viewBox="0 0 16 16">
+                                    <path class="path"
+                                        d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.93 4.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                                </svg><span class="settings_title title_span">About</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <section class="section_one">
+            <div class="nav_paremt_conatainer">
+                <nav class="navContainer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor"
+                        class="hamburger hamburgerphone bi-list" viewBox="0 0 16 16">
+                        <path class="pathh" fill-rule="evenodd"
+                            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+                    </svg>
+                    <input class="search" type="text" placeholder="Search " />
+                    <div class="light_darkmode" data-theme="black"></div>
+                </nav>
+            </div>
+            <section class="section_two">
+                <!-- <h3 class="home_header">Home</h3> -->
+                <div class="Home_header_container">
+
+                    <div class="trending_container">
+                        <div class="Trending_arrow_container">
+                            <?xml version="1.0" ?>
+                            <!DOCTYPE svg
+                                PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg
+                                class="trending_arrow trending_left_btn" height="512px" id="Layer_1"
+                                style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"
+                                xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <polygon points="352,115.4 331.3,96 160,256 331.3,416 352,396.7 201.5,256 " />
+                            </svg>
+                            <?xml version="1.0" ?>
+                            <!DOCTYPE svg
+                                PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg
+                                class="trending_arrow trending_right_btn" height="512px" id="Layer_1"
+                                style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"
+                                xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <polygon points="160,115.4 180.7,96 352,256 180.7,416 160,396.7 310.5,256 " />
+                            </svg>
+
+                        </div>
+
+                        <div class="trending_poster trending_div_container">
+
+                        </div>
+                    </div>
+                    <!-- <div class="first_box">
+                        <h4 class="about">
+                            Discover Movies and <br />
+                            TV shows. Enjoy awesome <br />
+                            quality content.
+                        </h4>
+                        <div class="logo">
+                            <img class="header_logo" src="./resources/D moviesand tv show.png" alt="" />
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-check">
+                                <path d="M20 6L9 17l-5-5"></path>
+                            </svg>
+                            <div class="quality_about">
+                                <h5 class="free">Yes, It's all free</h5>
+                                <div class="quality">
+                                    <p>HD Quality</p>
+                                    <span class="dot"></span>
+                                    <p>CC</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="second_box">
+                        <h4 class="about">
+                            If you like us share <br />
+                            our site to your <br />
+                            friends.
+                        </h4>
+                    </div> -->
+                </div>
+                <section class="Now_playing_movies_container Now_playing_movies_container_trend" id="nowplaying">
+                    <div class="alert">
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                        <strong>Warning!</strong> This site is full of ads, pop-ups, and viruses. Please proceed with caution!
+                    </div>
+                    <h4 class="Now_playing_movies_container_title">
+                        Now Playing Movies
+                    </h4>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="leftarrow arrowbtn bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="rightarrow rightarrowindex arrowbtn bi-chevron-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                    </svg>
+                    <div class="Now_playing_movies_div"></div>
+                </section>
+                <section class="Now_playing_movies_container" id="Trendingmovies">
+                    <h4 class="Now_playing_movies_container_title">Trending Movies</h4>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="leftarrow arrowbtn bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="rightarrow rightarrowindex arrowbtn bi-chevron-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                    </svg>
+                    <div class="current_popular_movies_div"></div>
+                </section>
+                <section class="Now_playing_movies_container" id="toprated">
+                    <h4 class="Now_playing_movies_container_title">Top Rated Movies</h4>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="leftarrow arrowbtn bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="rightarrow rightarrowindex arrowbtn bi-chevron-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                    </svg>
+                    <div class="Top_rated_movies_div"></div>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <script src="./scriptl.js"></script>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+        data-id="immdipu" data-description="Support me on Buy me a coffee!"
+        data-message="Thank you for visiting. You can now buy me a coffee." data-color="#5F7FFF" data-position="Right"
+        data-x_margin="18" data-y_margin="18"></script>
+</body>
+
+</html>
