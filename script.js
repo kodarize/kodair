@@ -37,6 +37,11 @@ function changeAppUniversal(AppValue) {
 	bc.postMessage(AppValue);
 }
 
+function changeAppWindow(AppValue) {
+	const bc=new window.BroadcastChannel('test_channel');
+	bc.postMessage(AppValue);
+}
+
 function changeSearch(SearchValue) {
 	if (SearchValue.indexOf("AirStore") >= 0){
 		document.getElementById('SearchBoxResults').src = 'AirStore.html';
@@ -100,11 +105,13 @@ function toggleFullScreen() {
 function toggleSearch(PreSearch) {
 	var x = document.getElementById('SearchBox');
 	var y = document.getElementById('SearchBoxInput');
+	var z = document.getElementById('SearchBoxResults');
 	if (x.style.display === 'block') {
 		x.style.display = 'none';
 	} else {
 		x.style.display = 'block';
 		y.placeholder = 'Search';
+			z.src = PreSearch;
 	}
 }
 
