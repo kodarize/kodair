@@ -5,7 +5,7 @@ body {
 	position: absolute;
 	top: 10px;
 	left: 10px;
-	width: calc(35% - 20px);
+	width: calc(25% - 20px);
 	height: calc(100% - 20px);
 	background-color: rgba(200, 250, 200, 0.75);
 }
@@ -45,8 +45,8 @@ div.optionbody {
 #EDUcontent {
 	position: absolute;
 	top: 10px;
-	left: 35%;
-	width: calc(65% - 10px);
+	left: 25%;
+	width: calc(75% - 10px);
 	height: calc(100% - 20px);
 	background-color: rgba(200, 250, 200, 0.75);
 }
