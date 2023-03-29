@@ -56,7 +56,7 @@ body {
 .footer {
     padding: 20px;
     text-align: center;
-    background: #ddd;
+    background: white;
     margin-top: 20px;
 }
 
@@ -86,4 +86,43 @@ body {
     padding: 15px 15px 15px 15px;
     font-family: "Roboto", Sans-serif;
     font-size: 15px;
+}
+
+.fa {
+    padding: 7px;
+    font-size: 50px;
+    width: 30px;
+    text-align: center;
+    text-decoration: none;
+    margin: 5px 2px;
+    border-radius: 50%;
+}
+
+.fa:hover {
+        opacity: 0.7;
+}
+
+.fa-twitter {
+    background: #55ACEE;
+    color: white;
+}
+
+.fa-linkedin {
+    background: #007bb5;
+    color: white;
+}
+
+.fa-youtube {
+    background: #bb0000;
+    color: white;
+}
+
+.fa-reddit {
+    background: #ff5700;
+    color: white;
+}
+
+.fa-rss {
+    background: #ff6600;
+    color: white;
 }
