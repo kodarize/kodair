@@ -359,6 +359,24 @@ body {
 	cursor: pointer;
 }
 
+#Users {
+	position: absolute;
+	top: calc(100% - 35px);
+	left: 0;
+	width: 100%;
+	height: 15px;
+	background-color: rgba(150, 150, 200, 0.5);
+	text-align: center;
+	overflow: hidden;
+}
+
+#Counter {
+	position:absolute;
+	top:-20px;
+	left:0;
+	width:100%;
+}
+
 #TheBoot {
 	position: absolute;
 	top: calc(100% - 20px);
@@ -368,6 +386,20 @@ body {
 	background-color: rgba(150, 150, 200, 0.5);
 	text-align: center;
 	overflow: hidden;
+}
+
+body:has(#TheBoot:hover) #Users {
+	top: calc(100% - 115px);
+	height: 95px;
+	transition: all ease 1.5s;
+}
+
+body:has(#TheBoot:hover) #Counter {
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	transition: all ease 2s;
 }
 
 #DateTime {

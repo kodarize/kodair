@@ -1,0 +1,64 @@
+body {
+    background-color: black;
+    font-family: Monospaced, serif;
+    font-size: 24px;
+    color: white;
+}
+input[type="text"] {
+    font-size:24px;
+    font-family: Monospaced, serif;
+}
+.container {
+    display: grid;
+    width: 900px;
+    grid-template-columns: repeat(3, auto);
+}
+.input {
+    width: 300px;
+    border: 5px solid darkred;
+    padding: 5px;
+    margin: 20px;
+    background-color: black;
+    color: white;
+    text-align: left;
+}
+.audio {
+    width: 300px;
+    border: 5px solid grey;
+    padding: 5px;
+    margin: 20px;
+    color: white;
+    text-align: left;
+    overflow: hidden;
+    white-space: initial;
+    overflow-wrap: break-word;
+    max-height: 520px;
+    height: 520px;
+}
+.video {
+    width: 300px;
+    border: 5px solid grey;
+    padding: 5px;
+    margin: 20px;
+    color: white;
+    text-align: left;
+    overflow: hidden;
+    white-space: initial;
+    overflow-wrap: break-word;
+    max-height: 520px;
+    height: 520px;
+}
+
+.log {
+    width: 220px;
+    border: 5px solid grey;
+    padding: 5px;
+    margin: 20px;
+    color: white;
+    text-align: left;
+    overflow: hidden;
+    white-space: initial;
+    overflow-wrap: break-word;
+    max-height: 520px;
+    height: 520px;
+}
