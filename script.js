@@ -47,8 +47,6 @@ function changeSearch(SearchValue) {
 		document.getElementById('SearchBoxResults').src = 'AirStore.html';
 	} else if (SearchValue.indexOf("App") >= 0){
 		document.getElementById('SearchBoxResults').src = 'AirStore.html';
-	} else if (SearchValue.indexOf("e621Browser") >= 0){
-		document.getElementById('SearchBoxResults').src = 'NSFW.html';
 	} else if (SearchValue.indexOf("Search") >= 0){
 		document.getElementById('ContentView').src = 'https://mwmbl.org';
 	} else {
