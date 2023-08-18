@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="library.svg" type="image/svg+xml">
+    <title>RSS Book Reader</title>
+    <style>
+      body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #1797B5;
+        -ms-overflow-style: none;  /* Internet Explorer 10+ */
+        scrollbar-width: none;  /* Firefox */
+      }
+      #book-content::-webkit-scrollbar {
+        display: none;  /* Safari and Chrome */
+      }
+      #book {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 90vw;
+        min-width: 90vw;
+        max-height: calc(100vh - 50px);
+        min-height: calc(100vh - 50px);
+        border: 1px solid #BFF8C1;
+        border-radius: 5px;
+        background-color: #BFF8C1;
+        overflow: hidden;
+        -webkit-box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+      #book-content {
+        flex: 1;
+        overflow: auto;
+        text-align: center;
+        padding: 20px;
+        -ms-overflow-style: none;  /* Internet Explorer 10+ */
+        scrollbar-width: none;  /* Firefox */
+      }
+      #book-content img {
+        max-width: 100%;
+        height: auto;
+      }
+      p {
+        text-align: left;
+        margin: 0 20px;
+        padding: 10px 0;
+        word-wrap: break-word;
+      }
+      #buttons {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 7px;
+        width: 100%;
+      }
+      button {
+        font-size: 24px;
+        color: black;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        outline: none;
+        background-color: transparent;
+      }
+      #feed-selector {
+        width: 55vw;
+        font-size: 18px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: white;
+        outline: none;
+      }
+      #hiddenRSS {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="book">
+      <div id="book-content"></div>
+      <div id="buttons">
+        <button id="prev-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm8 15H11.85l5.58 5.573L16 24l-8-8l8-8l1.43 1.393L11.85 15H24Z"/><path fill="none" d="m16 8l1.43 1.393L11.85 15H24v2H11.85l5.58 5.573L16 24l-8-8l8-8z"/></svg>
+        </button>
+        <input list="feed-list" id="feed-selector" placeholder="Select or Add an RSS">
+        <datalist id="feed-list">
+          <option value="recommended">Recommended RSS Feeds</option>
+        </datalist>
+        <button id="remove-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12Z"/></svg>
+        </button>
+        <button id="next-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M2 16A14 14 0 1 0 16 2A14 14 0 0 0 2 16Zm6-1h12.15l-5.58-5.607L16 8l8 8l-8 8l-1.43-1.427L20.15 17H8Z"/><path fill="none" d="m16 8l-1.43 1.393L20.15 15H8v2h12.15l-5.58 5.573L16 24l8-8l-8-8z"/></svg>
+        </button>
+      </div>
+    </div>
+    
+    <script>
+      const bookContent = document.getElementById("book-content");
+      const prevButton = document.getElementById("prev-button");
+      const nextButton = document.getElementById("next-button");
+      const feedSelector = document.getElementById("feed-selector");
+      const feedList = document.getElementById("feed-list");
+      
+      // Load selected RSS feed
+      feedSelector.addEventListener("change", function() {
+        const selectedValue = feedSelector.value;
+        if (selectedValue === "add") {
+          const newFeedUrl = prompt("Enter the RSS feed URL:");
+          if (newFeedUrl) {
+            const newFeed = { name: getDomainName(newFeedUrl), url: newFeedUrl };
+            const savedFeeds = JSON.parse(localStorage.getItem("rssFeeds")) || [];
+            savedFeeds.push(newFeed);
+            localStorage.setItem("rssFeeds", JSON.stringify(savedFeeds));
+            populateFeedSelector();
+            fetchRSS(newFeedUrl); // Load the newly added feed automatically
+          }
+        } else if (selectedValue === "recommended") {
+          showRecommendedFeeds();
+          feedSelector.value = ""; // Clear the selection
+        } else if (selectedValue === "hidden") {
+          showRecommendedFeeds("hidden");
+        } else if (selectedValue !== "") {
+          fetchRSS(selectedValue);
+        }
+      });
+      
+      feedSelector.addEventListener("focus", () => {
+        feedSelector.value = ""; // Clear the input when clicked to show all options
+      });
+      
+      function getDomainName(url) {
+        const domain = new URL(url).hostname;
+        return domain.replace("www.", "").replace(".com", ""); // Adjust this as needed
+      }
+      
+      const recommendedFeeds = [
+        {"name":"Raccoon Toons Videos","category":"Raccoon Toons","url":"http://www.raccoontoons.com/feed","id":1},
+        {"name":"Raccoon Toons Comics","category":"Raccoon Toons","url":"http://www.raccoontoons.com/category/archive/comics/feed","id":2},
+        {"name":"Raccoon Toons Comments","category":"Raccoon Toons","url":"http://www.raccoontoons.com/comments/feed","id":3},
+        {"name":"The Oatmeal","category":"Web Comics","url":"http://feeds.feedburner.com/oatmealfeed","id":4},
+        {"name":"Scurry","category":"Web Comics","url":"https://www.scurrycomic.com/scurry-comic?format=rss","id":5},
+        {"name":"Housepets!","category":"Web Comics","url":"https://www.housepetscomic.com/feed/","id":6},
+        {"name":"Kitty","category":"Web Comics","url":"http://www.commanderkitty.com/feed/","id":5},
+        {"name":"AlMora","category":"Web Comics","url":"https://al-mora.thecomicseries.com/rss","id":0},
+        {"name":"AntiBunny","category":"Web Comics","url":"https://antibunny.net/rss/","id":1},
+        {"name":"Transmission","category":"Web Comics","url":"https://transmission.thecomicseries.com/rss","id":6},
+        {"name":"Druids","category":"Adult Web Comics","url":"https://druids.thecomicseries.com/rss","id":3}
+      ];
+      
+      function showRecommendedFeeds(hiddenRSS) {
+        let content = "<h1>Recommended RSS Feeds</h1>";
+        recommendedFeeds.forEach(function(feed) {
+          if(feed.category != "Adult Web Comics"){
+          content += `
+      <p><strong>Name:</strong> ${feed.name}</p>
+      <p><strong>Category:</strong> ${feed.category}</p>
+      <p><strong>URL:</strong> ${feed.url}</p>
+      <hr>
+    `;
+        }else if(hiddenRSS == "hidden"){
+          content += `
+      <p><strong>Name:</strong> ${feed.name}</p>
+      <p><strong>Category:</strong> ${feed.category}</p>
+      <p><strong>URL:</strong> ${feed.url}</p>
+      <hr>
+    `;
+        }});
+        bookContent.innerHTML = content;
+      }
+      
+      let rssFeeds = [];
+      let currentFeedIndex = 0;
+      let currentPostIndex = 0;
+      
+      async function fetchRSS(feedUrl) {
+        try {
+          const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`);
+          const data = await response.json();
+          
+          if (data.status === "ok") {
+            rssFeeds = data.items.reverse();
+            updateBookContent();
+          } else {
+            console.error("Error fetching RSS feed:", data.message);
+          }
+        } catch (error) {
+          console.error("Error fetching RSS feed:", error);
+        }
+      }
+      
+      function updateBookContent() {
+        const post = rssFeeds[currentPostIndex];
+        if (post) {
+          const content = `
+      <h1>${post.title}</h1>
+      <p>${post.description}</p>
+      ${post.enclosure ? `<img src="${post.enclosure.link}" alt="${post.title}" />` : ""}
+      <p><a href="${post.link}" target="_blank">Read more</a></p>
+    `;
+          bookContent.innerHTML = content;
+        }
+      }
+      
+      prevButton.addEventListener("click", () => {
+        if (currentPostIndex > 0) {
+          currentPostIndex--;
+          updateBookContent();
+        }
+      });
+      
+      nextButton.addEventListener("click", () => {
+        if (currentPostIndex < rssFeeds.length - 1) {
+          currentPostIndex++;
+          updateBookContent();
+        }
+      });
+      
+      function populateFeedSelector() {
+        const savedFeeds = JSON.parse(localStorage.getItem("rssFeeds")) || [];
+        feedList.innerHTML = "<option value='recommended'>Recommended RSS Feeds</option>";
+        
+        for (let i = 0; i < savedFeeds.length; i++) {
+          const feed = savedFeeds[i];
+          const option = document.createElement("option");
+          option.value = feed.url;
+          option.textContent = feed.name || feed.url;
+          feedList.appendChild(option);
+        }
+        
+        const addOption = document.createElement("option");
+        addOption.value = "add";
+        addOption.textContent = "Add RSS feed";
+        feedList.appendChild(addOption);
+      }
+      
+      populateFeedSelector();
+      showRecommendedFeeds();
+      
+      const removeButton = document.getElementById("remove-button");
+      
+      removeButton.addEventListener("click", () => {
+        const selectedValue = feedSelector.value;
+        if (selectedValue !== "" && selectedValue !== "add" && selectedValue !== "hidden") {
+          const savedFeeds = JSON.parse(localStorage.getItem("rssFeeds")) || [];
+          const updatedFeeds = savedFeeds.filter(feed => feed.url !== selectedValue);
+          localStorage.setItem("rssFeeds", JSON.stringify(updatedFeeds));
+          populateFeedSelector();
+          feedSelector.value = ""; // Reset the selection
+          bookContent.innerHTML = ""; // Clear the book content
+        }
+      });
+    </script>
+  </body>
+</html>

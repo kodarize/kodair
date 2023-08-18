@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Texair</title>
+		<link rel="stylesheet" href="Texair.css" />
+		<script src="jquery.min.js"></script>
+		<script>
+			function startup() {
+				document.getElementById('Notepad').innerHTML = localStorage.getItem("document");
+				document.getElementById('title').value = localStorage.getItem("title");
+				countWordsInDiv();
+			}
+		</script>
+		<script src="https://unpkg.com/@ungap/custom-elements-builtin"></script>
+		<script src="x-frame-bypass.js" type="module"></script>
+	</head>
+	<body onload="startup();">
+		<div id="RibbonBar">
+			<div id="TexairIcon">
+				<svg class="Icn" xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><path fill="currentColor" d="m368 350.643l-112 63l-112-63v-66.562l-32-17.778v103.054l144 81l144-81V266.303l-32 17.778v66.562z"/><path fill="currentColor" d="M256 45.977L32 162.125v27.734L256 314.3l192-106.663V296h32V162.125Zm160 142.831l-32 17.777L256 277.7l-128-71.115l-32-17.777l-22.179-12.322L256 82.023l182.179 94.463Z"/></svg>
+				<div id="services-content">
+					<div class="service">
+					<svg class="Icn" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" onclick="changeApp('https://www.coursera.org/learn')"><path fill="currentColor" d="M11.374 23.977c-4.183-.21-8.006-2.626-9.959-6.347c-2.097-3.858-1.871-8.864.732-12.454C4.748 1.338 9.497-.698 14.281.23c4.583.857 8.351 4.494 9.358 8.911c1.122 4.344-.423 9.173-3.925 12.04c-2.289 1.953-5.295 2.956-8.34 2.797zm7.705-8.05a588.737 588.737 0 0 0-3.171-1.887c-.903 1.483-2.885 2.248-4.57 1.665c-2.024-.639-3.394-2.987-2.488-5.134c.801-2.009 2.79-2.707 4.357-2.464a4.19 4.19 0 0 1 2.623 1.669c1.077-.631 2.128-1.218 3.173-1.855c-2.03-3.118-6.151-4.294-9.656-2.754c-3.13 1.423-4.89 4.68-4.388 7.919c.54 3.598 3.73 6.486 7.716 6.404a7.664 7.664 0 0 0 6.404-3.563z"/></svg>
+					</div>
+					<div class="service">
+					<svg class="Icn" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" onclick="changeApp('https://mccs.brightspace.com')"><path fill="currentColor" d="M22 5v2h-5l-3.47 5H16v2h-1.54l3.71 8h-2.2l-.93-2H6.38l-1.03 2H3.1l4.13-8H7c-.45 0-.83-.3-.96-.7L2.87 3.84l.95-.34c.52-.16 1.09.13 1.26.65L7.72 12h4.38l3.47-5H12V5h10M9.5 14l-2.08 4h6.69l-1.85-4H9.5Z"/></svg>
+					</div>
+					<div class="service">
+					<svg class="Icn" xmlns="http://www.w3.org/2000/svg" width="320" height="512" viewBox="0 0 320 512" onclick="changeApp('https://www.zotero.org/mylibrary')"><path fill="currentColor" d="M31.264 64h276.752v54.624L79.072 401.392h228.944V448H11.984v-53.424l229.76-283.968H31.264Z"/></svg>
+					</div>
+					<div class="service">
+					<svg class="Icn" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" onclick="changeApp('https://www.studystack.com/')"><mask id="ipTBookshelf0"><path fill="#555" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 6h34s4 2 4 7s-4 7-4 7H5s4-2 4-7s-4-7-4-7Zm38 22H9s-4 2-4 7s4 7 4 7h34s-4-2-4-7s4-7 4-7Z"/></mask><path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTBookshelf0)"/></svg>
+					</div>
+					<div class="service">
+					<svg class="Icn" xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" onclick="changeApp('https://www.studystack.com/')"><path fill="currentColor" d="m368 350.643l-112 63l-112-63v-66.562l-32-17.778v103.054l144 81l144-81V266.303l-32 17.778v66.562z"/><path fill="currentColor" d="M256 45.977L32 162.125v27.734L256 314.3l192-106.663V296h32V162.125Zm160 142.831l-32 17.777L256 277.7l-128-71.115l-32-17.777l-22.179-12.322L256 82.023l182.179 94.463Z"/></svg>
+					</div>
+				</div>
+			</div>
+			<input id="title" type="text" placeholder="Title" onkeyup="save();">
+			<div id="file">
+				<input id="file-btn" type="button" value="File">
+				<div id="file-content">
+					<input id="save" type="button" value="Save">
+					<input id="restore" type="button" value="Restore">
+					<input id="download" type="button" value="Download">
+					<input id="import" type="button" value="Import">
+				</div>
+			</div>
+			<div id="edit">
+				<input id="edit-btn" type="button" value="Edit">
+				<div id="edit-content">
+					<input id="speak" type="button" value="Speak">
+				</div>
+			</div>
+			<div id="text">
+				<input id="text-btn" type="button" value="Text">
+				<div id="text-content">
+					<input id="font" type="button" value="Font">
+				</div>
+			</div>
+			<div id="view">
+				<input id="view-btn" type="button" value="View">
+				<div id="view-content">
+					<input id="read-mode" type="button" value="Read Mode">
+					<input id="edit-mode" type="button" value="Edit Mode">
+				</div>
+			</div>
+		</div>
+		<iframe is="x-frame-bypass" id="Classroom"></iframe>
+		<div  contenteditable="true" onkeyup="save(); countWordsInDiv();"></div>
+		<div id="NoteInfo">Wordcount: <span id="TotalWords"></span> - Charactercount: <span id="TotalChars"></span></div>
+		<script src="Texair.js"></script>
+	</body>
+	</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="Panilive.css">
+	</head>
+	<body>
+		<center id="Service">PANILIVE</center>
+		
+		<input type="text" id="User" onkeydown="return /[a-z0-9]/i.test(event.key)" oninput="myFunction()" placeholder="Username">
+		
+		<input type="text" id="Hex" onkeydown="return /[a-z0-9]/i.test(event.key)" minlength="2" maxlength="3" oninput="myFunction()" Placeholder="###">
+		
+		<p id="demo" style="background-color: white;font-weight: bold;"></p>
+		
+		<p id="demo1" style="background-color: black;font-weight: bold;"></p>
+		
+		<script>
+			function myFunction() {
+				let user = document.getElementById("User").value;
+				let text = document.getElementById("Hex").value;
+				let c1 = (text.charCodeAt(0) - 48) * 2;
+				let c2 = (text.charCodeAt(1) - 48) * 2;
+				let c3 = (text.charCodeAt(2) - 48) * 2;
+				let i1 = 255 - c1;
+				let i2 = 255 - c2;
+				let i3 = 255 - c3;
+				document.getElementById("demo").innerHTML = user + "#" + text;
+				document.getElementById("demo").style.color = "rgb(" + c1 + "," + c2 + "," + c3 + ")";
+				document.getElementById("demo1").innerHTML = user + "#" + text;
+				document.getElementById("demo1").style.color = "rgb(" + i1 + "," + i2 + "," + i3 + ")";
+			}
+		</script>
+	</body>
+</html>

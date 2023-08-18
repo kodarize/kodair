@@ -1,0 +1,290 @@
+:root,
+:root.classic {
+    --void-color: #123456;
+    --star-color: #3399FF;
+    --dust-color: #FFFFFF;
+    --land-color: #0077EE;
+}
+
+:root.solarized {
+    --void-color: #002b36;
+    --star-color: #073642;
+    --dust-color: #fdf6e3;
+    --land-color: #268bd2;
+}
+:root.modern {
+    --void-color: #161616;
+    --star-color: #202020;
+    --dust-color: #FFFFFF;
+    --land-color: #2a2a2a;
+}
+:root.darkness {
+    --void-color: #000000;
+    --star-color: #000000;
+    --dust-color: #AAAAAA;
+    --land-color: #000000;
+}
+
+.GR {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+.T1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 15%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.T2 {
+    position: absolute;
+    top: 0;
+    left: 15%;
+    width: calc(25% - 5px);
+    height: 100%;
+    overflow: hidden;
+    border-left: 5px ridge var(--void-color);
+}
+
+.T3 {
+    position: absolute;
+    top: 0;
+    left: 40%;
+    width: calc(25% - 5px);
+    height: 100%;
+    overflow: hidden;
+    border-left: 5px ridge var(--void-color);
+}
+
+.T4 {
+    position: absolute;
+    top: 0;
+    left: 65%;
+    width: calc(25% - 5px);
+    height: 100%;
+    overflow: hidden;
+    border-left: 5px ridge var(--void-color);
+}
+
+.T5 {
+    position: absolute;
+    top: 0;
+    left: 90%;
+    width: calc(10% - 5px);
+    height: 100%;
+    overflow: hidden;
+    border-left: 5px ridge var(--void-color);
+}
+
+.Grid {
+    position: absolute;
+    display: block; /* Fallback for non-webkit */
+    display: -webkit-box;
+    top: 15%;
+    left: 10%;
+    width: 80%;
+    height: 70%;
+    -webkit-line-clamp: 2; /* no of lines */
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow:hidden !important;
+}
+
+.context-menu {
+    position: absolute;
+    text-align: center;
+    background: lightgray;
+    border: 1px solid black;
+}
+
+.context-menu ul {
+    padding: 0px;
+    margin: 0px;
+    min-width: 225px;
+    list-style: none;
+}
+
+.context-menu ul li {
+    padding-bottom: 7px;
+    padding-top: 7px;
+    border: 1px solid black;
+}
+
+.context-menu ul li a {
+    text-decoration: none;
+    color: black;
+}
+
+.context-menu ul li:hover {
+    background: darkgray;
+}
+
+body {
+    color: var(--dust-color);
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    font-size: 25px;
+    line-height: 31px;
+}
+
+video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+img {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    width: 175px;
+    height: calc(100% - 50px);
+}
+
+#Container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--land-color);
+}
+
+#Sky {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 400px);
+    height: 300px;
+    background-color: var(--star-color);
+}
+
+#Ocean {
+    position: absolute;
+    top: 0;
+    left: calc(100% - 400px);
+    width: 400px;
+    height: 300px;
+    background-color: var(--void-color);
+}
+
+#Ground {
+    position: absolute;
+    top: 300px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 300px);
+    overflow: hidden;
+    background-color: var(--land-color);
+}
+
+#Show {
+    position: absolute;
+    top: 25px;
+    left: 225px;
+    width: calc(100% - 400px);
+    height: calc(100% - 250px);
+    overflow: hidden;
+    text-align: left;
+}
+
+#Channel {
+    position: absolute;
+    top: 25px;
+    left: calc(100% - 150px);
+    width: 125px;
+    height: calc(100% - 250px);
+    overflow: hidden;
+    text-align: right;
+}
+
+#Time {
+    position: absolute;
+    top: 75px;
+    left: 225px;
+    width: 175px;
+    height: calc(100% - 250px);
+    overflow: hidden;
+    text-align: left;
+}
+
+#Charms {
+    position: absolute;
+    top: 75px;
+    left: calc(100% - 375px);
+    width: 350px;
+    height: calc(100% - 250px);
+    overflow: hidden;
+    text-align: right;
+}
+
+#Description {
+    position: absolute;
+    display: block; /* Fallback for non-webkit */
+    display: -webkit-box;
+    top: 150px;
+    left: 225px;
+    width: calc(100% - 250px);
+    height: calc(100% - 175px);
+    text-align: justify;
+    -webkit-line-clamp: 4; /* no of lines */
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow:hidden !important;
+}
+
+#Horrizon {
+    top: 0;
+    width: 100%;
+    height: 10%;
+    background-color: var(--void-color);
+}
+
+#R1 {
+    top: 10%;
+    width: 100%;
+    height: 15%;
+    background-color: var(--land-color);
+}
+
+#R2 {
+    top: 25%;
+    width: 100%;
+    height: 15%;
+    background-color: var(--star-color);
+}
+
+#R3 {
+    top: 40%;
+    width: 100%;
+    height: 15%;
+    background-color: var(--land-color);
+}
+
+#R4 {
+    top: 55%;
+    width: 100%;
+    height: 15%;
+    background-color: var(--star-color);
+}
+
+#R5 {
+    top: 70%;
+    width: 100%;
+    height: 15%;
+    background-color: var(--land-color);
+}
+
+#R6 {
+    top: 85%;
+    width: 100%;
+    height: 15%;
+    background-color: var(--star-color);
+}
