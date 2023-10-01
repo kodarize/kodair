@@ -179,6 +179,16 @@
         bookContent.innerHTML = content;
       }
       
+      function showStart(hiddenRSS) {
+        let content = "<h1 onclick='showRecommendedFeeds();'>Continue Using New Reader</h1><br><center>| OR |</center><br><h1 onclick='changeReaderApp();'>Use Old Reader</h1>";
+        bookContent.innerHTML = content;
+      }
+      
+      function changeReaderApp(AppValue) {
+        const bc=new window.BroadcastChannel('test_channel');
+        bc.postMessage("KodReader/app/index.html");
+      }
+      
       let rssFeeds = [];
       let currentFeedIndex = 0;
       let currentPostIndex = 0;
@@ -245,7 +255,7 @@
       }
       
       populateFeedSelector();
-      showRecommendedFeeds();
+      showStart();
       
       const removeButton = document.getElementById("remove-button");
       
