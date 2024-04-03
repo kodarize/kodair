@@ -314,7 +314,7 @@ body {
 	top: 55px;
 	left: 0;
 	width: 100%;
-	height: calc(100% - 150px);
+	height: calc(100% - 160px);
 	background-color: rgba(10, 10, 10, 0.5);
 	text-align: center;
 	overflow-x: hidden;
@@ -361,10 +361,10 @@ body {
 
 #TheSock {
 	position: absolute;
-	top: calc(100% - 95px);
+	top: calc(100% - 105px);
 	left: 0;
 	width: 100%;
-	height: 75px;
+	height: 85px;
 	background-color: rgba(150, 150, 200, 0.5);
 	text-align: center;
 	overflow: hidden;
