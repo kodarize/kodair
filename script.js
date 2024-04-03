@@ -37,11 +37,6 @@ function changeAppUniversal(AppValue) {
 	bc.postMessage(AppValue);
 }
 
-function changeAppWindow(AppValue) {
-	const bc=new window.BroadcastChannel('test_channel');
-	bc.postMessage(AppValue);
-}
-
 function changeSearch(SearchValue) {
 	if (SearchValue.indexOf("AirStore") >= 0){
 		document.getElementById('SearchBoxResults').src = 'AirStore.html';

@@ -1,0 +1,97 @@
+body {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  height: 100vh;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+#User {
+  position: absolute;
+  top: 30%;
+  left: 25%;
+  width: calc(35% - 15px);
+  height: 10%;
+  font-size: 5vh;
+  font-weight: bold;
+  vertical-align: middle;
+  overflow: hidden;
+  mix-blend-mode: overlay;
+  border: none;
+  outline: none;
+  text-align: center;
+}
+
+#Hex {
+  position: absolute;
+  top: 30%;
+  left: 60%;
+  width: 15%;
+  height: 10%;
+  font-size: 5vh;
+  font-weight: bold;
+  vertical-align: middle;
+  overflow: hidden;
+  mix-blend-mode: overlay;
+  border: none;
+  outline: none;
+  text-align: center;
+}
+
+#Service {
+position: absolute;
+top: 10%;
+left: 30%;
+width: 40%;
+height: 20%;
+font-size: 10vh;
+font-weight: bold;
+overflow: hidden;
+color: white;
+mix-blend-mode: overlay;
+}
+
+#demo {
+  position: absolute;
+  top: 24%;
+  left: 24%;
+  width: 35%;
+  height: 3%;
+  font-size: 2vh;
+  font-weight: bold;
+  vertical-align: middle;
+  overflow: hidden;
+  mix-blend-mode: overlay;
+  border: none;
+  outline: none;
+  text-align: center;
+  line-height: 3vh;
+}
+
+#demo1 {
+  position: absolute;
+  top: 24%;
+  left: 59%;
+  width: 18%;
+  height: 3%;
+  font-size: 2vh;
+  font-weight: bold;
+  vertical-align: middle;
+  overflow: hidden;
+  mix-blend-mode: overlay;
+  border: none;
+  outline: none;
+  text-align: center;
+  line-height: 3vh;
+}

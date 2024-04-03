@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>KPG (Kodair Program Guide)</title>
+        <link rel="stylesheet" type="text/css" href="KEPG.css">
+    </head>
+    <body>
+        <div id="Sky">
+            <img src="DRVR133.avif" alt="Driver 113">
+            <div id="Show">Driver 113</div>
+            <div id="Channel">001 KOD</div>
+            <div id="Time">Now</div>
+            <div id="Charms">TV-14</div>
+            <div id="Description">Driver 113 liked his job for Mappr360 -- mapping America’s forgotten roads -- until his cameras captured something he wasn't meant to see.</div>
+        </div>
+        <div id="Ocean">
+            <video src="DRVR113TRAILER.mp4" muted autoplay loop controls></video>
+        </div>
+        <div id="Ground">
+            <div class="GR" id="Horrizon">
+                <div class="T1"><center class="Grid">Today</center></div>
+                <div class="T2"><center class="Grid">1</center></div>
+                <div class="T3"><center class="Grid">2</center></div>
+                <div class="T4"><center class="Grid">3</center></div>
+                <div class="T5"><center class="Grid">></center></div>
+            </div>
+            <div class="GR" id="R1">
+                <div class="T1"><center class="Grid">001<br>KOD</center></div>
+                <div class="T2"><center class="Grid">How The Hamsters Saved Winter</center></div>
+                <div class="T3"><center class="Grid">Hamiltom - An Animal Crossing Musical</center></div>
+                <div class="T4"><center class="Grid">The Scooby-Doo Project</center></div>
+                <div class="T5"><center class="Grid">More To Come Soon</center></div>
+            </div>
+            <div class="GR" id="R2">
+                <div class="T1"><center class="Grid">002<br>MOV</center></div>
+                <div class="T2"><center class="Grid">How The Hamsters Saved Winter</center></div>
+                <div class="T3"><center class="Grid">Hamiltom - An Animal Crossing Musical</center></div>
+                <div class="T4"><center class="Grid">The Scooby-Doo Project</center></div>
+                <div class="T5"><center class="Grid">More To Come Soon</center></div>
+            </div>
+            <div class="GR" id="R3">
+                <div class="T1"><center class="Grid">003<br>WEA</center></div>
+                <div class="T2"><center class="Grid">Weather</center></div>
+                <div class="T3"><center class="Grid">Weather</center></div>
+                <div class="T4"><center class="Grid">Weather</center></div>
+                <div class="T5"><center class="Grid">More To Come Soon</center></div>
+            </div>
+            <div class="GR" id="R4">
+                <div class="T1"><center class="Grid">004<br>MUS</center></div>
+                <div class="T2"><center class="Grid">Kodair Radio</center></div>
+                <div class="T3"><center class="Grid">Nightstation</center></div>
+                <div class="T4"><center class="Grid">Holiday Radio</center></div>
+                <div class="T5"><center class="Grid">More To Come Soon</center></div>
+            </div>
+            <div class="GR" id="R5">
+                <div class="T1"><center class="Grid">005<br>OTH</center></div>
+                <div class="T2"><center class="Grid">rPlayer</center></div>
+                <div class="T3"><center class="Grid">Chillhop</center></div>
+                <div class="T4"><center class="Grid">ThetaTV</center></div>
+                <div class="T5"><center class="Grid">More To Come Soon</center></div>
+            </div>
+            <div class="GR" id="R6">
+                <div class="T1"><center class="Grid">006<br>APP</center></div>
+                <div class="T2"><center class="Grid">Cinema</center></div>
+                <div class="T3"><center class="Grid">PlutoTV</center></div>
+                <div class="T4"><center class="Grid">New Pipe</center></div>
+                <div class="T5"><center class="Grid">More To Come Soon</center></div>
+            </div>
+        </div>
+        <div id="contextMenu" class="context-menu" 
+            style="display:none">
+            <ul>
+                <li><a href="#" class="theme-btn classic" onclick="setTheme('classic')">Classic Theme</a></li>
+                <li><a href="#" class="theme-btn solarized" onclick="setTheme('solarized')">Solarized Theme</a></li>
+                <li><a href="#" class="theme-btn modern" onclick="setTheme('modern')">Modern Theme</a></li>
+                <li><a href="#" class="theme-btn darkness" onclick="setTheme('darkness')">Darkness Theme</a></li>
+            </ul>
+        </div>
+        
+        <script>
+            const setTheme = theme => document.documentElement.className = theme;
+            
+            document.onclick = hideMenu;
+            document.oncontextmenu = rightClick;
+            
+            function hideMenu() {
+                document.getElementById(
+                    "contextMenu").style.display = "none"
+            }
+            
+            function rightClick(e) {
+                e.preventDefault();
+                
+                if (document.getElementById(
+                    "contextMenu").style.display == "block")
+                    hideMenu();
+                else {
+                    var menu = document
+                    .getElementById("contextMenu")
+                    
+                    menu.style.display = 'block';
+                    menu.style.left = e.pageX + "px";
+                    menu.style.top = e.pageY + "px";
+                }
+            }
+        </script>
+    </body>
+</html>

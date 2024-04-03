@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AirStore</title>
+    <link rel="stylesheet" type="text/css" href="AirStore2.css">
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        // Function to fetch all data
+        async function fetchAllData() {
+            try {
+                const response = await fetch('http://res.cloudinary.com/kodair/raw/upload/v1712111729/Airstore/airstore.csv');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                const csvData = await response.text();
+                const jsonData = Papa.parse(csvData, { header: true }).data;
+                return jsonData;
+            } catch (error) {
+                console.error(error);
+                return [];
+            }
+        }
+
+        // Fetch all data and process it
+        fetchAllData()
+            .then(appsList => {
+                if (appsList.length === 0) {
+                    const errorMessage = document.createElement('div');
+                    errorMessage.innerText = 'Failed to fetch data. Please try again later.';
+                    document.body.appendChild(errorMessage);
+                    return;
+                }
+
+                const categories = {};
+
+                // Group apps by category
+                appsList.forEach(app => {
+                    const category = app.Category;
+                    if (!categories[category]) {
+                        categories[category] = [];
+                    }
+                    categories[category].push(app);
+                });
+
+                // Create category titles and app containers
+                Object.entries(categories).forEach(([category, apps]) => {
+                    const categoryDiv = document.createElement('div');
+                    categoryDiv.classList.add('Category');
+
+                    const categoryTitle = document.createElement('div');
+                    categoryTitle.classList.add('CategoryTitle');
+                    categoryTitle.innerText = category;
+
+                    const categoryContainer = document.createElement('div');
+                    categoryContainer.classList.add('CategoryApps');
+
+                    apps.forEach(app => {
+                        const appElement = document.createElement('div');
+                        appElement.classList.add('AirApp');
+                        appElement.setAttribute('onclick', `changeAppUniversal('${app.URL}')`);
+
+                        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                        svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+                        svg.setAttribute('aria-hidden', 'true');
+                        svg.setAttribute('role', 'img');
+                        svg.setAttribute('width', '3.75em');
+                        svg.setAttribute('height', '3.75em');
+                        svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+                        svg.innerHTML = app.SVG;
+
+                        const titleDescContainer = document.createElement('div');
+                        titleDescContainer.classList.add('AppTitle');
+                        titleDescContainer.innerHTML = `${app.Title}<br><span class="desc">${app.Description}</span>`;
+
+                        appElement.appendChild(svg);
+                        appElement.appendChild(titleDescContainer);
+                        categoryContainer.appendChild(appElement);
+                    });
+
+                    categoryDiv.appendChild(categoryTitle);
+                    categoryDiv.appendChild(categoryContainer);
+                    document.body.appendChild(categoryDiv);
+                });
+            })
+            .catch(err => console.error(err));
+    </script>
+</head>
+<body>
+</body>
+</html>

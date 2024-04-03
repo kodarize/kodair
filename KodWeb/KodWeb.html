@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="https://pixabay.com/get/57e6dd424d50ae14f1dc8460825668204022dfe05550704e70287dd5/earth-1681722_640.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link type="text/css" rel="stylesheet" href="KodWeb.css"/>
+    <link type="text/css" rel="stylesheet" href="KodWeb.css"/>
 </head>
 
 <body onload="startTime()">
     <div class="Content" id="MainContent">
-        <iframe id="MainWeb" src="RosenX/index.html" allowfullscreen sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts"></iframe>
+        <iframe id="MainWeb" src="https://www.google.com/search?igu=1" allowfullscreen sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts"></iframe>
         <div id="DragToolbar2">
             <div class="DragHandle" id="Handle3" ondblclick="QuickMove3()">
                 <i class="material-icons md-18" onclick="QuickMove3()">swap_horizontal_circle</i>
@@ -26,6 +26,7 @@
                 <div class="Content" id="TopContent">
                     <select class="Tool2" id="ActionType" onchange="document.getElementById('ActionInput').placeholder = this.value;">
                         <option selected value="Search">Bing:</option>
+                        <option value="Repo">Repo:</option>
                         <option value="Search Wolfram Alpha">Compute:</option>
                         <option value="Channel ID">Youtube User:</option>
                         <option value="Playlist ID">Youtube List:</option>

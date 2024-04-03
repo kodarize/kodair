@@ -13,6 +13,8 @@ function ChangeWebPage(NewSRC) {
 			document.getElementById("MainWeb").src = NewSRC;
 	} else if (SelectValue.value == "Search") {
 			document.getElementById("MainWeb").src = 'https://www.bing.com/search?q=' + NewSRC;
+    } else if (SelectValue.value == "Repo") {
+        document.getElementById("MainWeb").src = 'https://zollo.sanixdk.xyz/?q=' + NewSRC;
     } else if (SelectValue.value == "Search Wolfram Alpha") {
         document.getElementById("MainWeb").src = 'https://www.wolframalpha.com/widget/input/?input=' + NewSRC + '&id=1a23efcb39da8db7ca95ea8085d096a1';
     } else if (SelectValue.value == "Channel ID") {
