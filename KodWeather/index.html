@@ -142,7 +142,7 @@
                 <div id="cc-condition" class="regular-text cc-text">Condition</div>
                 <div class="cc-horizontal-group">
                   <div class="regular-text cc-text cc-left">VISIBILITY</div>
-                  <div class="regular-text cc-text"><span id="cc-visibility">0</span> Miles</div>
+                  <div class="regular-text cc-text"><span id="cc-visibility">0</span> <span id="cc-visibility-unit-imperial">Miles</span><span id="cc-visibility-unit-metric">km</span></div>
                 </div>
               </div>
             </div>
@@ -181,7 +181,7 @@
                 </div>
                 <div class="cc-horizontal-group">
                   <div class="regular-text cc-text cc-left">PRESSURE</div>
-                  <div class="regular-text cc-text"><span id="cc-pressure1">29</span>.<span id="cc-pressure2">92</span><span id="cc-pressuretrend">▲</span></div>
+                  <div class="regular-text cc-text"><span id="cc-pressure1">29</span><span id="cc-pressure-decimal">.</span><span id="cc-pressure2">92</span><span id="cc-pressure-metric"> mbar</span><span id="cc-pressuretrend">▲</span></div>
                 </div>
               </div>
             </div>
@@ -192,46 +192,10 @@
       <!-- Radar Page -->
       <div id="radar-page" class="page-container regular-page-container">
         <div class="page-title-bar regular-text">
-          <div style="display: inline-block">3 Hour Radar</div>
-          <div class="key">
-            <div class="key-item key-item-snow">
-              <div class="key-color-group">
-                <div class="key-color" style="background-color: #91fdfd;"></div>
-                <div class="key-color" style="background-color: #59aaab;"></div>
-                <div class="key-color" style="background-color: #3f7c7d;"></div>
-                <div class="key-color" style="background-color: #14303b;"></div>
-              </div>
-              <div class="key-label">Snow</div>
-            </div>
-          </div>
-          <div class="key">
-            <div class="key-item key-item-mix">
-              <div class="key-color-group">
-                <div class="key-color" style="background-color: #fe94ce;"></div>
-                <div class="key-color" style="background-color: #cf5597;"></div>
-                <div class="key-color" style="background-color: #a01765;"></div>
-              </div>
-              <div class="key-label">Mix/Ice</div>
-            </div>
-          </div>
-          <div class="key">
-            <div class="key-item key-item-rain">
-              <div class="key-color-group">
-                <div class="key-color" style="background-color: #69ff63;"></div>
-                <div class="key-color" style="background-color: #19791d;"></div>
-                <div class="key-color" style="background-color: #f9fe02;"></div>
-                <div class="key-color" style="background-color: #ea6905;"></div>
-                <div class="key-color" style="background-color: #9c0506;"></div>
-              </div>
-              <div class="key-label">Rain</div>
-            </div>
-          </div>
+          <div style="display: inline-block">2 Hour Radar</div>
         </div>
         <div class="page-content-container">
-          <div class="broken-radar-text">
-            <div style="color: yellow;" class="strong-text">Temporarily Unavailable</div>
-          </div>
-          <div id="radar-container" style="position: absolute;">
+          <div id="radar-container" class="radar-container" style="position: absolute;">
           </div>
         </div>
       </div>
@@ -239,46 +203,10 @@
       <!-- Zoomed Radar Page -->
       <div id="zoomed-radar-page" class="page-container regular-page-container">
         <div class="page-title-bar regular-text">
-          <div style="display: inline-block">3 Hour Radar</div>
-          <div class="key">
-            <div class="key-item key-item-snow">
-              <div class="key-color-group">
-                <div class="key-color" style="background-color: #91fdfd;"></div>
-                <div class="key-color" style="background-color: #59aaab;"></div>
-                <div class="key-color" style="background-color: #3f7c7d;"></div>
-                <div class="key-color" style="background-color: #14303b;"></div>
-              </div>
-              <div class="key-label">Snow</div>
-            </div>
-          </div>
-          <div class="key">
-            <div class="key-item key-item-mix">
-              <div class="key-color-group">
-                <div class="key-color" style="background-color: #fe94ce;"></div>
-                <div class="key-color" style="background-color: #cf5597;"></div>
-                <div class="key-color" style="background-color: #a01765;"></div>
-              </div>
-              <div class="key-label">Mix/Ice</div>
-            </div>
-          </div>
-          <div class="key">
-            <div class="key-item key-item-rain">
-              <div class="key-color-group">
-                <div class="key-color" style="background-color: #69ff63;"></div>
-                <div class="key-color" style="background-color: #19791d;"></div>
-                <div class="key-color" style="background-color: #f9fe02;"></div>
-                <div class="key-color" style="background-color: #ea6905;"></div>
-                <div class="key-color" style="background-color: #9c0506;"></div>
-              </div>
-              <div class="key-label">Rain</div>
-            </div>
-          </div>
+          <div style="display: inline-block">2 Hour Radar</div>
         </div>
         <div class="page-content-container">
-          <div class="broken-radar-text">
-            <div style="color: yellow;" class="strong-text">Temporarily Unavailable</div>
-          </div>
-          <div id="zoomed-radar-container" style="position: absolute;"></div>
+          <div id="zoomed-radar-container" class="radar-container" style="position: absolute;"></div>
         </div>
       </div>
 
@@ -464,7 +392,38 @@
   <!-- Settings Prompt -->
   <div id="settings-container" style="display: none;">
     <div id="settings-prompt">
-      <div id="zip-container" class="settings-container"></div>
+      <table style="width:350px">
+        <tbody>
+        
+          <!-- Locations won't be added programatically -->
+          <tr>
+            <td style="text-align: left;">
+              <input type="radio" id="airport-code-button" name='location-type' checked="false"/>
+              <label for="airport-code-button" class="strong-text settings-item settings-text settings-padded">Airport</label>
+            </td>
+            <td colspan="2">
+              <input type="text" id="airport-code-text" style="font-size: 20px; width:180px" 
+              placeholder="ATL or KATL" class="settings-item settings-text settings-input"/>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="text-align: left;">
+              <input type="radio" id="zip-code-button" name='location-type' checked="true"/>
+              <label for="zip-code-button" class="strong-text settings-item settings-text settings-padded">Postal</label>
+            </td>
+            <td>
+              <input type="text" id="zip-code-text" style="font-size: 20px; width:100px" 
+              placeholder="00000" class="settings-item settings-text settings-input"/>
+            </td>
+            <td>
+              <input type="text" id="country-code-text" style="font-size: 20px; width:50px;" 
+              placeholder="US" value="US" maxlength="2" class="settings-item settings-text settings-input"/>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
       <div id="advanced-settings-options" class="settings-container hidden"></div>
     </div>
   </div>

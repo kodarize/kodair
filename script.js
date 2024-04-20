@@ -200,7 +200,7 @@ function startWeather() {
 		})
 		.then(data => {
 			console.log(data);
-			document.getElementById("temp").innerHTML = data.main.temp + "F";
+			document.getElementById("temp").innerHTML = data.main.temp + "°F";
 		}).catch(function() {
 			document.getElementById("temp").innerHTML = "Weather";
 			console.error("FETCH ERROR:", error);
