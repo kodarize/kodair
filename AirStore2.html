@@ -3,14 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <title>AirStore</title>
-    <link rel="stylesheet" type="text/css" href="AirStore2.css">
+    <style>
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        .CategoryContainer {
+            display: flex;
+            justify-content: center;
+        }
+
+        .Category {
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background-color: rgba(10, 10, 10, 0.5);
+            border-radius: 1em;
+        }
+
+        .CategoryTitle {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: rgba(100, 200, 250, 0.75);
+            color: rgba(200, 250, 250, 0.75);
+            border-radius: 20px;
+            text-transform: capitalize;
+            margin-top: 10px; /* Adjust margin-top as needed for padding */
+        }
+
+        .CategoryApps {
+            width: 100%;
+            text-align: center;
+        }
+
+        .AirApp {
+            position: relative;
+            width: 8em;
+            height: 7em;
+            border-radius: 2em;
+            display: inline-block;
+            margin: 0.75em;
+            background-color: rgba(100, 200, 250, 0.75);
+            padding-top: 0.5em;
+            color: rgba(200, 250, 250, 0.75);
+            overflow: hidden;
+        }
+
+        .AirApp:hover {
+            background-color: rgba(50, 150, 200, 0.75);
+            cursor: pointer;
+        }
+
+        .AppTitle {
+            position: relative;
+            width: 100%;
+            height: 2.75em;
+            border-radius: 0;
+            display: inline-block;
+            padding-top: 0.5em;
+            line-height: 1em;
+            background-color: rgba(100, 200, 250, 0.75);
+            color: rgba(200, 250, 250, 0.75);
+            overflow: hidden;
+            font-size: 1em;
+        }
+
+        .desc {
+            font-size: 0.75em;
+        }
+
+        #searchInput {
+            display: block;
+            margin: 20px auto; /* Center the search input */
+            padding: 10px 20px;
+            width: calc(80% - 40px); /* Adjust width to accommodate padding */
+            border-radius: 20px;
+            border: 2px solid rgba(100, 200, 250, 0.75);
+            background-color: rgba(10, 10, 10, 0.5); /* Background color from .Category */
+            color: rgba(200, 250, 250, 0.75);
+            font-size: 1em;
+            outline: none;
+        }
+
+        #searchInput:focus {
+            border-color: rgba(100, 200, 250, 0.9);
+        }
+    </style>
     <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script>
+        // Global variable to store all apps data
+        let allAppsData = [];
+
         // Function to fetch all data
         async function fetchAllData() {
             try {
-                const response = await fetch('http://res.cloudinary.com/kodair/raw/upload/v1712111729/Airstore/airstore.csv');
+                const response = await fetch('https://res.cloudinary.com/kodair/raw/upload/v1/Airstore/airstore.csv');
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
@@ -32,6 +121,8 @@
                     document.body.appendChild(errorMessage);
                     return;
                 }
+
+                allAppsData = appsList;
 
                 const categories = {};
 
@@ -59,6 +150,8 @@
                     apps.forEach(app => {
                         const appElement = document.createElement('div');
                         appElement.classList.add('AirApp');
+                        appElement.setAttribute('data-title', app.Title.toLowerCase()); // store lowercase title for search
+                        appElement.setAttribute('data-description', app.Description.toLowerCase()); // store lowercase description for search
                         appElement.setAttribute('onclick', `changeAppUniversal('${app.URL}')`);
 
                         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -86,8 +179,41 @@
                 });
             })
             .catch(err => console.error(err));
+
+        // Function to filter apps based on search input
+        function searchApps() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const allApps = document.querySelectorAll('.AirApp');
+            allApps.forEach(app => {
+                const title = app.getAttribute('data-title');
+                const description = app.getAttribute('data-description');
+                if (title.includes(searchInput) || description.includes(searchInput)) {
+                    app.style.display = 'inline-block'; // show app if it matches search
+                } else {
+                    app.style.display = 'none'; // hide app if it does not match search
+                }
+            });
+            
+            // Hide categories with no matching apps
+            const allCategories = document.querySelectorAll('.Category');
+            allCategories.forEach(category => {
+                const categoryApps = category.querySelectorAll('.AirApp');
+                let anyVisible = false;
+                categoryApps.forEach(app => {
+                    if (app.style.display !== 'none') {
+                        anyVisible = true;
+                    }
+                });
+                if (anyVisible) {
+                    category.style.display = 'block'; // show category if any app inside is visible
+                } else {
+                    category.style.display = 'none'; // hide category if no app inside is visible
+                }
+            });
+        }
     </script>
 </head>
 <body>
+    <input type="text" id="searchInput" onkeyup="searchApps()" placeholder="Search...">
 </body>
 </html>

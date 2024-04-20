@@ -180,7 +180,7 @@ function startTime() {
 }
 
 function startWeather() {
-	fetch("https://ipapi.co/json/")
+	fetch("http://ipwho.is")
 	.then((response) => {
 		if (response.ok) {
 			return response.json();
