@@ -6,7 +6,11 @@ const MULTIPLE = [{name: "Alerts", subpages: [{name: "multiple-alerts-page", dur
 const WEEKDAY = ["SUN",  "MON", "TUES", "WED", "THU", "FRI", "SAT"];
 
 const jingle = new Audio("assets/music/jingle.wav")
-const crawlSpeed = 150;
+
+const crawlSpeedCasual = 10; // A normal reading pace, in characters per second
+const crawlSpeedFast = 20; // A fast reading pace, in characters per second
+const crawlScreenTime = 45; // Shortest time crawl will be on screen, in seconds
+const crawlSpace = 70; // Approx number of characters that can fix in the crawl bar. Used for crawl speed calcs
 
 var isDay = true;
 var currentLogo;
@@ -14,8 +18,11 @@ var currentLogoIndex = 0;
 var pageOrder;
 var music;
 
-window.onload = function() {
-  CONFIG.addOption('zip-code', 'ZIP Code', '00000')
+window.onload = function () {
+
+  CONFIG.addLocationOption('airport-code', 'Airport', 'ATL or KATL')
+  CONFIG.addLocationOption('zip-code', 'Postal', '00000')
+
   CONFIG.addOption('crawlText', 'Crawl Text', 'Text that scrolls along the bottom')
   CONFIG.addOption('greetingText', 'Greeting Text', 'Message (or joke) that appears at the start')
   CONFIG.load();
@@ -266,10 +273,27 @@ function scrollCC(){
   // Split decimal into 2 objects so that we can animate them individually.
   var pressureArray = pressure.toString().split('.');
   animateValue("cc-visibility", 0, visibility, 800, 1);
+  if(CONFIG.units != 'm') {
+      getElement("cc-visibility-unit-metric").style.fontSize = "0px";		//Doing the work twice, for good reason: if we simply hide it, the spacing left by the word still exists; if we simply set the size to zero, then it might still be visible at extreme zoom levels.
+      getElement("cc-visibility-unit-metric").style.visibility = "hidden";
+  } else {
+      getElement("cc-visibility-unit-imperial").style.fontSize = "0px";
+      getElement("cc-visibility-unit-imperial").style.visibility = "hidden";
+  }
   animateValue("cc-humidity", 0, humidity, 1000, 1);
   animateValue("cc-dewpoint", 0, dewPoint, 1200, 1);
-  animateValue("cc-pressure1", 0, pressureArray[0], 1400, 1);
-  animateValue("cc-pressure2", 0, pressureArray[1], 1400, 2);
+  if (CONFIG.units === 'e') {		//Imperial units.
+    animateValue("cc-pressure1", 0, pressureArray[0], 1400, 1);
+    animateValue("cc-pressure2", 0, pressureArray[1], 1400, 2);
+    getElement("cc-pressure-metric").style.fontSize = "0px";		//hide the "mbar" tag
+    getElement("cc-pressure-metric").style.visibility = "hidden";
+  } else {      //Metric units.
+      animateValue("cc-pressure1", 800, pressureArray[0], 1400, 3);
+      getElement("cc-pressure2").style.visibility = "hidden";		//Hide figures after the decimal, since we don't really use decimal points when using hectopascals in the context of meteorology
+      getElement("cc-pressure2").style.fontSize = "0px";
+      getElement("cc-pressure-decimal").style.visibility = "hidden";		//And same for the decimal, which would look silly without something after it.
+      getElement("cc-pressure-decimal").style.fontSize = "0px";
+  }
 }
 
 // Called at end of sequence. Animates everything out and shows ending text
@@ -489,8 +513,11 @@ function getElement(id){
 }
 
 function showCrawl(){
-  getElement('crawler-container').classList.add("shown");
-  setTimeout(startCrawl, 400); // wait for the settings to fully animate out before starting
+  // only show crawl bar if it contains text
+  if (CONFIG.crawl.length > 0){
+    getElement('crawler-container').classList.add("shown");
+    setTimeout(startCrawl, 400); // wait for the settings to fully animate out before starting
+  }
 }
 
 function hideCrawl(){
@@ -504,8 +531,27 @@ function startCrawl(){
 
 function calculateCrawlSpeed() {
   var crawlTextElement = getElement('crawl-text');
-  var elementLength = crawlTextElement.offsetWidth;
-  var timeTaken = elementLength / crawlSpeed;
+
+  // Get the length of the crawl
+  var elementLength = crawlTextElement.innerHTML.length;
+  var timeTaken;
+  // We basically have 3 speed cases to solve for: casual (10 chars/s), fast (20 chars/s), and then anything between.
+  // To handle low lengths correctly, we need to add in the ~70 chars worth of length of the crawl box, otherwise short strings fly by too quickly.
+
+  // Handle the low end case
+  if (elementLength < ( crawlScreenTime*crawlSpeedCasual) - crawlSpace ){
+    timeTaken = (elementLength + crawlSpace) / crawlSpeedCasual;
+  }
+
+  // Handle the high end case. This calc will result in animations longer than screen time, which will cut off the end of long messages, which I find preferable to long messages flying by too fast to read. 
+  else if (elementLength > (crawlScreenTime*crawlSpeedFast)){
+    timeTaken = elementLength / crawlSpeedFast;
+  }
+
+  // Handle the in-between case. Pin the animation time to screentime and let the chars/sec float between the casual and fast limits.
+  else {
+    timeTaken = crawlScreenTime;
+  }
   crawlTextElement.style.animationDuration = timeTaken + "s";
 }
 

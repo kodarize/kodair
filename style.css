@@ -349,6 +349,50 @@ body {
 	color: rgba(200, 250, 250, 0.75);
 }
 
+.sun {
+	background-color: #fada0b;
+	border-radius: 100%;
+	width: 20px;
+	height: 20px;
+	top: 7px;
+	left: 25px;
+	position: relative;
+}
+
+.cloud-main {
+	opacity: 0.9;
+	background: #fff;
+	width: 35px;
+	height: 15px;
+	border-radius: 20px;
+	position: relative;
+	left: 30px;
+	top: -10px;
+}
+
+.cloud-bubble-one {
+	opacity: 1.0;
+	background: #fff;
+	width: 15px;
+	height: 15px;
+	position: relative;
+	border-radius: 100%;
+	left: 10px;
+	top: -7px;
+}
+
+.cloud-bubble-two {
+	opacity: 1.0;
+	background: #fff;
+	width: 20px;
+	height: 15px;
+	position: relative;
+	border-top-right-radius: 20px;
+	border-bottom-right-radius: 10px;
+	left: 15px;
+	top: -17px;
+}
+
 .AppBtn:hover {
 	color: #446688;
 	cursor: pointer;
