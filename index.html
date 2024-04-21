@@ -23,7 +23,7 @@
 		</script>
 		<script src="https://unpkg.com/ipfs-http-client/dist/index.min.js"></script>
 		<link href="style.css" rel="stylesheet">
-		<link id="favicon" href="Icons/Kodacon-Pack/Kodacon-4.png" rel="shortcut icon">
+		<link id="favicon" href="Icons/Kodacon-Pack/Kodacon-1.png" rel="shortcut icon">
 		<link href="Icons/App-Pack/apple-icon-57x57.png" rel="apple-touch-icon" sizes="57x57">
 		<!-- ... Other link tags for icons and styles ... -->
 		<link href="/manifest.json" rel="manifest">
@@ -134,7 +134,11 @@
 			<div id="InfoPannel">
 				<div class="updates">
 					<div class="updateheading"><center>About</center></div>
-					<div class="updatebody"><center>Current Version: Alpha 3.3<br></center></div>
+					<div class="updatebody"><center>Current Version: Alpha 3.4<br></center></div>
+				</div>
+				<div class="updates">
+					<div class="updateheading"><center>Alpha V3.4 (4/21/24)</center></div>
+					<div class="updatebody"><center>The Adaptive Update: The favicon for the site is now adaptive, meaning that it changes depending on the version of the site you are on. EagleCraft has also been updated to the most current version.</center></div>
 				</div>
 				<div class="updates">
 					<div class="updateheading"><center>Alpha V3.3 (4/20/24)</center></div>
@@ -300,17 +304,35 @@
 				// Get the current URL
 				var currentURL = window.location.hostname;
 				
-				// Check if the current URL matches kodcoon.on.fleek.co
-				if (currentURL === "kodcoon.on.fleek.co") {
-					// Change the favicon to Kodacon-3.png
-					document.getElementById("favicon").href = "Icons/Kodacon-Pack/Kodacon-3.png";
+				// Find the favicon element
+				var faviconElement = document.getElementById("favicon");
+				
+				// Check if the favicon element is found
+				if (faviconElement) {
+					// Check if the website is offline
+					if (!navigator.onLine) {
+						// Change the favicon to the offline icon
+						faviconElement.href = "Icons/Kodacon-Pack/Kodacon-4.png";
+					}
+					// Check if the website is being run locally (file protocol)
+					else if (window.location.protocol === "file:") {
+						// Change the favicon to the local icon
+						faviconElement.href = "Icons/Kodacon-Pack/Kodacon-5.png";
+					}
+					// Check if the current URL matches kodcoon.on.fleek.co
+					else if (currentURL === "kodcoon.on.fleek.co") {
+						// Change the favicon to Kodacon-3.png
+						faviconElement.href = "Icons/Kodacon-Pack/Kodacon-3.png";
+					}
+					// Check if the current URL matches kodair.us
+					else if (currentURL === "kodair.us") {
+						// Change the favicon to Kodacon-1.png
+						faviconElement.href = "Icons/Kodacon-Pack/Kodacon-1.png";
+					}
+					// Add more conditions for other URLs if needed
+				} else {
+					console.error("Favicon element not found.");
 				}
-				// Check if the current URL matches kodair.us
-				else if (currentURL === "kodair.us") {
-					// Change the favicon to Kodacon-1.png
-					document.getElementById("favicon").href = "Icons/Kodacon-Pack/Kodacon-1.png";
-				}
-				// Add more conditions for other URLs if needed
 			});
 		</script>
 	</body>
