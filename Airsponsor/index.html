@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airsponsor</title>
+    <link id="favicon" href="../Icons/Kodacon-Pack/Kodacon.png" rel="shortcut icon">
+    <link href="style.css" rel="stylesheet">
+    <meta name="description" content="Simplify your advertising with Airsponsor, proudly supported by Kodair. Connect effortlessly with your audience through our streamlined ad solutions.">
+    <meta name="keywords" content="advertising, ads, Airsponsor, Kodair, marketing, brand, audience">
+    <meta name="author" content="Airsponsor Team">
+    <meta property="og:title" content="Airsponsor">
+    <meta property="og:description" content="Simplify your advertising with Airsponsor, proudly supported by Kodair. Connect effortlessly with your audience through our streamlined ad solutions.">
+    <meta property="og:image" content="../Icons/Kodacon-Pack/Kodacon.png">
+    <meta property="og:url" content="airsponsor.kodair.us">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
+</head>
+<body>
+    <div id="ad-container">
+        <a id="ad-link" href="#" target="_blank">
+            <img id="ad-image" src="" alt="Ad Banner">
+        </a>
+    </div>
+
+    <script>
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * max);
+        }
+
+        function fetchRandomImage() {
+            fetch('http://res.cloudinary.com/kodair/raw/upload/Airsponsor/airsponsor.xml')
+                .then(response => response.text())
+                .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
+                .then(data => {
+                    const items = data.querySelectorAll("item");
+                    const randomIndex = getRandomInt(items.length);
+                    const item = items[randomIndex];
+                    const imageUrl = item.querySelector("image url").textContent;
+                    const linkUrl = item.querySelector("link").textContent;
+                    const adImage = document.getElementById("ad-image");
+                    const adLink = document.getElementById("ad-link");
+                    adImage.src = imageUrl;
+                    adLink.href = linkUrl;
+                })
+                .catch(error => console.log('Error fetching ad:', error));
+        }
+
+        fetchRandomImage(); // Fetch initial random image
+
+        setInterval(fetchRandomImage, 60000); // Fetch a new random image every minute
+    </script>
+</body>
+</html>
