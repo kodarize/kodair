@@ -1,0 +1,274 @@
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: black;
+}
+
+body,
+html {
+  overflow: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+.bg-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  z-index: -1;
+}
+
+.bg-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: -1;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0, 0, 0);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.overlayMsg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.loadMsg {
+  font-size: 48px;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  text-align: center;
+  margin-inline: 2em;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.logo {
+  margin-bottom: 30px;
+}
+
+.logolink {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 30em;
+  height: 50px;
+  margin-bottom: 3em;
+}
+
+.search-bar input[type="search"] {
+  flex: 1;
+  font-size: 18px;
+  font-weight: 400;
+  color: #333;
+  padding: 15px 20px;
+  border: none;
+  outline: none;
+  background-color: #fff;
+  user-select: contain;
+}
+
+.search-bar input[type="search"]::placeholder {
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+}
+
+.search-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: #0078d7;
+  color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.search-button:hover {
+  background-color: #106ebe;
+}
+
+.fa-search {
+  font-size: 24px;
+}
+
+.menuBtns {
+  display: flex;
+  position: relative;
+}
+
+.menu {
+  position: fixed;
+  display: flex;
+  bottom: 0;
+  padding-inline: 0rem;
+  justify-content: flex-end;
+  margin-block: 2em;
+  width: 100%;
+}
+
+.primaryMenuBtn {
+  align-self: center;
+  width: 8em;
+  height: 3.5em;
+  background-color: #0078d7;
+  color: white;
+  font-weight: bolder;
+  margin-right: 1em;
+  border: none;
+  border-radius: 2em;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.MenuBtn {
+  width: 7em;
+  height: 3.5em;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: black;
+  margin-right: 1em;
+  border: none;
+  border-radius: 2em;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.circularBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1/1;
+  width: unset;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(1080deg);
+  }
+}
+
+.rotate {
+  animation: rotate 2s cubic-bezier(0.5, 0.2, 0.25, 0.8) infinite;
+}
+
+.rotate.stop {
+  animation: none;
+  transition: transform 1s ease-out;
+  transform: rotate(1080deg);
+}
+
+@keyframes opacity {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 100;
+  }
+}
+
+.opacity {
+  animation: opacity 2s cubic-bezier(0.5, 0.2, 0.25, 0.8);
+}
+
+/* For devices with a screen width of 600px or less */
+@media only screen and (max-width: 600px) {
+  .search-bar {
+    width: 20em;
+    margin-bottom: 15em;
+  }
+
+  .search-bar input[type="search"] {
+    font-size: 14px;
+    padding: 17px 20px;
+    /* border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px; */
+  }
+
+  .menu {
+    margin-block: 1.5em;
+  }
+
+  .loadMsg {
+    font-size: 30px;
+  }
+
+  .primaryMenuBtn {
+    width: 6em;
+  }
+}
+
+/* For devices with a screen width of 375px or less */
+@media only screen and (max-width: 375px) {
+  .search-bar {
+    width: 16em;
+    margin-bottom: 15em;
+  }
+
+  .search-bar input[type="search"] {
+    font-size: 12px;
+    padding: 18px 20px;
+  }
+
+  .menu {
+    margin-block: 1.5em;
+  }
+
+  .loadMsg {
+    font-size: 30px;
+  }
+
+  .primaryMenuBtn {
+    width: 6em;
+  }
+
+  .askAI {
+    display: none;
+  }
+}

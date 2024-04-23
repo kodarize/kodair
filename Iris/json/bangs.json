@@ -1,0 +1,156 @@
+{
+  "!g": {
+    "url": "https://www.google.com/search?q=%s",
+    "name": "Google",
+    "tags": {
+      "i": "https://www.google.com/search?q=%s&tbm=isch",
+      "v": "https://www.google.com/search?q=%s&tbm=vid",
+      "n": "https://www.google.com/search?q=%s&tbm=nws",
+      "b": "https://www.google.com/search?q=%s&tbm=bks",
+      "s": "https://www.google.com/search?q=%s&tbm=shop",
+      "fi": "https://www.google.com/finance/quote/%s",
+      "f": "https://www.google.com/flights",
+      "m": "https://www.google.com/maps/search/%s"
+    }
+  },
+  "!b": {
+    "url": "https://www.bing.com/search?q=%s",
+    "name": "Bing"
+  },
+  "!d": {
+    "url": "https://duckduckgo.com/?q=%s",
+    "name": "DuckDuckGo"
+  },
+  "!e": {
+    "url": "https://www.ecosia.org/search?q=%s",
+    "name": "Ecosia"
+  },
+  "!n": {
+    "url": "https://neeva.com/search?q=%s",
+    "name": "Neeva"
+  },
+  "!k": {
+    "url": "https://kagi.com/search?q=%s",
+    "name": "Kagi"
+  },
+  "!s": {
+    "url": "https://www.startpage.com/search?q=%s",
+    "name": "Startpage"
+  },
+  "!y": {
+    "url": "https://search.yahoo.com/search?q=%s",
+    "name": "Yahoo"
+  },
+  "!a": {
+    "url": "https://www.amazon.in/s?k=%s",
+    "name": "Amazon India"
+  },
+  "!fk": {
+    "url": "https://www.flipkart.com/search?q=%s",
+    "name": "Flipkart"
+  },
+  "!yt": {
+    "url": "https://www.youtube.com/results?search_query=%s",
+    "name": "YouTube"
+  },
+  "!sp": {
+    "url": "https://open.spotify.com/search/%s",
+    "name": "Spotify"
+  },
+  "!am": {
+    "url": "https://music.apple.com/us/search?term=%s",
+    "name": "Apple Music"
+  },
+  "!ytm": {
+    "url": "https://music.youtube.com/search?q=%s",
+    "name": "YouTube Music"
+  },
+  "!nf": {
+    "url": "https://www.netflix.com/search?q=%s",
+    "name": "Netflix"
+  },
+  "!cr": {
+    "url": "https://www.crunchyroll.com/search?q=%s",
+    "name": "Crunchyroll"
+  },
+  "!pv": {
+    "url": "https://www.primevideo.com/search/ref=atv_nb_sr?phrase=%s",
+    "name": "Prime Video"
+  },
+  "!hot": {
+    "url": "https://www.hotstar.com/in/search?q=%s",
+    "name": "Hotstar"
+  },
+  "!ai": {
+    "url": "https://www.perplexity.ai/?q=%s",
+    "name": "Perplexity AI"
+  },
+  "!you": {
+    "url": "https://you.com/search?q=%s",
+    "name": "You"
+  },
+  "!r": {
+    "url": "https://www.reddit.com/search/?q=%s",
+    "name": "Reddit"
+  },
+  "!q": {
+    "url": "https://www.quora.com/search/?q=%s",
+    "name": "Quora"
+  },
+  "!mal": {
+    "url": "https://myanimelist.net/search/all?q=%s",
+    "name": "MyAnimeList"
+  },
+  "!an": {
+    "url": "https://anilist.co/search/anime?search=%s",
+    "name": "AniList"
+  },
+  "!udemy": {
+    "url": "https://www.udemy.com/courses/search/?src=ukw&q=%s",
+    "name": "Udemy"
+  },
+  "!skill": {
+    "url": "https://www.skillshare.com/en/search?query=%s",
+    "name": "SkillShare"
+  },
+  "!dr": {
+    "url": "https://dribbble.com/search/%s",
+    "name": "Dribbble"
+  },
+  "!uns": {
+    "url": "https://unsplash.com/s/photos/%s",
+    "name": "Unsplash"
+  },
+  "!scloud": {
+    "url": "https://soundcloud.com/search?q=%s",
+    "name": "SoundCloud"
+  },
+  "!gen": {
+    "url": "https://genius.com/search?q=%s",
+    "name": "Genius"
+  },
+  "!crx": {
+    "url": "https://chrome.google.com/webstore/search/%s",
+    "name": "Add Chrome Extension"
+  },
+  "!xpi": {
+    "url": "https://addons.mozilla.org/en-US/firefox/search/?q=%s",
+    "name": "Add Firefox Extension"
+  },
+  "!nobe": {
+    "url": "https://nobe.noton.tk/?VideoID=%s",
+    "name": "Nobe"
+  },
+  "!ud": {
+    "url": "https://www.urbandictionary.com/define.php?term=%s",
+    "name": "Urban Dictionary"
+  },
+  "!w": {
+    "url": "https://en.wikipedia.org/wiki/%s",
+    "name": "Wikipedia"
+  },
+  "!tw": {
+    "url": "https://twitter.com/search?q=%s",
+    "name": "Twitter"
+  }
+}

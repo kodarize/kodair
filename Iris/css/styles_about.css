@@ -1,0 +1,534 @@
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: #a8aeb1;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+}
+
+.bg-image {
+  position: fixed;
+  background-image: url("/assets/Iris-Landscape.png");
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  height: 100vh;
+  z-index: -1;
+}
+
+.bg-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: -1;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0, 0, 0);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* height: 100vh; */
+}
+
+.logo {
+  display: flex;
+  left: 1em;
+  /* align-self: center; */
+  align-items: center;
+}
+
+.logolink {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.menuBtns {
+  display: flex;
+  right: 1em;
+  /* align-self: center; */
+}
+
+.menu {
+  position: relative;
+  display: flex;
+  padding-inline: 2rem;
+  justify-content: space-between;
+}
+
+.footer {
+  font-size: 18px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.footer-menu {
+  /* start with 0 opacity */
+  opacity: 0;
+}
+
+.footer-logo {
+  width: 32px;
+  height: 32px;
+}
+
+.primaryMenuBtn {
+  align-self: center;
+  /* justify-self: start; */
+  width: 8em;
+  height: 3.5em;
+  background-color: #5141a0;
+  color: white;
+  font-weight: bolder;
+  margin-right: 1em;
+  border: none;
+  border-radius: 2em;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.primaryMenuBtn:hover {
+  background-color: #352165;
+}
+
+.MenuBtn {
+  width: 7em;
+  height: 3.5em;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: black;
+  margin-right: 1em;
+  border: none;
+  border-radius: 2em;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.PageName {
+  display: flex;
+  align-self: center;
+  padding-inline: 1rem;
+  margin: 0;
+  color: white;
+  font-size: 64px;
+  font-family: "Babylonica", "Roboto", sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.Introduction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Headline {
+  font-family: "Shantell Sans", "Roboto", sans-serif;
+  font-size: 128px;
+  color: #7a84e3;
+  margin: 1rem;
+  margin-top: 10rem;
+  user-select: none;
+  -webkit-user-select: none;
+  /* start with 0 opacity */
+  opacity: 0;
+  /* start with 30px blur */
+  filter: blur(30px);
+  -webkit-filter: blur(30px);
+  /* start with half the size */
+  transform: scale(0.5);
+}
+
+.Tagline {
+  font-family: "Kaushan Script", "Roboto", sans-serif;
+  font-size: 48px;
+  text-align: center;
+  color: #fdea15;
+  margin: 1rem;
+  user-select: none;
+  -webkit-user-select: none;
+  /* start with 0 opacity */
+  opacity: 0;
+  /* start with 30px blur */
+  filter: blur(10px);
+  -webkit-filter: blur(10px);
+  transform: translateY(1rem);
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  margin: 3em;
+  /* start with 0 opacity */
+  opacity: 0;
+}
+
+.helloIris {
+  text-align: justify;
+  font-size: 28px;
+  font-weight: 300;
+  font-style: italic;
+  font-family: "Red Hat Display", "Roboto", sans-serif;
+  padding: 1em 3em;
+  color: #1c1c1c;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.qna {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  margin: 2rem 10rem;
+  border-left: 5px solid white;
+  /* start with 0 opacity */
+  opacity: 0;
+}
+
+.q {
+  font-size: 64px;
+  margin: 0% 3%;
+  font-family: "Jost", "Roboto", sans-serif;
+}
+
+.ans {
+  font-size: 28px;
+  margin: 0% 3%;
+  padding-bottom: 2%;
+  font-family: "Nunito", "Roboto", sans-serif;
+}
+
+.glass {
+  /* set the background color with opacity */
+  background-color: rgba(255, 255, 255, 0.5);
+  /* apply a blur filter to the background */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  /* add some border-radius to the div */
+  border-radius: 10em;
+  /* add some padding to the div */
+  padding: 20px;
+  /* add a box shadow to the div for depth */
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); */
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  /* start with 0 opacity */
+  opacity: 0;
+}
+
+.section-title {
+  font-size: 72px;
+  text-align: center;
+  color: #fdea15;
+  margin: 1rem 0rem;
+  font-family: "Jost", "Roboto", sans-serif;
+  align-self: center;
+}
+
+.table {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 1rem 10em 0rem 10em;
+}
+
+.column {
+  flex-basis: calc(50% - 2em);
+}
+
+.flex-center {
+  align-self: center;
+}
+
+.subtitle {
+  margin: 1em;
+  margin-top: 0;
+  font-size: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+
+td {
+  padding: 7px;
+  font-size: 26px;
+  font-family: "Nunito", "Roboto", sans-serif;
+  text-align: left;
+  border-block: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #5141a042;
+  color: #fdea15;
+}
+
+.spacer-5 {
+  width: 0.5rem;
+}
+
+/* When the element becomes visible, apply the following styles */
+.Headline.visible {
+  opacity: 1;
+  filter: blur(0);
+  -webkit-filter: blur(0);
+  transform: scale(1);
+  /* animate opacity and transform for 2 seconds */
+  transition: opacity 0.5s ease-in-out, filter 0.75s ease-in-out, transform 1s ease-in-out;
+}
+
+.Tagline.visible {
+  filter: blur(0);
+  -webkit-filter: blur(0);
+  opacity: 1;
+  transform: translateY(0rem);
+  /* animate opacity after 2 seconds */
+  transition: filter 0.5s ease-in-out 0.8s, opacity 0.25s ease-in-out 0.8s, transform 0.5s ease-in-out 0.8s;
+}
+
+.description.visible {
+  /* ends with 1 opacity */
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out 1s;
+}
+
+.qna.visible {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out 1.3s;
+}
+
+.section.visible {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out 1.6s;
+}
+
+.footer-menu.visible {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out 1.9s;
+}
+
+/* For devices with a screen width of 1080px or less */
+@media only screen and (max-width: 1080px) {
+  .table {
+    margin: 1rem 5rem 0rem 5rem;
+  }
+
+  td {
+    font-size: 18px;
+  }
+}
+
+/* For devices with a screen width of 600px or less */
+@media only screen and (max-width: 600px) {
+  .bg-image {
+    background-image: url("/assets/Iris-Portrait.png");
+  }
+
+  .menu {
+    padding-inline: 1rem;
+  }
+
+  .Headline {
+    font-size: 64px;
+  }
+
+  .Tagline {
+    font-size: 24px;
+  }
+
+  .PageName {
+    font-size: 40px;
+    padding-inline: 0.5rem;
+  }
+
+  .logosvg {
+    width: 48px;
+    height: 48px;
+    display: block;
+  }
+
+  .logolink {
+    height: 100%;
+  }
+
+  .primaryMenuBtn {
+    margin-right: 0;
+  }
+
+  .glass {
+    border-radius: 4em;
+  }
+
+  .helloIris {
+    text-align: center;
+    font-size: 22px;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .qna {
+    margin-inline: 2rem;
+    gap: 0.5em;
+  }
+
+  .q {
+    font-size: 36px;
+  }
+
+  .ans {
+    font-size: 18px;
+  }
+
+  .section-title {
+    font-size: 41px;
+  }
+
+  .table {
+    margin: 0rem;
+  }
+
+  td {
+    font-size: 12px;
+  }
+
+  .primaryMenuBtn {
+    width: 7em;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .footer {
+    justify-content: center;
+  }
+}
+
+/* For devices with a screen width of 375px or less */
+@media only screen and (max-width: 375px) {
+  .bg-image {
+    background-image: url("/assets/Iris-Portrait.png");
+  }
+
+  .menu {
+    padding-inline: 0.5rem;
+  }
+
+  .Headline {
+    font-size: 50px;
+    margin-top: 7rem;
+  }
+
+  .Tagline {
+    font-size: 18px;
+    margin-top: 0px;
+  }
+
+  .description {
+    margin: 2em;
+  }
+
+  .PageName {
+    font-size: 36px;
+    padding-inline: 0.5rem;
+  }
+
+  .logosvg {
+    width: 48px;
+    height: 48px;
+    display: block;
+  }
+
+  .logolink {
+    height: 100%;
+  }
+
+  .primaryMenuBtn {
+    margin-right: 0;
+  }
+
+  .glass {
+    border-radius: 3em;
+  }
+
+  .helloIris {
+    text-align: center;
+    font-size: 18px;
+    padding: 0rem;
+  }
+
+  .qna {
+    margin-inline: 1.5rem;
+    gap: 0.1em;
+  }
+
+  .q {
+    font-size: 28px;
+  }
+
+  .ans {
+    font-size: 13px;
+  }
+
+  .section-title {
+    font-size: 32px;
+  }
+
+  .table {
+    margin: 0rem;
+  }
+
+  td {
+    font-size: 10px;
+  }
+
+  .primaryMenuBtn {
+    width: 7em;
+  }
+
+  .subtitle {
+    font-size: 10px;
+  }
+
+  .footer {
+    justify-content: center;
+    font-size: 14px;
+  }
+}

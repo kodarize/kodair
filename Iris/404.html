@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>404: Page Not Found</title>
+    <style>
+        /* Insert your custom CSS styles here */
+        body {
+            background-color: #1d1e22;
+            color: #fff;
+            font-family: "Helvetica Neue", sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 6em;
+            margin-bottom: 0;
+        }
+
+        p {
+            font-size: 2em;
+            margin-top: 0;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        #parallax {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background-image: url(https://raw.githubusercontent.com/oscicen/oscicen.github.io/master/img/depth-3.png), url(https://raw.githubusercontent.com/oscicen/oscicen.github.io/master/img/depth-2.png), url(https://raw.githubusercontent.com/oscicen/oscicen.github.io/master/img/depth-1.png);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-position: 50% 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="parallax">
+        <h1>404</h1>
+        <p>Oh no! You've stumbled upon a mysterious portal.</p>
+        <p>Unfortunately, it seems the page you were looking for isn't within this realm.</p>
+        <p>Our sorcerers are diligently searching other dimensions for it.</p>
+        <p>But while we wait for them to return, why not check out some of our <a href="/">other magical offerings</a>?
+        </p>
+    </div>
+    <script>(function () {
+            // Add event listener
+            document.addEventListener("mousemove", parallax);
+            const elem = document.querySelector("#parallax");
+            // Magic happens here
+            function parallax(e) {
+                let _w = window.innerWidth / 2;
+                let _h = window.innerHeight / 2;
+                let _mouseX = e.clientX;
+                let _mouseY = e.clientY;
+                let _depth1 = `${50 - (_mouseX - _w) * 0.01}% ${50 - (_mouseY - _h) * 0.01}%`;
+                let _depth2 = `${50 - (_mouseX - _w) * 0.02}% ${50 - (_mouseY - _h) * 0.02}%`;
+                let _depth3 = `${50 - (_mouseX - _w) * 0.06}% ${50 - (_mouseY - _h) * 0.06}%`;
+                let x = `${_depth3}, ${_depth2}, ${_depth1}`;
+                console.log(x);
+                elem.style.backgroundPosition = x;
+            }
+
+        })();</script>
+</body>
+
+</html>
