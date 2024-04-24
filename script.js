@@ -144,8 +144,17 @@ function toggleSidePannel(SideAppValue) {
 	}
 }
 
-function toggleInfoPannel() {
-	var x = document.getElementById('InfoPannel');
+function toggleInfoPanel() {
+	var x = document.getElementById('InfoPanel');
+	if (x.style.display === 'block') {
+		x.style.display = 'none';
+	} else {
+		x.style.display = 'block';
+	}
+}
+
+function toggleSettingsPanel() {
+	var x = document.getElementById('SettingsPanel');
 	if (x.style.display === 'block') {
 		x.style.display = 'none';
 	} else {
@@ -209,4 +218,8 @@ function startWeather() {
 		console.error("FETCH ERROR:", error);
 	});
 	var t = setTimeout(startWeather, 3600000);
+}
+
+function changeFavicon(iconSrc) {
+	document.getElementById('favicon').href = iconSrc;
 }
