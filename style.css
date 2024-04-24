@@ -537,7 +537,7 @@ body {
 	border: none;
 }
 
-#InfoPannel {
+#InfoPanel {
 	position: absolute;
 	display: none;
 	top: 0;
@@ -551,7 +551,25 @@ body {
 	backdrop-filter: blur(6px);
 }
 
-#InfoPannel::-webkit-scrollbar {
+#InfoPanel::-webkit-scrollbar {
+	display: none;
+}
+
+#SettingsPanel {
+	position: absolute;
+	display: none;
+	top: 0;
+	left: 95px;
+	width: calc(35% - 50px);
+	height: 100%;
+	background-color: rgba(200, 250, 200, 0.75);
+	z-index: 2;
+	flex: 1 1 auto;
+	overflow-y: auto;
+	backdrop-filter: blur(6px);
+}
+
+#SettingsPanel::-webkit-scrollbar {
 	display: none;
 }
 
@@ -573,6 +591,41 @@ div.updates:hover {
 	cursor: pointer;
 }
 
+div.setstage {
+	position: relative;
+	display: flex;
+	flex: 1 1 auto;
+	overflow-y: auto;
+	background-color: rgba(100, 150, 200, 0.5);
+	margin: 3%;
+	border: none;
+	width: 94%;
+	flex-direction: column;
+	min-height: 10vh;
+}
+
+div.setstage:hover {
+	background-color: rgba(100, 150, 200, 0.75);
+}
+
+div.choice {
+	position: relative;
+	display: flex;
+	flex: 1 1 auto;
+	overflow-y: auto;
+	background-color: rgba(100, 150, 200, 0.5);
+	margin: 3%;
+	border: none;
+	width: 94%;
+	flex-direction: column;
+	min-height: 10vh;
+}
+
+div.choice:hover {
+	background-color: rgba(100, 150, 200, 0.75);
+	cursor: pointer;
+}
+
 div.updateheading {
 	background-color: #ccc;
 	margin: 5px;
@@ -585,4 +638,25 @@ div.updatebody {
 	padding: 5px;
 	flex: 1;
 	overflow: hidden;
+}
+
+div.stageheading {
+	background-color: #ccc;
+	margin: 5px;
+	padding: 5px;
+	flex: 1;
+}
+
+div.stagebody {
+	margin: 5px;
+	padding: 5px;
+	flex: 1;
+	overflow: hidden;
+}
+
+.stagebody img {
+	width: 50px;
+	height: 50px;
+	margin: 5px;
+	cursor: pointer;
 }
