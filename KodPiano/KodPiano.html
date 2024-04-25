@@ -32,7 +32,6 @@
         <button class="TopRowWhiteKey" value="219" id="Key" style="left:77%;" onmousedown="OnButtonDown(this)" onmouseup="OnButtonUp(this)" ontouchstart="OnButtonDown(this)" ontouchend="OnButtonUp(this)">[</button>
         <button class="TopRowBlackKey" value="187" id="Key" style="left:82%;" onmousedown="OnButtonDown(this)" onmouseup="OnButtonUp(this)" ontouchstart="OnButtonDown(this)" ontouchend="OnButtonUp(this)">=</button>
         <button class="TopRowWhiteKey" value="221" id="Key" style="left:84%;" onmousedown="OnButtonDown(this)" onmouseup="OnButtonUp(this)" ontouchstart="OnButtonDown(this)" ontouchend="OnButtonUp(this)">]</button>
-        <button class="TopRowWhiteKey" value="20" id="Key" style="left:91%;" onmousedown="OnButtonDown(this)" onmouseup="OnButtonUp(this)" ontouchstart="OnButtonDown(this)" ontouchend="OnButtonUp(this)"></button>
         <button class="BottomRowWhiteKey" value="16" id="Key8" style="left:0;" onmousedown="OnButtonDown(this)" onmouseup="OnButtonUp(this)" ontouchstart="OnButtonDown(this)" ontouchend="OnButtonUp(this)"></button>
         <button class="BottomRowBlackKey" value="65" id="Key9" style="left:5%;" onmousedown="OnButtonDown(this)" onmouseup="OnButtonUp(this)" ontouchstart="OnButtonDown(this)" ontouchend="OnButtonUp(this)">a</button>
         <button class="BottomRowWhiteKey" value="90" id="Key10" style="left:7%;" onmousedown="OnButtonDown(this)" onmouseup="OnButtonUp(this)" ontouchstart="OnButtonDown(this)" ontouchend="OnButtonUp(this)">z</button>
@@ -53,9 +52,10 @@
         <button class="BottomRowWhiteKey" value="191" id="Key25" style="left:70%;" onmousedown="OnButtonDown(this)" onmouseup="OnButtonUp(this)" ontouchstart="OnButtonDown(this)" ontouchend="OnButtonUp(this)">/</button>
         <button class="BottomRowBlackKey" value="222" id="Key26" style="left:75%;" onmousedown="OnButtonDown(this)" onmouseup="OnButtonUp(this)" ontouchstart="OnButtonDown(this)" ontouchend="OnButtonUp(this)">'</button>
         <button class="BottomRowWhiteKey" value="16" id="Key27" style="left:77%;" onmousedown="OnButtonDown(this)" onmouseup="OnButtonUp(this)" ontouchstart="OnButtonDown(this)" ontouchend="OnButtonUp(this)"></button>
+        <button class="BottomRowWhiteKey" value="20" id="Key" style="left:84%;" onmousedown="OnButtonDown(this)" onmouseup="OnButtonUp(this)" ontouchstart="OnButtonDown(this)" ontouchend="OnButtonUp(this)"></button>
     </div>
     
-    <div id="Selectors" style="position:absolute;top:50%;left:82.5%;width:13.5%;height:15%;border:none;background-color:rgb(20,80,120);">
+    <div id="Selectors" style="position:absolute;top:2%;left:89.5%;width:8.5%;height:15%;border:none;background-color:rgb(20,80,120);">
         <select id="waveform" style="position:absolute;top:2%;left:2%;width:96%;height:46%;">
             <option value="sine">Waveform: Sine</option>
             <option value="square">Waveform: Square</option>
@@ -69,17 +69,21 @@
         </select>
     </div>
     
-    <div id="Sliders" style="position:absolute;top:65%;left:82.5%;width:13.5%;height:33%;border:none;">
-        <div id="GainDiv" style="position:absolute;top:0;left:0%;width:50%;height:100%;background-color:rgb(20,120,40);">
+    <div id="Sliders" style="position:absolute;top:17%;left:89.5%;width:8.5%;height:calc(88% - 62px);border:none;">
+        <div id="GainDiv" style="position:absolute;top:0;left:0;width:100%;height:calc(50% - 15.5px);background-color:rgb(20,120,40);">
             <center style="position:absolute;top:0%;left:0;width:100%;height:15%;">Gain Vol.</center>
-            <input id="gain" type="range" orient="vertical" min="0.0" max="1.0" step="0.01" value="1.0" name="volume" style="position:absolute;top:25%;left:10%;width:80%;height:70%;">
+            <input id="gain" type="range" orient="vertical" min="0.0" max="1.0" step="0.01" value="1.0" name="volume" style="position:absolute;top:10%;left:10%;width:80%;height:85%;">
         </div>
         
-        <div id="FilterDiv" style="position:absolute;top:0;left:50%;width:50%;height:100%;background-color:rgb(20,120,40);">
+        <div id="FilterDiv" style="position:absolute;top:calc(50% - 15.5px);left:0;width:100%;height:calc(50% - 15.5px);background-color:rgb(20,120,40);">
             <center style="position:absolute;top:0%;left:0;width:100%;height:15%;">Filter Freq.</center>
-            <input id="filterFrequency" type="range" orient="vertical" min="20.0" max="10000.0" step="0.01" value="1000.0" name="filter" style="position:absolute;top:25%;left:10%;width:80%;height:70%;">
+            <input id="filterFrequency" type="range" orient="vertical" min="20.0" max="10000.0" step="0.01" value="1000.0" name="filter" style="position:absolute;top:10%;left:10%;width:80%;height:85%;">
         </div>
+        
+        <iframe src="https://lavender-but-bread.neocities.org/buttons/piano-button.html" width="100%" height="31" style="position:absolute;top:calc(100% - 31px);left:0;background-color:rgb(20,120,40);border:none;background-color:rgb(20,120,40);"></iframe>
     </div>
+    
+    
     
     <!-- Create an audio element and hide it with css: display:none -->
 <audio class="soundbite" id="audio49" controls style="display:none" src="https://intro.novationmusic.com/packs/sugar-vape/Drums1.wav"></audio>
