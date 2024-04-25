@@ -99,7 +99,7 @@
         // Function to fetch all data
         async function fetchAllData() {
             try {
-                const response = await fetch('https://res.cloudinary.com/kodair/raw/upload/v1/Airstore/airstore.csv');
+                const response = await fetch('https://res.cloudinary.com/kodair/raw/upload/Airstore/airstore.csv');
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
