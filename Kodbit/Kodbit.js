@@ -1,8 +1,10 @@
-x = canvas.getContext("2d");
+let canvas = document.getElementById("canvas");
+let code = document.getElementById("code");
+let p = document.getElementById("p");
+let d = document.getElementById("d");
+let x = canvas.getContext("2d");
 
-
-golf = `
-
+let golf = `
 // Sound player
 t=(i,n)=>(n-i)/n;
 A=new AudioContext()
@@ -19,11 +21,11 @@ p.onclick = function(){
   draw();
 }
 
-onload = function(){
+window.onload = function(){
   ex(1, 0);
 }
 
-examples = [
+let examples = [
 
 [
 "noise",
@@ -458,20 +460,20 @@ examples = [
 ]
 ];
 
-for(e in examples){
-  d.innerHTML += "<button onclick=ex("+e+")>"+examples[e][0];
+for(let e in examples){
+  d.innerHTML += "<button onclick=ex("+e+")>"+examples[e][0]+"</button>";
 }
 
-ex = function(e, play=1){
+function ex(e, play=1){
   code.value = "// Sound\n" + examples[e][1] + golf;
   if(play){
     p.click();
   }
 }
 
-draw = function() {
+function draw() {
   canvas.width ^= 0;
   x.moveTo(0, 75);
-  for(i=96e3;i--;) x.lineTo(i/100, f(i) * 65 + 75);
+  for(let i=96e3;i--;) x.lineTo(i/100, f(i) * 65 + 75);
   x.stroke();
 }
