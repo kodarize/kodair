@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Cub3</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<div id="cub3" class="isHidden">
+			<div class="_c3">
+				<div id="editor">
+					<div id="grid"></div>              <!-- 2d grid-->
+					<div id="buttons">
+						<div>
+							<button id="bzp">+</button>
+							<button id="bzm">-</button>
+							<button id="brx">rx</button>
+							<button id="bry">ry</button>
+							<button id="brz">rz</button>
+						</div>
+						<div>
+							<button id="bdefault">default</button>
+							<button id="bfs">demo mode</button>
+							<button id="bclear">clear all</button>
+						</div>
+						<div>        
+							<button id="bsave">save</button>
+							<input id="fileupload" type="file" accept='.json'>
+						</div>
+					</div>  
+					<input type="text" id="current_color">
+					<!-- json output-->
+					<!-- discontinued on 2019-06-08 19:34:23 - use a save button instead of real-time data to textarea
+					<textarea autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="sdata"></textarea>   
+					-->
+					<div id="output"></div>
+				</div>
+				<div id="_viewport">  
+					<canvas id="c"></canvas>           <!-- webgl viewport -->
+				</div>  
+			</div>
+			<div id="t">                           <!-- info toolbar -->
+				<div class="_vinfo">
+					<div>CUB<span class="sup">3</span></div>
+					<div class="__version"></div>
+				</div>  
+				<input id="cameraInfo" type="text" value="">  
+				<div id="toolbarinfo"></div>
+			</div>
+			<div id="cub3info">
+				<div id="bfs1" class="_vinfo">
+					<div>CUB<span class="sup">3</span></div>
+					<div class="__version"></div>
+				</div>
+			</div>  
+		</div>  
+		
+		<!-- proc <hr> {icon-none} -->
+		
+		<!-- proc vertex shader <hr> -->
+		<script id="vertex-shader" type="code_template">
+			precision highp float;                //set to highp so mobile browsers are happy  
+			precision highp int;
+			
+			attribute vec3 aVertexPosition;      //these are the x,y,z coordinates of the current vertex
+			attribute vec3 aVertexNormal;        //these are the x,y,z of a vector which points orthogonal to the plane of the surface
+			attribute vec3 aEntityTranslation;   //x,y,z translations are applied to each vertex to move entities around the world (Daft Punk)
+			attribute vec4 aEntityColor;         //r,g,b,a for every vertex
+			
+			uniform mat4 uMVMatrix;               //model view matrix           -> rotations
+			uniform mat4 uPMatrix;                //camera projection matrix    -> perspective
+			uniform mat4 uXRMatrix;               //local rotation matrix       -> model local rotation - x axis
+			uniform mat4 uYRMatrix;               //local rotation matrix       -> model local rotation - y axis
+			uniform mat4 uZRMatrix;               //local rotation matrix       -> model local rotation - z axis
+			uniform vec3 uROffset;                //local rotation x,y,z offset -> model rotation pivot
+			uniform vec3 uCameraTranslation;      //the x, y, z coordinates of the camera are added to each vertex, by doing this we can 'move' the camera around.
+			uniform vec3 uLightPosition;          //scene editing, allow control of light position with keyboard
+			
+			varying vec4 vColor;
+			
+			void main(void){
+				
+				//easy peasy -> ultra simple light (gourad shading)
+				//light init
+				vec3 uAmbientLightColor         =vec3(1.0,1.0,1.0);
+				vec3 uAmbientLightColorIntensity=vec3(0.0,0.0,0.0);
+				
+				//light direction names are based on front view
+				//-------  
+				//vec3 pointLighting1Location=vec3(0.0,-15.0,-22.0); //FRONT LIGHT , fixed
+				vec3 pointLighting1Location=uLightPosition;          //FRONT LIGHT , keyboard controlled
+				vec3 pointLighting1ColorIntensity=vec3(1,1,1);       //light color intensity
+				
+				vec3 pointLighting2Location=vec3(-38,25,-5);         //LEFT LIGHT 
+				vec3 pointLighting2ColorIntensity=vec3(0.8,0.8,0.8);
+				
+				vec3 pointLighting3Location=vec3(0.0,-15.0,38.0);    //BACK LIGHT  
+				vec3 pointLighting3ColorIntensity=vec3(1,1,1);
+				
+				vec3 pointLighting4Location=vec3(38,20,-5);          //RIGHT LIGHT
+				vec3 pointLighting4ColorIntensity=vec3(1.2,1,1);     //a little reddish
+				
+				
+				vec3 light1Direction = normalize(pointLighting1Location.xyz - aEntityTranslation - aVertexPosition);
+				vec3 light2Direction = normalize(pointLighting2Location.xyz - aEntityTranslation - aVertexPosition);
+				vec3 light3Direction = normalize(pointLighting3Location.xyz - aEntityTranslation - aVertexPosition);
+				vec3 light4Direction = normalize(pointLighting4Location.xyz - aEntityTranslation - aVertexPosition);
+				
+				float directionalLight1Weighting = max(dot(aVertexNormal, light1Direction), 0.0);
+				float directionalLight2Weighting = max(dot(aVertexNormal, light2Direction), 0.0);
+				float directionalLight3Weighting = max(dot(aVertexNormal, light3Direction), 0.0);
+				float directionalLight4Weighting = max(dot(aVertexNormal, light4Direction), 0.0);
+				
+				vec3 light1 = pointLighting1ColorIntensity
+				* directionalLight1Weighting * uAmbientLightColor;                   
+				
+				vec3 Light2 = pointLighting2ColorIntensity
+				* directionalLight2Weighting * uAmbientLightColor;                   
+				
+				vec3 Light3 = pointLighting3ColorIntensity
+				* directionalLight3Weighting * uAmbientLightColor;                   
+				
+				vec3 Light4 = pointLighting4ColorIntensity
+				* directionalLight4Weighting * uAmbientLightColor;                   
+				
+				vec3 vLightWeighting;
+				vLightWeighting = uAmbientLightColorIntensity + light1 * aEntityColor.xyz;
+				vLightWeighting+= uAmbientLightColorIntensity + Light2 * aEntityColor.xyz;
+				vLightWeighting+= uAmbientLightColorIntensity + Light3 * aEntityColor.xyz;
+				vLightWeighting+= uAmbientLightColorIntensity + Light4 * aEntityColor.xyz;
+				
+				vColor=aEntityColor*vec4(vLightWeighting,1.0);
+				//light end
+				
+				//in this case aEntityTranslation indicates cubes translations 
+				vec4 modelTransform=uXRMatrix*uYRMatrix*uZRMatrix*vec4(aVertexPosition+uROffset+aEntityTranslation,1.0);
+				modelTransform+=vec4(-uCameraTranslation,1.0);
+				gl_Position = uPMatrix * uMVMatrix * modelTransform;
+			}
+		</script>
+		
+		
+		<!-- proc fragment shader <hr> -->
+		<script id="fragment-shader" type="code_template">
+			precision highp float;                //set to highp so mobile browsers are happy  
+			precision highp int;
+			
+			varying vec4 vColor;
+			
+			void main(void){
+				gl_FragColor=vColor; 
+			}
+		</script>
+		<script src="script.js"></script>
+	</body>
+</html>
