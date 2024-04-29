@@ -1,0 +1,63 @@
+body{
+	background-color: #1D1D21;
+	background: linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8) ), url('forest.jpg') no-repeat;
+	background-size:auto;
+	margin: 0px;
+	padding: 0px;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+p{
+	color: white;
+	font-size: 36px;
+	line-height: 15px;
+}
+h1{
+	color: white;
+	font-size: 60px;
+}
+div{
+	text-align: center;
+}
+
+#volumeSlider{
+	margin: 32px;
+}
+
+.flex-container{
+	display: flex;
+	justify-content: center;
+}
+
+.buttonContainer{
+	padding-top: 10px;
+}
+
+button {
+	text-align: center;
+	position: relative;
+	border: none;
+	border-radius: 4px;
+	background-color: #404040;
+	color: white;
+	font-size: 28px;
+	height: auto;
+	padding: 10px;
+	margin: 5px;
+}
+button:focus{
+	background-color: #606060;
+	border-color: #606060;
+}
+button:hover{
+	background-color: #606060;
+	border-color: #606060;
+}
+.title{
+	line-height: 0%;
+}
+.helpbutton{
+	position:fixed;
+	font-size: 32px;
+	height: 48px;
+	width: 100px;
+}

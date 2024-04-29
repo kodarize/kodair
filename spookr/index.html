@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<title>Endless Spook</title>
+</head>
+<body onresize="positionInfoButton()">
+<div class="container">
+	<h1>Spookr</h1>
+	<div class="flex-container">
+		<div class="buttonContainer">
+			<button onclick="spook(0)">Begin Spooking</button>
+		</div>
+		<div class="buttonContainer">
+			<button onclick="stop_spook()">Stop Spooking</button>
+		</div>
+	</div>
+	<br/>
+	<input type="range" min="0" max="50" value="25" id="volumeSlider">
+</div>
+<button type="button" id="helpbutton" class="helpbutton" onclick="showInfo(); return false;">how?</button>
+<script src="index.js"></script>
+</body>
+</html>
