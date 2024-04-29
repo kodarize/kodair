@@ -66,7 +66,7 @@ canvas {
     padding: 16px 0;
     position: absolute;
     left: 0;
-    top: 64px;
+    top: 20px;
     border-left: 0;
     border-radius: 0 2px 2px 0;
 }
@@ -79,15 +79,12 @@ canvas {
         rgba(162, 170, 177, 0.4),
         transparent
     );
-    border-top: 1px solid;
     border-image:
             linear-gradient(
                     to right,
                     #323232,
                     transparent
             ) 100% 1;
-
-    border-bottom: 1px solid #323232;
     font-size: 12px;
     width: 100%;
     padding: 4px 16px;
