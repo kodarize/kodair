@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MusicMarbles</title>
+
+    <link rel="stylesheet" type="text/css" href="styles/reset.css">
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
+
+    <script src="scripts/libs/audiosynth.js"></script>
+    <script src="scripts/libs/tone.min.js"></script>
+    <script src="music/music.js"></script>
+    <script src="wasm/module.js"></script>
+</head>
+<body>
+
+    <canvas id="main-canvas"></canvas>
+    <div style="position: absolute; left: 50%; bottom: 0; height: 33px">
+        <div class="container">
+            <div id="play-button-container">
+                <div id="play-button" onclick="ready=true;">
+                    Play
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div id="progress-bar"></div>
+                <div id="progress-bar-text">0%</div>
+            </div>
+            <div id="progress-bar-hint">
+                Progress can sometimes decrease<br>
+                it's ok, that means the generator<br>
+                trying to create the hard part of the map</div>
+        </div>
+    </div>
+    <a id="github" target="_blank" href="https://github.com/AndrewB330/MusicMarbles">GitHub</a>
+
+    <script src="scripts/canvas_helper.js"></script>
+    <script src="scripts/wasm_api.js"></script>
+    <script src="scripts/constants.js"></script>
+    <script src="scripts/main.js"></script>
+
+    <div id="music-list">
+    </div>
+
+</body>
+</html>

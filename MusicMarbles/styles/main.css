@@ -1,0 +1,173 @@
+html, body {
+    overflow: hidden;
+    font-family: Verdana, serif;
+    font-size: 24px;
+    background: url("../images/bg3.png");
+    background-size: 85%;
+}
+
+canvas {
+    background: url("../images/bg3-overlay.png");
+    background-size: 85%;
+}
+
+.btn {
+    padding: 5px;
+    border: 1px solid #404040;
+    border-radius: 2px;
+}
+
+.btn:hover {
+    cursor: pointer;
+    border: 1px solid #101010;
+    background-color: #CCCCCC;
+}
+
+.btn:active {
+    background-color: #AAAAAA;
+}
+
+.container {
+    position: relative;
+    background-color: rgba(162, 170, 177, 0.3);
+    border: 1px solid #3d5f71;
+    border-bottom: 0;
+    margin-left: -50%;
+    box-sizing: border-box;
+    border-radius: 2px 2px 0 0;
+    display: inline-block;
+    padding: 4px;
+}
+
+.progress-bar-container {
+    position: relative;
+    width: 256px;
+    height: 24px;
+}
+
+#progress-bar {
+    width: 0;
+    height: 100%;
+    background-color: #ffffff;
+}
+
+#progress-bar-text {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    font-size: 16px;
+    line-height: 24px;
+    color: #0d3440;
+}
+
+#music-list {
+    padding: 16px 0;
+    position: absolute;
+    left: 0;
+    top: 20px;
+    border-left: 0;
+    border-radius: 0 2px 2px 0;
+}
+
+.music {
+    background:linear-gradient(
+        to right,
+        rgba(162, 170, 177, 0.4),
+        rgba(162, 170, 177, 0.4),
+        rgba(162, 170, 177, 0.4),
+        transparent
+    );
+    border-image:
+            linear-gradient(
+                    to right,
+                    #323232,
+                    transparent
+            ) 100% 1;
+    font-size: 12px;
+    width: 100%;
+    padding: 4px 16px;
+    box-sizing: border-box;
+}
+
+.music:hover, .music.active {
+    background:linear-gradient(
+            to right,
+            rgba(62, 62, 62, 0.4),
+            rgba(62, 62, 62, 0.4),
+            rgba(62, 62, 62, 0.4),
+            transparent
+    );
+    cursor: pointer;
+    color: white;
+}
+
+#progress-bar-hint {
+    position: absolute;
+    left: 102%;
+    top: 0;
+    font-size: 9px;
+    width: 200px;
+    padding: 4px;
+    background-color: rgba(40, 40, 40, 0.4);
+    color: white;
+}
+
+#play-button-container {
+    position: absolute;
+    right: 102%;
+    top: 0;
+    font-size: 9px;
+    width: 80px;
+    padding: 4px;
+    background-color: rgba(40, 40, 40, 0.4);
+    color: white;
+}
+
+#play-button {
+    background: transparent;
+    color: #afafaf;
+    font-weight: bold;
+    border-radius: 3px;
+    font-size: 16px;
+    padding: 3px;
+    text-align: center;
+}
+
+#play-button:hover {
+    color: white;
+    cursor: pointer;
+}
+
+#progress-bar-hint:hover {
+    background-color: rgba(40, 40, 40, 0.9);
+}
+
+#github {
+    position: absolute;
+    left: 32px;
+    top:0;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 32px;
+    font-weight: bold;
+    opacity: 0.5;
+    color: black;
+}
+
+#github:hover {
+    cursor: pointer;
+    opacity: 1.0;
+}
+
+#github:after {
+    background-image: url('../images/octocat.png');
+    background-size: 32px 32px;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    content:"";
+    position: absolute;
+    left: -32px;
+}
