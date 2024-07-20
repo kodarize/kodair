@@ -66,3 +66,20 @@ body::-webkit-scrollbar {
 .desc {
     font-size: 0.75em;
 }
+
+#searchInput {
+    display: block;
+    margin: 20px auto; /* Center the search input */
+    padding: 10px 20px;
+    width: calc(80% - 40px); /* Adjust width to accommodate padding */
+    border-radius: 20px;
+    border: 2px solid rgba(100, 200, 250, 0.75);
+    background-color: rgba(10, 10, 10, 0.5); /* Background color from .Category */
+    color: rgba(200, 250, 250, 0.75);
+    font-size: 1em;
+    outline: none;
+}
+
+#searchInput:focus {
+    border-color: rgba(100, 200, 250, 0.9);
+}
