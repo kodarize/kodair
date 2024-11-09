@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Web Browsers Showcase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #007bff;
+            color: white;
+            margin: 0;
+        }
+        .browser-showcase {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            justify-content: center;
+        }
+        .browser-item {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .browser-item:hover {
+            transform: scale(1.05);
+        }
+        .browser-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .browser-item h3 {
+            margin: 10px 0;
+        }
+        .browser-item p {
+            color: #666;
+        }
+        .browser-item a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .browser-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cool Web Browsers Showcase</h1>
+
+    <div class="browser-showcase">
+        <!-- Roccat Browser -->
+        <div class="browser-item">
+            <img src="https://via.placeholder.com/300x200?text=Roccat" alt="Roccat Browser">
+            <h3>Roccat</h3>
+            <p>The ultimate browser for macOS.</p>
+            <a href="https://runecats.com/products/" target="_blank">Learn More</a>
+        </div>
+
+        <!-- Flow Browser -->
+        <div class="browser-item">
+            <img src="https://via.placeholder.com/300x200?text=Flow" alt="Flow Browser">
+            <h3>Flow</h3>
+            <p>Innovative and powerful browser for enhanced productivity.</p>
+            <a href="https://www.ekioh.com/flow-browser/" target="_blank">Learn More</a>
+        </div>
+
+        <!-- Add more browsers here -->
+        <div class="browser-item">
+            <img src="https://via.placeholder.com/300x200?text=Browser+Name" alt="Browser Name">
+            <h3>Browser Name</h3>
+            <p>Short description of the browser.</p>
+            <a href="https://example.com" target="_blank">Learn More</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -135,7 +135,11 @@
 			<div id="InfoPanel">
 				<div class="updates">
 					<div class="updateheading"><center>About</center></div>
-					<div class="updatebody"><center>Current Version: Alpha 4.2<br></center></div>
+					<div class="updatebody"><center>Current Version: Alpha 4.2 (Nightly 001)<br></center></div>
+				</div>
+				<div class="updates">
+					<div class="updateheading"><center>Alpha V4.2 (Nightly 001)</center></div>
+					<div class="updatebody"><center>Added a new weather app, new fullscreen settings, updated Minecraft with credits and new Web3 game modes, among other things.</center></div>
 				</div>
 				<div class="updates">
 					<div class="updateheading"><center>Alpha V4.2 (4/29/24)</center></div>
@@ -340,9 +344,18 @@
 						<img src="Icons/Kodacon-Pack/Kodacon-14.png" alt="Kodacon-14" onclick="changeFavicon(this.src)">
 					</div>
 				</div>
+				<div class="setstage">
+					<div class="stageheading"><center>Fullscreen Target</center></div>
+					<div class="stagebody">
+						<select id="fullscreenTargetDropdown" onchange="setFullscreenTarget(this.value)">
+							<option value="page">Full Page</option>
+							<option value="div">Main Content Only</option>
+						</select>
+					</div>
+				</div>
 			</div>
 			<div id="MainContent">
-				<iframe name="ContentView" id="ContentView" src="Welcome/Welcome.html" title="Content" allowfullscreen allow="identity-credentials-get" sandbox="allow-same-origin allow-scripts allow-popups allow-modals allow-forms"></iframe>
+				<iframe name="ContentView" id="ContentView" src="Welcome/Welcome.html" title="Content" allowfullscreen allow="identity-credentials-get" sandbox="allow-same-origin allow-scripts allow-popups allow-modals allow-forms allow-pointer-lock"></iframe>
 			</div>
 		</div>
 		<div id="SearchBox">

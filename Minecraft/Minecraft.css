@@ -13,6 +13,10 @@ body {
   overflow: hidden;
 }
 
+body.web3 {
+  background-image: url("Minecraft3.jpg"); /* Web3 Mode background */
+}
+
 .title {
   display: flex;
   flex-direction: column;
@@ -72,6 +76,7 @@ body {
               inset -3px -3px 0 rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }
+
 .select-minecraft {
   background: #727272;
   color: rgb(247, 247, 247);
@@ -86,10 +91,106 @@ body {
               inset -3px -3px 0 rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }
+
 .btn-minecraft:hover {
   background: rgba(115, 107, 221, 1);
 }
+
 .btn-minecraft:focus {
   color: rgb(246, 246, 44);
   outline: none;
+}
+
+/* Modal background */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Applies only to options modal */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 70%; /* Even narrower for options modal */
+  max-width: 450px; /* Further reduced max width for options modal */
+  max-height: 80vh;
+  overflow-y: auto;
+  text-align: left;
+  position: relative; /* For positioning the close button */
+}
+
+.modal-content::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-content h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  color: #666;
+}
+
+.modal-content a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.modal-content a:hover {
+  text-decoration: underline;
+}
+
+/* Close Button */
+.close {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute; /* Position it to the right */
+  right: 10px; /* 10px from the right edge */
+  top: 10px; /* 10px from the top edge */
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  cursor: pointer;
+}
+
+/* Credits Modal adjustments */
+.credits-modal .modal-content {
+  width: 90%; /* Wider for credits modal */
+  max-width: 600px; /* Max width for credits modal */
+  background-color: #fefefe; /* No extra darkening for credits modal */
+}
+
+/* Prevent additional darkening for credits modal */
+.credits-modal {
+  background-color: transparent; /* Ensures background doesn't darken */
+}
+
+/* Spacing between each game in credits */
+.credit-item {
+  margin-bottom: 1rem; /* Better spacing between credits */
+}
+
+/* Fix for the close button position */
+.credits-modal .modal-content {
+  position: relative;
+}
+
+.credits-modal .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }

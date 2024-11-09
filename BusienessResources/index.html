@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Resources</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #343a40;
+        }
+        .resource-section {
+            margin-bottom: 30px;
+        }
+        .resource-section h2 {
+            color: #495057;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .resource-section p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #343a40;
+        }
+        .resource-section a {
+            color: #ffffff;
+            background-color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .resource-section a:hover {
+            background-color: #0056b3;
+        }
+        .tool-container {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .tool-container label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .tool-container input, .tool-container select, .tool-container button {
+            padding: 10px;
+            margin-top: 5px;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .tool-container button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+        }
+        .tool-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Business Resources</h1>
+
+        <div class="resource-section">
+            <h2>SCORE</h2>
+            <p>SCORE is a nonprofit organization that provides free, confidential business mentoring and education. They offer a range of services including mentoring, workshops, and business planning resources.</p>
+            <a href="https://www.score.org/" target="_blank">Explore SCORE</a>
+        </div>
+
+        <div class="resource-section">
+            <h2>Business Name Generator</h2>
+            <div class="tool-container">
+                <p>Use this tool to generate unique business names based on a keyword. Enter a keyword related to your business idea, and the tool will provide you with some creative name suggestions.</p>
+                <label for="name-input">Enter a keyword for your business:</label>
+                <input type="text" id="name-input" placeholder="e.g., Tech">
+                <button onclick="generateName()">Generate Name</button>
+                <p id="name-output"></p>
+            </div>
+        </div>
+
+        <div class="resource-section">
+            <h2>Tax Calculator</h2>
+            <div class="tool-container">
+                <p>This calculator estimates your business taxes based on your income and expenses. The estimated tax is calculated using a flat tax rate of 20% on the taxable income (income minus expenses).</p>
+                <label for="income-input">Enter your income:</label>
+                <input type="number" id="income-input" placeholder="Income">
+                <label for="expenses-input">Enter your expenses:</label>
+                <input type="number" id="expenses-input" placeholder="Expenses">
+                <button onclick="calculateTax()">Calculate Tax</button>
+                <p id="tax-output"></p>
+            </div>
+        </div>
+
+        <div class="resource-section">
+            <h2>Shipping Calculator</h2>
+            <div class="tool-container">
+                <p>Estimate your shipping costs based on package weight and distance. The cost is calculated with a rate of $5 per kilogram of weight and $0.10 per kilometer of distance.</p>
+                <label for="weight-input">Enter package weight (kg):</label>
+                <input type="number" id="weight-input" placeholder="Weight">
+                <label for="distance-input">Enter shipping distance (km):</label>
+                <input type="number" id="distance-input" placeholder="Distance">
+                <button onclick="calculateShipping()">Calculate Shipping Cost</button>
+                <p id="shipping-output"></p>
+            </div>
+        </div>
+
+        <div class="resource-section">
+            <h2>Loan Payment Calculator</h2>
+            <div class="tool-container">
+                <p>Calculate your monthly loan payments using this tool. Enter the loan amount, annual interest rate, and loan term to estimate your monthly payment. The calculation uses the following formula:</p>
+                <p><strong>Monthly Payment = (P * r) / (1 - (1 + r)^(-n))</strong></p>
+                <p>where:</p>
+                <ul>
+                    <li><strong>P:</strong> Principal loan amount</li>
+                    <li><strong>r:</strong> Monthly interest rate (annual rate divided by 12)</li>
+                    <li><strong>n:</strong> Number of monthly payments (loan term in years multiplied by 12)</li>
+                </ul>
+                <label for="loan-amount">Enter loan amount:</label>
+                <input type="number" id="loan-amount" placeholder="Loan Amount">
+                <label for="interest-rate">Enter annual interest rate (%):</label>
+                <input type="number" id="interest-rate" placeholder="Interest Rate">
+                <label for="loan-term">Enter loan term (years):</label>
+                <input type="number" id="loan-term" placeholder="Term">
+                <button onclick="calculateLoan()">Calculate Loan Payment</button>
+                <p id="loan-output"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Business Name Generator
+        function generateName() {
+            const keyword = document.getElementById('name-input').value;
+            const names = [`${keyword} Solutions`, `${keyword} Innovations`, `${keyword} Enterprises`];
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            document.getElementById('name-output').textContent = `Suggested Name: ${randomName}`;
+        }
+
+        // Tax Calculator
+        function calculateTax() {
+            const income = parseFloat(document.getElementById('income-input').value);
+            const expenses = parseFloat(document.getElementById('expenses-input').value);
+            const taxRate = 0.20; // Example tax rate of 20%
+            const taxableIncome = income - expenses;
+            const tax = taxableIncome * taxRate;
+            document.getElementById('tax-output').textContent = `Estimated Tax: $${tax.toFixed(2)}`;
+        }
+
+        // Shipping Calculator
+        function calculateShipping() {
+            const weight = parseFloat(document.getElementById('weight-input').value);
+            const distance = parseFloat(document.getElementById('distance-input').value);
+            const ratePerKg = 5; // Example rate per kg
+            const ratePerKm = 0.1; // Example rate per km
+            const shippingCost = (weight * ratePerKg) + (distance * ratePerKm);
+            document.getElementById('shipping-output').textContent = `Estimated Shipping Cost: $${shippingCost.toFixed(2)}`;
+        }
+
+        // Loan Payment Calculator
+        function calculateLoan() {
+            const principal = parseFloat(document.getElementById('loan-amount').value);
+            const interestRate = parseFloat(document.getElementById('interest-rate').value) / 100 / 12;
+            const numberOfPayments = parseFloat(document.getElementById('loan-term').value) * 12;
+            const monthlyPayment = (principal * interestRate) / (1 - Math.pow(1 + interestRate, -numberOfPayments));
+            document.getElementById('loan-output').textContent = `Monthly Payment: $${monthlyPayment.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>

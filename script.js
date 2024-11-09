@@ -65,22 +65,31 @@ function changeAppSearch(SearchValue) {
     }
 }
 
+let fullscreenTarget = 'page'; // Default to full page
+
+function setFullscreenTarget(target) {
+	fullscreenTarget = target;
+}
+
 function toggleFullScreen() {
+	const elementToFullscreen = (fullscreenTarget === 'div') 
+	? document.getElementById('MainContent') 
+	: document.documentElement;
+	
 	if (
-		!document.fullscreenElement && // alternative standard method
+		!document.fullscreenElement &&
 		!document.mozFullScreenElement &&
 		!document.webkitFullscreenElement &&
 		!document.msFullscreenElement
 	) {
-		// current working methods
-		if (document.documentElement.requestFullscreen) {
-			document.documentElement.requestFullscreen();
-		} else if (document.documentElement.msRequestFullscreen) {
-			document.documentElement.msRequestFullscreen();
-		} else if (document.documentElement.mozRequestFullScreen) {
-			document.documentElement.mozRequestFullScreen();
-		} else if (document.documentElement.webkitRequestFullscreen) {
-			document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+		if (elementToFullscreen.requestFullscreen) {
+			elementToFullscreen.requestFullscreen();
+		} else if (elementToFullscreen.msRequestFullscreen) {
+			elementToFullscreen.msRequestFullscreen();
+		} else if (elementToFullscreen.mozRequestFullScreen) {
+			elementToFullscreen.mozRequestFullScreen();
+		} else if (elementToFullscreen.webkitRequestFullscreen) {
+			elementToFullscreen.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
 		}
 	} else {
 		if (document.exitFullscreen) {
