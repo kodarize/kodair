@@ -1,0 +1,30 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+input {
+  width: 80%;
+  padding: 8px;
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.player {
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+}
