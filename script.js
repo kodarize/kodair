@@ -232,3 +232,46 @@ function startWeather() {
 function changeFavicon(iconSrc) {
 	document.getElementById('favicon').href = iconSrc;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+	const checkbox = document.getElementById("b");
+	const iframe = document.getElementById("ContentView");
+	const openPuterBtn = document.getElementById("openPuterBtn");
+	
+	let observer = null; // Store the observer instance
+	
+	function enforcePuterMode() {
+		if (checkbox.checked) {
+			// Force iframe to use the proxy if not already set
+			if (!iframe.src.startsWith("https://puter.farwalker3.workers.dev/")) {
+				iframe.src = "https://puter.farwalker3.workers.dev/";
+			}
+			
+			// Create a MutationObserver to prevent external changes
+			if (!observer) {
+				observer = new MutationObserver(() => {
+					const url = new URL(iframe.src);
+					if (!url.hostname.endsWith("farwalker3.workers.dev")) {
+						iframe.src = "https://puter.farwalker3.workers.dev/"; // Revert to proxy
+					}
+				});
+				
+				observer.observe(iframe, { attributes: true, attributeFilter: ["src"] });
+			}
+			
+		} else {
+			// Allow normal iframe behavior
+			if (observer) {
+				observer.disconnect(); // Stop enforcing the proxy
+				observer = null;
+			}
+		}
+	}
+	
+	openPuterBtn.addEventListener("click", function() {
+		window.open("https://puter.com", "_blank"); // Open Puter.com in a new tab
+	});
+	
+	checkbox.addEventListener("change", enforcePuterMode);
+});
+

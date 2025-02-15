@@ -30,6 +30,7 @@
 		</script>
 		<script src="https://unpkg.com/ipfs-http-client/dist/index.min.js"></script>
 		<link href="style.css" rel="stylesheet">
+		<link href="toggle.css" rel="stylesheet">
 		<link id="favicon" href="Icons/Kodacon-Pack/Kodacon-1.png" rel="shortcut icon">
 		<link href="Icons/App-Pack/apple-icon-57x57.png" rel="apple-touch-icon" sizes="57x57">
 		<!-- ... Other link tags for icons and styles ... -->
@@ -146,7 +147,11 @@
 			<div id="InfoPanel">
 				<div class="updates">
 					<div class="updateheading"><center>About</center></div>
-					<div class="updatebody"><center>Current Version: Alpha 4.2 (Nightly 003)<br></center></div>
+					<div class="updatebody"><center>Current Version: Alpha 4.2 (Nightly 004)<br></center></div>
+				</div>
+				<div class="updates">
+					<div class="updateheading"><center>Alpha V4.2 (Nightly 004)</center></div>
+					<div class="updatebody"><center>Added Puter mode, which opens up a computer like web app through a proxy. There is also the option to open up the Puter in a new tab.</center></div>
 				</div>
 				<div class="updates">
 					<div class="updateheading"><center>Alpha V4.2 (Nightly 003)</center></div>
@@ -370,6 +375,30 @@
 							<option value="page">Full Page</option>
 							<option value="div">Main Content Only</option>
 						</select>
+					</div>
+				</div>
+				<div class="setstage">
+					<div class="stageheading"><center>Puter Mode</center></div>
+					<div class="stagebody">
+						<!-- First Toggle: Enable Puter Lock -->
+						<div class="can-toggle can-toggle--size-small">
+							<input id="b" type="checkbox">
+							<label for="b">
+								<div class="can-toggle__switch" data-checked="On" data-unchecked="Off"></div>
+								<div class="can-toggle__label-text">Enable Puter Lock</div>
+							</label>
+						</div>
+						<br>
+						<!-- Select for Proxy Options -->
+						<label for="proxy-select">Choose Proxy:</label>
+						<select id="proxy-select">
+							<option hidden value="cors-anywhere">CORS Anywhere</option>
+							<option selected value="puter-worker">puter.farwalker3.workers.dev</option>
+						</select>
+						<br><br>
+						<!-- Button to open Puter.com in a new tab -->
+						<button id="openPuterBtn">Open Puter.com in New Tab</button>
+
 					</div>
 				</div>
 			</div>

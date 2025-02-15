@@ -1,0 +1,179 @@
+@font-face {
+    font-family: 'Nds';
+    src: url('https://pipe.miroware.io/5f586dbe02740c4a7fb69f99/Personal%20Sites/Fonts/NDS12.ttf');
+}
+
+:root {
+	--colora: #FFF700;
+	--colorb: #FFB500;
+	--scale: 1;
+	
+	--ribbonColora: white;
+	--ribbonColorb: #FFF700;
+	
+	--fade: rgba(0,0,0,0.25)
+}
+body { 
+	font-family: 'Nds';
+	text-align: center;
+}
+
+p, h3, img {
+	text-align: center;
+	width: calc(256px * var(--scale));\
+	white-space: pre;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#msgWrap {
+	outline: solid black;
+	background: #B9B9B9;
+	
+	height: calc(192px * var(--scale));
+	width: calc(256px * var(--scale));
+	top: 51%;
+	left: 50%;
+	
+	position: relative;
+	font-family: 'Nds';
+}
+#msgWrap::after {
+	content: '';
+	position: absolute;
+	top: 0; left: calc(18.5px * var(--scale)); right: 0;
+	height: calc(12px * var(--scale));
+	
+	background: var(--ribbonColora);
+	border-bottom: solid calc(1px * var(--scale)) var(--ribbonColorb);
+}
+#msgWrap::before {
+	content: '';
+	position: absolute;
+	bottom: 0; left: 0; right: 0;
+	height: calc(4px * var(--scale));
+	
+	background: var(--ribbonColora);
+	border-top: solid calc(1px * var(--scale)) var(--ribbonColorb);
+}
+#PichmCanvas {
+	height: calc(83px * var(--scale));
+	
+	border: solid var(--colora) calc(2px);
+	border-radius: calc(8px);
+	background: #FFF700;
+	
+	image-rendering: pixelated;
+	
+	position: absolute;
+	top: calc(14px * var(--scale));
+	left: calc(20px * var(--scale));
+	
+	box-shadow: 2px 2px black;
+}
+
+/* Ribbon */
+#vertRibbon {
+	position: absolute;
+	top: 0; bottom: calc(4px * var(--scale)); left: 0;
+	width: calc(19px * var(--scale));
+	box-sizing: border-box;
+	
+	padding: calc(2px * var(--scale));
+	
+	background: var(--ribbonColora);
+	border-right: solid calc(1px * var(--scale)) var(--ribbonColorb);
+}
+#vertRibbon button {
+	width: calc(14px * var(--scale));
+	height: calc(14px * var(--scale));
+	margin-bottom: calc(1px * var(--scale));
+	
+	box-sizing: border-box;
+	
+	font-family: 'Nds';
+	
+	background: var(--colorb);
+	border: solid var(--colora);
+	
+	transform: translate(-2px, -2px);
+	box-shadow: 2px 2px black;
+}
+#vertRibbon button:active {
+	box-shadow: none;
+	transform: none;
+}
+#vertRibbon .divider {
+	height: calc(7px * var(--scale));
+	font-size: 10px;
+	text-align: center;
+}
+
+#vertRibbon #clearbox {
+	height: calc(14px * var(--scale) * 5);
+	writing-mode: tb-rl;
+}
+#vertRibbon #clearbox div {
+	width: calc(14px * var(--scale) * 5);
+	transform-origin: calc(19px * var(--scale)) calc(21px * var(--scale));
+	transform: rotate(-90deg)
+}
+
+/* Render text */
+#PichmText {
+	height: calc(81px * var(--scale));
+	width: calc(230px * var(--scale));
+	
+	border: solid var(--colora) calc(2px);
+	border-radius: calc(8px);
+	
+	resize: none;
+	outline: none;
+	
+	position: absolute;
+	top: calc(100px * var(--scale));
+	left: calc(20px * var(--scale));
+	
+	box-shadow: 2px 2px black;
+	
+	font-family: 'Nds';
+	font-size: 20px;
+	line-height: calc(83px * var(--scale)/5);
+	
+	background-size: auto calc(83px * var(--scale)/5);
+	background-image: linear-gradient(to bottom, var(--fade) 2px, transparent 1px);
+	background-position: -2px -2px;
+	
+	overflow: hidden
+}
+
+.PichmBigBut {
+	position: absolute;
+	
+	width: calc(59px * var(--scale));
+	height: calc(18px * var(--scale));
+	
+	font-family: 'Nds';
+	font-size: 20px;
+	line-height: calc(83px * var(--scale)/5.5);
+	
+	background: var(--colorb);
+	border: solid var(--colora);
+	border-radius: calc(5px * var(--scale)) 0;
+	
+	box-shadow: 2px 2px black;
+	transform: translate(-2px, -2px);
+}
+.PichmBigBut:active {
+	box-shadow: none;
+	transform: none;
+}
+
+#PichmDrawText {
+	top: calc(100px * var(--scale));
+	left: calc(20px * var(--scale));
+}
+#PichmSendImage {
+	top: calc(14px * var(--scale));
+	left: calc(20px * var(--scale));
+}
