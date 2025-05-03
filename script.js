@@ -275,3 +275,111 @@ document.addEventListener("DOMContentLoaded", function () {
 	checkbox.addEventListener("change", enforcePuterMode);
 });
 
+// Setting panel
+
+const effects = {
+	snow: "https://app.embed.im/snow.js",
+	sparkles: "https://app.embed.im/sparkles.js",
+	confetti: "https://app.embed.im/confetti.js",
+	balloons: "https://app.embed.im/balloons.js",
+	effectSpark: "https://app.embed.im/spark.js"
+};
+
+const scriptRegistry = new Set();
+
+function addScript(src) {
+	if (!scriptRegistry.has(src)) {
+		const s = document.createElement("script");
+		s.src = src;
+		s.defer = true;
+		document.head.appendChild(s);
+		scriptRegistry.add(src);
+	}
+}
+
+function toggleAccessibilityWidget(show) {
+	const widget = document.getElementById("embedimAccessibilityWidget");
+	if (widget) {
+		widget.style.display = show ? "block" : "none";
+	}
+}
+
+function loadStoredEffects() {
+	const selected = JSON.parse(localStorage.getItem("screenEffects") || "[]");
+	
+	document.querySelectorAll(".effect-toggle").forEach(el => {
+		if (selected.includes(el.value)) {
+			el.checked = true;
+			addScript(effects[el.value]);
+		}
+	});
+	
+	// Click Spark
+	const sparkEnabled = localStorage.getItem("effectSpark") === "true";
+	document.getElementById("effectSpark").checked = sparkEnabled;
+	if (sparkEnabled) addScript(effects["effectSpark"]);
+	
+	// Accessibility toggle
+	const accessibilityEnabled = localStorage.getItem("effectAccessibility") === "true";
+	document.getElementById("effectAccessibility").checked = accessibilityEnabled;
+	toggleAccessibilityWidget(accessibilityEnabled);
+}
+
+function updateStoredEffects() {
+	const oldSelected = JSON.parse(localStorage.getItem("screenEffects") || "[]");
+	const newSelected = [...document.querySelectorAll(".effect-toggle:checked")].map(el => el.value);
+	localStorage.setItem("screenEffects", JSON.stringify(newSelected));
+	
+	const removed = oldSelected.filter(effect => !newSelected.includes(effect));
+	newSelected.forEach(effect => {
+		if (!oldSelected.includes(effect)) addScript(effects[effect]);
+	});
+	
+	if (removed.length > 0) {
+		document.getElementById("reloadNotice").style.display = "block";
+	}
+}
+
+function checkChristmasSnow() {
+	const today = new Date();
+	const isChristmas = today.getMonth() === 11 && today.getDate() === 25;
+	const year = today.getFullYear();
+	const xmasKey = `snowDisabled-${year}`;
+	const selected = JSON.parse(localStorage.getItem("screenEffects") || "[]");
+	
+	if (isChristmas && !localStorage.getItem(xmasKey) && !selected.includes("snow")) {
+		selected.push("snow");
+		localStorage.setItem("screenEffects", JSON.stringify(selected));
+		addScript(effects["snow"]);
+		document.querySelectorAll(".effect-toggle").forEach(el => {
+			if (el.value === "snow") el.checked = true;
+		});
+	}
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+	loadStoredEffects();
+	checkChristmasSnow();
+	
+	document.querySelectorAll(".effect-toggle").forEach(el => {
+		el.addEventListener("change", updateStoredEffects);
+	});
+	
+	// Click Spark checkbox
+	document.getElementById("effectSpark").addEventListener("change", () => {
+		const enabled = document.getElementById("effectSpark").checked;
+		localStorage.setItem("effectSpark", enabled);
+		if (enabled) {
+			addScript(effects["effectSpark"]);
+		} else {
+			document.getElementById("reloadNotice").style.display = "block";
+		}
+	});
+	
+	// Accessibility toggle checkbox
+	document.getElementById("effectAccessibility").addEventListener("change", () => {
+		const enabled = document.getElementById("effectAccessibility").checked;
+		localStorage.setItem("effectAccessibility", enabled);
+		toggleAccessibilityWidget(enabled);
+	});
+});

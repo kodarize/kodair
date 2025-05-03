@@ -676,3 +676,7 @@ div.stagebody {
 	padding: 5px;
 	font-size: 1em;
 }
+
+#embedimAccessibilityWidget {
+	display: none;
+}
