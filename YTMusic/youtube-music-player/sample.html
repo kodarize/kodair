@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Audio Player</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1c1c1c;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #results {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .result-item {
+            background-color: #333;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 200px;
+        }
+
+        .result-item:hover {
+            transform: scale(1.05);
+        }
+
+        .result-item img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .result-item h4 {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        #player-controls {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .control-btn {
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            margin: 0 15px;
+            transition: color 0.3s;
+        }
+
+        .control-btn:hover {
+            color: #4CAF50;
+        }
+
+        #time-display {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #555;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .progress-bar .progress {
+            height: 100%;
+            background-color: #4CAF50;
+        }
+
+        #track-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #track-info h4 {
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+
+        #track-info span {
+            font-size: 14px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Search for Music</h2>
+    <div style="display: flex; justify-content: center;">
+        <input type="text" id="search-query" placeholder="Search YouTube" style="padding: 10px; width: 300px; border-radius: 5px; border: 1px solid #ccc;"/>
+        <button onclick="searchAndLoad()" style="padding: 10px 20px; margin-left: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px;">Search</button>
+    </div>
+
+    <div id="results"></div>
+
+    <div id="track-info" style="display:none;">
+        <h4 id="song-title">Song Title</h4>
+        <span id="channel-name">Channel Name</span>
+    </div>
+
+    <div id="player-controls">
+        <a id="ymp-previous" class="control-btn fa fa-step-backward"></a>
+        <a id="ymp-play" class="control-btn fa fa-play"></a>
+        <a id="ymp-pause" class="control-btn fa fa-pause" style="display:none;"></a>
+        <a id="ymp-next" class="control-btn fa fa-step-forward"></a>
+    </div>
+
+    <div id="time-display" style="display:none;">
+        <span id="current-time">00:00</span> / <span id="duration-time">00:00</span>
+    </div>
+
+    <div id="progress-bar" class="progress-bar" style="display:none;">
+        <div class="progress"></div>
+    </div>
+
+    <div id="youtube-music-player-div" style="display:none;"></div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        const apiKey = 'AIzaSyBnMQoV6ZQMDPmz8CCFOwKARhm_phropc0'; // Your YouTube API Key
+        let YMP = {
+            list: [],
+            player: null,
+            now: false,
+            previous: null,
+            isPlaying: false,
+
+            init: function() {
+                if (this.list.length > 0) {
+                    const videoId = this.list[0].src;
+                    this.player.loadVideoById(videoId, 0, "large");
+                    this.now = 0;
+                    this.previous = 0;
+                    this.play();
+                }
+            },
+
+            play: function() {
+                this.player.playVideo();
+                this.isPlaying = true;
+                this.updatePlayPauseButton();
+                this.updateTimeDisplay();
+            },
+
+            pause: function() {
+                this.player.pauseVideo();
+                this.isPlaying = false;
+                this.updatePlayPauseButton();
+            },
+
+            next: function() {
+                let no = this.now + 1;
+                if (no >= this.list.length) {
+                    no = 0;
+                }
+                this.change(no);
+            },
+
+            previous: function() {
+                let no = this.now - 1;
+                if (no < 0) {
+                    no = this.list.length - 1;
+                }
+                this.change(no);
+            },
+
+            change: function(index) {
+                const video = this.list[index];
+                this.player.loadVideoById(video.src, 0, "large");
+                this.now = index;
+                this.previous = index;
+                this.updateTrackInfo();
+                this.updatePlayPauseButton();
+                this.updateTimeDisplay();
+            },
+
+            updatePlayPauseButton: function() {
+                if (this.isPlaying) {
+                    document.getElementById('ymp-play').style.display = 'none';
+                    document.getElementById('ymp-pause').style.display = 'inline';
+                } else {
+                    document.getElementById('ymp-play').style.display = 'inline';
+                    document.getElementById('ymp-pause').style.display = 'none';
+                }
+            },
+
+            updateTrackInfo: function() {
+                const video = this.list[this.now];
+                document.getElementById('song-title').innerText = video.name;
+                document.getElementById('channel-name').innerText = `By ${video.channel}`;
+                document.getElementById('track-info').style.display = 'block';
+            },
+
+            updateTimeDisplay: function() {
+                this.player.getCurrentTime().then(time => {
+                    document.getElementById('current-time').innerText = this.formatTime(time);
+                    const duration = this.player.getDuration();
+                    document.getElementById('duration-time').innerText = this.formatTime(duration);
+                });
+            },
+
+            formatTime: function(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const sec = Math.floor(seconds % 60);
+                return `${minutes < 10 ? '0' : ''}${minutes}:${sec < 10 ? '0' : ''}${sec}`;
+            },
+
+            seek: function(event) {
+                const progressBar = event.target;
+                const percentage = (event.offsetX / progressBar.offsetWidth);
+                this.player.seekTo(percentage * this.player.getDuration());
+            }
+        };
+
+        async function searchYouTube(query) {
+            const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&key=${apiKey}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            return data.items;
+        }
+
+        function searchAndLoad() {
+            const query = document.getElementById('search-query').value;
+            searchYouTube(query).then(results => {
+                const videoList = [];
+                document.getElementById('results').innerHTML = ''; // Clear previous results
+
+                results.forEach(video => {
+                    const videoId = video.id.videoId;
+                    const title = video.snippet.title;
+                    const channel = video.snippet.channelTitle;
+                    const thumbnail = video.snippet.thumbnails.default.url;
+
+                    videoList.push({ name: title, src: videoId, channel });
+
+                    const resultItem = `<div class="result-item" onclick="loadAudio('${videoId}', '${title}', '${channel}')">
+                                            <img src="${thumbnail}" alt="${title}">
+                                            <h4>${title}</h4>
+                                          </div>`;
+
+                    document.getElementById('results').innerHTML += resultItem;
+                });
+
+                YMP.list = videoList; // Store results in global YMP object
+            });
+        }
+
+        function loadAudio(videoId, title, channel) {
+            YMP.change(YMP.list.findIndex(item => item.src === videoId));
+        }
+
+        window.onYouTubeIframeAPIReady = function() {
+            YMP.player = new YT.Player('youtube-music-player-div', {
+                height: '390',
+                width: '640',
+                videoId: '',
+                events: {
+                    'onReady': () => YMP.init(),
+                    'onStateChange': (event) => {
+                        if (event.data === YT.PlayerState.PLAYING) {
+                            YMP.updateTimeDisplay();
+                        }
+                    }
+                }
+            });
+        };
+
+        document.getElementById('ymp-previous').addEventListener('click', () => YMP.previous());
+        document.getElementById('ymp-next').addEventListener('click', () => YMP.next());
+        document.getElementById('ymp-play').addEventListener('click', () => YMP.play());
+        document.getElementById('ymp-pause').addEventListener('click', () => YMP.pause());
+
+        document.getElementById('progress-bar').addEventListener('click', (event) => YMP.seek(event));
+    </script>
+</body>
+</html>

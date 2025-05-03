@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>MiniMusic</title>
+    <style>
+        /* styles.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #FFFFFF;
+    display: flex;
+    height: 100vh;
+    transition: fadeOut 1s; /* Smooth transition for color change */
+}
+
+#app {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.navbar {
+    padding: 12px;
+    height: 100%;
+}
+
+
+.nav-item {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 25px;
+    padding: 12px;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 1000px;
+    margin: 8px;
+}
+
+.nav-item img{
+	height: 25px;
+	width: 25px;
+	
+}
+
+.page {
+    display: none;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.page.active {
+    display: block;
+}
+
+#video-player {
+    margin-top: 20px;
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin: 0 auto;
+    background-color: #000;
+    border-radius: 10px;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    display: none; /* Initially hide the iframe */
+    border-radius: 10px;
+}
+
+#thumbnail {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+}
+
+#song-details {
+    text-align: center;
+    margin: 10px 0;
+}
+
+#song-title {
+    font-size: 20px;
+    margin: 5px 0;
+}
+
+#artist-name {
+    font-size: 16px;
+    color: #b3b3b3;
+}
+
+#seekbar {
+    width: 100%;
+    margin: 10px 0;
+    appearance: none;
+    height: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    outline: none;
+}
+
+#seekbar::-webkit-slider-thumb {
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    background-color: #b3b3b3;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#controls {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 0px;
+    text-decoration: none;
+    border-radius: 100px;
+    border-style: none;
+    color: #FFFFFF;
+    font-size: 25px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    justify-content: center;
+    padding: 10px;
+}
+
+#categories div {
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 20px;
+}
+
+#categories img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+#categories h3 {
+    margin: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+#categories div:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#categories div:hover img {
+    transform: scale(1.1);
+}
+
+
+
+input{
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 0px;
+    text-decoration: none;
+    border-radius: 40px;
+    border-style: none;
+    color: #FFFFFF;
+    font-size: 18px;
+    padding: 8px;
+}
+
+#search-button{
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 0px;
+    text-decoration: none;
+    border-radius: 40px;
+    border-style: none;
+    color: #FFFFFF;
+    font-size: 25px;
+    padding: 12px;
+}
+
+#search-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    justify-content: center;
+    padding: 10px;
+}
+
+#search-results div {
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 20px;
+}
+
+#search-results img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+#search-results h3 {
+    margin: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+#search-results div:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#search-results div:hover img {
+    transform: scale(1.1);
+}
+
+    </style>
+</head>
+<body onload="getRecommendations();" id="head">
+    <div id="app">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <br>
+			<a href="#" id="logo-link" class="nav-item active"><img src=" data:image/png;base64,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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC81P/+9/8BfCzKMPeF9qoAAAAASUVORK5CYII="></a>
+            <br><br>
+            <a href="#" id="home-link" class="nav-item active"><i class="fa fa-home"></i></a>
+            <br><br>
+            <a href="#" id="search-link" class="nav-item"><i class="fa fa-search"></i></a>
+            <br><br>
+            <a href="#" id="player-link" class="nav-item"><i class="fa fa-play"></i></a>
+            <br><br>
+        </nav>
+
+        <div>
+
+        <!-- Pages -->
+        <div id="home-page" class="page active">
+            <h1>Home</h1>
+            <p>Discover popular music.</p>
+            <div id="categories">
+                <!-- Categories or popular music will be loaded here -->
+            </div>
+        </div>
+
+        <div id="search-page" class="page">
+            <h1>Search</h1>
+            <div style="display: flex;">
+            <input type="text" id="search-query" placeholder="Search for a song...">
+            <button id="search-button"><i class="fa fa-search"></i></button>
+            </div>
+            <div id="search-results"></div>
+        </div>
+
+        <div id="player-page" class="page">
+            <div id="video-player">
+                <div id="player"></div>
+                <img id="thumbnail" alt="Video Thumbnail" onclick="showVideo()">
+            </div>
+            <div id="song-details">
+                <h2 id="song-title">Title</h2>
+                <p id="artist-name">Artist</p>
+            </div>
+            <input type="range" id="seekbar" value="0" max="100">
+            <div id="controls">
+                <button id="play-pause-button">&#9654;</button> <!-- Combined play/pause -->
+            </div>
+        </div>
+        </div>
+        
+        
+        
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const homeLink = document.getElementById('home-link');
+    const searchLink = document.getElementById('search-link');
+    const playerLink = document.getElementById('player-link');
+    const homePage = document.getElementById('home-page');
+    const searchPage = document.getElementById('search-page');
+    const playerPage = document.getElementById('player-page');
+    const categories = document.getElementById('categories');
+
+    const pages = [homePage, searchPage, playerPage];
+    const navLinks = [homeLink, searchLink, playerLink];
+
+    function navigate(page) {
+        pages.forEach(p => p.classList.remove('active'));
+        page.classList.add('active');
+        navLinks.forEach(link => link.classList.remove('active'));
+        navLinks[pages.indexOf(page)].classList.add('active');
+    }
+
+    homeLink.addEventListener('click', () => navigate(homePage));
+    searchLink.addEventListener('click', () => navigate(searchPage));
+    playerLink.addEventListener('click', () => navigate(playerPage));
+
+    // Fetch and display recommendations on the homepage
+    const API_KEY = 'AIzaSyALbvZW3dfsFGC-mzQmR9jO9KoxDNKRYQE'; // Replace with your YouTube Data API key
+    fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=IN&videoCategoryId=10&maxResults=5&key=${API_KEY}`)
+        .then(response => response.json())
+        .then(data => {
+            data.items.forEach(item => {
+                const videoId = item.id;
+                const title = item.snippet.title;
+                const thumbnailUrl = item.snippet.thumbnails.high.url;
+
+                const videoDiv = document.createElement('div');
+                videoDiv.innerHTML = `
+                    <img src="${thumbnailUrl}" alt="${title}" onclick="loadVideo('${videoId}', '${thumbnailUrl}')">
+                    <h3 onclick="loadVideo('${videoId}', '${thumbnailUrl}')">${title}</h3>
+                `;
+                categories.appendChild(videoDiv);
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+    // YouTube IFrame API initialization
+    let player;
+    const searchButton = document.getElementById('search-button');
+    const searchQuery = document.getElementById('search-query');
+    const searchResults = document.getElementById('search-results');
+    const thumbnail = document.getElementById('thumbnail');
+
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    window.onYouTubeIframeAPIReady = function() {
+        player = new YT.Player('player', {
+            height: '200',
+            width: '100%',
+            videoId: '',
+            events: {
+                'onReady': onPlayerReady,
+            },
+            playerVars: {
+                'controls': 0,
+                'disablekb': 1,
+                'modestbranding': 1,
+            }
+        });
+    };
+
+    function onPlayerReady(event) {
+        document.getElementById('play-button').addEventListener('click', () => {
+            document.querySelector('iframe').style.display = 'block';
+            thumbnail.style.display = 'none';
+            player.playVideo();
+        });
+        document.getElementById('pause-button').addEventListener('click', () => player.pauseVideo());
+        document.getElementById('stop-button').addEventListener('click', () => {
+            player.stopVideo();
+            player.seekTo(0);
+        });
+        document.getElementById('mute-button').addEventListener('click', () => player.mute());
+        document.getElementById('unmute-button').addEventListener('click', () => player.unMute());
+        playPauseButton.addEventListener('click', () => {
+            setupVisualizer();
+            updateSeekbar();
+        });
+        seekbar.value = 0;
+    }
+
+    searchButton.addEventListener('click', () => {
+        const query = searchQuery.value;
+        fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&key=${API_KEY}&type=video&videoCategoryId=10&maxResults=5`)
+            .then(response => response.json())
+            .then(data => {
+                searchResults.innerHTML = '';
+                data.items.forEach(item => {
+                    const videoId = item.id.videoId;
+                    const title = item.snippet.title;
+                    const thumbnailUrl = item.snippet.thumbnails.high.url;
+
+                    const videoDiv = document.createElement('div');
+                    videoDiv.innerHTML = `
+                        <img src="${thumbnailUrl}" alt="${title}" onclick="loadVideo('${videoId}', '${thumbnailUrl}')">
+                        <h3 onclick="loadVideo('${videoId}', '${thumbnailUrl}')">${title}</h3>
+                    `;
+                    searchResults.appendChild(videoDiv);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });
+
+    // Elements for song title and artist name
+    const songTitle = document.getElementById('song-title');
+    const artistName = document.getElementById('artist-name');
+
+    window.loadVideo = function(videoId, thumbnailUrl) {
+    // Fetch video details
+    fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${API_KEY}`)
+        .then(response => response.json())
+        .then(data => {
+            const videoDetails = data.items[0].snippet;
+            songTitle.textContent = videoDetails.title;
+            artistName.textContent = videoDetails.channelTitle;
+        })
+        .catch(error => console.error('Error fetching video details:', error));
+
+    player.loadVideoById(videoId);
+    thumbnail.src = thumbnailUrl; // Set thumbnail src
+    thumbnail.style.display = 'block';
+    document.querySelector('iframe').style.display = 'none';
+    extractColors(thumbnailUrl); // Extract and apply colors
+    navigate(playerPage);
+};
+
+
+    window.showVideo = function() {
+        thumbnail.style.display = 'none';
+        document.querySelector('iframe').style.display = 'block';
+    };
+
+    const playPauseButton = document.getElementById('play-pause-button');
+    const seekbar = document.getElementById('seekbar');
+    let playing = false;
+
+    // Function to extract prominent colors from the thumbnail
+    function extractColors(imageUrl) {
+        const body = document.getElementById("head");
+
+        body.style.background = `url('${imageUrl}') repeat-y`;
+        body.style.backgroundSize = 'cover';
+        body.style.backdropFilter = 'blur(10px)';
+}
+
+    // Toggle play/pause
+    playPauseButton.addEventListener('click', () => {
+        if (playing) {
+            player.pauseVideo();
+            playPauseButton.innerHTML = '&#9654;'; // Play symbol
+            stopSeekbarUpdate();
+            thumbnail.style.backdropFilter = "blur(5px)";
+        } else {
+            player.playVideo();
+            playPauseButton.innerHTML = '&#10074;&#10074;'; // Pause symbol
+            startSeekbarUpdate();
+            thumbnail.style.backdropFilter = "blur(0px)";
+        }
+        playing = !playing;
+    });
+
+    // Update seekbar as video plays
+    function updateSeekbar() {
+        const currentTime = player.getCurrentTime();
+        const duration = player.getDuration();
+        seekbar.value = (currentTime / duration) * 100;
+
+        if (playing) {
+            requestAnimationFrame(updateSeekbar);
+        }
+    }
+
+    seekbar.addEventListener('input', () => {
+        const duration = player.getDuration();
+        player.seekTo((seekbar.value / 100) * duration);
+    });
+
+    window.loadVideo = function(videoId, thumbnailUrl) {
+        // Fetch video details
+        fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${API_KEY}`)
+            .then(response => response.json())
+            .then(data => {
+                const videoDetails = data.items[0].snippet;
+                songTitle.textContent = videoDetails.title;
+                artistName.textContent = videoDetails.channelTitle;
+            })
+            .catch(error => console.error('Error fetching video details:', error));
+
+        player.loadVideoById(videoId);
+        thumbnail.src = thumbnailUrl;
+        thumbnail.style.display = 'block';
+        document.querySelector('iframe').style.display = 'none';
+        extractColors(thumbnailUrl); // Extract and apply colors
+        navigate(playerPage);
+        setTextColorBasedOnBackground(body);
+    };
+});
+
+let updateInterval;
+
+// Start updating the seekbar
+function startSeekbarUpdate() {
+    if (updateInterval) return; // Prevent multiple intervals from being set
+
+    updateInterval = setInterval(() => {
+        const currentValue = parseFloat(seekbar.value);
+        const maxValue = parseFloat(seekbar.max);
+
+        if (currentValue < maxValue) {
+            seekbar.value = currentValue + 1;
+            player.seekTo((seekbar.value / 100) * player.getDuration());
+        }
+    }, 1000); // Update every second
+}
+
+// Stop updating the seekbar
+function stopSeekbarUpdate() {
+    clearInterval(updateInterval);
+    updateInterval = null;
+}
+
+// Example usage:
+// startSeekbarUpdate();
+// stopSeekbarUpdate();
+
+function setTextColorBasedOnBackground(element) {
+    // Create a canvas to compute the average color
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    canvas.width = 1;
+    canvas.height = 1;
+
+    // Draw the background color on the canvas
+    context.fillStyle = window.getComputedStyle(element).backgroundColor;
+    context.fillRect(0, 0, 1, 1);
+
+    // Get the pixel data
+    const pixel = context.getImageData(0, 0, 1, 1).data;
+    const r = pixel[0];
+    const g = pixel[1];
+    const b = pixel[2];
+
+    // Calculate the luminance using the formula: 0.299 * R + 0.587 * G + 0.114 * B
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b);
+
+    // Determine text color based on luminance
+    if (luminance > 186) { // A threshold value to determine light or dark
+        element.style.color = '#000000'; // Dark text for light backgrounds
+    } else {
+        element.style.color = '#FFFFFF'; // Light text for dark backgrounds
+    }
+}
+
+// Example usage: apply to the body or a specific element
+document.addEventListener('DOMContentLoaded', function () {
+    setTextColorBasedOnBackground(body);
+});
+
+
+    </script>
+</body>
+</html>
