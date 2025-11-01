@@ -1,35 +1,32 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>KodScan</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="https://pixabay.com/get/57e6dd424d50ae14f1dc8460825668204022dfe05550704e70287dd5/earth-1681722_640.png">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<title>KodScan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="https://pixabay.com/get/57e6dd424d50ae14f1dc8460825668204022dfe05550704e70287dd5/earth-1681722_640.png">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link type="text/css" rel="stylesheet" href="KodScan.css"/>
-	<script src="KodScan.js"></script>
+<script src="KodScan.js"></script>
 </head>
-
 <body>
 <div id="ScanContent">
-				<iframe
-					name="ScanView"
-					id="ScanView"
-					src="rplayer/index.html"
-					title="ScanView"
-					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
-					sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts"></iframe>
+  <iframe
+  name="ScanView"
+  id="ScanView"
+  src="rplayer/index.html"
+  title="ScanView"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+  sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts"></iframe>
 </div>
 <div id="ScanControlls">
-	<div class="neumorphic-tab-container__controls">
-          <div id="ShowContent" class="neumorphic-tab-container__control neumorphic-tab-container__control_active" data-target="content" onclick="document.getElementById('ShowVisual').classList.remove('neumorphic-tab-container__tab_shown'); document.getElementById('ShowVisual').classList.remove('neumorphic-tab-container__control_active'); document.getElementById('ShowBars').classList.remove('neumorphic-tab-container__tab_shown'); document.getElementById('ShowBars').classList.remove('neumorphic-tab-container__control_active'); this.classList.toggle('neumorphic-tab-container__control_active'); this.classList.toggle('neumorphic-tab-container__tab_shown');changeScan();">Content</div>
-          <div id="ShowBars" class="neumorphic-tab-container__control" data-target="visual" onclick="document.getElementById('ShowContent').classList.remove('neumorphic-tab-container__tab_shown'); document.getElementById('ShowContent').classList.remove('neumorphic-tab-container__control_active'); document.getElementById('ShowVisual').classList.remove('neumorphic-tab-container__tab_shown'); document.getElementById('ShowVisual').classList.remove('neumorphic-tab-container__control_active'); this.classList.toggle('neumorphic-tab-container__control_active'); this.classList.toggle('neumorphic-tab-container__tab_shown');changeScan();">Bars</div>
-		<div id="ShowVisual" class="neumorphic-tab-container__control" data-target="visual" onclick="document.getElementById('ShowContent').classList.remove('neumorphic-tab-container__tab_shown'); document.getElementById('ShowContent').classList.remove('neumorphic-tab-container__control_active'); document.getElementById('ShowBars').classList.remove('neumorphic-tab-container__tab_shown'); document.getElementById('ShowBars').classList.remove('neumorphic-tab-container__control_active'); this.classList.toggle('neumorphic-tab-container__control_active'); this.classList.toggle('neumorphic-tab-container__tab_shown');changeScan();">Visual</div>
-        </div>
-	<marquee id="ScanTitle">Welcome To Kostream - Your Place For Endless Entertainment</marquee>
-	<input type="range" min="0" max="9" value="0" class="slider" id="myRange" oninput="changeScan();">
-	<audio id="ScanAudio" src="" controls></audio>
-	</div>
+<div class="neumorphic-tab-container__controls">
+        <div id="ShowContent" class="neumorphic-tab-container__control neumorphic-tab-container__control_active" data-target="content" onclick="document.getElementById('ShowVisual').classList.remove('neumorphic-tab-container__tab_shown'); document.getElementById('ShowVisual').classList.remove('neumorphic-tab-container__control_active'); document.getElementById('ShowBars').classList.remove('neumorphic-tab-container__tab_shown'); document.getElementById('ShowBars').classList.remove('neumorphic-tab-container__control_active'); this.classList.toggle('neumorphic-tab-container__control_active'); this.classList.toggle('neumorphic-tab-container__tab_shown');changeScan();">Content</div>
+        <div id="ShowBars" class="neumorphic-tab-container__control" data-target="visual" onclick="document.getElementById('ShowContent').classList.remove('neumorphic-tab-container__tab_shown'); document.getElementById('ShowContent').classList.remove('neumorphic-tab-container__control_active'); document.getElementById('ShowVisual').classList.remove('neumorphic-tab-container__tab_shown'); document.getElementById('ShowVisual').classList.remove('neumorphic-tab-container__control_active'); this.classList.toggle('neumorphic-tab-container__control_active'); this.classList.toggle('neumorphic-tab-container__tab_shown');changeScan();">Bars</div>
+  <div id="ShowVisual" class="neumorphic-tab-container__control" data-target="visual" onclick="document.getElementById('ShowContent').classList.remove('neumorphic-tab-container__tab_shown'); document.getElementById('ShowContent').classList.remove('neumorphic-tab-container__control_active'); document.getElementById('ShowBars').classList.remove('neumorphic-tab-container__tab_shown'); document.getElementById('ShowBars').classList.remove('neumorphic-tab-container__control_active'); this.classList.toggle('neumorphic-tab-container__control_active'); this.classList.toggle('neumorphic-tab-container__tab_shown');changeScan();">Visual</div>
+      </div>
+<marquee id="ScanTitle">Welcome To Kostream - Your Place For Endless Entertainment</marquee>
+  <input type="range" min="0" max="9" value="0" class="slider" id="myRange" oninput="changeScan();">
+<audio id="ScanAudio" src="" controls></audio>
+</div>
 </body>
-
 </html>
