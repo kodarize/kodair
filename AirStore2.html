@@ -3,101 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>AirStore</title>
-    <style>
-        body::-webkit-scrollbar {
-            display: none;
-        }
-
-        .CategoryContainer {
-            display: flex;
-            justify-content: center;
-        }
-
-        .Category {
-            width: 100%;
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            background-color: rgba(10, 10, 10, 0.5);
-            border-radius: 1em;
-        }
-
-        .CategoryTitle {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: rgba(100, 200, 250, 0.75);
-            color: rgba(200, 250, 250, 0.75);
-            border-radius: 20px;
-            text-transform: capitalize;
-            margin-top: 10px; /* Adjust margin-top as needed for padding */
-        }
-
-        .CategoryApps {
-            width: 100%;
-            text-align: center;
-        }
-
-        .AirApp {
-            position: relative;
-            width: 8em;
-            height: 7em;
-            border-radius: 2em;
-            display: inline-block;
-            margin: 0.75em;
-            background-color: rgba(100, 200, 250, 0.75);
-            padding-top: 0.5em;
-            color: rgba(200, 250, 250, 0.75);
-            overflow: hidden;
-        }
-
-        .AirApp:hover {
-            background-color: rgba(50, 150, 200, 0.75);
-            cursor: pointer;
-        }
-
-        .AppTitle {
-            position: relative;
-            width: 100%;
-            height: 2.75em;
-            border-radius: 0;
-            display: inline-block;
-            padding-top: 0.5em;
-            line-height: 1em;
-            background-color: rgba(100, 200, 250, 0.75);
-            color: rgba(200, 250, 250, 0.75);
-            overflow: hidden;
-            font-size: 1em;
-        }
-
-        .desc {
-            font-size: 0.75em;
-        }
-
-        #searchInput {
-            display: block;
-            margin: 20px auto; /* Center the search input */
-            padding: 10px 20px;
-            width: calc(80% - 40px); /* Adjust width to accommodate padding */
-            border-radius: 20px;
-            border: 2px solid rgba(100, 200, 250, 0.75);
-            background-color: rgba(10, 10, 10, 0.5); /* Background color from .Category */
-            color: rgba(200, 250, 250, 0.75);
-            font-size: 1em;
-            outline: none;
-        }
-
-        #searchInput:focus {
-            border-color: rgba(100, 200, 250, 0.9);
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="AirStore2.css">
     <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script>
-        // Global variable to store all apps data
         let allAppsData = [];
+        let options = {
+            method: 'GET',
+            headers: {
+                'xc-token': ''
+            }
+        };
 
-        // Function to fetch all data
-        async function fetchAllData() {
+        async function fetchCSVData() {
             try {
                 const response = await fetch('https://res.cloudinary.com/kodair/raw/upload/Airstore/airstore.csv');
                 if (!response.ok) {
@@ -112,77 +30,151 @@
             }
         }
 
-        // Fetch all data and process it
-        fetchAllData()
-            .then(appsList => {
-                if (appsList.length === 0) {
-                    const errorMessage = document.createElement('div');
-                    errorMessage.innerText = 'Failed to fetch data. Please try again later.';
-                    document.body.appendChild(errorMessage);
-                    return;
+        async function fetchTotalCount() {
+            try {
+                const response = await fetch('https://app.nocodb.com/api/v1/db/data/noco/phgforxa020gg7q/ml1ww2bojawn3mf/views/vwy72p5sijrhvnmg/count', options);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch total count');
+                }
+                const data = await response.json();
+                return data.count;
+            } catch (error) {
+                console.error(error);
+                return -1; // Return -1 to indicate an error
+            }
+        }
+
+        async function fetchData(offset, limit) {
+            try {
+                const response = await fetch(`https://app.nocodb.com/api/v1/db/data/noco/phgforxa020gg7q/ml1ww2bojawn3mf/views/vwy72p5sijrhvnmg?offset=${offset}&limit=${limit}&where=(Public,eq,true)`, options);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                const data = await response.json();
+                return data.list;
+            } catch (error) {
+                console.error(error);
+                return [];
+            }
+        }
+
+        async function fetchAllNocoDBData() {
+            const limit = 100; // Number of items per fetch
+            let offset = 0;
+            let allData = [];
+            const totalCount = await fetchTotalCount(); // Fetch total count
+
+            if (totalCount === -1) {
+                console.error('Failed to fetch total count. Aborting data fetch.');
+                return [];
+            }
+
+            try {
+                while (offset < totalCount) {
+                    const partialData = await fetchData(offset, limit);
+                    if (!Array.isArray(partialData) || partialData.length === 0) break; // Exit loop if no more data
+                    allData = allData.concat(partialData);
+                    offset += limit;
                 }
 
-                allAppsData = appsList;
+                return allData;
+            } catch (error) {
+                console.error(error);
+                return [];
+            }
+        }
 
-                const categories = {};
+        async function initializeApp() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', handleSearch);
+            
+            allAppsData = await fetchCSVData();
+            displayApps(allAppsData);
+        }
 
-                // Group apps by category
-                appsList.forEach(app => {
-                    const category = app.Category;
-                    if (!categories[category]) {
-                        categories[category] = [];
-                    }
-                    categories[category].push(app);
+        async function handleSearch() {
+            const searchInput = document.getElementById('searchInput').value;
+            const nocodbMatch = searchInput.match(/^Nocodb:\s*([^ ]+)\s*(.*)$/i);
+
+            if (nocodbMatch) {
+                const apiKey = nocodbMatch[1].trim();
+                const searchTerm = nocodbMatch[2].trim();
+                options.headers['xc-token'] = apiKey;
+                allAppsData = await fetchAllNocoDBData();
+                displayApps(allAppsData);
+                searchApps(searchTerm); // Search within NocoDB data
+            } else {
+                allAppsData = await fetchCSVData();
+                displayApps(allAppsData);
+                searchApps(searchInput); // Search within CSV data
+            }
+        }
+
+        function displayApps(appsList) {
+            document.querySelectorAll('.Category').forEach(category => category.remove());
+
+            if (appsList.length === 0) {
+                const errorMessage = document.createElement('div');
+                errorMessage.innerText = 'Failed to fetch data. Please try again later.';
+                document.body.appendChild(errorMessage);
+                return;
+            }
+
+            const categories = {};
+
+            appsList.forEach(app => {
+                const category = app.Category;
+                if (!categories[category]) {
+                    categories[category] = [];
+                }
+                categories[category].push(app);
+            });
+
+            Object.entries(categories).forEach(([category, apps]) => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.classList.add('Category');
+
+                const categoryTitle = document.createElement('div');
+                categoryTitle.classList.add('CategoryTitle');
+                categoryTitle.innerText = category;
+
+                const categoryContainer = document.createElement('div');
+                categoryContainer.classList.add('CategoryApps');
+
+                apps.forEach(app => {
+                    const appElement = document.createElement('div');
+                    appElement.classList.add('AirApp');
+                    appElement.setAttribute('data-title', app.Title.toLowerCase());
+                    appElement.setAttribute('data-description', app.Description.toLowerCase());
+                    appElement.setAttribute('onclick', `changeAppUniversal('${app.URL}')`);
+
+                    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+                    svg.setAttribute('aria-hidden', 'true');
+                    svg.setAttribute('role', 'img');
+                    svg.setAttribute('width', '3.75em');
+                    svg.setAttribute('height', '3.75em');
+                    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+                    svg.innerHTML = app.SVG;
+
+                    const titleDescContainer = document.createElement('div');
+                    titleDescContainer.classList.add('AppTitle');
+                    titleDescContainer.innerHTML = `${app.Title}<br><span class="desc">${app.Description}</span>`;
+
+                    appElement.appendChild(svg);
+                    appElement.appendChild(titleDescContainer);
+                    categoryContainer.appendChild(appElement);
                 });
 
-                // Create category titles and app containers
-                Object.entries(categories).forEach(([category, apps]) => {
-                    const categoryDiv = document.createElement('div');
-                    categoryDiv.classList.add('Category');
+                categoryDiv.appendChild(categoryTitle);
+                categoryDiv.appendChild(categoryContainer);
+                document.body.appendChild(categoryDiv);
+            });
+        }
 
-                    const categoryTitle = document.createElement('div');
-                    categoryTitle.classList.add('CategoryTitle');
-                    categoryTitle.innerText = category;
-
-                    const categoryContainer = document.createElement('div');
-                    categoryContainer.classList.add('CategoryApps');
-
-                    apps.forEach(app => {
-                        const appElement = document.createElement('div');
-                        appElement.classList.add('AirApp');
-                        appElement.setAttribute('data-title', app.Title.toLowerCase()); // store lowercase title for search
-                        appElement.setAttribute('data-description', app.Description.toLowerCase()); // store lowercase description for search
-                        appElement.setAttribute('onclick', `changeAppUniversal('${app.URL}')`);
-
-                        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                        svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-                        svg.setAttribute('aria-hidden', 'true');
-                        svg.setAttribute('role', 'img');
-                        svg.setAttribute('width', '3.75em');
-                        svg.setAttribute('height', '3.75em');
-                        svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-
-                        svg.innerHTML = app.SVG;
-
-                        const titleDescContainer = document.createElement('div');
-                        titleDescContainer.classList.add('AppTitle');
-                        titleDescContainer.innerHTML = `${app.Title}<br><span class="desc">${app.Description}</span>`;
-
-                        appElement.appendChild(svg);
-                        appElement.appendChild(titleDescContainer);
-                        categoryContainer.appendChild(appElement);
-                    });
-
-                    categoryDiv.appendChild(categoryTitle);
-                    categoryDiv.appendChild(categoryContainer);
-                    document.body.appendChild(categoryDiv);
-                });
-            })
-            .catch(err => console.error(err));
-
-        // Function to filter apps based on search input
-        function searchApps() {
-            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        function searchApps(searchTerm) {
+            const searchInput = searchTerm.toLowerCase();
             const allApps = document.querySelectorAll('.AirApp');
             allApps.forEach(app => {
                 const title = app.getAttribute('data-title');
@@ -193,8 +185,7 @@
                     app.style.display = 'none'; // hide app if it does not match search
                 }
             });
-            
-            // Hide categories with no matching apps
+
             const allCategories = document.querySelectorAll('.Category');
             allCategories.forEach(category => {
                 const categoryApps = category.querySelectorAll('.AirApp');
@@ -211,9 +202,11 @@
                 }
             });
         }
+
+        document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 </head>
 <body>
-    <input type="text" id="searchInput" onkeyup="searchApps()" placeholder="Search...">
+    <input type="text" id="searchInput" placeholder="Search...">
 </body>
 </html>

@@ -1,23 +1,129 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Minecraft</title>
-		<link rel="stylesheet" type="text/css" href="Minecraft.css">
-	</head>
-	<body>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Minecraft</title>
+	<link rel="stylesheet" href="Minecraft.css">
+</head>
+<body>
+
+	<div class="container">
+		<img id="title-img" class="title" src="McTitle.png" alt="Minecraft">
 		
-		<div class="container">
-			<img class="title" src="McTitle.png" alt="Minecraft">
-			<div class="menu">
-				<button class="btn-minecraft" onclick="window.open('EagleCraft/x.html', '_blank')">EagleCraft</button>
-				<button class="btn-minecraft" onclick="window.open('McHTML/McHTML2.html')">McHTML</button>
-				<button class="btn-minecraft" onclick="window.open('2dCraft/2dCraft.html', 'ContentView')">2dCraft</button>
-			</div>
-			<div class="menu-options">
-				<button class="btn-minecraft">Options...</button>
-				<button class="btn-minecraft">Quit</button>
+		<div class="menu">
+			<button id="btn-game-1" class="btn-minecraft" onclick="window.open('EagleCraft/1.8-U50.html', '_blank')">EagleCraft</button>
+			<button id="btn-game-2" class="btn-minecraft" onclick="window.open('McHTML/McHTML2.html')">JSCraft</button>
+			<button id="btn-game-3" class="btn-minecraft" onclick="window.open('2dCraft/2dCraft.html', 'ContentView')">Paper Minecraft</button>
+		</div>
+		
+		<div class="menu-options">
+			<button class="btn-minecraft" onclick="openOptions()">Options...</button>
+			<button class="btn-minecraft">Quit</button>
+		</div>
+	</div>
+
+	<!-- Options Modal -->
+	<div id="optionsModal" class="modal">
+		<div class="modal-content">
+			<span class="close" onclick="closeOptions()">&times;</span>
+			<h2>Options</h2>
+			<button id="web3ToggleButton" class="btn-minecraft" onclick="toggleWeb3Mode()">Web3 Mode</button>
+			<button class="btn-minecraft" onclick="openCredits()">Credits</button>
+		</div>
+	</div>
+
+	<!-- Credits Modal -->
+	<div class="modal" id="creditsModal">
+		<div class="modal-content">
+			<span class="close" onclick="closeCredits()">&times;</span>
+			<h2>Credits</h2>
+			<div class="credits-list">
+				<div class="credit-item">
+					<strong>Eaglercraft:</strong>
+					<p>An AOT compiled voxel game inspired by Minecraft, designed to run on JavaScript. It uses TeaVM and LAX1DUDE's OpenGL emulator to run a Java virtual machine fully compatible with browsers.</p>
+					<a href="https://eaglercraft.com/" target="_blank">Visit Eaglercraft</a>
+				</div>
+				<div class="credit-item">
+					<strong>JSCraft:</strong>
+					<p>A Minecraft clone written in HTML and JavaScript.</p>
+					<a href="https://github.com/11lightning11/Minecraft-In-Html" target="_blank">GitHub Repository</a>
+				</div>
+				<div class="credit-item">
+					<strong>Paper Minecraft:</strong>
+					<p>A fan-made 2D Minecraft clone built on Scratch.</p>
+					<a href="https://turbowarp.org/10128407" target="_blank">Play on TurboWarp</a> |
+					<a href="https://scratch.mit.edu/projects/10128407/" target="_blank">Play on Scratch</a>
+				</div>
+				<div class="credit-item">
+					<strong>HYTOPIA:</strong>
+					<p>A modern games platform that powers voxel-based creator experiences. Free to play with rich creator tools and social gaming.</p>
+					<a href="https://hytopia.com/" target="_blank">Visit HYTOPIA</a>
+					<br>Pre-register for the game: <a href="https://preregister.hytopia.com/Farwalker3" target="_blank">Pre-register Here</a>
+					<br>Documentation: <a href="https://docs.hytopia.com" target="_blank">View Docs</a>
+				</div>
+				<div class="credit-item">
+					<strong>Cubetopia:</strong>
+					<p>A Minecraft-style sandbox game built on the Internet Computer. Play directly in the browser, no downloads, accounts, wallets, or NFTs required.</p>
+					<a href="https://www.thecubetopia.com/" target="_blank">Visit Cubetopia</a> |
+					<a href="https://x.com/thecubetopia" target="_blank">Follow on Twitter</a>
+				</div>
+				<div class="credit-item">
+					<strong>Metablox:</strong>
+					<p>A web3 sandbox proof of concept, that allows users to purchase digital worlds in the form of NFTs, build upon them using 3D rendered blocks, and share those worlds inside of a metaverse that is saved to the blockchain.</p>
+					<a href="https://github.com/BGHProjects/MetaBlox-v1" target="_blank">GitHub Repository</a>
+				</div>
 			</div>
 		</div>
-	</body>
+	</div>
+
+	<script>
+		function openOptions() {
+			document.getElementById("optionsModal").style.display = "block";
+		}
+
+		function closeOptions() {
+			document.getElementById("optionsModal").style.display = "none";
+		}
+
+		function openCredits() {
+			document.getElementById("creditsModal").style.display = "block";
+		}
+
+		function closeCredits() {
+			document.getElementById("creditsModal").style.display = "none";
+		}
+
+		function toggleWeb3Mode() {
+			const isWeb3Enabled = document.body.classList.toggle("web3");
+			const titleImg = document.getElementById("title-img");
+			const web3ToggleButton = document.getElementById("web3ToggleButton");
+
+			// Toggle title image and button text
+			titleImg.src = isWeb3Enabled ? "McTitle3.png" : "McTitle.png";
+			titleImg.alt = isWeb3Enabled ? "Web3craft" : "Minecraft";
+			web3ToggleButton.textContent = isWeb3Enabled ? "Normal Mode" : "Web3 Mode";
+
+			// Update game buttons
+			const gameButtons = [
+				{ id: "btn-game-1", text: isWeb3Enabled ? "Hytopia" : "EagleCraft", link: isWeb3Enabled ? "https://build.hytopia.com/" : "EagleCraft/1.8-U40.html" },
+				{ id: "btn-game-2", text: isWeb3Enabled ? "Cubetopia" : "JSCraft", link: isWeb3Enabled ? "https://www.thecubetopia.com/" : "McHTML/McHTML2.html" },
+				{ id: "btn-game-3", text: isWeb3Enabled ? "Metablox" : "Paper Minecraft", link: isWeb3Enabled ? "https://meta-blox-v1.vercel.app/" : "2dCraft/2dCraft.html" }
+			];
+
+			gameButtons.forEach(game => {
+				const button = document.getElementById(game.id);
+				button.textContent = game.text;
+				button.setAttribute("onclick", `window.open('${game.link}', 'ContentView')`);
+			});
+		}
+
+		window.onclick = function(event) {
+			const optionsModal = document.getElementById("optionsModal");
+			const creditsModal = document.getElementById("creditsModal");
+			if (event.target === optionsModal) optionsModal.style.display = "none";
+			if (event.target === creditsModal) creditsModal.style.display = "none";
+		};
+	</script>
+</body>
 </html>

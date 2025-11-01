@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Education Resources</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            background-color: #f0f0f0;
+            height: 100vh;
+            overflow: hidden;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+        .content, .iframe-container {
+            transition: width 0.3s;
+        }
+        .content {
+            width: 100%;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .iframe-container {
+            width: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+        iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            margin: 10px 0;
+        }
+        ul li a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        ul li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <header>
+                <h1>Online Education Resources</h1>
+                <p>Welcome to our online education resources page. Below you can access D2L if you are a student, or explore other free educational resources available to everyone.</p>
+            </header>
+            <section>
+                <h2>Access D2L</h2>
+                <a href="https://mccs.brightspace.com/d2l/home" target="_blank">Sign Up/In Here</a>
+                <br>
+                <button id="toggleButton" onclick="toggleD2L()">Open D2L</button>
+            </section>
+            <section>
+                <h2>Additional Resources for Everyone</h2>
+                <ul>
+                    <li><a href="https://www.khanacademy.org/" target="_blank">Khan Academy</a> - Free educational resources for all ages.</li>
+                    <li><a href="https://www.coursera.org/" target="_blank">Coursera</a> - Online courses from top universities.</li>
+                    <li><a href="https://www.edx.org/" target="_blank">edX</a> - Free online courses from Harvard, MIT, and more.</li>
+                    <li><a href="https://www.udemy.com/" target="_blank">Udemy</a> - Affordable online courses on various topics.</li>
+                </ul>
+            </section>
+        </div>
+        <div class="iframe-container">
+            <iframe id="d2lIframe" src="https://mccs.brightspace.com/d2l/home"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function toggleD2L() {
+            const content = document.querySelector('.content');
+            const iframeContainer = document.querySelector('.iframe-container');
+            const button = document.getElementById('toggleButton');
+            if (iframeContainer.style.width === '0px' || iframeContainer.style.width === '') {
+                iframeContainer.style.width = '75%';
+                content.style.width = '25%';
+                button.textContent = 'Close D2L';
+            } else {
+                iframeContainer.style.width = '0';
+                content.style.width = '100%';
+                button.textContent = 'Open D2L';
+            }
+        }
+        
+        // Ensure the iframe container is hidden initially
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.iframe-container').style.width = '0';
+        });
+    </script>
+</body>
+</html>

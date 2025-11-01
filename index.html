@@ -5,6 +5,14 @@
 		<meta name="theme-color" content="#fdf6e3" media="(prefers-color-scheme: light)">
 		<meta name="theme-color" content="#002b36" media="(prefers-color-scheme: dark)">
 		<meta name="description" content="Your Place For Everything">
+		<script src="https://app.embed.im/accessibility.js" defer></script>
+		<!-- Google Tag Manager -->
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-NSKKDFZ7');</script>
+		<!-- End Google Tag Manager -->
 		<script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
 		<script src="script.js"></script>
 		<script type="module">
@@ -23,6 +31,7 @@
 		</script>
 		<script src="https://unpkg.com/ipfs-http-client/dist/index.min.js"></script>
 		<link href="style.css" rel="stylesheet">
+		<link href="toggle.css" rel="stylesheet">
 		<link id="favicon" href="Icons/Kodacon-Pack/Kodacon-1.png" rel="shortcut icon">
 		<link href="Icons/App-Pack/apple-icon-57x57.png" rel="apple-touch-icon" sizes="57x57">
 		<!-- ... Other link tags for icons and styles ... -->
@@ -36,6 +45,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	</head>
 	<body onload="startTime(), startWeather()" scroll="no">
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSKKDFZ7"
+			height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
 		<div id="MainContainer">
 			<ul class="circles">
 				<li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
@@ -55,7 +68,7 @@
 					<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="m18.677 19.607l-5.715-5.716a6 6 0 0 1-7.719-9.133a6 6 0 0 1 9.134 7.718l5.715 5.716l-1.414 1.414l-.001.001ZM9.485 5a4 4 0 1 0 2.917 1.264l.605.6l-.682-.68l-.012-.012A3.972 3.972 0 0 0 9.485 5Z"/></svg>
 				</div>
 				<div id="AppBar">
-					<div class="Widget" id="KodWeather/index.html" onclick="changeApp(this.id)" ondblclick="changeAppUniversal(this.id)" oncontextmenu="toggleSearch(this.id);return false;">
+					<div class="Widget" id="https://weatherscan.net" onclick="changeApp(this.id)" ondblclick="changeAppUniversal(this.id)" oncontextmenu="toggleSearch(this.id);return false;">
 						<div id="temp">Weather</div>
 					</div>
 					<div class="Widget" id="KodScan/KodScan.html" onclick="changeApp(this.id)" ondblclick="changeAppUniversal(this.id)" oncontextmenu="toggleSearch(this.id);return false;" style="background-image: url(Icons/GLITCH.gif);background-size: 100% 100%; font-family: GLITCH;">
@@ -69,6 +82,9 @@
 					</div>
 					<div class="AppBtn material-icons" id="Minecraft/Minecraft.html" onclick="changeApp(this.id)" ondblclick="changeAppUniversal(this.id)" oncontextmenu="toggleSearch(this.id);return false;">
 						<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M4 2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2m2 4v4h4v2H8v6h2v-2h4v2h2v-6h-2v-2h4V6h-4v4h-4V6H6Z"/></svg>
+					</div>
+					<div class="AppBtn material-icons" id="Chess/index.html" onclick="changeApp(this.id)" ondblclick="changeAppUniversal(this.id)" oncontextmenu="toggleSearch(this.id);return false;">
+						<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0a3.85 3.85 0 0 0-3.875 3.846A3.84 3.84 0 0 0 9.73 6.969l-2.79 1.85c0 .622.144 1.114.434 1.649H9.83c-.014.245-.014.549-.014.925q0 .037.006.071c-.064 1.353-.507 3.472-3.62 5.842c-.816.625-1.423 1.495-1.806 2.533a.3.3 0 0 0-.045.084a8.1 8.1 0 0 0-.39 2.516c0 .1.216 1.561 8.038 1.561s8.038-1.46 8.038-1.561c0-2.227-.824-4.048-2.24-5.133c-4.034-3.08-3.586-5.74-3.644-6.838h2.458c.29-.535.434-1.027.434-1.649l-2.79-1.836a3.86 3.86 0 0 0 1.604-3.123A3.87 3.87 0 0 0 13.445.275c-.004-.002-.01.004-.015.004A3.8 3.8 0 0 0 12 0"/></svg>
 					</div>
 					<div class="AppBtn material-icons" id="KodPiano/KodPiano.html" onclick="changeApp(this.id)" ondblclick="changeAppUniversal(this.id)" oncontextmenu="toggleSearch(this.id);return false;">
 						<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M20 2H4c-1.1 0-2 .9-2 2v16a2 2 0 0 0 2 2h16c1.11 0 2-.89 2-2V4a2 2 0 0 0-2-2m-5.26 12H15v6H9v-6h.31c.55 0 .99-.44.99-1V4h3.45v9c0 .56.44 1 .99 1M4 4h2.8v9c0 .56.44 1 .99 1H8v6H4V4m16 16h-4v-6h.26c.55 0 .99-.44.99-1V4H20v16Z"/></svg>
@@ -135,7 +151,11 @@
 			<div id="InfoPanel">
 				<div class="updates">
 					<div class="updateheading"><center>About</center></div>
-					<div class="updatebody"><center>Current Version: Alpha 4.2<br></center></div>
+					<div class="updatebody"><center>Current Version: Alpha 4.3<br></center></div>
+				</div>
+				<div class="updates">
+					<div class="updateheading"><center>Alpha V4.3 (5/2/25)</center></div>
+					<div class="updatebody"><center>The Screen Update: Added multiple screen effects, an accessibility tool, and fullscreen settings. The Kostream, Minecraft clone, and weather apps have been updated, and there is now a chess app.</center></div>
 				</div>
 				<div class="updates">
 					<div class="updateheading"><center>Alpha V4.2 (4/29/24)</center></div>
@@ -340,9 +360,61 @@
 						<img src="Icons/Kodacon-Pack/Kodacon-14.png" alt="Kodacon-14" onclick="changeFavicon(this.src)">
 					</div>
 				</div>
+				<div class="setstage">
+					<div class="stageheading"><center>Fullscreen Target</center></div>
+					<div class="stagebody">
+						<select id="fullscreenTargetDropdown" onchange="setFullscreenTarget(this.value)">
+							<option value="page">Full Page</option>
+							<option value="div">Main Content Only</option>
+						</select>
+					</div>
+				</div>
+				<!--
+				<div class="setstage">
+					<div class="stageheading"><center>Puter Mode</center></div>
+					<div class="stagebody">
+						//First Toggle: Enable Puter Lock
+						<div class="can-toggle can-toggle--size-small">
+							<input id="b" type="checkbox">
+							<label for="b">
+								<div class="can-toggle__switch" data-checked="On" data-unchecked="Off"></div>
+								<div class="can-toggle__label-text">Enable Puter Lock</div>
+							</label>
+						</div>
+						<br>
+						//Select for Proxy Options
+						<label for="proxy-select">Choose Proxy:</label>
+						<select id="proxy-select">
+							<option hidden value="cors-anywhere">CORS Anywhere</option>
+							<option selected value="puter-worker">puter.farwalker3.workers.dev</option>
+						</select>
+						<br><br>
+						//Button to open Puter.com in a new tab
+						<button id="openPuterBtn">Open Puter.com in New Tab</button>
+					</div>
+				</div>
+				-->
+				<div class="setstage">
+					<div class="stageheading"><center>Screen Effects</center></div>
+					<div class="stagebody">
+						<details>
+							<summary>Choose Screen Effects</summary>
+							<label><input type="checkbox" class="effect-toggle" value="snow"> Snow</label><br>
+							<label><input type="checkbox" class="effect-toggle" value="sparkles"> Sparkles</label><br>
+							<label><input type="checkbox" class="effect-toggle" value="confetti"> Confetti</label><br>
+							<label><input type="checkbox" class="effect-toggle" value="balloons"> Balloons</label><br>
+						</details>
+						<br>
+						<label><input type="checkbox" id="effectSpark"> Click Spark</label><br>
+						<label><input type="checkbox" id="effectAccessibility"> Accessibility Tools</label>
+						<div id="reloadNotice" style="display:none; color: red; font-size: 0.9em; margin-top: 8px;">
+							Some changes require a reload to take effect. Please refresh the page.
+						</div>
+					</div>
+				</div>
 			</div>
 			<div id="MainContent">
-				<iframe name="ContentView" id="ContentView" src="Welcome/Welcome.html" title="Content" allowfullscreen allow="identity-credentials-get" sandbox="allow-same-origin allow-scripts allow-popups allow-modals allow-forms"></iframe>
+				<iframe name="ContentView" id="ContentView" src="Welcome/Welcome.html" title="Content" allowfullscreen allow="identity-credentials-get" sandbox="allow-same-origin allow-scripts allow-popups allow-modals allow-forms allow-pointer-lock"></iframe>
 			</div>
 		</div>
 		<div id="SearchBox">

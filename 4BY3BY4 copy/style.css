@@ -1,0 +1,103 @@
+:root {
+    --nintendo-gray: #848CB0;
+    --nintendo-yellow: #E2D721;
+    --nintendo-orange: #E67B28;
+    --nintendo-green: #6EA673;
+    --nintendo-blue: #0161AC;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #000;
+}
+
+.aspect-box {
+    position: relative;
+    background-color: #007bff;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    color: #fff;
+    font-family: Arial, sans-serif;
+
+    /* Default size to fill space, will adjust dynamically */
+    width: 100%;
+    height: 100%;
+}
+
+/* 3:4 for taller screens */
+@media (max-aspect-ratio: 4 / 3) {
+    .aspect-box {
+        height: auto;
+        aspect-ratio: 3 / 4;
+    }
+}
+
+/* 4:3 for wider screens */
+@media (min-aspect-ratio: 3 / 4) {
+    .aspect-box {
+        height: auto;
+        max-height: 100%;
+        aspect-ratio: 4 / 3;
+    }
+}
+
+/* 4:3 for wider screens */
+@media (min-aspect-ratio: 4 / 3) {
+    .aspect-box {
+        width: auto;
+        min-height: 100%;
+        aspect-ratio: 4 / 3;
+    }
+}
+
+#w1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #0000FF50;
+    width: 100%;
+    height: 50%;
+}
+#w2 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #00FF0050;
+    width: 100%;
+    height: 50%;
+}
+.fa {
+    position: absolute;
+    background-color: #FFFFFF;
+    width: 10%;
+    height: 15%;
+    border-radius: 15px;
+    border-right: 2px inset $light-gray;
+    padding-left: 0;
+    padding-right: 5px;
+    color: var(--nintendo-gray);
+}
+#wrench {
+    top: 51%;
+    left: 1%;
+}
+#square {
+    top: 51%;
+    left: 12%;
+}
+#th-large {
+    top: 51%;
+    left: 23%;
+}

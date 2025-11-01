@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <title>Music Player</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <meta name="google-site-verification" content="Js8UEyRxNnXAO2duVGlwk4IXxyr6TICznBYEN1E9-H8" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+  <div class="main_div">
+    <div class="music_container">
+      <div class="search_bar">
+        <input type="text" autocomplete="off" name="searchValue" id="searchBox" placeholder="Search your favorite song">
+        <button id="searchBtn"><i class="fas fa-search"></i></button>
+      </div>
+      <marquee>
+        <h2 id="title">Hasi (Cover Version)</h2>
+      </marquee>
+
+      <h3 id="artist">Shebika Pal</h3>
+
+      <div class="img_container">
+
+        <img src="IMG-20230920-002937.jpg" alt="thumnail">
+
+      </div>
+
+      <audio preload="auto" onended="nextSong()" onpause="pauseMusic()" src="./default.mp3"></audio>
+      <div class="controls">
+        <i class="fas fa-repeat"></i>
+        <select id="sleepbtn" onchange="gotoSleep()">
+          <option value="0">Sleep</option>
+          <option value="5">5min</option>
+          <option value="15">15min</option>
+          <option value="30">30min</option>
+          <option value="60">60min</option>
+          <option value="90">90min</option>
+        </select>
+        <i class="fas fa-random"></i>
+      </div>
+      <div class="music_controls">
+
+        <i onclick="prevSong()" class="fas fa-backward" id="previous" title="Previous"></i>
+
+        <i class="fas fa-play main_button" id="play" title="Play"></i>
+
+        <i onclick="nextSong()" class="fas fa-forward" id="next" title="Next"></i>
+
+      </div>
+      <div id="listView">
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>

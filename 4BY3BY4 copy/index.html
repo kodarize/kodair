@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen 4:3 or 3:4 Aspect Ratio</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="icons.css">
+</head>
+<body>
+    <div class="aspect-box">
+        <div id="w1"></div>
+        <div id="w2"></div>
+        <svg class="fa" id="wrench" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1664 1664"><path fill="currentColor" d="M384 1344q0-26-19-45t-45-19t-45 19t-19 45t19 45t45 19t45-19t19-45m644-420l-682 682q-37 37-90 37q-52 0-91-37L59 1498q-38-36-38-90q0-53 38-91l681-681q39 98 114.5 173.5T1028 924m634-435q0 39-23 106q-47 134-164.5 217.5T1216 896q-185 0-316.5-131.5T768 448t131.5-316.5T1216 0q58 0 121.5 16.5T1445 63q16 11 16 28t-16 28l-293 169v224l193 107q5-3 79-48.5t135.5-81T1630 454q15 0 23.5 10t8.5 25"/></svg>
+        <svg class="fa" id="square" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1536 1536"><path fill="currentColor" d="M1536 288v960q0 119-84.5 203.5T1248 1536H288q-119 0-203.5-84.5T0 1248V288Q0 169 84.5 84.5T288 0h960q119 0 203.5 84.5T1536 288"/></svg>
+        <svg class="fa" id="th-large" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1664 1408"><path fill="currentColor" d="M768 896v384q0 52-38 90t-90 38H128q-52 0-90-38t-38-90V896q0-52 38-90t90-38h512q52 0 90 38t38 90m0-768v384q0 52-38 90t-90 38H128q-52 0-90-38T0 512V128q0-52 38-90t90-38h512q52 0 90 38t38 90m896 768v384q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90V896q0-52 38-90t90-38h512q52 0 90 38t38 90m0-768v384q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90V128q0-52 38-90t90-38h512q52 0 90 38t38 90"/></svg>
+        <div id="msgWrap">
+            <div id="vertRibbon">
+                <button>▲</button>
+                <button>▼</button>
+                
+                <div class="divider">----</div>
+                
+                <button onclick="Pencil()">✎</button>
+                <button onclick="Eraser()">❒</button>
+                <div class="divider"></div>
+                <button onclick="Thick()">■</button>
+                <button onclick="Thin()">▪</button>
+                
+                <div class="divider">----</div>
+                
+                <button id="clearbox" onclick="init()"><div>Clear Box</div></button>
+                
+            </div>
+            <canvas id="PichmCanvas" width=232 height=83></canvas>
+            <button class="PichmBigBut" id="PichmSendImage" onclick="saveImage()">Save .png</button>
+            <textarea id="PichmText" cols="30" rows="5" oninput="preserverSpace()">                    </textarea>
+            <button class="PichmBigBut" id="PichmDrawText" onclick="drawText()">Draw Text</button>
+        </div>
+    </div>
+    <script src="icons.js"></script>
+</body>
+</html>

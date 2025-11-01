@@ -65,22 +65,31 @@ function changeAppSearch(SearchValue) {
     }
 }
 
+let fullscreenTarget = 'page'; // Default to full page
+
+function setFullscreenTarget(target) {
+	fullscreenTarget = target;
+}
+
 function toggleFullScreen() {
+	const elementToFullscreen = (fullscreenTarget === 'div') 
+	? document.getElementById('MainContent') 
+	: document.documentElement;
+	
 	if (
-		!document.fullscreenElement && // alternative standard method
+		!document.fullscreenElement &&
 		!document.mozFullScreenElement &&
 		!document.webkitFullscreenElement &&
 		!document.msFullscreenElement
 	) {
-		// current working methods
-		if (document.documentElement.requestFullscreen) {
-			document.documentElement.requestFullscreen();
-		} else if (document.documentElement.msRequestFullscreen) {
-			document.documentElement.msRequestFullscreen();
-		} else if (document.documentElement.mozRequestFullScreen) {
-			document.documentElement.mozRequestFullScreen();
-		} else if (document.documentElement.webkitRequestFullscreen) {
-			document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+		if (elementToFullscreen.requestFullscreen) {
+			elementToFullscreen.requestFullscreen();
+		} else if (elementToFullscreen.msRequestFullscreen) {
+			elementToFullscreen.msRequestFullscreen();
+		} else if (elementToFullscreen.mozRequestFullScreen) {
+			elementToFullscreen.mozRequestFullScreen();
+		} else if (elementToFullscreen.webkitRequestFullscreen) {
+			elementToFullscreen.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
 		}
 	} else {
 		if (document.exitFullscreen) {
@@ -223,3 +232,154 @@ function startWeather() {
 function changeFavicon(iconSrc) {
 	document.getElementById('favicon').href = iconSrc;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+	const checkbox = document.getElementById("b");
+	const iframe = document.getElementById("ContentView");
+	const openPuterBtn = document.getElementById("openPuterBtn");
+	
+	let observer = null; // Store the observer instance
+	
+	function enforcePuterMode() {
+		if (checkbox.checked) {
+			// Force iframe to use the proxy if not already set
+			if (!iframe.src.startsWith("https://puter.farwalker3.workers.dev/")) {
+				iframe.src = "https://puter.farwalker3.workers.dev/";
+			}
+			
+			// Create a MutationObserver to prevent external changes
+			if (!observer) {
+				observer = new MutationObserver(() => {
+					const url = new URL(iframe.src);
+					if (!url.hostname.endsWith("farwalker3.workers.dev")) {
+						iframe.src = "https://puter.farwalker3.workers.dev/"; // Revert to proxy
+					}
+				});
+				
+				observer.observe(iframe, { attributes: true, attributeFilter: ["src"] });
+			}
+			
+		} else {
+			// Allow normal iframe behavior
+			if (observer) {
+				observer.disconnect(); // Stop enforcing the proxy
+				observer = null;
+			}
+		}
+	}
+	
+	openPuterBtn.addEventListener("click", function() {
+		window.open("https://puter.com", "_blank"); // Open Puter.com in a new tab
+	});
+	
+	checkbox.addEventListener("change", enforcePuterMode);
+});
+
+// Setting panel
+
+const effects = {
+	snow: "https://app.embed.im/snow.js",
+	sparkles: "https://app.embed.im/sparkles.js",
+	confetti: "https://app.embed.im/confetti.js",
+	balloons: "https://app.embed.im/balloons.js",
+	effectSpark: "https://app.embed.im/spark.js"
+};
+
+const scriptRegistry = new Set();
+
+function addScript(src) {
+	if (!scriptRegistry.has(src)) {
+		const s = document.createElement("script");
+		s.src = src;
+		s.defer = true;
+		document.head.appendChild(s);
+		scriptRegistry.add(src);
+	}
+}
+
+function toggleAccessibilityWidget(show) {
+	const widget = document.getElementById("embedimAccessibilityWidget");
+	if (widget) {
+		widget.style.display = show ? "block" : "none";
+	}
+}
+
+function loadStoredEffects() {
+	const selected = JSON.parse(localStorage.getItem("screenEffects") || "[]");
+	
+	document.querySelectorAll(".effect-toggle").forEach(el => {
+		if (selected.includes(el.value)) {
+			el.checked = true;
+			addScript(effects[el.value]);
+		}
+	});
+	
+	// Click Spark
+	const sparkEnabled = localStorage.getItem("effectSpark") === "true";
+	document.getElementById("effectSpark").checked = sparkEnabled;
+	if (sparkEnabled) addScript(effects["effectSpark"]);
+	
+	// Accessibility toggle
+	const accessibilityEnabled = localStorage.getItem("effectAccessibility") === "true";
+	document.getElementById("effectAccessibility").checked = accessibilityEnabled;
+	toggleAccessibilityWidget(accessibilityEnabled);
+}
+
+function updateStoredEffects() {
+	const oldSelected = JSON.parse(localStorage.getItem("screenEffects") || "[]");
+	const newSelected = [...document.querySelectorAll(".effect-toggle:checked")].map(el => el.value);
+	localStorage.setItem("screenEffects", JSON.stringify(newSelected));
+	
+	const removed = oldSelected.filter(effect => !newSelected.includes(effect));
+	newSelected.forEach(effect => {
+		if (!oldSelected.includes(effect)) addScript(effects[effect]);
+	});
+	
+	if (removed.length > 0) {
+		document.getElementById("reloadNotice").style.display = "block";
+	}
+}
+
+function checkChristmasSnow() {
+	const today = new Date();
+	const isChristmas = today.getMonth() === 11 && today.getDate() === 25;
+	const year = today.getFullYear();
+	const xmasKey = `snowDisabled-${year}`;
+	const selected = JSON.parse(localStorage.getItem("screenEffects") || "[]");
+	
+	if (isChristmas && !localStorage.getItem(xmasKey) && !selected.includes("snow")) {
+		selected.push("snow");
+		localStorage.setItem("screenEffects", JSON.stringify(selected));
+		addScript(effects["snow"]);
+		document.querySelectorAll(".effect-toggle").forEach(el => {
+			if (el.value === "snow") el.checked = true;
+		});
+	}
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+	loadStoredEffects();
+	checkChristmasSnow();
+	
+	document.querySelectorAll(".effect-toggle").forEach(el => {
+		el.addEventListener("change", updateStoredEffects);
+	});
+	
+	// Click Spark checkbox
+	document.getElementById("effectSpark").addEventListener("change", () => {
+		const enabled = document.getElementById("effectSpark").checked;
+		localStorage.setItem("effectSpark", enabled);
+		if (enabled) {
+			addScript(effects["effectSpark"]);
+		} else {
+			document.getElementById("reloadNotice").style.display = "block";
+		}
+	});
+	
+	// Accessibility toggle checkbox
+	document.getElementById("effectAccessibility").addEventListener("change", () => {
+		const enabled = document.getElementById("effectAccessibility").checked;
+		localStorage.setItem("effectAccessibility", enabled);
+		toggleAccessibilityWidget(enabled);
+	});
+});

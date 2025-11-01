@@ -16,11 +16,23 @@
 			<label for="midiFile">Load MIDI file:</label>
 			<input type="file" id="midiFile" name="midiFile" accept="audio/midi, audio/x-midi" onchange="document.getElementById('KomidiPlayer').src = window.URL.createObjectURL(this.files[0])">
 		</p>
+		<!-- Dropdown for preloaded MIDI files -->
+		<label for="preloadedFiles">Select Preloaded MIDI File:</label>
+		<select id="preloadedFiles" onchange="loadPreloadedMIDI(this.value)">
+			<option value="" disabled selected>Choose a MIDI file</option>
+			<option value="midi-files/anybody-can-find-love-(except-you).mid">Anybody Can Find Love (except you)</option>
+		</select>
+		<br><br>
 		<select id="TypeSelect" onchange="document.getElementById('myVisualizer').type = this">
 			<option value="" disabled selected>Visualization Type</option>
 			<option value="staff">Sheet Music</option>
 			<option value="piano-roll">Piano Roll</option>
 			<option value="waterfall">Waterfall</option>
 		</select>
+		<script>
+			function loadPreloadedMIDI(file) {
+				document.getElementById('KomidiPlayer').src = file;
+			}
+		</script>
 	</body>
 </html>

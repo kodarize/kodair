@@ -1,0 +1,253 @@
+* {
+  margin: 0px;
+
+  padding: 0px;
+
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+
+  font-family: "Jost", sans-serif;
+}
+
+.main_div {
+  width: 100vw;
+
+  height: 100vh;
+
+  background-Color: #141d26;
+
+  display: grid;
+
+  place-items: center;
+}
+
+.music_container {
+  width: 35rem;
+
+  height: 58rem;
+
+  /*background-color:#e6e6e6;*/
+
+  border-radius: 2rem;
+
+  background-Color: #243447;
+  color: white;
+  box-shadow: 0 1.2rem 3rem 0.5rem #009999;
+
+  padding: 3rem;
+
+  text-align: center;
+}
+
+.music_container #title {
+  text-transform: uppercase;
+
+  letter-spacing: 0.2rem;
+
+  word-spacing: 0.5rem;
+
+  /*color: #171717;*/
+
+  margin: 2rem 0 0.5rem 0;
+
+  font-size: 2.5rem;
+
+  font-weight: bold;
+
+  text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.3);
+}
+
+.music_container #artist {
+  color: #cccaca;
+
+  text-transform: capitalize;
+
+  letter-spacing: 0.1rem;
+
+  font-size: 2rem;
+
+  margin-bottom: 4rem;
+
+  font-weight: bold;
+}
+
+.img_container {
+  height: 25rem;
+
+  margin: auto;
+
+  width: 25rem;
+}
+
+img {
+  height: 100%;
+
+  width: 100%;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  box-shadow: 0 1.2rem 3rem 0.5rem rgba(0, 0, 0, 0.4);
+}
+
+.music_controls {
+  width: 20rem;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin: auto;
+
+  margin-top: 2.5rem;
+}
+
+.music_controls .fas,
+.fa-repeat,
+.fa-repeat-1,
+.fa-random,
+.fa-search,
+#sleepbtn {
+  /*color: #111111;*/
+
+  font-size: 2rem;
+
+  cursor: pointer;
+
+  filter: drop-shadow(0 1.2rem 3 rem 0.5rem rgba(0, 0, 0, 0.4));
+}
+
+.music_controls .main_button {
+  width: 5rem;
+
+  height: 5rem;
+
+  border-radius: 50%;
+
+  background-color: #111;
+
+  color: #f6f6f6;
+
+  font-size: 1.4rem;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+}
+
+.music_controls .fas:hover {
+  color: grey;
+}
+
+.music_controls .fa-play:hover {
+  background-color: #f6f6f6;
+
+  color: #111;
+
+  box-shadow: 0 1rem 2rem 0.2rem rgba(0, 0, 0, 0.4);
+}
+
+.anime {
+  animation: rotatePlayer 5s linear infinite;
+}
+
+@keyframes rotatePlayer {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+.glow{
+  animation: glow 10s infinite alternate;
+}
+@keyframes glow {
+  0% {
+    box-shadow: 0rem 1.2rem 3rem 0.5rem #0aa4e6;
+  }
+
+  25% {
+    box-shadow: 0rem 1.2rem 3rem 0.5rem #5ab124;
+  }
+
+  50%{
+    box-shadow: 0 1.2rem 3rem 0.5rem #ac49e5;
+  }
+  75%{
+    box-shadow: 0 1.2rem 3rem 0.5rem #e34e55;
+  }
+}
+
+.fa-repeat,
+.fa-random,
+.fa-repeat-1 {
+  margin-top: 2.5rem;
+}
+
+.controls {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.controls .fa-repeat,
+.fa-repeat-1 {
+
+  color: #00ffff;
+}
+
+.controls .fa-random {
+  color: grey;
+}
+
+#sleepbtn {
+  background-Color: #243447;
+  color: white;
+  font-size: 1.4rem;
+  height: 2rem;
+  width: 6rem;
+  border-radius: 1rem;
+  margin-top: 2.5rem;
+}
+
+.search_bar{
+  height: fit-content;
+  border: 1px solid white;
+  border-radius: 15px;
+  display: flex;
+  justify-content:space-between;
+  background-color: transparent;
+}
+
+.search_bar input {
+  width: 80%;
+  background-color: inherit;
+  font-size: 1.5rem;
+  color: white;
+  padding: 0.7rem 1rem;
+  border: none;
+  outline: none;
+}
+.search_bar button{
+  background-color: inherit;
+  border: none;
+  border-left: 1px solid white;
+  color: white;
+  outline: none;
+  padding: 0rem 1rem;
+  cursor: pointer;
+}
+#searchBox::placeholder {
+  color: white;
+  text-align: center;
+}

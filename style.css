@@ -626,37 +626,57 @@ div.choice:hover {
 	cursor: pointer;
 }
 
-div.updateheading {
-	background-color: #ccc;
-	margin: 5px;
-	padding: 5px;
-	flex: 1;
-}
-
-div.updatebody {
-	margin: 5px;
-	padding: 5px;
-	flex: 1;
-	overflow: hidden;
-}
-
+div.updateheading,
 div.stageheading {
 	background-color: #ccc;
 	margin: 5px;
 	padding: 5px;
 	flex: 1;
+	text-align: center;
+	font-size: 1.1em;
 }
 
+div.updatebody,
 div.stagebody {
 	margin: 5px;
 	padding: 5px;
 	flex: 1;
 	overflow: hidden;
+	text-align: center;
 }
 
+/* Image styling in stagebody */
 .stagebody img {
 	width: 50px;
 	height: 50px;
 	margin: 5px;
 	cursor: pointer;
+}
+
+/* Dropdown styling */
+.stagebody select {
+	width: 80%;
+	padding: 10px;
+	font-size: 1em;
+	background-color: rgba(100, 150, 200, 0.5);
+	border: 1px solid #888;
+	border-radius: 5px;
+	margin-top: 10px;
+	transition: background-color 0.3s ease;
+	cursor: pointer;
+}
+
+.stagebody select:hover {
+	background-color: rgba(100, 150, 200, 0.75);
+}
+
+.stagebody option {
+	background-color: #f5f5f5;
+	color: #333;
+	padding: 5px;
+	font-size: 1em;
+}
+
+#embedimAccessibilityWidget {
+	display: none;
 }
