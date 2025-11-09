@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T3 YouTube Music Player</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="music-player">
+        <div class="header">
+            <h1>T3 YouTube Music Player</h1>
+            <p class="warning">
+                <strong>Disclaimer:</strong> This player uses an unofficial method to stream audio from YouTube videos for demonstration purposes. This approach is experimental, may break, and might not comply with YouTube's Terms of Service for production use.
+            </p>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search for songs, artists on YouTube...">
+                <button id="searchButton">Search</button>
+            </div>
+        </div>
+
+        <div class="now-playing">
+            <img id="albumArt" src="placeholder.png" alt="Album Art">
+            <div class="song-info">
+                <h2 id="songTitle">No song playing</h2>
+                <p id="artistName">No artist</p>
+            </div>
+        </div>
+
+        <audio id="audioPlayer" controls></audio>
+
+        <div class="controls">
+            <button id="playPauseButton">▶️</button>
+            <!-- Previous/Next are hard to implement without official playlist management for YouTube results -->
+        </div>
+
+        <div class="progress-bar">
+            <input type="range" id="progressBar" value="0" min="0" max="100">
+            <div class="time-info">
+                <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+            </div>
+        </div>
+
+        <div class="volume-control">
+            <span>Volume: </span>
+            <input type="range" id="volumeControl" value="1" min="0" max="1" step="0.01">
+        </div>
+
+        <div class="search-results" id="searchResults">
+            <h3>Search Results</h3>
+            <ul id="resultsList">
+                <li>Search for a song or artist above!</li>
+            </ul>
+        </div>
+
+        <div class="playlist-section" id="playlistSection">
+            <h3>Current Playlist</h3>
+            <ul id="currentPlaylist">
+                <li>No songs in playlist. Add from search results.</li>
+            </ul>
+            <button id="clearPlaylistButton">Clear Playlist</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
