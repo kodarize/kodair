@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PictoChat</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://cdn.skypack.dev/react-sketch-canvas@6.2.0"></script>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+body {
+  font-family: 'VT323', sans-serif;
+  margin-top: calc(50% - 150px); /* Adjust this value as necessary */
+}
+
+:root{
+  --border-color: #5752a9;
+  --name-box-color: #b8b8ee;
+  --keyboard-border-color: #616161;
+  margin-top:40px;
+}
+
+.container{
+  position:relative;
+  margin: 50px 0px;
+  width: 400px;
+  height: 150px;
+  background:#f6f9f8;
+  overflow:hidden;
+  border: 2px solid var(--border-color);
+  background: white;
+  clip-path: polygon(
+    0 5.5%, 
+    2.1% 0,
+    97.9% 0,
+    100% 5.5%,
+    100% 94.5%,
+    97.9% 100%,
+    2.1% 100%,
+    0% 94.5%,
+    0% 2.1%
+  )
+}
+
+.lines{
+  width: 400px;
+  height: 2px;
+  background:#cbcedb;
+  position: absolute;
+  margin-left:2px
+}
+
+.lines-container>.lines:nth-child(1){
+  margin-top: -185px;
+}
+
+.lines-container>.lines:nth-child(2){
+  margin-top: -151px;
+}
+
+.lines-container>.lines:nth-child(3){
+  margin-top: -117px;
+}
+
+.lines-container>.lines:nth-child(4){
+  margin-top: -83px;
+}
+
+.container::before{
+  content:"";
+  height:11px;
+  width:10px;
+  position:absolute;
+  transform: rotate(45deg);
+  border-right: 2px solid var(--border-color);
+  margin:-6.5px;
+}
+
+.container::after{
+  content:"";
+  height:12px;
+  width:10px;
+  position:absolute;
+  transform: rotate(-45deg);
+  border-right: 2px solid var(--border-color);
+  margin-top:0px;
+  margin-left:387px;
+}
+
+.container.duplicate{
+  border-bottom:0px;
+  background-image: none !important;
+  background: transparent;
+  transform: rotate(180deg);
+  margin-top:-202px;
+}
+
+.name-box{
+  position: absolute;
+  width:100px;
+  border:2px solid var(--border-color);
+  height:28px;
+  top: 50px;
+  background: var(--name-box-color);
+  line-height:25px;
+  clip-path: polygon(
+    0 11px, 
+    11% 0,
+    97.9% 0,
+    100% 5.5%,
+    100% 73%,
+    92% 100%,
+    0% 100%,
+    0% 90%,
+    0% 10%
+  )
+}
+
+.name-box::after{
+  content:"";
+  position:absolute;
+  width:15px;
+  height:10px;
+  border:2px solid var(--border-color);
+  border-top:0;
+  border-left:0;
+  border-bottom:0;
+  bottom:3px;
+  right:-0.25px;
+  transform:rotate(45deg)
+}
+
+.name-box p{
+  color: var(--border-color);
+  margin-top:1px;
+  font-size:20px;
+  text-align:center;
+}
+
+.canvas-container{
+  position:absolute;
+  left: 50%;
+  transform:translateX(-50%);
+  z-index:2;
+  height:200px;
+}
+
+.keyboard-container{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  top:0px;
+}
+
+.keyboard-container>.container.duplicate{
+  top: 22px;
+}
+
+.keyboard-container>.container{
+  margin-left:-80px;
+  background-image: url("https://i.imgur.com/QkNhB5p.png");
+  background-size:contain;
+  width:320px;
+  height:128.5px;
+  border-color: var(--keyboard-border-color);
+  clip-path: polygon(
+    0 5.9%, 
+    2.45% 0,
+    97.5% 0,
+    100% 5.9%,
+    100% 94.5%,
+    97.5% 100%,
+    2.5% 100%,
+    0% 94.5%,
+    0% 2.5%
+  )
+}
+
+.keyboard-container>.container::after,
+.keyboard-container>.container::before{
+  border-color: var(--keyboard-border-color);
+}
+
+.keyboard-container>.container::after{
+  margin-left:307.25px;
+}
+
+.general-container{
+  position:absolute;
+  height: 295px;
+  width:400px;
+  padding: 10px;
+  left: 50%;
+  transform:translateX(-50%);
+  clip-path: polygon(
+    0 2.5%, 
+    2% 0,
+    97.75% 0,
+    100% 2.75%,
+    100% 97.5%,
+    97.5% 100%,
+    2.25% 100%,
+    0% 96.9%,
+    0% 2%
+  );
+  border: 2px solid var(--keyboard-border-color);
+  border-right-color: transparent;
+}
+
+.general-container.duplicate{
+  background: #b6b6b6;
+  margin-left:-212px;
+  transform: rotate(180deg)
+}
+
+.general-container::after{
+  content:"";
+  position:absolute;
+  width:15px;
+  height:15px;
+  border-left:2px solid var(--keyboard-border-color);
+  transform: rotate(45deg);
+  margin: -10px;
+}
+
+.general-container::before{
+  content:"";
+  position:absolute;
+  width:15px;
+  height:15px;
+  border-left:2px solid var(--keyboard-border-color);
+  transform: rotate(-45deg);
+  margin: -20px;
+  margin-left:403px;
+}
+
+.general-container>*:last-child{
+  margin-top: -50px;
+}
+
+.general-container>*:first-child{
+  margin-top: 125px;
+}
+
+.general-container>*{
+  z-index: 10;
+}
+
+.button-container{
+  background:white;
+  width: 70px;
+  height:175px;
+  position: absolute;
+  top:27px;
+  left:250px;
+  border:calc(3.3px) solid var(--keyboard-border-color);
+  border-bottom-thickness: 20px;
+  transform: scale(0.75);
+  clip-path: polygon(
+    0 5%, 
+    11% 0,
+    100% 0,
+    100% 5%,
+    100% 93%,
+    83% 100%,
+    0% 100%,
+    0% 100%,
+    0% 100%
+  )
+}
+
+.button-container::after{
+  content:"";
+  width:5px;
+  height:15px;
+  position:absolute;
+  transform: rotate(45deg);
+  margin: -2px;
+  margin-top: -3.5px;
+  margin-left:0px;
+  border:3.3px solid var(--keyboard-border-color);
+  border-bottom:0;
+  border-top:0;
+  border-right:0;
+}
+
+.button-container.duplicate{
+  transform:rotate(180deg) scale(0.75);
+  background:none;
+}
+
+.button{
+  position:absolute;
+  height:33%;
+  width:100%;  
+}
+
+.button-container>.button:first-child{
+  top:0%;
+  height: 67.5px;
+  background-image: 
+    url("https://i.imgur.com/tr4M9wL.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor:pointer;
+}
+
+.button-container>.button:nth-child(2){
+  top:67.5px;
+  height:52px;
+  border-top:2px solid var(--keyboard-border-color);
+  background-image: url("https://i.imgur.com/EcKnFKO.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor:pointer;
+}
+
+.button-container>.button:last-child{
+  top:calc(67.5px + 52px);
+  height:55px;
+  cursor:pointer;  
+  border-top:2px solid var(--keyboard-border-color);
+  background-image: url("https://i.imgur.com/dxVfzdA.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.button:active{
+  filter: invert(10%)
+}
+
+.key{
+  width:23.5px;
+  height:20px;
+  z-index: 100;
+}
+
+.key:hover{
+  border: 1px dotted red;
+  cursor:pointer;
+}
+
+.key:active{
+  background:rgba(60,60,60,0.2);
+  border:0;
+}
+
+.key.caps.active{
+  background:rgba(60,60,60,0.5)
+}
+
+.key.uppercase {
+  text-transform: uppercase; /* Force uppercase text on all keys when needed */
+}
+
+.row{
+  position:absolute;
+}
+
+.row.one{
+  margin-top:170px;
+  margin-left:2.5px;
+}
+
+.row.one>.key{
+  float:left;
+  margin-left:2.5px;
+}
+
+.row.two{
+  margin-top:195px;
+  margin-left:17.5px;
+}
+
+.row.two>.key{
+  float:left;
+  margin-left:2.5px;
+}
+
+.row.two>.backspace{
+  width:35px;
+}
+
+.row.three{
+  margin-top:220px;
+  margin-left:.5px;
+}
+
+.row.three>.key{
+  float:left;
+  margin-left:2.5px;
+}
+
+.row.three>.caps{
+  width:26.5px;
+}
+
+.row.three>.enter{
+  width:50px;
+}
+
+.row.four{
+  margin-top:247px;
+  margin-left:.5px;
+}
+
+.row.four>.key{
+  float:left;
+  margin-left:2.5px;
+}
+
+.row.four>.shift{
+  width: 38.5px;
+}
+
+.row.five{
+  margin-top:272.5px;
+  margin-left:55px;
+}
+
+.row.five>.space{
+  width:125px;
+}
+
+.row.five>.key{
+  float:left;
+  margin-left:2.5px;
+}
+
+.container>p{
+  margin-top: 25.5px;
+  margin-left: 10px;
+  z-index:10000;
+  position:absolute;
+  overflow-wrap: break-word;
+  width:380px;
+  line-height:30px;
+  white-space: pre-line;
+}
+
+input{
+  background: none;
+  border: none;
+  height:20px;
+  font-family: VT323;
+  font-size: 20px;
+  color: var(--border-color)
+}
+
+input::placeholder{
+  color:white;
+}
+  </style>
+</head>
+<body>
+
+  <div class="general-container duplicate"></div>
+  <div class="general-container">
+    <!-- PictoChat Keyboard -->
+    <div class="keyboard-container">
+      <div class="container"></div>
+      <div class="container duplicate"></div>
+      <div class="button-container">
+        <div class="button send" onclick="sendMessage()"></div>
+        <div class="button downloadlast" onclick="downloadLastMessage()"></div>
+        <div class="button" onclick="clearContent()"></div>
+      </div>
+    </div>
+
+    <!-- Keys Section -->
+    <div class="row one">
+      <div class="key one" onclick="addToContent('1')"></div>
+      <div class="key two" onclick="addToContent('2')"></div>
+      <div class="key three" onclick="addToContent('3')"></div>
+      <div class="key four" onclick="addToContent('4')"></div>
+      <div class="key five" onclick="addToContent('5')"></div>
+      <div class="key six" onclick="addToContent('6')"></div>
+      <div class="key seven" onclick="addToContent('7')"></div>
+      <div class="key eight" onclick="addToContent('8')"></div>
+      <div class="key nine" onclick="addToContent('9')"></div>
+      <div class="key ten" onclick="addToContent('0')"></div>
+      <div class="key dash" onclick="addToContent('-')"></div>
+      <div class="key equals" onclick="addToContent('=')"></div>
+    </div>
+
+    <div class="row two">
+      <div class="key q" onclick="addToContent('q')"></div>
+      <div class="key w" onclick="addToContent('w')"></div>
+      <div class="key e" onclick="addToContent('e')"></div>
+      <div class="key r" onclick="addToContent('r')"></div>
+      <div class="key t" onclick="addToContent('t')"></div>
+      <div class="key y" onclick="addToContent('y')"></div>
+      <div class="key u" onclick="addToContent('u')"></div>
+      <div class="key i" onclick="addToContent('i')"></div>
+      <div class="key o" onclick="addToContent('o')"></div>
+      <div class="key p" onclick="addToContent('p')"></div>
+<div class="key backspace" onclick="removeLastCharacter()"></div>
+    </div>
+
+    <div class="row three">
+      <div class="key caps" onclick="toggleCaps()"></div>
+      <div class="key a" onclick="addToContent('a')"></div>
+      <div class="key s" onclick="addToContent('s')"></div>
+      <div class="key d" onclick="addToContent('d')"></div>
+      <div class="key f" onclick="addToContent('f')"></div>
+      <div class="key g" onclick="addToContent('g')"></div>
+      <div class="key h" onclick="addToContent('h')"></div>
+      <div class="key j" onclick="addToContent('j')"></div>
+      <div class="key k" onclick="addToContent('k')"></div>
+      <div class="key l" onclick="addToContent('l')"></div>
+      <div class="key enter" onclick="addToContent('\n')"></div>
+    </div>
+
+    <div class="row four">
+      <div class="key shift" onclick="toggleShift()"></div>
+      <div class="key z" onclick="addToContent('z')"></div>
+      <div class="key x" onclick="addToContent('x')"></div>
+      <div class="key c" onclick="addToContent('c')"></div>
+      <div class="key v" onclick="addToContent('v')"></div>
+      <div class="key b" onclick="addToContent('b')"></div>
+      <div class="key n" onclick="addToContent('n')"></div>
+      <div class="key m" onclick="addToContent('m')"></div>
+      <div class="key comma" onclick="addToContent(',')"></div>
+      <div class="key period" onclick="addToContent('.')"></div>
+      <div class="key slash" onclick="addToContent('/')"></div>
+    </div>
+
+    <div class="row five">
+      <div class="key semi-colon" onclick="addToContent(';')"></div>
+      <div class="key tilde" onclick="addToContent('`')"></div>
+      <div class="key space" onclick="addToContent(' ')"></div>
+      <div class="key left-square-bracket" onclick="addToContent('[')"></div>
+      <div class="key right-square-bracket" onclick="addToContent(']')"></div>
+    </div>
+
+    <!-- PictoChat Canvas -->
+    <div class="canvas-container">
+      <div class="container">
+        <p id="contentDisplay">Content will appear here...</p>
+      </div>
+      <div class="container duplicate"></div>
+      <div class="lines-container">
+        <div class="lines"></div>
+        <div class="lines"></div>
+        <div class="lines"></div>
+        <div class="lines"></div>
+      </div>
+      <div class="name-box">
+        <p><input type="text" placeholder="Enter name" id="nameInput" /></p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let content = "";
+let shiftOn = false; // Track the state of the shift key
+let capsOn = false; // Track the state of the caps key
+
+// Function to add a character to the content
+function addToContent(character) {
+  // Apply caps lock effect: If caps is on, make all letters uppercase
+  if (capsOn) {
+    character = character.toUpperCase();
+  } else if (shiftOn) {
+    // If shift is on, make the character uppercase for the next key
+    character = character.toUpperCase();
+    shiftOn = false; // Reset the shift key after using it
+  }
+
+  content += character;
+  updateContentDisplay();
+}
+
+// Function to toggle the shift key
+function toggleShift() {
+  shiftOn = true; // Only activate shift temporarily for the next character
+  document.querySelector(".key.shift").classList.add("active"); // Visually indicate that the shift key is active
+}
+
+// Function to toggle the caps lock
+function toggleCaps() {
+  capsOn = !capsOn; // Toggle the state of caps lock
+  document.querySelector(".key.caps").classList.toggle("active", capsOn); // Toggle the visual state of the caps key
+}
+
+// Function to remove the last character
+function removeLastCharacter() {
+  content = content.slice(0, -1);  // Remove the last character
+  updateContentDisplay();
+}
+
+// Function to update the content display area
+function updateContentDisplay() {
+  document.getElementById("contentDisplay").textContent = content; // Update the display with the current content
+}
+
+// Function to send the message
+function sendMessage() {
+  alert("Sending message: " + content);
+}
+
+// Function to download the last message
+function downloadLastMessage() {
+  const blob = new Blob([content], { type: 'text/plain' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'message.txt';
+  link.click();
+}
+
+// Function to clear the content
+function clearContent() {
+  content = "";
+  document.getElementById("contentDisplay").textContent = "Content will appear here...";
+}
+
+// Handle keyboard events
+document.addEventListener("keydown", function (event) {
+  // Check for special keys first
+  if (event.key === "Backspace") {
+    removeLastCharacter();
+  } else if (event.key === "Enter") {
+    sendMessage();
+  } else if (event.key === "CapsLock") {
+    toggleCaps();
+  } else if (event.key === "Shift") {
+    toggleShift();
+  } else {
+    // Handle regular characters (letters, numbers, etc.)
+    let character = event.key;
+
+    // Apply shift or caps lock logic
+    if (capsOn || shiftOn) {
+      character = character.toUpperCase();
+      shiftOn = false; // Reset shift after using it
+    } else {
+      character = character.toLowerCase();
+    }
+
+    // Add the character to content if it's a valid key
+    if (character.length === 1) {
+      addToContent(character);
+    }
+  }
+});
+  </script>
+
+</body>
+</html>
