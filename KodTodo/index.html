@@ -1,493 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Todo List</title>
-    <style>
-      * {
-        box-sizing: border-box;
-      }
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Todo List with Robust Sync</title>
+<style>
+  * { box-sizing: border-box; }
+  body { background-image: linear-gradient(45deg, #eaf, #fea); font-family: Arial, sans-serif; margin:0; padding:0; }
+  .holder { display:flex; position:absolute; top:0; left:0; width:100%; height:100%; align-items:center; justify-content:center; }
+  .container { display:flex; flex-direction:column; align-items:center; font-size:14px; background-color:#eff; border-radius:15px; box-shadow:0 2px 5px rgba(0,0,0,0.1); padding:20px; width:700px; }
+  .clock { font-size:24px; margin-bottom:20px; }
+  .toggle-view { margin-bottom:20px; }
+  .toggle-view button { padding:10px 20px; font-size:16px; background-color:#0f9; border:none; border-radius:5px; cursor:pointer; }
+  .toggle-view button:focus { outline:none; }
+  .todo-list, .calendar { display:none; }
+  .todo-list { width:600px; font-size:14px; background-color:#fef; border-radius:5px; box-shadow:0 2px 5px rgba(0,0,0,0.1); padding:10px; }
+  .calendar { width:300px; }
+  .task { display:flex; align-items:center; margin-bottom:20px; padding:10px; background-color:#ffe; border-radius:5px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+  .task .title { flex-grow:1; margin-right:10px; border:none; background-color:transparent; font-size:16px; }
+  .task .progress { flex-grow:1; margin-left:10px; }
+  .delete-btn, #newTaskBtn, #clearBtn { border:none; border-radius:5px; padding:5px 10px; font-size:14px; cursor:pointer; }
+  .delete-btn { margin-left:10px; background-color:#ff5151; color:#fff; }
+  #newTaskBtn { margin-left:10px; margin-bottom:20px; background-color:#51ff51; color:#000; }
+  #clearBtn { margin-left:10px; margin-bottom:20px; background-color:#cacfcf; color:#000; }
+  .calendar { font-size:14px; background-color:#fff; border-radius:5px; box-shadow:0 2px 5px rgba(0,0,0,0.1); padding:20px; }
+  .calendar-header { display:flex; justify-content:space-between; margin-bottom:10px; }
+  .calendar-header button { background-color:transparent; border:none; cursor:pointer; }
+  .calendar-header .month { font-size:18px; font-weight:bold; }
+  .calendar-body { display:grid; grid-template-columns:repeat(7,1fr); gap:5px; }
+  .calendar-day { text-align:center; padding:5px; background-color:#f2f2f2; }
+  .current-day { background-color:#ff9a9e; color:#fff; }
+  .previous-month-day { color:red; }
+  .palindrome { background-color:#9a9eff; color:#fff; }
+  .sync-panel { margin-top:20px; padding:10px; background:#dfd; border-radius:5px; width:100%; }
+  .sync-panel h3 { margin-top:0; }
+  .sync-panel input { width:70%; padding:5px; margin:5px 0; }
+  .sync-panel button { margin-left:5px; }
+</style>
+</head>
+<body>
+<div class="holder">
+  <div class="container">
+    <div class="clock"></div>
+    <div class="toggle-view"><button id="toggleViewBtn">Switch To Todo List</button></div>
+    
+    <div class="todo-list">
+      <h2>Todo List</h2>
+      <button id="newTaskBtn">+ New Task</button>
+      <button id="clearBtn">Clear All</button>
+      <div id="tasks"></div>
 
-      body {
-        background-image: linear-gradient(45deg, #eaf, #fea);
-      }
-
-      .holder {
-        display: flex;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: transparent;
-        font-family: Arial, sans-serif;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-size: 14px;
-        background-color: #eff;
-        border-radius: 15px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        width: 700px;
-      }
-
-      .clock {
-        font-size: 24px;
-        margin-bottom: 20px;
-      }
-
-      .toggle-view {
-        margin-bottom: 20px;
-      }
-
-      .toggle-view button {
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #0f9;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
-      .toggle-view button:focus {
-        outline: none;
-      }
-
-      .todo-list,
-      .calendar {
-        display: none;
-      }
-
-      .todo-list {
-        width: 600px;
-        font-size: 14px;
-        background-color: #fef;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        padding: 10px;
-      }
-
-      .calendar {
-        width: 300px;
-      }
-
-      .task {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-        padding: 10px;
-        background-color: #ffe;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      }
-
-      .task .title {
-        flex-grow: 1;
-        margin-right: 10px;
-        border: none;
-        background-color: transparent;
-        font-size: 16px;
-      }
-
-      .task .progress {
-        flex-grow: 1;
-        margin-left: 10px;
-      }
-
-      .delete-btn {
-        margin-left: 10px;
-        background-color: #ff5151;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
-        font-size: 14px;
-        cursor: pointer;
-      }
-
-      #newTaskBtn {
-        margin-left: 10px;
-        margin-bottom: 20px;
-        background-color: #51ff51;
-        color: #000;
-        border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
-        font-size: 14px;
-        cursor: pointer;
-      }
-
-      #clearBtn {
-        margin-left: 10px;
-        margin-bottom: 20px;
-        background-color: #cacfcf;
-        color: #000;
-        border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
-        font-size: 14px;
-        cursor: pointer;
-      }
-
-      .delete-btn:focus {
-        outline: none;
-      }
-
-      .calendar {
-        font-size: 14px;
-        background-color: #fff;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-      }
-
-      .calendar-header {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-      }
-
-      .calendar-header button {
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-      }
-
-      .calendar-header .month {
-        font-size: 18px;
-        font-weight: bold;
-      }
-
-      .calendar-body {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 5px;
-      }
-
-      .calendar-day {
-        text-align: center;
-        padding: 5px;
-        background-color: #f2f2f2;
-      }
-
-      .current-day {
-        background-color: #ff9a9e;
-        color: #fff;
-      }
-
-      .previous-month-day {
-        color: red;
-      }
-
-      .palindrome {
-        background-color: #9a9eff;
-        color: #fff;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="holder">
-      <div class="container">
-        <div class="clock"></div>
-        <div class="toggle-view">
-          <button id="toggleViewBtn">Switch To Todo List</button>
+      <!-- Sync Panel -->
+      <div class="sync-panel">
+        <h3>Sync Settings</h3>
+        <p>Enter your API tokens/keys for supported services:</p>
+        <div>
+          TickTick: <input type="text" id="ticktickToken" placeholder="TickTick Token">
+          <button onclick="saveToken('ticktick')">Save</button>
         </div>
-        <div class="todo-list">
-          <h2>Todo List</h2>
-          <button id="newTaskBtn">+ New Task</button>
-          <button id="clearBtn">Clear All</button>
-          <div id="tasks"></div>
+        <div>
+          Todoist: <input type="text" id="todoistToken" placeholder="Todoist Token">
+          <button onclick="saveToken('todoist')">Save</button>
         </div>
-        <div class="calendar">
-          <div class="calendar-header">
-            <button id="prevMonthBtn">&lt;</button>
-            <div class="month" id="monthName"></div>
-            <button id="nextMonthBtn">&gt;</button>
-          </div>
-          <div class="calendar-body">
-            <div class="calendar-day">Sun</div>
-            <div class="calendar-day">Mon</div>
-            <div class="calendar-day">Tue</div>
-            <div class="calendar-day">Wed</div>
-            <div class="calendar-day">Thu</div>
-            <div class="calendar-day">Fri</div>
-            <div class="calendar-day">Sat</div>
-          </div>
+        <div>
+          Microsoft To Do: <input type="text" id="microsoftToken" placeholder="Microsoft Token">
+          <button onclick="saveToken('microsoft')">Save</button>
+        </div>
+        <div style="margin-top:10px;">
+          <button onclick="exportTokens()">Export Tokens</button>
+          <button onclick="importTokens()">Import Tokens</button>
         </div>
       </div>
     </div>
 
-    <script>
-      var newTaskBtn = document.getElementById("newTaskBtn");
-      var clearBtn = document.getElementById("clearBtn");
-      var toggleViewBtn = document.getElementById("toggleViewBtn");
-      var tasksContainer = document.getElementById("tasks");
-      var prevMonthBtn = document.getElementById("prevMonthBtn");
-      var nextMonthBtn = document.getElementById("nextMonthBtn");
-      var monthName = document.getElementById("monthName");
-      var calendarBody = document.querySelector(".calendar-body");
-      var clock = document.querySelector(".clock");
+    <div class="calendar">
+      <div class="calendar-header">
+        <button id="prevMonthBtn">&lt;</button>
+        <div class="month" id="monthName"></div>
+        <button id="nextMonthBtn">&gt;</button>
+      </div>
+      <div class="calendar-body">
+        <div class="calendar-day">Sun</div>
+        <div class="calendar-day">Mon</div>
+        <div class="calendar-day">Tue</div>
+        <div class="calendar-day">Wed</div>
+        <div class="calendar-day">Thu</div>
+        <div class="calendar-day">Fri</div>
+        <div class="calendar-day">Sat</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-      var currentDate = new Date();
-      var currentYear = currentDate.getFullYear();
-      var currentMonth = currentDate.getMonth();
+<script>
+var newTaskBtn = document.getElementById("newTaskBtn");
+var clearBtn = document.getElementById("clearBtn");
+var toggleViewBtn = document.getElementById("toggleViewBtn");
+var tasksContainer = document.getElementById("tasks");
+var prevMonthBtn = document.getElementById("prevMonthBtn");
+var nextMonthBtn = document.getElementById("nextMonthBtn");
+var monthName = document.getElementById("monthName");
+var calendarBody = document.querySelector(".calendar-body");
+var clock = document.querySelector(".clock");
+var currentDate = new Date();
+var currentYear = currentDate.getFullYear();
+var currentMonth = currentDate.getMonth();
 
-      function palindrome(str) {
-        var re = /[\W_]/g;
-        var lowRegStr = str.toLowerCase().replace(re, "");
-        var reverseStr = lowRegStr.split("").reverse().join("");
-        return reverseStr === lowRegStr;
-      }
+// ---- Utility ----
+function palindrome(str) {
+  var re = /[\W_]/g;
+  var lowRegStr = str.toLowerCase().replace(re, "");
+  var reverseStr = lowRegStr.split("").reverse().join("");
+  return reverseStr === lowRegStr;
+}
+function updateClock() {
+  var now = new Date();
+  var hours = now.getHours();
+  var minutes = now.getMinutes();
+  var seconds = now.getSeconds();
+  var ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12 || 12;
+  clock.textContent = hours + ":" + ("0"+minutes).slice(-2) + ":" + ("0"+seconds).slice(-2) + " " + ampm;
+}
 
-      function updateClock() {
-        var now = new Date();
-        var hours = now.getHours();
-        var minutes = now.getMinutes();
-        var seconds = now.getSeconds();
-        var ampm = hours >= 12 ? "PM" : "AM";
-        hours = hours % 12 || 12;
-        var timeString =
-          hours +
-          ":" +
-          ("0" + minutes).slice(-2) +
-          ":" +
-          ("0" + seconds).slice(-2) +
-          " " +
-          ampm;
-        clock.textContent = timeString;
-      }
+// ---- Tasks ----
+function saveTasks() {
+  var tasks = [];
+  var taskElements = document.getElementsByClassName("task");
+  for (var i=0;i<taskElements.length;i++) {
+    var t = taskElements[i];
+    var title = t.querySelector(".title").value;
+    var progress = t.querySelector(".progress").value;
+    if(title.trim()!=="") tasks.push({title, progress});
+  }
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  syncAllTasks(tasks); // Push to all synced services
+}
 
-      function saveTasks() {
-        var tasks = [];
-        var taskElements = document.getElementsByClassName("task");
+function loadTasks() {
+  var tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  for(var i=0;i<tasks.length;i++){ createTaskElement(tasks[i].title,tasks[i].progress); }
+}
 
-        for (var i = 0; i < taskElements.length; i++) {
-          var taskElement = taskElements[i];
-          var taskTitle = taskElement.querySelector(".title").value;
-          var taskProgress = taskElement.querySelector(".progress").value;
+function createTaskElement(title="",progress=0){
+  var task = document.createElement("div");
+  task.className="task";
+  task.innerHTML=`
+    <input type="text" class="title" placeholder="Enter task title" value="${title}">
+    <input type="range" class="progress" min="0" max="100" value="${progress}">
+    <span class="progress-value">${progress}%</span>
+    <button class="delete-btn">Delete</button>
+  `;
+  var titleInput = task.querySelector(".title");
+  var progressInput = task.querySelector(".progress");
+  var progressValue = task.querySelector(".progress-value");
+  var deleteBtn = task.querySelector(".delete-btn");
 
-          if (taskTitle.trim() !== "") {
-            tasks.push({
-              title: taskTitle,
-              progress: taskProgress,
-            });
-          }
-        }
+  titleInput.addEventListener("input", saveTasks);
+  progressInput.addEventListener("input",()=>{progressValue.textContent=progressInput.value+"%"; saveTasks();});
+  deleteBtn.addEventListener("click",()=>{task.remove(); saveTasks();});
 
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-      }
+  tasksContainer.appendChild(task);
+}
 
-      function loadTasks() {
-        var tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+function clearTasks() {
+  tasksContainer.innerHTML="";
+  localStorage.removeItem("tasks");
+}
 
-        for (var i = 0; i < tasks.length; i++) {
-          var task = tasks[i];
-          createTaskElement(task.title, task.progress);
-        }
-      }
+// ---- Calendar ----
+function updateCalendar() {
+  const monthNames=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const dayNames=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  var firstDay=new Date(currentYear,currentMonth,1).getDay();
+  var lastDate=new Date(currentYear,currentMonth+1,0).getDate();
+  var prevLastDate=new Date(currentYear,currentMonth,0).getDate();
+  monthName.textContent=monthNames[currentMonth]+" "+currentYear;
+  calendarBody.innerHTML="";
+  for(var i=0;i<7;i++){ var dn=document.createElement("div"); dn.className="calendar-day-name"; dn.textContent=dayNames[i]; calendarBody.appendChild(dn);}
+  var dayOfWeek=0;
+  for(var i=firstDay-1;i>=0;i--){ var cd=document.createElement("div"); cd.className="calendar-day empty previous-month-day"; cd.textContent=prevLastDate-i; calendarBody.appendChild(cd); dayOfWeek++;}
+  for(var i=1;i<=lastDate;i++){
+    var cd=document.createElement("div"); cd.className="calendar-day"; cd.textContent=i;
+    if(currentDate.getDate()===i && currentDate.getMonth()===currentMonth && currentDate.getFullYear()===currentYear){cd.classList.add("current-day");}
+    else if(palindrome(""+(currentMonth+1)+i+String(currentYear).slice(-2))){cd.classList.add("palindrome");}
+    calendarBody.appendChild(cd); dayOfWeek++; if(dayOfWeek===7) dayOfWeek=0;
+  }
+}
 
-      function createTaskElement(title = "", progress = 0) {
-        var task = document.createElement("div");
-        task.className = "task";
-        task.innerHTML = `
-                <input type="text" class="title" placeholder="Enter task title" value="${title}">
-                <input type="range" class="progress" min="0" max="100" value="${progress}">
-                <span class="progress-value">${progress}%</span>
-                <button class="delete-btn">Delete</button>
-            `;
+// ---- Month navigation ----
+function goToPrevMonth(){currentMonth--; if(currentMonth<0){currentYear--; currentMonth=11;} updateCalendar();}
+function goToNextMonth(){currentMonth++; if(currentMonth>11){currentYear++; currentMonth=0;} updateCalendar();}
+function resetMonth(){currentDate=new Date(); currentYear=currentDate.getFullYear(); currentMonth=currentDate.getMonth(); updateCalendar();}
 
-        var titleInput = task.querySelector(".title");
-        var progressInput = task.querySelector(".progress");
-        var progressValue = task.querySelector(".progress-value");
-        var deleteBtn = task.querySelector(".delete-btn");
+// ---- View toggle ----
+function showTodoList(){document.querySelector(".todo-list").style.display="block";document.querySelector(".calendar").style.display="none";toggleViewBtn.textContent="Switch To Calendar";}
+function showCalendar(){document.querySelector(".todo-list").style.display="none";document.querySelector(".calendar").style.display="block";toggleViewBtn.textContent="Switch To Todo List";}
 
-        titleInput.addEventListener("input", function () {
-          saveTasks();
-        });
+// ---- Token Management ----
+var tokens = {ticktick:null, todoist:null, microsoft:null};
 
-        progressInput.addEventListener("input", function () {
-          progressValue.textContent = progressInput.value + "%";
-          saveTasks();
-        });
+function saveToken(service){
+  let inputId = service+"Token";
+  let value = document.getElementById(inputId).value.trim();
+  tokens[service]=value;
+  localStorage.setItem("syncTokens",JSON.stringify(tokens));
+  alert(service+" token saved!");
+}
 
-        deleteBtn.addEventListener("click", function () {
-          task.remove();
-          saveTasks();
-        });
+function loadTokens(){
+  let saved = JSON.parse(localStorage.getItem("syncTokens")||"{}");
+  tokens = Object.assign(tokens,saved);
+  for(let s in tokens){ if(tokens[s]) document.getElementById(s+"Token").value=tokens[s]; }
+}
 
-        tasksContainer.appendChild(task);
-      }
+function exportTokens(){
+  let blob = new Blob([JSON.stringify(tokens)],{type:"application/json"});
+  let a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download="syncTokens.json";
+  a.click();
+}
 
-      function clearTasks() {
-        tasksContainer.innerHTML = "";
-        localStorage.removeItem("tasks");
-      }
+function importTokens(){
+  let input = document.createElement("input");
+  input.type="file";
+  input.accept=".json";
+  input.onchange=e=>{
+    let file = e.target.files[0];
+    let reader = new FileReader();
+    reader.onload = evt=>{
+      try{
+        let imported = JSON.parse(evt.target.result);
+        tokens=Object.assign(tokens,imported);
+        localStorage.setItem("syncTokens",JSON.stringify(tokens));
+        loadTokens();
+        alert("Tokens imported successfully!");
+      }catch(err){ alert("Invalid token file"); }
+    }
+    reader.readAsText(file);
+  }
+  input.click();
+}
 
-      function showTodoList() {
-        document.querySelector(".todo-list").style.display = "block";
-        document.querySelector(".calendar").style.display = "none";
-        toggleViewBtn.textContent = "Switch To Calendar";
-      }
+// ---- Sync placeholder functions ----
+function syncAllTasks(tasks){
+  // Push to TickTick
+  if(tokens.ticktick){console.log("Sync to TickTick",tasks);}
+  // Push to Todoist
+  if(tokens.todoist){console.log("Sync to Todoist",tasks);}
+  // Push to Microsoft ToDo
+  if(tokens.microsoft){console.log("Sync to Microsoft ToDo",tasks);}
+  // Add more services here
+}
 
-      function showCalendar() {
-        document.querySelector(".todo-list").style.display = "none";
-        document.querySelector(".calendar").style.display = "block";
-        toggleViewBtn.textContent = "Switch To Todo List";
-      }
+// ---- Event listeners ----
+newTaskBtn.addEventListener("click",()=>{createTaskElement();});
+clearBtn.addEventListener("click",()=>{clearTasks();});
+toggleViewBtn.addEventListener("click",()=>{document.querySelector(".todo-list").style.display==="none"?showTodoList():showCalendar();});
+prevMonthBtn.addEventListener("click",()=>{goToPrevMonth();});
+nextMonthBtn.addEventListener("click",()=>{goToNextMonth();});
+monthName.addEventListener("dblclick",()=>{resetMonth();});
 
-      function updateCalendar() {
-        const monthNames = [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December",
-        ];
-        const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]; // Shorthand day names
-
-        var firstDay = new Date(currentYear, currentMonth, 1).getDay();
-        var lastDate = new Date(currentYear, currentMonth + 1, 0).getDate();
-        var prevLastDate = new Date(currentYear, currentMonth, 0).getDate();
-        var month = monthNames[currentMonth];
-
-        monthName.textContent = month + " " + currentYear;
-
-        calendarBody.innerHTML = "";
-
-        // Add day names above the dates
-        for (var i = 0; i < 7; i++) {
-          var dayName = document.createElement("div");
-          dayName.className = "calendar-day-name";
-          dayName.textContent = dayNames[i];
-          calendarBody.appendChild(dayName);
-        }
-
-        var dayOfWeek = 0;
-
-        // Add empty placeholders for the days before the first day of the current month
-        for (var i = firstDay - 1; i >= 0; i--) {
-          var calendarDay = document.createElement("div");
-          calendarDay.className = "calendar-day empty previous-month-day";
-          calendarDay.textContent = prevLastDate - i;
-          calendarBody.appendChild(calendarDay);
-          dayOfWeek++;
-        }
-
-        // Add the dates of the current month
-        for (var i = 1; i <= lastDate; i++) {
-          var calendarDay = document.createElement("div");
-          calendarDay.className = "calendar-day";
-          calendarDay.textContent = i;
-
-          if (
-            currentDate.getDate() === i &&
-            currentDate.getMonth() === currentMonth &&
-            currentDate.getFullYear() === currentYear
-          ) {
-            calendarDay.classList.add("current-day");
-          } else if (
-            palindrome(
-              "" + (currentMonth + 1) + i + String(currentYear).slice(-2) + ""
-            ) == true
-          ) {
-            calendarDay.classList.add("palindrome");
-          }
-
-          calendarBody.appendChild(calendarDay);
-          dayOfWeek++;
-
-          if (dayOfWeek === 7) {
-            dayOfWeek = 0;
-          }
-        }
-      }
-
-      function goToPrevMonth() {
-        currentMonth--;
-
-        if (currentMonth < 0) {
-          currentYear--;
-          currentMonth = 11;
-        }
-
-        updateCalendar();
-      }
-
-      function goToNextMonth() {
-        currentMonth++;
-
-        if (currentMonth > 11) {
-          currentYear++;
-          currentMonth = 0;
-        }
-
-        updateCalendar();
-      }
-
-      function resetMonth() {
-        currentDate = new Date();
-        currentYear = currentDate.getFullYear();
-        currentMonth = currentDate.getMonth();
-        updateCalendar();
-      }
-
-      newTaskBtn.addEventListener("click", function () {
-        createTaskElement();
-      });
-
-      clearBtn.addEventListener("click", function () {
-        clearTasks();
-      });
-
-      toggleViewBtn.addEventListener("click", function () {
-        var todoList = document.querySelector(".todo-list");
-        var calendar = document.querySelector(".calendar");
-
-        if (todoList.style.display === "none") {
-          showTodoList();
-        } else {
-          showCalendar();
-        }
-      });
-
-      prevMonthBtn.addEventListener("click", function () {
-        goToPrevMonth();
-      });
-
-      monthName.addEventListener("dblclick", function () {
-        resetMonth();
-      });
-
-      nextMonthBtn.addEventListener("click", function () {
-        goToNextMonth();
-      });
-
-      setInterval(updateClock, 1000);
-
-      // Load saved tasks
-      loadTasks();
-
-      // Show the todo list initially
-      showTodoList();
-
-      // Update the calendar
-      updateCalendar();
-    </script>
-  </body>
+// ---- Init ----
+setInterval(updateClock,1000);
+loadTasks();
+loadTokens();
+showTodoList();
+updateCalendar();
+</script>
+</body>
 </html>
