@@ -1,220 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Todo List with Todoist Sync</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Todoist Sync Todo List</title>
 <style>
-* { box-sizing: border-box; }
-body { background-image: linear-gradient(45deg, #eaf, #fea); font-family: Arial, sans-serif; }
-.holder { display: flex; position: absolute; top: 0; left: 0; width: 100%; height: 100%; align-items: center; justify-content: center; }
-.container { display: flex; flex-direction: column; align-items: center; font-size: 14px; background-color: #eff; border-radius: 15px; padding: 20px; width: 700px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
-.clock { font-size: 24px; margin-bottom: 20px; }
-.toggle-view button { padding: 10px 20px; font-size: 16px; background-color: #0f9; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 20px; }
-.toggle-view button:focus { outline: none; }
-.todo-list, .calendar { display: none; }
-.todo-list { width: 600px; background-color: #fef; border-radius: 5px; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.task { display: flex; align-items: center; margin-bottom: 20px; padding: 10px; background-color: #ffe; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.task .title { flex-grow: 1; margin-right: 10px; border: none; background-color: transparent; font-size: 16px; }
-.task .progress { flex-grow: 1; margin-left: 10px; }
-.delete-btn, #newTaskBtn, #clearBtn { border-radius: 5px; padding: 5px 10px; font-size: 14px; cursor: pointer; margin-left: 10px; margin-bottom: 10px;}
-.delete-btn { background-color: #ff5151; color: #fff; border: none; }
-#newTaskBtn { background-color: #51ff51; color: #000; border: none; }
-#clearBtn { background-color: #cacfcf; color: #000; border: none; }
-.calendar { width: 300px; font-size: 14px; background-color: #fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 20px; }
-.calendar-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
-.calendar-header button { background-color: transparent; border: none; cursor: pointer; }
-.calendar-header .month { font-size: 18px; font-weight: bold; }
-.calendar-body { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
-.calendar-day { text-align: center; padding: 5px; background-color: #f2f2f2; }
-.current-day { background-color: #ff9a9e; color: #fff; }
-.previous-month-day { color: red; }
-.palindrome { background-color: #9a9eff; color: #fff; }
+* {box-sizing:border-box;}
+body {margin:0;padding:0;font-family:Arial,sans-serif;background:linear-gradient(45deg,#eaf,#fea);}
+.holder {display:flex;justify-content:center;align-items:flex-start;padding:20px;width:100%;min-height:100vh;}
+.container {display:flex;flex-direction:column;width:100%;max-width:800px;background:#eff;border-radius:15px;padding:20px;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+.clock {font-size:24px;margin-bottom:20px;text-align:center;}
+.toggle-view {text-align:center;margin-bottom:20px;}
+.toggle-view button {padding:10px 20px;font-size:16px;background:#0f9;border:none;border-radius:5px;cursor:pointer;}
+.toggle-view button:focus {outline:none;}
+.todo-list,.calendar {display:none;}
+.todo-list {background:#fef;padding:10px;border-radius:10px;max-height:70vh;overflow-y:auto;}
+.task {display:flex;align-items:center;margin-bottom:15px;padding:10px;background:#ffe;border-radius:8px;box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+.task .title {flex:1;margin-right:10px;border:none;background:transparent;font-size:16px;}
+.delete-btn {background:#ff5151;color:#fff;border:none;border-radius:5px;padding:5px 10px;margin-left:10px;cursor:pointer;}
+#newTaskBtn,#clearBtn,#backupBtn,#saveTokenBtn {margin:5px 5px 15px 0;padding:6px 12px;border-radius:5px;font-size:14px;cursor:pointer;}
+#newTaskBtn {background:#51ff51;color:#000;border:none;}
+#clearBtn {background:#cacfcf;color:#000;border:none;}
+#backupBtn {background:#8af;color:#000;border:none;}
+.calendar {background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+.calendar-header {display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.calendar-header button {background:transparent;border:none;font-size:18px;cursor:pointer;}
+.calendar-header .month {font-size:18px;font-weight:bold;}
+.calendar-body {display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+.calendar-day {text-align:center;padding:5px;background:#f2f2f2;border-radius:5px;}
+.current-day {background:#ff9a9e;color:#fff;}
+.previous-month-day {color:red;}
+.palindrome {background:#9a9eff;color:#fff;}
+@media(max-width:600px){.task{flex-direction:column;align-items:flex-start;}.task .title{margin-bottom:5px;}.calendar-body{grid-template-columns:repeat(7,1fr);}}
 </style>
 </head>
 <body>
 <div class="holder">
-  <div class="container">
-    <div class="clock"></div>
-    <div class="toggle-view">
-      <button id="toggleViewBtn">Switch To Todo List</button>
-    </div>
-    <div class="todo-list">
-      <h2>Todo List</h2>
-      <button id="newTaskBtn">+ New Task</button>
-      <button id="clearBtn">Clear All</button>
-      <button id="backupBtn">Download Backup</button>
-      <div>
-        <label>Todoist Token: <input type="password" id="todoistTokenInput" placeholder="Paste token here" style="width: 300px;"></label>
-        <button id="saveTokenBtn">Save Token</button>
-      </div>
-      <div id="tasks"></div>
-    </div>
-    <div class="calendar">
-      <div class="calendar-header">
-        <button id="prevMonthBtn">&lt;</button>
-        <div class="month" id="monthName"></div>
-        <button id="nextMonthBtn">&gt;</button>
-      </div>
-      <div class="calendar-body">
-        <div class="calendar-day">Sun</div>
-        <div class="calendar-day">Mon</div>
-        <div class="calendar-day">Tue</div>
-        <div class="calendar-day">Wed</div>
-        <div class="calendar-day">Thu</div>
-        <div class="calendar-day">Fri</div>
-        <div class="calendar-day">Sat</div>
-      </div>
-    </div>
-  </div>
+<div class="container">
+<div class="clock"></div>
+<div class="toggle-view"><button id="toggleViewBtn">Switch To Todo List</button></div>
+<div class="todo-list">
+<h2>Todo List</h2>
+<button id="newTaskBtn">+ New Task</button>
+<button id="clearBtn">Clear All</button>
+<button id="backupBtn">Download Backup</button>
+<div>
+<label>Todoist Token: <input type="password" id="todoistTokenInput" placeholder="Paste token here" style="width:300px;"></label>
+<button id="saveTokenBtn">Save Token</button>
+</div>
+<div id="tasks"></div>
+</div>
+<div class="calendar">
+<div class="calendar-header">
+<button id="prevMonthBtn">&lt;</button>
+<div class="month" id="monthName"></div>
+<button id="nextMonthBtn">&gt;</button>
+</div>
+<div class="calendar-body" id="calendarBody">
+<div class="calendar-day">Sun</div>
+<div class="calendar-day">Mon</div>
+<div class="calendar-day">Tue</div>
+<div class="calendar-day">Wed</div>
+<div class="calendar-day">Thu</div>
+<div class="calendar-day">Fri</div>
+<div class="calendar-day">Sat</div>
+</div>
+</div>
+</div>
 </div>
 
 <script>
-let tasksContainer = document.getElementById("tasks");
-let newTaskBtn = document.getElementById("newTaskBtn");
-let clearBtn = document.getElementById("clearBtn");
-let toggleViewBtn = document.getElementById("toggleViewBtn");
-let backupBtn = document.getElementById("backupBtn");
-let todoistTokenInput = document.getElementById("todoistTokenInput");
-let saveTokenBtn = document.getElementById("saveTokenBtn");
+const clock=document.querySelector(".clock");
+const toggleViewBtn=document.getElementById("toggleViewBtn");
+const todoListDiv=document.querySelector(".todo-list");
+const calendarDiv=document.querySelector(".calendar");
+const tasksContainer=document.getElementById("tasks");
+const newTaskBtn=document.getElementById("newTaskBtn");
+const clearBtn=document.getElementById("clearBtn");
+const backupBtn=document.getElementById("backupBtn");
+const todoistTokenInput=document.getElementById("todoistTokenInput");
+const saveTokenBtn=document.getElementById("saveTokenBtn");
+const prevMonthBtn=document.getElementById("prevMonthBtn");
+const nextMonthBtn=document.getElementById("nextMonthBtn");
+const monthNameDiv=document.getElementById("monthName");
+const calendarBody=document.getElementById("calendarBody");
 
-let todoistToken = localStorage.getItem("todoistToken") || "";
-todoistTokenInput.value = todoistToken;
+let currentDate=new Date();
+let currentMonth=currentDate.getMonth();
+let currentYear=currentDate.getFullYear();
+let todoistToken=localStorage.getItem("todoistToken")||"";
+todoistTokenInput.value=todoistToken;
 
-let taskList = []; // Each task: {title, progress, todoistId?}
+let taskList=[];
 
-function updateClock() {
-  let now = new Date();
-  let hours = now.getHours();
-  let minutes = now.getMinutes();
-  let seconds = now.getSeconds();
-  let ampm = hours >= 12 ? "PM":"AM";
-  hours = hours%12||12;
-  clock.textContent = hours+":"+("0"+minutes).slice(-2)+":"+("0"+seconds).slice(-2)+" "+ampm;
+function updateClock(){
+    const now=new Date();
+    let h=now.getHours(),m=now.getMinutes(),s=now.getSeconds(),ampm=h>=12?"PM":"AM";
+    h=h%12||12;
+    clock.textContent=`${h}:${("0"+m).slice(-2)}:${("0"+s).slice(-2)} ${ampm}`;
 }
 setInterval(updateClock,1000);
 
-function saveLocalTasks() {
-  localStorage.setItem("tasks",JSON.stringify(taskList));
-  localStorage.setItem("tasks_backup_"+Date.now(),JSON.stringify(taskList));
+function saveLocalTasks(){
+    localStorage.setItem("tasks",JSON.stringify(taskList));
+    localStorage.setItem("tasks_backup_"+Date.now(),JSON.stringify(taskList));
 }
 
-function createTaskElement(task) {
-  let div = document.createElement("div");
-  div.className="task";
-  div.innerHTML=`
-    <input type="text" class="title" placeholder="Enter task title" value="${task.title}">
-    <input type="range" class="progress" min="0" max="100" value="${task.progress}">
-    <span class="progress-value">${task.progress}%</span>
-    <button class="delete-btn">Delete</button>
-  `;
-  let titleInput = div.querySelector(".title");
-  let progressInput = div.querySelector(".progress");
-  let progressValue = div.querySelector(".progress-value");
-  let deleteBtn = div.querySelector(".delete-btn");
+function createTaskElement(task){
+    const div=document.createElement("div");
+    div.className="task";
+    div.innerHTML=`
+        <input type="text" class="title" value="${task.title}" placeholder="Enter task title">
+        <canvas width="60" height="60" class="knob"></canvas>
+        <button class="delete-btn">Delete</button>
+    `;
+    const titleInput=div.querySelector(".title");
+    const deleteBtn=div.querySelector(".delete-btn");
+    const knobCanvas=div.querySelector(".knob");
 
-  titleInput.addEventListener("input", ()=>{ task.title=titleInput.value; saveLocalTasks(); if(task.todoistId) updateTodoistTask(task); });
-  progressInput.addEventListener("input", ()=>{ task.progress=progressInput.value; progressValue.textContent=task.progress+"%"; saveLocalTasks(); });
-  deleteBtn.addEventListener("click", ()=>{ tasksContainer.removeChild(div); removeTask(task); });
+    function drawKnob(){
+        const ctx=knobCanvas.getContext("2d");
+        ctx.clearRect(0,0,60,60);
+        ctx.beginPath();
+        ctx.arc(30,30,25,0,2*Math.PI);
+        ctx.fillStyle="#ddd";ctx.fill();
+        ctx.beginPath();
+        const angle=(task.progress/100)*Math.PI*1.5+Math.PI*0.75;
+        ctx.moveTo(30,30);
+        ctx.arc(30,30,25,Math.PI*0.75,angle);
+        ctx.fillStyle="#51ff51";ctx.fill();
+        ctx.beginPath();
+        ctx.arc(30,30,5,0,2*Math.PI);
+        ctx.fillStyle="#fff";ctx.fill();
+    }
+    drawKnob();
 
-  tasksContainer.appendChild(div);
+    let isDragging=false;
+    knobCanvas.addEventListener("mousedown",()=>isDragging=true);
+    knobCanvas.addEventListener("mouseup",()=>{isDragging=false; saveLocalTasks(); if(task.todoistId) updateTodoistTask(task);});
+    knobCanvas.addEventListener("mousemove",(e)=>{
+        if(!isDragging) return;
+        const rect=knobCanvas.getBoundingClientRect();
+        const x=e.clientX-rect.left-30;
+        const y=e.clientY-rect.top-30;
+        let angle=Math.atan2(y,x)+Math.PI/4;
+        if(angle<0) angle=0; if(angle>Math.PI*1.5) angle=Math.PI*1.5;
+        task.progress=Math.round(angle/(Math.PI*1.5)*100);
+        drawKnob();
+    });
+
+    titleInput.addEventListener("input",()=>{task.title=titleInput.value; saveLocalTasks(); if(task.todoistId) updateTodoistTask(task);});
+    deleteBtn.addEventListener("click",()=>{tasksContainer.removeChild(div); removeTask(task);});
+
+    tasksContainer.appendChild(div);
 }
 
 function removeTask(task){
-  taskList = taskList.filter(t=>t!==task);
-  saveLocalTasks();
-  if(task.todoistId) deleteTodoistTask(task.todoistId);
+    taskList=taskList.filter(t=>t!==task);
+    saveLocalTasks();
+    if(task.todoistId) deleteTodoistTask(task.todoistId);
 }
 
 function loadLocalTasks(){
-  let stored = JSON.parse(localStorage.getItem("tasks")||"[]");
-  taskList = stored;
-  tasksContainer.innerHTML="";
-  taskList.forEach(t=>createTaskElement(t));
+    let stored=JSON.parse(localStorage.getItem("tasks")||"[]");
+    taskList=stored;
+    tasksContainer.innerHTML="";
+    taskList.forEach(t=>createTaskElement(t));
 }
 
 function backupTasks(){
-  let data = JSON.stringify(taskList,null,2);
-  let blob = new Blob([data],{type:"application/json"});
-  let url = URL.createObjectURL(blob);
-  let a = document.createElement("a");
-  a.href=url;
-  a.download="tasks_backup_"+Date.now()+".json";
-  a.click();
-  URL.revokeObjectURL(url);
+    const data=JSON.stringify(taskList,null,2);
+    const blob=new Blob([data],{type:"application/json"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;a.download="tasks_backup_"+Date.now()+".json";a.click();
+    URL.revokeObjectURL(url);
 }
 
 saveTokenBtn.addEventListener("click",()=>{
-  todoistToken=todoistTokenInput.value.trim();
-  localStorage.setItem("todoistToken",todoistToken);
-  if(todoistToken) fetchTodoistTasks();
+    todoistToken=todoistTokenInput.value.trim();
+    localStorage.setItem("todoistToken",todoistToken);
+    if(todoistToken) fetchTodoistTasks();
 });
 
-backupBtn.addEventListener("click",backupTasks);
-
 newTaskBtn.addEventListener("click",()=>{
-  let newTask={title:"", progress:0};
-  taskList.push(newTask);
-  createTaskElement(newTask);
-  saveLocalTasks();
+    const newTask={title:"",progress:0};
+    taskList.push(newTask);
+    createTaskElement(newTask);
+    saveLocalTasks();
 });
 
 clearBtn.addEventListener("click",()=>{
-  taskList=[];
-  tasksContainer.innerHTML="";
-  saveLocalTasks();
+    taskList=[];
+    tasksContainer.innerHTML="";
+    saveLocalTasks();
 });
 
 toggleViewBtn.addEventListener("click",()=>{
-  document.querySelector(".todo-list").style.display = document.querySelector(".todo-list").style.display==="none"?"block":"none";
-  document.querySelector(".calendar").style.display = document.querySelector(".calendar").style.display==="block"?"none":"block";
-  toggleViewBtn.textContent=document.querySelector(".todo-list").style.display==="block"?"Switch To Calendar":"Switch To Todo List";
+    if(todoListDiv.style.display==="none"){
+        todoListDiv.style.display="block";calendarDiv.style.display="none";toggleViewBtn.textContent="Switch To Calendar";
+    } else {todoListDiv.style.display="none";calendarDiv.style.display="block";toggleViewBtn.textContent="Switch To Todo List";}
 });
+
+// --- Calendar ---
+function palindrome(str){const re=/[\W_]/g;const low=str.toLowerCase().replace(re,"");return low===low.split("").reverse().join("");}
+function updateCalendar(){
+    const monthNames=["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const firstDay=new Date(currentYear,currentMonth,1).getDay();
+    const lastDate=new Date(currentYear,currentMonth+1,0).getDate();
+    const prevLastDate=new Date(currentYear,currentMonth,0).getDate();
+    monthNameDiv.textContent=monthNames[currentMonth]+" "+currentYear;
+    calendarBody.innerHTML="";
+    ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(d=>{const e=document.createElement("div");e.className="calendar-day";e.textContent=d;calendarBody.appendChild(e);});
+    let dayOfWeek=0;
+    for(let i=firstDay-1;i>=0;i--){const e=document.createElement("div");e.className="calendar-day previous-month-day";e.textContent=prevLastDate-i;calendarBody.appendChild(e);dayOfWeek++;}
+    for(let i=1;i<=lastDate;i++){
+        const e=document.createElement("div");e.className="calendar-day";e.textContent=i;
+        if(currentDate.getDate()===i&&currentDate.getMonth()===currentMonth&&currentDate.getFullYear()===currentYear)e.classList.add("current-day");
+        else if(palindrome(""+(currentMonth+1)+i+String(currentYear).slice(-2))) e.classList.add("palindrome");
+        calendarBody.appendChild(e);dayOfWeek++;if(dayOfWeek===7)dayOfWeek=0;
+    }
+}
+prevMonthBtn.addEventListener("click",()=>{currentMonth--; if(currentMonth<0){currentMonth=11;currentYear--;} updateCalendar();});
+nextMonthBtn.addEventListener("click",()=>{currentMonth++; if(currentMonth>11){currentMonth=0;currentYear++;} updateCalendar();});
+updateCalendar();
+todoListDiv.style.display="block";toggleViewBtn.textContent="Switch To Calendar";
 
 // --- Todoist API ---
 async function fetchTodoistTasks(){
-  if(!todoistToken) return;
-  try{
-    let res = await fetch("https://api.todoist.com/rest/v2/tasks",{headers:{Authorization:"Bearer "+todoistToken}});
-    let data = await res.json();
-    mergeTodoistTasks(data);
-  }catch(e){ console.error("Todoist fetch error:",e);}
+    if(!todoistToken) return;
+    try{
+        const res=await fetch("https://api.todoist.com/rest/v2/tasks",{headers:{Authorization:"Bearer "+todoistToken}});
+        const data=await res.json();
+        mergeTodoistTasks(data);
+    }catch(e){console.error(e);}
 }
-
 function mergeTodoistTasks(remoteTasks){
-  remoteTasks.forEach(rt=>{
-    if(!taskList.some(t=>t.todoistId===rt.id)){
-      let task={title:rt.content, progress:0, todoistId:rt.id};
-      taskList.push(task);
-      createTaskElement(task);
-    }
-  });
-  saveLocalTasks();
-}
-
-async function updateTodoistTask(task){
-  if(!todoistToken || !task.todoistId) return;
-  try{
-    await fetch("https://api.todoist.com/rest/v2/tasks/"+task.todoistId,{
-      method:"POST",
-      headers:{Authorization:"Bearer "+todoistToken,"Content-Type":"application/json"},
-      body:JSON.stringify({content:task.title})
+    remoteTasks.forEach(rt=>{
+        if(!taskList.some(t=>t.todoistId===rt.id)){
+            const task={title:rt.content,progress:0,todoistId:rt.id};
+            taskList.push(task);
+            createTaskElement(task);
+        }
     });
-  }catch(e){console.error("Todoist update error:",e);}
+    saveLocalTasks();
 }
-
+async function updateTodoistTask(task){
+    if(!todoistToken || !task.todoistId) return;
+    try{await fetch("https://api.todoist.com/rest/v2/tasks/"+task.todoistId,{method:"POST",headers:{Authorization:"Bearer "+todoistToken,"Content-Type":"application/json"},body:JSON.stringify({content:task.title})});}catch(e){console.error(e);}
+}
 async function deleteTodoistTask(id){
-  if(!todoistToken) return;
-  try{
-    await fetch("https://api.todoist.com/rest/v2/tasks/"+id,{method:"DELETE",headers:{Authorization:"Bearer "+todoistToken}});
-  }catch(e){console.error("Todoist delete error:",e);}
+    if(!todoistToken) return;
+    try{await fetch("https://api.todoist.com/rest/v2/tasks/"+id,{method:"DELETE",headers:{Authorization:"Bearer "+todoistToken}});}catch(e){console.error(e);}
 }
 
-// Auto-load
 loadLocalTasks();
 if(todoistToken) fetchTodoistTasks();
-
-// Optional: periodic sync every 60s
 setInterval(fetchTodoistTasks,60000);
 </script>
 </body>
