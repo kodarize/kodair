@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Todoist-Synced Todo — Knob Progress</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Todoist-Synced Todo — Knob Progress (Responsive, Undo Complete)</title>
 <style>
-  :root{
+  :root {
     --bgA: #eaf;
     --bgB: #fea;
     --card: #eff;
@@ -14,88 +14,92 @@
     --muted: #666;
     --maxWidth: 900px;
   }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
-  body{
+  * { box-sizing: border-box; }
+  html,body { height:100%; margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial; }
+  body {
     background: linear-gradient(45deg,var(--bgA),var(--bgB));
-    display:flex;align-items:flex-start;justify-content:center;padding:18px;
+    display:flex; align-items:flex-start; justify-content:center; padding:12px;
   }
-  .app{
-    width:100%;max-width:var(--maxWidth);background:var(--card);border-radius:14px;padding:18px;box-shadow:0 6px 24px rgba(0,0,0,.12);
-    display:flex;flex-direction:column;gap:12px;
+  .app {
+    width:100%; max-width:var(--maxWidth); background:var(--card); border-radius:12px; padding:16px; box-shadow:0 6px 20px rgba(0,0,0,.12);
+    display:flex; flex-direction:column; gap:12px;
   }
 
-  /* top row */
-  .top{
-    display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+  .top {
+    display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px;
   }
-  .clock{font-size:18px;color:var(--muted);min-width:160px;text-align:center;}
-  .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .clock { font-size:18px; color:var(--muted); min-width:140px; text-align:center; }
+  .controls { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
   button, .btn {
-    background:var(--accent);border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600;
+    background:var(--accent); border:none; padding:8px 14px; border-radius:7px; cursor:pointer; font-weight:600;
     box-shadow:0 2px 6px rgba(0,0,0,.08);
   }
-  .btn.secondary{background:#eee;color:#111;font-weight:600}
-  .btn.danger{background:var(--danger);color:#fff}
-  .token-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .btn.secondary{ background:#eee; color:#111; }
+  .btn.danger{ background:var(--danger); color:#fff; }
+  .token-row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
 
-  /* layout */
-  .main{
-    display:grid;grid-template-columns: 1fr 340px;gap:14px;align-items:start;
+  .token-input { padding:8px; border-radius:7px; border:1px solid #0001; width:300px; max-width:60vw; }
+
+  .main {
+    display:grid; grid-template-columns:1fr 340px; gap:16px; align-items:flex-start;
   }
-  @media(max-width:980px){ .main{grid-template-columns:1fr} }
+  @media(max-width:820px){ .main{ grid-template-columns:1fr; } }
 
-  /* left (todo list) */
-  .todo-panel{background:#fff;border-radius:10px;padding:12px;min-height:320px;display:flex;flex-direction:column;gap:10px}
-  .list-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .task-list{overflow:auto;max-height:56vh;padding-right:6px;display:flex;flex-direction:column;gap:8px}
-  .task{
-    display:flex;gap:10px;align-items:center;padding:10px;border-radius:8px;background:#fff7;border:1px solid #0001;
-    box-shadow:0 1px 3px rgba(0,0,0,.04);
+  .todo-panel {
+    background:#fff; border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:10px;
   }
-  @media(max-width:560px){ .task{flex-direction:column;align-items:stretch} }
+  .list-tools { display:flex; flex-wrap:wrap; gap:8px; }
+  .task-list { overflow-y:auto; max-height:60vh; padding-right:4px; display:flex; flex-direction:column; gap:8px; }
 
-  .task-area{flex:1;display:flex;flex-direction:column;gap:6px}
-  textarea.title{
-    width:100%;min-height:44px;max-height:220px;resize:none;border-radius:6px;border:1px solid #0000;padding:8px 10px;font-size:15px;background:transparent;
-    font-family:inherit;outline:none;line-height:1.25;
+  .task {
+    display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:10px; border-radius:8px; background:#fff7; border:1px solid #0001; box-shadow:0 1px 3px rgba(0,0,0,.04);
   }
-  .meta{display:flex;gap:8px;align-items:center;justify-content:space-between}
+  @media(max-width:560px){
+    .task { flex-direction:column; align-items:stretch; }
+  }
 
-  /* knob column */
-  .knob-area{width:92px;display:flex;flex-direction:column;align-items:center;gap:6px}
-  .knob-wrap{width:72px;height:72px;touch-action:none;display:grid;place-items:center}
-  .knob-svg{width:72px;height:72px;display:block}
+  .task-area { flex:1; display:flex; flex-direction:column; gap:6px; }
+  textarea.title {
+    width:100%; min-height:44px; max-height:200px; resize:none; border-radius:6px; border:1px solid #0001; padding:8px 10px; font-size:15px; background:transparent;
+    font-family:inherit; outline:none; line-height:1.3;
+  }
 
-  .percent{font-size:12px;color:var(--muted)}
+  .meta { display:flex; justify-content:space-between; gap:8px; align-items:center; }
+  .small { font-size:13px; color:var(--muted); }
+  .danger-small { color:var(--danger); }
 
-  /* calendar */
-  .calendar{background:#fff;border-radius:10px;padding:12px}
-  .calendar-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-  .month{font-weight:700}
-  .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-  .cal-day{padding:8px;text-align:center;border-radius:6px;background:#f5f5f5;color:#222}
+  .knob-area { width:72px; height:72px; display:flex; flex-direction:column; align-items:center; gap:4px; }
+  @media(max-width:560px){
+    .knob-area { width:56px; height:56px; }
+  }
+  .knob-svg { width:100%; height:100%; }
 
-  /* small utilities */
-  .small{font-size:13px;color:var(--muted)}
-  .danger-small{color:var(--danger)}
-  .token-input{padding:8px;border-radius:8px;border:1px solid #0001;width:320px;max-width:40vw}
-  .file-input{display:none}
-  .footer{display:flex;gap:8px;justify-content:flex-end;align-items:center;margin-top:6px}
+  .percent { font-size:12px; color:var(--muted); }
+
+  .calendar {
+    background:#fff; border-radius:10px; padding:12px; box-shadow:0 2px 5px rgba(0,0,0,.08);
+  }
+  .calendar-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .calendar-header button { background:transparent; border:none; font-size:18px; cursor:pointer; }
+  .month { font-weight:700; }
+  .calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+  .cal-day { padding:8px; text-align:center; border-radius:6px; background:#f5f5f5; color:#222; }
+
+  .footer { display:flex; justify-content:flex-end; align-items:center; gap:8px; }
+
 </style>
 </head>
 <body>
   <div class="app" role="application" aria-label="Todoist synced todo app">
     <div class="top">
-      <div class="left-top">
+      <div>
         <div style="font-size:20px;font-weight:700">Todoist Sync — Knob Progress</div>
-        <div class="small">0% = not done, 100% = done (task marked complete on Todoist).</div>
+        <div class="small">0% = not done | 100% = done (task completed on Todoist). Drag knob to change.</div>
       </div>
-
       <div class="controls">
         <div class="clock" id="clock">--:--:--</div>
         <div class="token-row">
-          <input id="tokenInput" class="token-input" type="password" placeholder="Paste Todoist token (personal token or OAuth token)" aria-label="Todoist token" />
+          <input id="tokenInput" class="token-input" type="password" placeholder="Paste Todoist token" aria-label="Todoist token" />
           <button class="btn" id="saveTokenBtn">Save Token</button>
           <button class="btn secondary" id="importBtn">Import Tokens</button>
           <button class="btn secondary" id="exportBtn">Export Tokens</button>
@@ -104,55 +108,51 @@
     </div>
 
     <div class="main">
-      <!-- left: todo list -->
       <section class="todo-panel" aria-labelledby="todo-heading">
-        <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
           <div>
             <h2 id="todo-heading" style="margin:0">Todos</h2>
-            <div class="small">Click or drag the knob to set progress. 100% completes the task on Todoist.</div>
+            <div class="small">Click or drag the knob to set progress. 100% marks complete.</div>
           </div>
           <div class="list-tools">
-            <button id="addBtn" class="btn">+ New</button>
-            <button id="clearBtn" class="btn secondary">Clear Local</button>
-            <button id="backupBtn" class="btn">Backup (download)</button>
-            <button id="restoreBtn" class="btn secondary">Restore</button>
+            <button class="btn" id="addBtn">+ New</button>
+            <button class="btn secondary" id="clearBtn">Clear Local</button>
+            <button class="btn btn" id="backupBtn">Backup</button>
+            <button class="btn secondary" id="restoreBtn">Restore</button>
           </div>
         </div>
 
-        <div class="task-list" id="taskList" role="list" aria-label="Task list">
-          <!-- tasks injected here -->
-        </div>
+        <div class="task-list" id="taskList" role="list" aria-label="Task list"></div>
 
         <div class="footer">
-          <div class="small">Local sync status: <span id="status">idle</span></div>
+          <div class="small">Local status: <span id="status">idle</span></div>
         </div>
       </section>
 
-      <!-- right: calendar / info -->
       <aside class="calendar" aria-label="Calendar">
         <div class="calendar-header">
           <div class="month" id="monthLabel">Month</div>
           <div style="display:flex;gap:8px">
-            <button id="prevMonthBtn" class="btn secondary">&lt;</button>
-            <button id="nextMonthBtn" class="btn secondary">&gt;</button>
+            <button class="btn secondary" id="prevMonthBtn">&lt;</button>
+            <button class="btn secondary" id="nextMonthBtn">&gt;</button>
           </div>
         </div>
         <div class="calendar-grid" id="calendarGrid"></div>
 
         <hr style="margin:12px 0"/>
-        <div>
+        <div style="margin-top:8px">
           <strong>Sync actions</strong>
-          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-            <button id="fetchBtn" class="btn">Fetch from Todoist</button>
-            <button id="pushBtn" class="btn">Push Local → Todoist</button>
-            <button id="mergeBtn" class="btn">Merge Remote → Local</button>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <button class="btn" id="fetchBtn">Fetch from Todoist</button>
+            <button class="btn" id="pushBtn">Push Local → Todoist</button>
+            <button class="btn" id="mergeBtn">Merge Remote → Local</button>
           </div>
         </div>
 
-        <details style="margin-top:10px">
-          <summary class="small">Advanced / backups</summary>
-          <div style="display:flex;gap:8px;margin-top:8px;flex-direction:column">
-            <button id="downloadEverything" class="btn">Download full backup</button>
+        <details style="margin-top:12px">
+          <summary class="small">Backups & File Ops</summary>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+            <button class="btn" id="downloadEverything">Download Full Backup</button>
             <label class="small">Upload backup<input type="file" id="uploadBackup" class="file-input" accept="application/json"></label>
           </div>
         </details>
@@ -161,656 +161,468 @@
   </div>
 
 <script>
-/* -----------------------
-   Utilities & UI helpers
-   ----------------------- */
-const pad2 = n => (n<10? '0'+n: ''+n);
-function nowTimeStr(){const d=new Date();return `${pad2(d.getHours()%12||12)}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())} ${d.getHours()>=12?'PM':'AM'}`;}
+// Utility
+const pad2 = n => (n<10? '0'+n : ''+n);
+function nowTimeStr(){
+  const d=new Date();
+  return `${pad2(d.getHours()%12||12)}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())} ${d.getHours()>=12?'PM':'AM'}`;
+}
 const clockEl = document.getElementById('clock');
-setInterval(()=>clockEl.textContent = nowTimeStr(), 1000);
-clockEl.textContent = nowTimeStr();
-
+setInterval(()=>clockEl.textContent = nowTimeStr(), 1000); clockEl.textContent = nowTimeStr();
 function setStatus(s){ document.getElementById('status').textContent = s; }
 
-/* -----------------------
-   App storage
-   ----------------------- */
-const STORAGE_KEYS = {
-  TASKS: 'td_tasks_v1',    // stores array of tasks (local model)
-  TOKENS: 'td_tokens_v1'   // stores {todoist: token}
-};
+// Storage
+const STORAGE = { TASKS:'td_tasks_v2', TOKENS:'td_tokens_v2'};
+function loadTokens(){ try{ const r=localStorage.getItem(STORAGE.TOKENS); return r? JSON.parse(r):{todoist:null}; }catch(e){return {todoist:null};}}
+function saveTokens(t){ localStorage.setItem(STORAGE.TOKENS, JSON.stringify(t)); }
+function loadTasks(){ try{ const r=localStorage.getItem(STORAGE.TASKS); return r? JSON.parse(r):[]; }catch(e){return [];} }
+function saveTasks(ts){ localStorage.setItem(STORAGE.TASKS, JSON.stringify(ts)); try{ localStorage.setItem(STORAGE.TASKS+'_bak_'+Date.now(), JSON.stringify(ts)); }catch(e){} }
 
-function loadTokens(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEYS.TOKENS);
-    return raw? JSON.parse(raw): { todoist: null };
-  }catch(e){ return { todoist: null }; }
-}
-function saveTokens(obj){
-  localStorage.setItem(STORAGE_KEYS.TOKENS, JSON.stringify(obj));
-}
-
-function loadLocalTasks(){
-  try{
-    const raw=localStorage.getItem(STORAGE_KEYS.TASKS);
-    return raw? JSON.parse(raw): [];
-  }catch(e){ return []; }
-}
-function saveLocalTasks(tasks){
-  localStorage.setItem(STORAGE_KEYS.TASKS, JSON.stringify(tasks));
-  // keep a timestamped redundancy backup (rotate last N if you want)
-  try{
-    const key = STORAGE_KEYS.TASKS + '_backup_' + Date.now();
-    localStorage.setItem(key, JSON.stringify(tasks));
-  }catch(e){}
-}
-
-/* -----------------------
-   Todo model
-   Each task: {
-     id: <local id uuid>,
-     title: string,
-     progress: 0..100,
-     todoistId: optional string,  // remote id
-     completed: boolean,
-     updatedAt: timestamp (ms)
-   }
-   ----------------------- */
-function makeId(){ return 't_' + Math.random().toString(36).slice(2,10); }
+// Model helper
+function makeId(){ return 't_'+Math.random().toString(36).slice(2,10); }
 
 let tokens = loadTokens();
 document.getElementById('tokenInput').value = tokens.todoist || '';
+let tasks = loadTasks();
 
-let tasks = loadLocalTasks();
-
-/* -----------------------
-   Helpers: DOM & knob control
-   ----------------------- */
-const taskListEl = document.getElementById('taskList');
-
-function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
-
-/* map angle (radians) from startAngle to endAngle to 0..100
-   We'll use start = -3/4π (-135deg), end = +3/4π (+135deg) -> span 270°
-*/
-const KNOB = {
-  start: -0.75 * Math.PI,
-  end: 0.75 * Math.PI,
-  span: 1.5 * Math.PI
-};
-
-function angleToPercent(angle){
-  // normalize angle to between start and end
-  let a = angle;
-  // rotate so 0 at center... angle from atan2 is -PI..PI
-  // clamp to [start,end]
-  if(a < KNOB.start) a = KNOB.start;
-  if(a > KNOB.end) a = KNOB.end;
-  const pct = ((a - KNOB.start) / KNOB.span) * 100;
-  return Math.round(clamp(pct,0,100));
-}
-function percentToAngle(pct){
-  return KNOB.start + (clamp(pct,0,100) / 100) * KNOB.span;
+// Knob logic
+const KNOB = { start: -0.75*Math.PI, end: +0.75*Math.PI, span:1.5*Math.PI};
+function percentToAngle(p){ return KNOB.start + (p/100)*KNOB.span; }
+function angleToPercent(a){
+  let ang = a;
+  if(ang < KNOB.start) ang = KNOB.start;
+  if(ang > KNOB.end) ang = KNOB.end;
+  return Math.round(((ang - KNOB.start)/KNOB.span)*100);
 }
 
-/* create knob element that is touch & mouse friendly */
-function createKnob(initialPercent, onChange){
-  // returns an element with .value property and dispatches onChange(value)
-  const wrap = document.createElement('div');
-  wrap.className = 'knob-area';
-  // inner svg circle for visual
+function createKnob(initial, onChange){
+  const wrap = document.createElement('div'); wrap.className='knob-area';
   const svgNS = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(svgNS,'svg');
-  svg.setAttribute('viewBox','0 0 100 100');
-  svg.classList.add('knob-svg');
-  // background ring
-  const bg = document.createElementNS(svgNS,'circle'); bg.setAttribute('cx',50); bg.setAttribute('cy',50); bg.setAttribute('r',38); bg.setAttribute('fill','#f3f3f3'); bg.setAttribute('stroke','#ddd'); bg.setAttribute('stroke-width',4);
-  svg.appendChild(bg);
-  // progress arc path
-  const arc = document.createElementNS(svgNS,'path'); arc.setAttribute('fill','none'); arc.setAttribute('stroke','#51ff51'); arc.setAttribute('stroke-width',8); arc.setAttribute('stroke-linecap','round');
-  svg.appendChild(arc);
-  // inner knob center
-  const center = document.createElementNS(svgNS,'circle'); center.setAttribute('cx',50); center.setAttribute('cy',50); center.setAttribute('r',22); center.setAttribute('fill','#fff'); center.setAttribute('stroke','#ddd'); center.setAttribute('stroke-width',1);
-  svg.appendChild(center);
-  // percent text
-  const txt = document.createElementNS(svgNS,'text'); txt.setAttribute('x',50); txt.setAttribute('y',56); txt.setAttribute('text-anchor','middle'); txt.setAttribute('font-size',14); txt.setAttribute('font-family','sans-serif'); txt.setAttribute('fill','#333');
-  svg.appendChild(txt);
-
+  const svg = document.createElementNS(svgNS,'svg'); svg.setAttribute('viewBox','0 0 100 100'); svg.classList.add('knob-svg');
+  const bg = document.createElementNS(svgNS,'circle'); bg.setAttribute('cx',50); bg.setAttribute('cy',50); bg.setAttribute('r',38);
+  bg.setAttribute('fill','#f3f3f3'); bg.setAttribute('stroke','#ddd'); bg.setAttribute('stroke-width',4); svg.appendChild(bg);
+  const arc = document.createElementNS(svgNS,'path'); arc.setAttribute('fill','none'); arc.setAttribute('stroke','#51ff51'); arc.setAttribute('stroke-width',8); arc.setAttribute('stroke-linecap','round'); svg.appendChild(arc);
+  const center = document.createElementNS(svgNS,'circle'); center.setAttribute('cx',50); center.setAttribute('cy',50); center.setAttribute('r',22);
+  center.setAttribute('fill','#fff'); center.setAttribute('stroke','#ddd'); center.setAttribute('stroke-width',1); svg.appendChild(center);
+  const txt = document.createElementNS(svgNS,'text'); txt.setAttribute('x',50); txt.setAttribute('y',56); txt.setAttribute('text-anchor','middle');
+  txt.setAttribute('font-size',14); txt.setAttribute('font-family','sans-serif'); txt.setAttribute('fill','#333'); svg.appendChild(txt);
   wrap.appendChild(svg);
 
-  // compute path for arc from angle start to angle for value
-  function describeArc(angleStart, angleEnd, radius=38){
-    // convert to cartesian
-    function polarToCartesian(cx,cy,r,angle){
-      const x = cx + r * Math.cos(angle);
-      const y = cy + r * Math.sin(angle);
-      return {x,y};
-    }
-    const start = polarToCartesian(50,50,radius, angleStart);
-    const end = polarToCartesian(50,50,radius, angleEnd);
-    const largeArcFlag = (angleEnd - angleStart) > Math.PI ? 1 : 0;
-    const path = `M ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${end.x} ${end.y}`;
-    return path;
-  }
-
-  let value = clamp(initialPercent|0, 0, 100);
-
+  let value = Math.round(initial||0);
   function render(){
     const ang = percentToAngle(value);
-    const path = describeArc(KNOB.start, ang, 38);
-    arc.setAttribute('d', path);
+    // arc description
+    function pol(cx, cy, r, angle){ return {x: cx + r*Math.cos(angle), y: cy + r*Math.sin(angle)}; }
+    const start = pol(50,50,38, KNOB.start);
+    const endPt = pol(50,50,38, ang);
+    const largeArc = (ang - KNOB.start) > Math.PI ? 1 : 0;
+    const d = `M ${start.x} ${start.y} A 38 38 0 ${largeArc} 1 ${endPt.x} ${endPt.y}`;
+    arc.setAttribute('d', d);
     txt.textContent = value + '%';
   }
   render();
 
-  // pointer handling (works for mouse & touch)
-  let dragging = false;
+  let dragging=false;
+
   function pointerDown(e){
-    dragging = true; wrap.setPointerCapture && wrap.setPointerCapture(e.pointerId);
-    pointerMove(e);
+    dragging=true; wrap.setPointerCapture && wrap.setPointerCapture(e.pointerId); pointerMove(e);
   }
   function pointerMove(e){
-    if(!dragging && e.type === 'pointermove') return;
+    if(!dragging && e.type==='pointermove') return;
     const rect = svg.getBoundingClientRect();
     const cx = rect.left + rect.width/2;
     const cy = rect.top + rect.height/2;
     const x = e.clientX - cx;
     const y = e.clientY - cy;
     let a = Math.atan2(y,x);
-    // clamp to range
     if(a < KNOB.start) a = KNOB.start;
-    if(a > KNOB.end) a = KNOB.end;
+    if(a > KNOB.end)   a = KNOB.end;
     const p = angleToPercent(a);
     if(p !== value){
-      value = p;
-      render();
+      value = p; render();
       onChange && onChange(value);
     }
   }
   function pointerUp(e){
     if(!dragging) return;
-    dragging = false;
-    try{ wrap.releasePointerCapture && wrap.releasePointerCapture(e.pointerId); }catch(e){}
-    // final update already done in pointerMove
+    dragging=false;
+    wrap.releasePointerCapture && wrap.releasePointerCapture(e.pointerId);
   }
 
-  svg.style.touchAction = 'none';
+  svg.style.touchAction='none';
   svg.addEventListener('pointerdown', pointerDown);
   window.addEventListener('pointermove', pointerMove);
   window.addEventListener('pointerup', pointerUp);
 
-  // keyboard support
   wrap.tabIndex = 0;
-  wrap.addEventListener('keydown', (ev)=>{
-    if(ev.key === 'ArrowRight' || ev.key === 'ArrowUp') { value = clamp(value + 5,0,100); render(); onChange && onChange(value); ev.preventDefault(); }
-    if(ev.key === 'ArrowLeft' || ev.key === 'ArrowDown') { value = clamp(value - 5,0,100); render(); onChange && onChange(value); ev.preventDefault(); }
-    if(ev.key === 'Home') { value = 0; render(); onChange && onChange(value); ev.preventDefault(); }
-    if(ev.key === 'End') { value = 100; render(); onChange && onChange(value); ev.preventDefault(); }
+  wrap.addEventListener('keydown', ev=>{
+    if(ev.key==='ArrowRight'||ev.key==='ArrowUp'){ value = Math.min(100, value+5); render(); onChange && onChange(value); ev.preventDefault();}
+    if(ev.key==='ArrowLeft' || ev.key==='ArrowDown'){ value = Math.max(0, value-5); render(); onChange && onChange(value); ev.preventDefault();}
+    if(ev.key==='Home'){ value = 0; render(); onChange && onChange(value); ev.preventDefault();}
+    if(ev.key==='End'){ value = 100; render(); onChange && onChange(value); ev.preventDefault();}
   });
 
-  // expose api
   wrap.value = value;
-  wrap.set = v => { value = clamp(v,0,100); render(); }
-  wrap.get = () => value;
-
+  wrap.set = v=>{ value = Math.max(0,Math.min(100,v)); render(); };
+  wrap.get = ()=> value;
   return wrap;
 }
 
-/* -----------------------
-   Render & task wiring
-   ----------------------- */
+// Rendering tasks
+const taskListEl = document.getElementById('taskList');
+
 function renderTasks(){
   taskListEl.innerHTML = '';
-  tasks.sort((a,b)=> (b.updatedAt||0) - (a.updatedAt||0)); // newest first
-  tasks.forEach(task=>{
-    const item = document.createElement('div');
-    item.className = 'task';
-    // left: textarea
+  tasks.sort((a,b)=> (b.updatedAt||0) - (a.updatedAt||0));
+  for(const task of tasks){
+    const item = document.createElement('div'); item.className='task';
+
     const area = document.createElement('div'); area.className='task-area';
-    const ta = document.createElement('textarea');
-    ta.className='title';
-    ta.placeholder = 'Task title...';
-    ta.value = task.title || '';
-    ta.addEventListener('input', (e)=>{
+    const ta = document.createElement('textarea'); ta.className='title'; ta.placeholder='Task title...'; ta.value = task.title || '';
+    ta.addEventListener('input', ()=>{
       task.title = ta.value;
       task.updatedAt = Date.now();
-      saveLocalTasks(tasks);
-      // if linked remote, push update
-      if(task.todoistId && tokens.todoist) updateTodoistTask(task).catch(err=>console.warn(err));
+      saveTasks(tasks);
+      if(task.todoistId && tokens.todoist){
+        updateTodoistTask(task).catch(e=>console.warn('update error',e));
+      }
     });
-    // auto-resize
-    function autoSize(){
-      ta.style.height = '20px';
-      ta.style.height = (ta.scrollHeight)+'px';
-    }
-    ta.addEventListener('input', autoSize);
-    setTimeout(autoSize,0);
-
-    // meta row
+    function autoSize(){ ta.style.height='20px'; ta.style.height = ta.scrollHeight+'px'; }
+    ta.addEventListener('input', autoSize); setTimeout(autoSize,0);
     const meta = document.createElement('div'); meta.className='meta';
-    const small = document.createElement('div'); small.className='small';
-    small.innerText = task.todoistId ? 'Synced' : 'Local';
-    meta.appendChild(small);
-
+    const insider = document.createElement('div'); insider.className='small';
+    insider.textContent = task.todoistId ? 'Synced' : 'Local';
+    meta.appendChild(insider);
     area.appendChild(ta);
     area.appendChild(meta);
 
-    // right: knob
     const knobWrap = createKnob(task.progress||0, (pct)=>{
       task.progress = pct;
       task.updatedAt = Date.now();
-      // if 100% mark complete on Todoist
-      if(pct >= 100){
-        task.completed = true;
-      } else {
-        task.completed = false;
-      }
-      saveLocalTasks(tasks);
+      task.completed = pct >= 100;
+      saveTasks(tasks);
       if(task.todoistId && tokens.todoist){
-        // update remote content and complete/undo if needed
-        updateTodoistTask(task).catch(e=>console.warn('update failed',e));
+        // If it was completed and now undone => reopen: Delete remote complete and re-create
+        if(task.completed && !task._justCompleted){
+          task._justCompleted = true;
+          updateTodoistTask(task).catch(e=>console.warn('complete remote fail',e));
+        } else if(!task.completed && task._justCompleted){
+          task._justCompleted = false;
+          reopenTodoistTask(task).catch(e=>console.warn('reopen remote fail',e));
+        } else {
+          updateTodoistTask(task).catch(e=>console.warn('update remote fail',e));
+        }
       }
-      // update the small 'synced' label if needed
     });
     const percentLabel = document.createElement('div'); percentLabel.className='percent'; percentLabel.textContent = (task.progress||0) + '%';
 
-    // keep percent text synced
-    const knobEl = knobWrap;
-    // whenever user changes, update percent label
-    (function watchKnob(){
-      // we can intercept onChange already during creation
-    })();
+    const knobCol = document.createElement('div'); knobCol.style.display='flex'; knobCol.style.flexDirection='column'; knobCol.style.alignItems='center';
+    knobCol.appendChild(knobWrap); knobCol.appendChild(percentLabel);
 
-    knobWrap.addEventListener('keydown', ()=>{}); // placeholder for focus
-
-    const knobColumn = document.createElement('div');
-    knobColumn.style.display='flex'; knobColumn.style.flexDirection='column'; knobColumn.style.alignItems='center';
-    knobColumn.appendChild(knobWrap);
-    knobColumn.appendChild(percentLabel);
-
-    // delete button
-    const del = document.createElement('button');
-    del.className='delete-btn';
-    del.textContent = 'Delete';
+    const del = document.createElement('button'); del.className='delete-btn'; del.textContent='Delete';
     del.addEventListener('click', ()=>{
-      // remove element and delete remote if linked
       if(task.todoistId && tokens.todoist){
-        deleteTodoistTask(task.todoistId).catch(e=>console.warn('delete remote failed',e));
+        deleteTodoistTask(task.todoistId).catch(e=>console.warn('delete remote fail',e));
       }
-      tasks = tasks.filter(t => t.id !== task.id);
-      saveLocalTasks(tasks);
+      tasks = tasks.filter(t=>t.id!==task.id);
+      saveTasks(tasks);
       renderTasks();
     });
 
-    // tie knob updates to percent label and task state
-    // we need a new knob that calls our given callback already; but percentLabel must update
-    // We will replace the knobWrap created earlier with one that updates the label
-    // Instead, re-create knob with wrapper that updates label:
-    const knobInteractive = createKnob(task.progress||0, (pct)=>{
-      percentLabel.textContent = pct + '%';
-      task.progress = pct;
-      task.updatedAt = Date.now();
-      if(pct >= 100) task.completed = true; else task.completed = false;
-      saveLocalTasks(tasks);
-      if(task.todoistId && tokens.todoist){
-        updateTodoistTask(task).catch(e=>console.warn('update remote fail',e));
-      }
-    });
-    knobColumn.replaceChild(knobInteractive, knobWrap); // swap
-    percentLabel.textContent = (task.progress||0) + '%';
-
     item.appendChild(area);
-    item.appendChild(knobColumn);
+    item.appendChild(knobCol);
     item.appendChild(del);
 
     taskListEl.appendChild(item);
-  });
+  }
 }
 
-/* -----------------------
-   Local operations
-   ----------------------- */
-
-function addLocalTask(title = '', pushToRemote=true){
+// Local add
+function addLocalTask(title='') {
   const t = { id: makeId(), title: title||'', progress:0, todoistId:null, completed:false, updatedAt: Date.now() };
   tasks.unshift(t);
-  saveLocalTasks(tasks);
+  saveTasks(tasks);
   renderTasks();
-  if(pushToRemote && tokens.todoist){
-    createTodoistTask(t).then(remote => {
+  if(tokens.todoist){
+    createTodoistTask(t).then(remote=>{
       if(remote && remote.id){
         t.todoistId = remote.id;
-        saveLocalTasks(tasks);
+        saveTasks(tasks);
         renderTasks();
       }
-    }).catch(err => {
-      console.warn('create remote failed', err);
-    });
+    }).catch(e=>console.warn('create remote fail',e));
   }
-  return t;
 }
 
-/* -----------------------
-   Todoist API (REST v2)
-   Note: require a valid token (personal or OAuth) with tasks scope
-   ----------------------- */
+// API section
 function getAuthHeaders(){
   if(!tokens.todoist) return null;
-  return { 'Authorization': 'Bearer ' + tokens.todoist, 'Content-Type': 'application/json' };
+  return { 'Authorization':'Bearer '+tokens.todoist, 'Content-Type':'application/json' };
 }
 
 async function createTodoistTask(task){
-  const headers = getAuthHeaders();
-  if(!headers) throw new Error('Missing token');
+  const h = getAuthHeaders();
+  if(!h) throw new Error('No token');
   setStatus('creating remote...');
-  const body = { content: task.title || 'Untitled', due_string: null };
-  const res = await fetch('https://api.todoist.com/rest/v2/tasks', { method: 'POST', headers, body: JSON.stringify(body) });
-  if(!res.ok) {
-    setStatus('todoist create failed');
-    const txt = await res.text();
-    throw new Error('Todoist create failed: '+res.status + ' ' + txt);
-  }
+  const body = { content: task.title||'Untitled' };
+  const res = await fetch('https://api.todoist.com/rest/v2/tasks',{ method:'POST', headers:h, body:JSON.stringify(body) });
+  if(!res.ok){ setStatus('idle'); throw new Error('Create failed: '+res.status); }
   const json = await res.json();
   setStatus('idle');
   return json;
 }
 
 async function updateTodoistTask(task){
-  const headers = getAuthHeaders();
-  if(!headers || !task.todoistId) throw new Error('missing token or remote id');
+  const h = getAuthHeaders();
+  if(!h || !task.todoistId) throw new Error('Missing');
   setStatus('updating remote...');
-  const body = { content: task.title || 'Untitled' };
-  // If task completed state, Todoist has special close endpoint to close; but we will PATCH content and then call close if needed.
-  // Update content:
-  let res = await fetch('https://api.todoist.com/rest/v2/tasks/' + task.todoistId, { method: 'POST', headers, body: JSON.stringify(body) });
-  if(!res.ok){
-    setStatus('todoist update failed');
-    throw new Error('update failed: ' + res.status);
-  }
-  // handle completion (close) if needed
+  const body = { content: task.title||'Untitled' };
+  const res1 = await fetch('https://api.todoist.com/rest/v2/tasks/'+task.todoistId,{ method:'POST', headers:h, body:JSON.stringify(body)});
+  if(!res1.ok){ setStatus('idle'); throw new Error('Update failed: '+res1.status); }
   if(task.completed){
-    // close endpoint: POST /tasks/{id}/close
-    res = await fetch('https://api.todoist.com/rest/v2/tasks/' + task.todoistId + '/close', { method: 'POST', headers });
-    if(!res.ok){
-      console.warn('failed to close remote task', await res.text());
-    }
-  } else {
-    // if previously closed we cannot "reopen" via API (Todoist doesn't provide open endpoint in v2), so we skip
+    const res2 = await fetch('https://api.todoist.com/rest/v2/tasks/'+task.todoistId+'/close',{ method:'POST', headers:h });
+    if(!res2.ok) console.warn('Close failed', await res2.text());
   }
   setStatus('idle');
-  return true;
+}
+
+async function reopenTodoistTask(task){
+  // Todoist REST v2 doesn’t provide an official reopen endpoint.
+  // Workaround: create a new task with same content and update local todoistId to new id.
+  const h = getAuthHeaders();
+  if(!h || !task.todoistId) throw new Error('Missing for reopen');
+  setStatus('reopening remote...');
+  // Delete old
+  await fetch('https://api.todoist.com/rest/v2/tasks/'+task.todoistId,{ method:'DELETE', headers:h });
+  // Create new
+  const created = await createTodoistTask(task);
+  if(created && created.id){
+    task.todoistId = created.id;
+    task.completed = false;
+    task.progress = 0;
+    saveTasks(tasks);
+    renderTasks();
+  }
+  setStatus('idle');
 }
 
 async function deleteTodoistTask(id){
-  const headers = getAuthHeaders();
-  if(!headers) throw new Error('missing token');
+  const h = getAuthHeaders();
+  if(!h) throw new Error('Missing');
   setStatus('deleting remote...');
-  const res = await fetch('https://api.todoist.com/rest/v2/tasks/' + id, { method: 'DELETE', headers });
-  if(!res.ok){ console.warn('delete remote failed', await res.text()); }
+  const res = await fetch('https://api.todoist.com/rest/v2/tasks/'+id,{ method:'DELETE', headers:h });
+  if(!res.ok) console.warn('Delete remote failed', await res.text());
   setStatus('idle');
 }
 
-/* fetch all tasks (incomplete) from todoist and return simplified array */
 async function fetchTodoistAll(){
-  const headers = getAuthHeaders();
-  if(!headers) throw new Error('missing token');
-  setStatus('fetching remote');
-  const res = await fetch('https://api.todoist.com/rest/v2/tasks', { headers });
-  if(!res.ok){
-    setStatus('fetch failed');
-    const txt = await res.text();
-    throw new Error('fetch failed: ' + res.status + ' ' + txt);
-  }
-  const data = await res.json();
+  const h = getAuthHeaders();
+  if(!h) throw new Error('Missing token');
+  setStatus('fetching remote...');
+  const res = await fetch('https://api.todoist.com/rest/v2/tasks',{ headers:h });
+  if(!res.ok){ setStatus('idle'); throw new Error('Fetch failed: '+res.status); }
+  const j = await res.json();
   setStatus('idle');
-  return data; // array of remote tasks (full objects)
+  return j;
 }
 
-/* -----------------------
-   Merge logic
-   - mergeRemoteIntoLocal(remoteTasks): Adds remote tasks not present locally (by todoist id or title)
-   - pushLocalToRemote: create remote tasks for local tasks without todoistId
-   ----------------------- */
-function mergeRemoteIntoLocal(remoteTasks){
-  // remoteTasks is array with { id, content, ... }
-  let changes = 0;
-  for(const r of remoteTasks){
-    // skip completed remote tasks (they are closed)
-    // find local task with todoistId
-    let local = tasks.find(t => t.todoistId === r.id);
-    if(local) continue;
-    // otherwise look for same title (fuzzy match simple)
-    local = tasks.find(t => t.title && t.title.trim() === r.content && !t.todoistId);
-    if(local){
-      local.todoistId = r.id;
-      changes++;
-      continue;
+function mergeRemoteIntoLocal(remote){
+  let changes=0;
+  for(const r of remote){
+    if(!tasks.some(t=>t.todoistId===r.id)){
+      const found = tasks.find(t=> t.title && t.title.trim() === r.content && !t.todoistId );
+      if(found){
+        found.todoistId = r.id; changes++;
+      } else {
+        const nt = { id:makeId(), title:r.content, progress:0, todoistId:r.id, completed:false, updatedAt:Date.now() };
+        tasks.push(nt); changes++;
+      }
     }
-    // otherwise create new local
-    const nt = {
-      id: makeId(),
-      title: r.content,
-      progress: 0,
-      todoistId: r.id,
-      completed: false,
-      updatedAt: Date.now()
-    };
-    tasks.push(nt);
-    changes++;
   }
-  if(changes) { saveLocalTasks(tasks); renderTasks(); }
+  if(changes>0){ saveTasks(tasks); renderTasks(); }
   return changes;
 }
 
 async function pushLocalToRemote(){
-  if(!tokens.todoist) throw new Error('no token');
-  setStatus('pushing local to remote');
-  const toCreate = tasks.filter(t => !t.todoistId);
+  if(!tokens.todoist) throw new Error('Missing token');
+  setStatus('pushing local->remote...');
+  const toCreate = tasks.filter(t=>!t.todoistId);
   for(const t of toCreate){
     try{
       const created = await createTodoistTask(t);
       if(created && created.id){
         t.todoistId = created.id;
         t.updatedAt = Date.now();
-        saveLocalTasks(tasks);
+        saveTasks(tasks);
       }
-    }catch(e){
-      console.warn('failed create', e);
+    }catch(err){
+      console.warn('push fail',err);
     }
   }
   setStatus('idle');
   renderTasks();
 }
 
-/* -----------------------
-   UI wiring: buttons, file import/export, restore
-   ----------------------- */
-
-document.getElementById('addBtn').addEventListener('click', ()=> addLocalTask('', true));
+// UI wiring
+document.getElementById('addBtn').addEventListener('click', ()=>addLocalTask(''));
 document.getElementById('clearBtn').addEventListener('click', ()=>{
-  if(!confirm('Clear all local tasks? This will not delete remote tasks unless they are synced and you delete them individually.')) return;
-  tasks = [];
-  saveLocalTasks(tasks);
-  renderTasks();
+  if(confirm('Clear all local tasks? This will not delete remote tasks unless already synced and deleted individually.')){
+    tasks=[]; saveTasks(tasks); renderTasks();
+  }
 });
 document.getElementById('backupBtn').addEventListener('click', ()=>{
-  const data = { tasks, tokens };
-  const blob = new Blob([JSON.stringify(data,null,2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'todo_backup_'+Date.now()+'.json'; a.click(); URL.revokeObjectURL(url);
+  const data={ tasks, tokens };
+  const blob=new Blob([JSON.stringify(data,null,2) ],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='todo_backup_'+Date.now()+'.json'; a.click(); URL.revokeObjectURL(url);
 });
 document.getElementById('restoreBtn').addEventListener('click', ()=>{
-  const f = document.createElement('input'); f.type='file'; f.accept='application/json';
-  f.onchange = (e)=>{
-    const file = e.target.files[0];
-    const r = new FileReader();
-    r.onload = evt => {
+  const f=document.createElement('input'); f.type='file'; f.accept='application/json';
+  f.onchange = e=>{
+    const file=e.target.files[0];
+    const r=new FileReader();
+    r.onload = evt=>{
       try{
-        const obj = JSON.parse(evt.target.result);
-        if(obj.tokens) { tokens = obj.tokens; saveTokens(tokens); document.getElementById('tokenInput').value = tokens.todoist || ''; }
-        if(obj.tasks) { tasks = obj.tasks; saveLocalTasks(tasks); renderTasks(); }
-        alert('Restore complete');
-      }catch(err){ alert('Invalid backup file'); }
+        const obj=JSON.parse(evt.target.result);
+        if(obj.tokens){ tokens=obj.tokens; saveTokens(tokens); document.getElementById('tokenInput').value = tokens.todoist||''; }
+        if(obj.tasks){ tasks=obj.tasks; saveTasks(tasks); renderTasks(); }
+        alert('Restore done');
+      }catch(err){ alert('Invalid file'); }
     };
     r.readAsText(file);
   };
   f.click();
 });
-
 document.getElementById('downloadEverything').addEventListener('click', ()=>{
-  const data = { tasks, tokens, meta: { date: Date.now() } };
-  const blob = new Blob([JSON.stringify(data,null,2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'todo_full_backup_'+Date.now()+'.json'; a.click(); URL.revokeObjectURL(url);
+  const data = { tasks, tokens, meta:{ date: Date.now()}};
+  const blob=new Blob([JSON.stringify(data,null,2) ],{ type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='todo_full_backup_'+Date.now()+'.json'; a.click(); URL.revokeObjectURL(url);
 });
-
-document.getElementById('uploadBackup').addEventListener('change', (ev)=>{
-  const file = ev.target.files[0];
+document.getElementById('uploadBackup').addEventListener('change', ev=>{
+  const file=ev.target.files[0];
   if(!file) return;
-  const r = new FileReader();
-  r.onload = e => {
+  const r=new FileReader();
+  r.onload = e=>{
     try{
       const obj = JSON.parse(e.target.result);
-      if(obj.tasks) { tasks = obj.tasks; saveLocalTasks(tasks); renderTasks(); alert('Backup applied'); }
+      if(obj.tasks){ tasks = obj.tasks; saveTasks(tasks); renderTasks(); alert('Backup applied'); }
     }catch(err){ alert('Invalid file'); }
   };
   r.readAsText(file);
 });
-
 document.getElementById('saveTokenBtn').addEventListener('click', ()=>{
   tokens.todoist = document.getElementById('tokenInput').value.trim() || null;
   saveTokens(tokens);
-  alert('Token saved locally');
-  // try to fetch remote tasks to merge
+  alert('Token saved');
   if(tokens.todoist) document.getElementById('fetchBtn').click();
 });
-
 document.getElementById('importBtn').addEventListener('click', ()=>{
-  const f = document.createElement('input'); f.type='file'; f.accept='application/json';
-  f.onchange = (e)=>{
-    const file = e.target.files[0];
+  const f=document.createElement('input'); f.type='file'; f.accept='application/json';
+  f.onchange = e=>{
+    const file=e.target.files[0];
     if(!file) return;
-    const r = new FileReader();
-    r.onload = evt => {
+    const r=new FileReader();
+    r.onload = evt=>{
       try{
-        const obj = JSON.parse(evt.target.result);
-        if(obj.todoist) { tokens.todoist = obj.todoist; saveTokens(tokens); document.getElementById('tokenInput').value = tokens.todoist || ''; alert('Imported tokens'); }
+        const obj=JSON.parse(evt.target.result);
+        if(obj.todoist){ tokens.todoist = obj.todoist; saveTokens(tokens); document.getElementById('tokenInput').value = tokens.todoist||''; alert('Imported token'); }
       }catch(err){ alert('Invalid token file'); }
     };
     r.readAsText(file);
   };
   f.click();
 });
-
 document.getElementById('exportBtn').addEventListener('click', ()=>{
-  const blob = new Blob([JSON.stringify(tokens,null,2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'todo_tokens_'+Date.now()+'.json'; a.click(); URL.revokeObjectURL(url);
+  const blob=new Blob([JSON.stringify(tokens,null,2) ],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='todo_tokens_'+Date.now()+'.json'; a.click(); URL.revokeObjectURL(url);
 });
-
 document.getElementById('fetchBtn').addEventListener('click', async ()=>{
-  if(!tokens.todoist){ alert('No token saved'); return; }
+  if(!tokens.todoist){ alert('No token'); return; }
   try{
     const remote = await fetchTodoistAll();
-    // merge into local
-    const changes = mergeRemoteIntoLocal(remote);
+    const c = mergeRemoteIntoLocal(remote);
     renderTasks();
-    alert('Fetched ' + remote.length + ' tasks. Merged ' + changes + ' new items.');
-  }catch(err){
-    console.error(err); alert('Fetch failed: ' + err.message);
-  }
+    alert('Fetched '+remote.length+' tasks; merged '+c);
+  }catch(err){ console.error(err); alert('Fetch failed: '+err.message); }
 });
-
 document.getElementById('pushBtn').addEventListener('click', async ()=>{
-  if(!tokens.todoist){ alert('No token saved'); return; }
+  if(!tokens.todoist){ alert('No token'); return; }
   try{
     await pushLocalToRemote();
     alert('Push complete');
-  }catch(err){ console.error(err); alert('Push failed: ' + err.message); }
+  }catch(err){ console.error(err); alert('Push failed: '+err.message); }
 });
-
 document.getElementById('mergeBtn').addEventListener('click', async ()=>{
-  if(!tokens.todoist){ alert('No token saved'); return; }
+  if(!tokens.todoist){ alert('No token'); return; }
   try{
     const remote = await fetchTodoistAll();
-    const changes = mergeRemoteIntoLocal(remote);
-    alert('Merge complete. New items: ' + changes);
-  }catch(err){ console.error(err); alert('Merge failed: ' + err.message); }
+    const c = mergeRemoteIntoLocal(remote);
+    alert('Merged '+c+' new items');
+  }catch(err){ console.warn(err); alert('Merge failed: '+err.message); }
 });
 
-/* Keyboard: add new with Ctrl+Enter focus (global) */
-window.addEventListener('keydown', (e)=>{
-  if(e.key === 'n' && (e.ctrlKey || e.metaKey)){
-    e.preventDefault(); addLocalTask('', true);
-  }
-});
-
-/* -----------------------
-   Calendar rendering
-   ----------------------- */
-let currentMonth = new Date().getMonth();
-let currentYear = new Date().getFullYear();
+// Calendar logic
+let currentMonth=new Date().getMonth();
+let currentYear=new Date().getFullYear();
 const monthLabel = document.getElementById('monthLabel');
 const calGrid = document.getElementById('calendarGrid');
 function renderCalendar(){
-  calGrid.innerHTML = '';
-  const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-  monthLabel.textContent = `${monthNames[currentMonth]} ${currentYear}`;
-  // day names
+  calGrid.innerHTML='';
+  const mNames=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  monthLabel.textContent = `${mNames[currentMonth]} ${currentYear}`;
   ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>{
-    const e = document.createElement('div'); e.className='cal-day'; e.style.fontWeight='700'; e.textContent = d; calGrid.appendChild(e);
+    const e = document.createElement('div'); e.className='cal-day'; e.style.fontWeight='700'; e.textContent=d; calGrid.appendChild(e);
   });
-  const firstDay = new Date(currentYear,currentMonth,1).getDay();
-  const lastDate = new Date(currentYear,currentMonth+1,0).getDate();
-  // previous month placeholders
-  const prevLast = new Date(currentYear,currentMonth,0).getDate();
-  for(let i = firstDay - 1; i>=0; i--){
-    const e = document.createElement('div'); e.className='cal-day'; e.textContent = prevLast - i; e.style.opacity = 0.5; calGrid.appendChild(e);
+  const firstDay=new Date(currentYear,currentMonth,1).getDay();
+  const lastDate=new Date(currentYear,currentMonth+1,0).getDate();
+  const prevLast=new Date(currentYear,currentMonth,0).getDate();
+  for(let i=firstDay-1;i>=0;i--){
+    const e = document.createElement('div'); e.className='cal-day'; e.style.opacity='0.4'; e.textContent = prevLast - i; calGrid.appendChild(e);
   }
   for(let d=1; d<= lastDate; d++){
     const e = document.createElement('div'); e.className='cal-day'; e.textContent = d;
     const now = new Date();
-    if(now.getDate() === d && now.getMonth() === currentMonth && now.getFullYear() === currentYear){
-      e.style.background = '#ff9a9e'; e.style.color = '#fff';
+    if(now.getDate()==d && now.getMonth()==currentMonth && now.getFullYear()==currentYear){
+      e.style.background='#ff9a9e'; e.style.color='#fff';
     }
     calGrid.appendChild(e);
   }
 }
-document.getElementById('prevMonthBtn').addEventListener('click', ()=>{ currentMonth--; if(currentMonth < 0){ currentMonth = 11; currentYear--; } renderCalendar(); });
-document.getElementById('nextMonthBtn').addEventListener('click', ()=>{ currentMonth++; if(currentMonth > 11){ currentMonth = 0; currentYear++; } renderCalendar(); });
+document.getElementById('prevMonthBtn').addEventListener('click', ()=>{
+  currentMonth--; if(currentMonth<0){ currentMonth=11; currentYear--; } renderCalendar();
+});
+document.getElementById('nextMonthBtn').addEventListener('click', ()=>{
+  currentMonth++; if(currentMonth>11){ currentMonth=0; currentYear++; } renderCalendar();
+});
 renderCalendar();
 
-/* -----------------------
-   Start: render local tasks
-   ----------------------- */
-function renderInitial(){
-  // ensure tasks array valid
-  if(!Array.isArray(tasks)) tasks = [];
-  // if empty, show sample small item
-  if(tasks.length === 0){
-    // leave empty; user can press + New
+// Toggle
+const todoListDiv = document.querySelector('.todo-panel');
+const calendarDiv = document.querySelector('.calendar');
+const toggleBtn = document.getElementById('toggleViewBtn');
+toggleBtn.addEventListener('click', ()=>{
+  if(todoListDiv.style.display==='none'){
+    todoListDiv.style.display='flex'; calendarDiv.style.display='block'; toggleBtn.textContent='Switch To Calendar';
+  } else {
+    todoListDiv.style.display='flex'; calendarDiv.style.display='none'; toggleBtn.textContent='Switch To Todo List';
   }
-  renderTasks();
-}
-renderInitial();
+});
+// Initially show todo
+todoListDiv.style.display='flex';
+calendarDiv.style.display='none';
+toggleBtn.textContent='Switch To Calendar';
 
-/* -----------------------
-   On load: if token available, try to fetch remote & merge
-   ----------------------- */
+// Initial render
+renderTasks();
 if(tokens.todoist){
-  fetchTodoistAll().then(remote => {
-    const changes = mergeRemoteIntoLocal(remote);
-    if(changes) alert('Merged ' + changes + ' tasks from Todoist');
-  }).catch(err => {
-    console.warn('initial fetch failed', err);
-  });
+  fetchTodoistAll().then(remote=>{
+    const c = mergeRemoteIntoLocal(remote);
+    if(c) alert('Merged '+c+' tasks from Todoist');
+  }).catch(e=>console.warn('Initial fetch fail',e));
 }
 
-/* -----------------------
-   Notes about external errors you pasted:
-   - Many of the console errors you posted (ERR_BLOCKED_BY_CLIENT, CORS to dweb.link or ipfs, injected wallet scripts, contentSecurity/Permissions-Policy warnings) are from other scripts/resources on the page/origin and do not come from this single-file app. This file does not load ipfs-http-client or other external CDNs.
-   - If you still see CORS or blocked requests when calling Todoist, ensure your browser/extension isn't blocking outbound requests and that your token is correct.
-   ----------------------- */
 </script>
 </body>
 </html>
