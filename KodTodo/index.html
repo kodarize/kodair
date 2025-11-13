@@ -1,344 +1,628 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Todoist Knob Sync</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Todoist-Synced Todo — Knob Progress (Responsive, Undo Complete)</title>
 <style>
+  :root {
+    --bgA: #eaf;
+    --bgB: #fea;
+    --card: #eff;
+    --accent: #51ff51;
+    --danger: #ff5151;
+    --muted: #666;
+    --maxWidth: 900px;
+  }
+  * { box-sizing: border-box; }
+  html,body { height:100%; margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial; }
   body {
-    font-family: "Inter", system-ui, sans-serif;
-    background: linear-gradient(135deg, #c2f0ff 0%, #f4e2ff 100%);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    min-height: 100vh;
+    background: linear-gradient(45deg,var(--bgA),var(--bgB));
+    display:flex; align-items:flex-start; justify-content:center; padding:12px;
   }
-
   .app {
-    background: #ffffffaa;
-    backdrop-filter: blur(12px);
-    border-radius: 20px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-    margin: 1rem;
-    padding: 1rem 1.5rem;
-    width: 100%;
-    max-width: 900px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    width:100%; max-width:var(--maxWidth); background:var(--card); border-radius:12px; padding:16px; box-shadow:0 6px 20px rgba(0,0,0,.12);
+    display:flex; flex-direction:column; gap:12px;
   }
 
-  h1 {
-    font-size: 1.5rem;
-    margin-bottom: 0;
+  .top {
+    display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px;
+  }
+  .clock { font-size:18px; color:var(--muted); min-width:140px; text-align:center; }
+  .controls { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  button, .btn {
+    background:var(--accent); border:none; padding:8px 14px; border-radius:7px; cursor:pointer; font-weight:600;
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
+  }
+  .btn.secondary{ background:#eee; color:#111; }
+  .btn.danger{ background:var(--danger); color:#fff; }
+  .token-row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+
+  .token-input { padding:8px; border-radius:7px; border:1px solid #0001; width:300px; max-width:60vw; }
+
+  .main {
+    display:grid; grid-template-columns:1fr 340px; gap:16px; align-items:flex-start;
+  }
+  @media(max-width:820px){ .main{ grid-template-columns:1fr; } }
+
+  .todo-panel {
+    background:#fff; border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:10px;
+  }
+  .list-tools { display:flex; flex-wrap:wrap; gap:8px; }
+  .task-list { overflow-y:auto; max-height:60vh; padding-right:4px; display:flex; flex-direction:column; gap:8px; }
+
+  .task {
+    display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:10px; border-radius:8px; background:#fff7; border:1px solid #0001; box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  @media(max-width:560px){
+    .task { flex-direction:column; align-items:stretch; }
   }
 
-  p.subtitle {
-    margin-top: 0;
-    color: #555;
-    font-size: 0.9rem;
+  .task-area { flex:1; display:flex; flex-direction:column; gap:6px; }
+  textarea.title {
+    width:100%; min-height:44px; max-height:200px; resize:none; border-radius:6px; border:1px solid #0001; padding:8px 10px; font-size:15px; background:transparent;
+    font-family:inherit; outline:none; line-height:1.3;
   }
 
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: space-between;
+  .meta { display:flex; justify-content:space-between; gap:8px; align-items:center; }
+  .small { font-size:13px; color:var(--muted); }
+  .danger-small { color:var(--danger); }
+
+  .knob-area { width:72px; height:72px; display:flex; flex-direction:column; align-items:center; gap:4px; }
+  @media(max-width:560px){
+    .knob-area { width:56px; height:56px; }
   }
+  .knob-svg { width:100%; height:100%; }
 
-  .time {
-    font-size: 1.1rem;
-    font-weight: 500;
+  .percent { font-size:12px; color:var(--muted); }
+
+  .calendar {
+    background:#fff; border-radius:10px; padding:12px; box-shadow:0 2px 5px rgba(0,0,0,.08);
   }
+  .calendar-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .calendar-header button { background:transparent; border:none; font-size:18px; cursor:pointer; }
+  .month { font-weight:700; }
+  .calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+  .cal-day { padding:8px; text-align:center; border-radius:6px; background:#f5f5f5; color:#222; }
 
-  input[type="password"] {
-    width: 100%;
-    max-width: 300px;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-  }
+  .footer { display:flex; justify-content:flex-end; align-items:center; gap:8px; }
 
-  button {
-    border: none;
-    border-radius: 10px;
-    padding: 0.6rem 1.2rem;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: 0.2s ease;
-  }
-
-  button:active {
-    transform: scale(0.97);
-  }
-
-  .btn-green { background: #7fffa7; }
-  .btn-green:hover { background: #6ae194; }
-
-  .btn-gray { background: #eee; }
-  .btn-gray:hover { background: #ddd; }
-
-  .todos, .calendar-panel {
-    background: #ffffffcc;
-    border-radius: 15px;
-    padding: 1rem;
-    flex: 1;
-    min-width: 280px;
-  }
-
-  .todo {
-    background: #f9f9f9;
-    border-radius: 12px;
-    padding: 0.8rem;
-    margin-top: 0.6rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-  }
-
-  textarea {
-    width: 100%;
-    border: none;
-    resize: none;
-    font-size: 0.9rem;
-    padding: 0.5rem;
-    border-radius: 8px;
-    line-height: 1.3;
-    background: #fff;
-  }
-
-  .todo-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .knob {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: conic-gradient(#4ade80 0%, #eee 0%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.8rem;
-    font-weight: bold;
-    user-select: none;
-    position: relative;
-  }
-
-  .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 0.25rem;
-    text-align: center;
-    font-size: 0.75rem;
-  }
-
-  .calendar-day {
-    padding: 0.3rem 0;
-    border-radius: 6px;
-  }
-
-  .calendar-day.active {
-    background: #7fffa7;
-    color: #000;
-  }
-
-  @media (max-width: 700px) {
-    .row {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .calendar-panel {
-      order: 2;
-    }
-  }
 </style>
 </head>
 <body>
-<div class="app">
-  <div>
-    <h1>Todoist Sync — Knob Progress</h1>
-    <p class="subtitle">0% = not done | 100% = done (syncs with Todoist). Drag knob to set progress.</p>
-  </div>
-
-  <div class="row">
-    <div class="time" id="clock">--:--:--</div>
-    <div>
-      <input id="token" type="password" placeholder="Enter Todoist Token" />
-      <button class="btn-green" id="saveToken">Save Token</button>
-      <button class="btn-gray" id="exportTokens">Export</button>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="todos">
-      <h2>Todos</h2>
-      <button class="btn-green" id="newTodo">+ New</button>
-      <button class="btn-gray" id="clearLocal">Clear</button>
-      <button class="btn-gray" id="downloadBackup">Download</button>
-      <input type="file" id="uploadBackup" style="display:none" />
-      <div id="todoList"></div>
-    </div>
-
-    <div class="calendar-panel">
-      <h3>Calendar</h3>
-      <div id="calendar" class="calendar-grid"></div>
-      <div style="margin-top:1rem;">
-        <button class="btn-gray" id="fetchTodos">Fetch from Todoist</button>
-        <button class="btn-green" id="pushTodos">Push to Todoist</button>
+  <div class="app" role="application" aria-label="Todoist synced todo app">
+    <div class="top">
+      <div>
+        <div style="font-size:20px;font-weight:700">Todoist Sync — Knob Progress</div>
+        <div class="small">0% = not done | 100% = done (task completed on Todoist). Drag knob to change.</div>
+      </div>
+      <div class="controls">
+        <div class="clock" id="clock">--:--:--</div>
+        <div class="token-row">
+          <input id="tokenInput" class="token-input" type="password" placeholder="Paste Todoist token" aria-label="Todoist token" />
+          <button class="btn" id="saveTokenBtn">Save Token</button>
+          <button class="btn secondary" id="importBtn">Import Tokens</button>
+          <button class="btn secondary" id="exportBtn">Export Tokens</button>
+        </div>
       </div>
     </div>
+
+    <div class="main">
+      <section class="todo-panel" aria-labelledby="todo-heading">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
+          <div>
+            <h2 id="todo-heading" style="margin:0">Todos</h2>
+            <div class="small">Click or drag the knob to set progress. 100% marks complete.</div>
+          </div>
+          <div class="list-tools">
+            <button class="btn" id="addBtn">+ New</button>
+            <button class="btn secondary" id="clearBtn">Clear Local</button>
+            <button class="btn btn" id="backupBtn">Backup</button>
+            <button class="btn secondary" id="restoreBtn">Restore</button>
+          </div>
+        </div>
+
+        <div class="task-list" id="taskList" role="list" aria-label="Task list"></div>
+
+        <div class="footer">
+          <div class="small">Local status: <span id="status">idle</span></div>
+        </div>
+      </section>
+
+      <aside class="calendar" aria-label="Calendar">
+        <div class="calendar-header">
+          <div class="month" id="monthLabel">Month</div>
+          <div style="display:flex;gap:8px">
+            <button class="btn secondary" id="prevMonthBtn">&lt;</button>
+            <button class="btn secondary" id="nextMonthBtn">&gt;</button>
+          </div>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+
+        <hr style="margin:12px 0"/>
+        <div style="margin-top:8px">
+          <strong>Sync actions</strong>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <button class="btn" id="fetchBtn">Fetch from Todoist</button>
+            <button class="btn" id="pushBtn">Push Local → Todoist</button>
+            <button class="btn" id="mergeBtn">Merge Remote → Local</button>
+          </div>
+        </div>
+
+        <details style="margin-top:12px">
+          <summary class="small">Backups & File Ops</summary>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+            <button class="btn" id="downloadEverything">Download Full Backup</button>
+            <label class="small">Upload backup<input type="file" id="uploadBackup" class="file-input" accept="application/json"></label>
+          </div>
+        </details>
+      </aside>
+    </div>
   </div>
-</div>
 
 <script>
-const tokenInput = document.getElementById("token");
-const todoList = document.getElementById("todoList");
-
-function updateClock() {
-  const d = new Date();
-  document.getElementById("clock").textContent = d.toLocaleTimeString();
+// Utility
+const pad2 = n => (n<10? '0'+n : ''+n);
+function nowTimeStr(){
+  const d=new Date();
+  return `${pad2(d.getHours()%12||12)}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())} ${d.getHours()>=12?'PM':'AM'}`;
 }
-setInterval(updateClock, 1000);
-updateClock();
+const clockEl = document.getElementById('clock');
+setInterval(()=>clockEl.textContent = nowTimeStr(), 1000); clockEl.textContent = nowTimeStr();
+function setStatus(s){ document.getElementById('status').textContent = s; }
 
-// Load/save token
-document.getElementById("saveToken").onclick = () => {
-  localStorage.setItem("todoistToken", tokenInput.value);
-  alert("Token saved locally.");
-};
-document.getElementById("exportTokens").onclick = () => {
-  const data = JSON.stringify({token: localStorage.getItem("todoistToken")});
-  const blob = new Blob([data], {type: "application/json"});
-  const url = URL.createObjectURL(blob);
-  window.open(url, "_blank");
-};
+// Storage
+const STORAGE = { TASKS:'td_tasks_v2', TOKENS:'td_tokens_v2'};
+function loadTokens(){ try{ const r=localStorage.getItem(STORAGE.TOKENS); return r? JSON.parse(r):{todoist:null}; }catch(e){return {todoist:null};}}
+function saveTokens(t){ localStorage.setItem(STORAGE.TOKENS, JSON.stringify(t)); }
+function loadTasks(){ try{ const r=localStorage.getItem(STORAGE.TASKS); return r? JSON.parse(r):[]; }catch(e){return [];} }
+function saveTasks(ts){ localStorage.setItem(STORAGE.TASKS, JSON.stringify(ts)); try{ localStorage.setItem(STORAGE.TASKS+'_bak_'+Date.now(), JSON.stringify(ts)); }catch(e){} }
 
-let todos = JSON.parse(localStorage.getItem("todos") || "[]");
-renderTodos();
+// Model helper
+function makeId(){ return 't_'+Math.random().toString(36).slice(2,10); }
 
-function renderTodos() {
-  todoList.innerHTML = "";
-  todos.forEach((t, i) => {
-    const div = document.createElement("div");
-    div.className = "todo";
-    const textarea = document.createElement("textarea");
-    textarea.value = t.text;
-    textarea.oninput = () => {
-      textarea.style.height = "auto";
-      textarea.style.height = textarea.scrollHeight + "px";
-      t.text = textarea.value;
-      saveTodos();
-    };
-    textarea.style.height = "auto";
-    textarea.style.height = textarea.scrollHeight + "px";
+let tokens = loadTokens();
+document.getElementById('tokenInput').value = tokens.todoist || '';
+let tasks = loadTasks();
 
-    const footer = document.createElement("div");
-    footer.className = "todo-footer";
+// Knob logic
+const KNOB = { start: -0.75*Math.PI, end: +0.75*Math.PI, span:1.5*Math.PI};
+function percentToAngle(p){ return KNOB.start + (p/100)*KNOB.span; }
+function angleToPercent(a){
+  let ang = a;
+  if(ang < KNOB.start) ang = KNOB.start;
+  if(ang > KNOB.end) ang = KNOB.end;
+  return Math.round(((ang - KNOB.start)/KNOB.span)*100);
+}
 
-    const knob = document.createElement("div");
-    knob.className = "knob";
-    updateKnob(knob, t.progress);
-    knob.onmousedown = e => startKnobDrag(e, t, knob);
-    knob.ontouchstart = e => startKnobDrag(e, t, knob);
+function createKnob(initial, onChange){
+  const wrap = document.createElement('div'); wrap.className='knob-area';
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS,'svg'); svg.setAttribute('viewBox','0 0 100 100'); svg.classList.add('knob-svg');
+  const bg = document.createElementNS(svgNS,'circle'); bg.setAttribute('cx',50); bg.setAttribute('cy',50); bg.setAttribute('r',38);
+  bg.setAttribute('fill','#f3f3f3'); bg.setAttribute('stroke','#ddd'); bg.setAttribute('stroke-width',4); svg.appendChild(bg);
+  const arc = document.createElementNS(svgNS,'path'); arc.setAttribute('fill','none'); arc.setAttribute('stroke','#51ff51'); arc.setAttribute('stroke-width',8); arc.setAttribute('stroke-linecap','round'); svg.appendChild(arc);
+  const center = document.createElementNS(svgNS,'circle'); center.setAttribute('cx',50); center.setAttribute('cy',50); center.setAttribute('r',22);
+  center.setAttribute('fill','#fff'); center.setAttribute('stroke','#ddd'); center.setAttribute('stroke-width',1); svg.appendChild(center);
+  const txt = document.createElementNS(svgNS,'text'); txt.setAttribute('x',50); txt.setAttribute('y',56); txt.setAttribute('text-anchor','middle');
+  txt.setAttribute('font-size',14); txt.setAttribute('font-family','sans-serif'); txt.setAttribute('fill','#333'); svg.appendChild(txt);
+  wrap.appendChild(svg);
 
-    const del = document.createElement("button");
-    del.textContent = "Delete";
-    del.className = "btn-gray";
-    del.onclick = () => {
-      todos.splice(i, 1);
-      saveTodos();
-      renderTodos();
-    };
+  let value = Math.round(initial||0);
+  function render(){
+    const ang = percentToAngle(value);
+    // arc description
+    function pol(cx, cy, r, angle){ return {x: cx + r*Math.cos(angle), y: cy + r*Math.sin(angle)}; }
+    const start = pol(50,50,38, KNOB.start);
+    const endPt = pol(50,50,38, ang);
+    const largeArc = (ang - KNOB.start) > Math.PI ? 1 : 0;
+    const d = `M ${start.x} ${start.y} A 38 38 0 ${largeArc} 1 ${endPt.x} ${endPt.y}`;
+    arc.setAttribute('d', d);
+    txt.textContent = value + '%';
+  }
+  render();
 
-    footer.append(knob, del);
-    div.append(textarea, footer);
-    todoList.append(div);
+  let dragging=false;
+
+  function pointerDown(e){
+    dragging=true; wrap.setPointerCapture && wrap.setPointerCapture(e.pointerId); pointerMove(e);
+  }
+  function pointerMove(e){
+    if(!dragging && e.type==='pointermove') return;
+    const rect = svg.getBoundingClientRect();
+    const cx = rect.left + rect.width/2;
+    const cy = rect.top + rect.height/2;
+    const x = e.clientX - cx;
+    const y = e.clientY - cy;
+    let a = Math.atan2(y,x);
+    if(a < KNOB.start) a = KNOB.start;
+    if(a > KNOB.end)   a = KNOB.end;
+    const p = angleToPercent(a);
+    if(p !== value){
+      value = p; render();
+      onChange && onChange(value);
+    }
+  }
+  function pointerUp(e){
+    if(!dragging) return;
+    dragging=false;
+    wrap.releasePointerCapture && wrap.releasePointerCapture(e.pointerId);
+  }
+
+  svg.style.touchAction='none';
+  svg.addEventListener('pointerdown', pointerDown);
+  window.addEventListener('pointermove', pointerMove);
+  window.addEventListener('pointerup', pointerUp);
+
+  wrap.tabIndex = 0;
+  wrap.addEventListener('keydown', ev=>{
+    if(ev.key==='ArrowRight'||ev.key==='ArrowUp'){ value = Math.min(100, value+5); render(); onChange && onChange(value); ev.preventDefault();}
+    if(ev.key==='ArrowLeft' || ev.key==='ArrowDown'){ value = Math.max(0, value-5); render(); onChange && onChange(value); ev.preventDefault();}
+    if(ev.key==='Home'){ value = 0; render(); onChange && onChange(value); ev.preventDefault();}
+    if(ev.key==='End'){ value = 100; render(); onChange && onChange(value); ev.preventDefault();}
   });
+
+  wrap.value = value;
+  wrap.set = v=>{ value = Math.max(0,Math.min(100,v)); render(); };
+  wrap.get = ()=> value;
+  return wrap;
 }
 
-function saveTodos() {
-  localStorage.setItem("todos", JSON.stringify(todos));
-}
+// Rendering tasks
+const taskListEl = document.getElementById('taskList');
 
-document.getElementById("newTodo").onclick = () => {
-  todos.push({ text: "New todo", progress: 0 });
-  saveTodos();
-  renderTodos();
-};
+function renderTasks(){
+  taskListEl.innerHTML = '';
+  tasks.sort((a,b)=> (b.updatedAt||0) - (a.updatedAt||0));
+  for(const task of tasks){
+    const item = document.createElement('div'); item.className='task';
 
-document.getElementById("clearLocal").onclick = () => {
-  if(confirm("Clear all local todos?")){
-    todos = [];
-    saveTodos();
-    renderTodos();
+    const area = document.createElement('div'); area.className='task-area';
+    const ta = document.createElement('textarea'); ta.className='title'; ta.placeholder='Task title...'; ta.value = task.title || '';
+    ta.addEventListener('input', ()=>{
+      task.title = ta.value;
+      task.updatedAt = Date.now();
+      saveTasks(tasks);
+      if(task.todoistId && tokens.todoist){
+        updateTodoistTask(task).catch(e=>console.warn('update error',e));
+      }
+    });
+    function autoSize(){ ta.style.height='20px'; ta.style.height = ta.scrollHeight+'px'; }
+    ta.addEventListener('input', autoSize); setTimeout(autoSize,0);
+    const meta = document.createElement('div'); meta.className='meta';
+    const insider = document.createElement('div'); insider.className='small';
+    insider.textContent = task.todoistId ? 'Synced' : 'Local';
+    meta.appendChild(insider);
+    area.appendChild(ta);
+    area.appendChild(meta);
+
+    const knobWrap = createKnob(task.progress||0, (pct)=>{
+      task.progress = pct;
+      task.updatedAt = Date.now();
+      task.completed = pct >= 100;
+      saveTasks(tasks);
+      if(task.todoistId && tokens.todoist){
+        // If it was completed and now undone => reopen: Delete remote complete and re-create
+        if(task.completed && !task._justCompleted){
+          task._justCompleted = true;
+          updateTodoistTask(task).catch(e=>console.warn('complete remote fail',e));
+        } else if(!task.completed && task._justCompleted){
+          task._justCompleted = false;
+          reopenTodoistTask(task).catch(e=>console.warn('reopen remote fail',e));
+        } else {
+          updateTodoistTask(task).catch(e=>console.warn('update remote fail',e));
+        }
+      }
+    });
+    const percentLabel = document.createElement('div'); percentLabel.className='percent'; percentLabel.textContent = (task.progress||0) + '%';
+
+    const knobCol = document.createElement('div'); knobCol.style.display='flex'; knobCol.style.flexDirection='column'; knobCol.style.alignItems='center';
+    knobCol.appendChild(knobWrap); knobCol.appendChild(percentLabel);
+
+    const del = document.createElement('button'); del.className='delete-btn'; del.textContent='Delete';
+    del.addEventListener('click', ()=>{
+      if(task.todoistId && tokens.todoist){
+        deleteTodoistTask(task.todoistId).catch(e=>console.warn('delete remote fail',e));
+      }
+      tasks = tasks.filter(t=>t.id!==task.id);
+      saveTasks(tasks);
+      renderTasks();
+    });
+
+    item.appendChild(area);
+    item.appendChild(knobCol);
+    item.appendChild(del);
+
+    taskListEl.appendChild(item);
   }
-};
-
-document.getElementById("downloadBackup").onclick = () => {
-  const blob = new Blob([JSON.stringify(todos)], {type:"application/json"});
-  const url = URL.createObjectURL(blob);
-  window.open(url, "_blank");
-};
-
-function updateKnob(knob, percent) {
-  knob.style.background = `conic-gradient(#4ade80 ${percent}%, #eee ${percent}%)`;
-  knob.textContent = `${percent}%`;
 }
 
-function startKnobDrag(e, todo, knob) {
-  e.preventDefault();
-  const startY = e.touches ? e.touches[0].clientY : e.clientY;
-  const startProgress = todo.progress;
-  function move(ev) {
-    const y = ev.touches ? ev.touches[0].clientY : ev.clientY;
-    let diff = startY - y;
-    let newProgress = Math.min(100, Math.max(0, startProgress + diff / 2));
-    todo.progress = Math.round(newProgress);
-    updateKnob(knob, todo.progress);
-    saveTodos();
+// Local add
+function addLocalTask(title='') {
+  const t = { id: makeId(), title: title||'', progress:0, todoistId:null, completed:false, updatedAt: Date.now() };
+  tasks.unshift(t);
+  saveTasks(tasks);
+  renderTasks();
+  if(tokens.todoist){
+    createTodoistTask(t).then(remote=>{
+      if(remote && remote.id){
+        t.todoistId = remote.id;
+        saveTasks(tasks);
+        renderTasks();
+      }
+    }).catch(e=>console.warn('create remote fail',e));
   }
-  function stop() {
-    document.removeEventListener("mousemove", move);
-    document.removeEventListener("mouseup", stop);
-    document.removeEventListener("touchmove", move);
-    document.removeEventListener("touchend", stop);
-  }
-  document.addEventListener("mousemove", move);
-  document.addEventListener("mouseup", stop);
-  document.addEventListener("touchmove", move);
-  document.addEventListener("touchend", stop);
 }
 
-// Calendar render
-function renderCalendar() {
-  const cal = document.getElementById("calendar");
-  cal.innerHTML = "";
-  const days = ["S","M","T","W","T","F","S"];
-  days.forEach(d => {
-    const el = document.createElement("div");
-    el.textContent = d;
-    el.style.fontWeight = "bold";
-    cal.append(el);
+// API section
+function getAuthHeaders(){
+  if(!tokens.todoist) return null;
+  return { 'Authorization':'Bearer '+tokens.todoist, 'Content-Type':'application/json' };
+}
+
+async function createTodoistTask(task){
+  const h = getAuthHeaders();
+  if(!h) throw new Error('No token');
+  setStatus('creating remote...');
+  const body = { content: task.title||'Untitled' };
+  const res = await fetch('https://api.todoist.com/rest/v2/tasks',{ method:'POST', headers:h, body:JSON.stringify(body) });
+  if(!res.ok){ setStatus('idle'); throw new Error('Create failed: '+res.status); }
+  const json = await res.json();
+  setStatus('idle');
+  return json;
+}
+
+async function updateTodoistTask(task){
+  const h = getAuthHeaders();
+  if(!h || !task.todoistId) throw new Error('Missing');
+  setStatus('updating remote...');
+  const body = { content: task.title||'Untitled' };
+  const res1 = await fetch('https://api.todoist.com/rest/v2/tasks/'+task.todoistId,{ method:'POST', headers:h, body:JSON.stringify(body)});
+  if(!res1.ok){ setStatus('idle'); throw new Error('Update failed: '+res1.status); }
+  if(task.completed){
+    const res2 = await fetch('https://api.todoist.com/rest/v2/tasks/'+task.todoistId+'/close',{ method:'POST', headers:h });
+    if(!res2.ok) console.warn('Close failed', await res2.text());
+  }
+  setStatus('idle');
+}
+
+async function reopenTodoistTask(task){
+  // Todoist REST v2 doesn’t provide an official reopen endpoint.
+  // Workaround: create a new task with same content and update local todoistId to new id.
+  const h = getAuthHeaders();
+  if(!h || !task.todoistId) throw new Error('Missing for reopen');
+  setStatus('reopening remote...');
+  // Delete old
+  await fetch('https://api.todoist.com/rest/v2/tasks/'+task.todoistId,{ method:'DELETE', headers:h });
+  // Create new
+  const created = await createTodoistTask(task);
+  if(created && created.id){
+    task.todoistId = created.id;
+    task.completed = false;
+    task.progress = 0;
+    saveTasks(tasks);
+    renderTasks();
+  }
+  setStatus('idle');
+}
+
+async function deleteTodoistTask(id){
+  const h = getAuthHeaders();
+  if(!h) throw new Error('Missing');
+  setStatus('deleting remote...');
+  const res = await fetch('https://api.todoist.com/rest/v2/tasks/'+id,{ method:'DELETE', headers:h });
+  if(!res.ok) console.warn('Delete remote failed', await res.text());
+  setStatus('idle');
+}
+
+async function fetchTodoistAll(){
+  const h = getAuthHeaders();
+  if(!h) throw new Error('Missing token');
+  setStatus('fetching remote...');
+  const res = await fetch('https://api.todoist.com/rest/v2/tasks',{ headers:h });
+  if(!res.ok){ setStatus('idle'); throw new Error('Fetch failed: '+res.status); }
+  const j = await res.json();
+  setStatus('idle');
+  return j;
+}
+
+function mergeRemoteIntoLocal(remote){
+  let changes=0;
+  for(const r of remote){
+    if(!tasks.some(t=>t.todoistId===r.id)){
+      const found = tasks.find(t=> t.title && t.title.trim() === r.content && !t.todoistId );
+      if(found){
+        found.todoistId = r.id; changes++;
+      } else {
+        const nt = { id:makeId(), title:r.content, progress:0, todoistId:r.id, completed:false, updatedAt:Date.now() };
+        tasks.push(nt); changes++;
+      }
+    }
+  }
+  if(changes>0){ saveTasks(tasks); renderTasks(); }
+  return changes;
+}
+
+async function pushLocalToRemote(){
+  if(!tokens.todoist) throw new Error('Missing token');
+  setStatus('pushing local->remote...');
+  const toCreate = tasks.filter(t=>!t.todoistId);
+  for(const t of toCreate){
+    try{
+      const created = await createTodoistTask(t);
+      if(created && created.id){
+        t.todoistId = created.id;
+        t.updatedAt = Date.now();
+        saveTasks(tasks);
+      }
+    }catch(err){
+      console.warn('push fail',err);
+    }
+  }
+  setStatus('idle');
+  renderTasks();
+}
+
+// UI wiring
+document.getElementById('addBtn').addEventListener('click', ()=>addLocalTask(''));
+document.getElementById('clearBtn').addEventListener('click', ()=>{
+  if(confirm('Clear all local tasks? This will not delete remote tasks unless already synced and deleted individually.')){
+    tasks=[]; saveTasks(tasks); renderTasks();
+  }
+});
+document.getElementById('backupBtn').addEventListener('click', ()=>{
+  const data={ tasks, tokens };
+  const blob=new Blob([JSON.stringify(data,null,2) ],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='todo_backup_'+Date.now()+'.json'; a.click(); URL.revokeObjectURL(url);
+});
+document.getElementById('restoreBtn').addEventListener('click', ()=>{
+  const f=document.createElement('input'); f.type='file'; f.accept='application/json';
+  f.onchange = e=>{
+    const file=e.target.files[0];
+    const r=new FileReader();
+    r.onload = evt=>{
+      try{
+        const obj=JSON.parse(evt.target.result);
+        if(obj.tokens){ tokens=obj.tokens; saveTokens(tokens); document.getElementById('tokenInput').value = tokens.todoist||''; }
+        if(obj.tasks){ tasks=obj.tasks; saveTasks(tasks); renderTasks(); }
+        alert('Restore done');
+      }catch(err){ alert('Invalid file'); }
+    };
+    r.readAsText(file);
+  };
+  f.click();
+});
+document.getElementById('downloadEverything').addEventListener('click', ()=>{
+  const data = { tasks, tokens, meta:{ date: Date.now()}};
+  const blob=new Blob([JSON.stringify(data,null,2) ],{ type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='todo_full_backup_'+Date.now()+'.json'; a.click(); URL.revokeObjectURL(url);
+});
+document.getElementById('uploadBackup').addEventListener('change', ev=>{
+  const file=ev.target.files[0];
+  if(!file) return;
+  const r=new FileReader();
+  r.onload = e=>{
+    try{
+      const obj = JSON.parse(e.target.result);
+      if(obj.tasks){ tasks = obj.tasks; saveTasks(tasks); renderTasks(); alert('Backup applied'); }
+    }catch(err){ alert('Invalid file'); }
+  };
+  r.readAsText(file);
+});
+document.getElementById('saveTokenBtn').addEventListener('click', ()=>{
+  tokens.todoist = document.getElementById('tokenInput').value.trim() || null;
+  saveTokens(tokens);
+  alert('Token saved');
+  if(tokens.todoist) document.getElementById('fetchBtn').click();
+});
+document.getElementById('importBtn').addEventListener('click', ()=>{
+  const f=document.createElement('input'); f.type='file'; f.accept='application/json';
+  f.onchange = e=>{
+    const file=e.target.files[0];
+    if(!file) return;
+    const r=new FileReader();
+    r.onload = evt=>{
+      try{
+        const obj=JSON.parse(evt.target.result);
+        if(obj.todoist){ tokens.todoist = obj.todoist; saveTokens(tokens); document.getElementById('tokenInput').value = tokens.todoist||''; alert('Imported token'); }
+      }catch(err){ alert('Invalid token file'); }
+    };
+    r.readAsText(file);
+  };
+  f.click();
+});
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  const blob=new Blob([JSON.stringify(tokens,null,2) ],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='todo_tokens_'+Date.now()+'.json'; a.click(); URL.revokeObjectURL(url);
+});
+document.getElementById('fetchBtn').addEventListener('click', async ()=>{
+  if(!tokens.todoist){ alert('No token'); return; }
+  try{
+    const remote = await fetchTodoistAll();
+    const c = mergeRemoteIntoLocal(remote);
+    renderTasks();
+    alert('Fetched '+remote.length+' tasks; merged '+c);
+  }catch(err){ console.error(err); alert('Fetch failed: '+err.message); }
+});
+document.getElementById('pushBtn').addEventListener('click', async ()=>{
+  if(!tokens.todoist){ alert('No token'); return; }
+  try{
+    await pushLocalToRemote();
+    alert('Push complete');
+  }catch(err){ console.error(err); alert('Push failed: '+err.message); }
+});
+document.getElementById('mergeBtn').addEventListener('click', async ()=>{
+  if(!tokens.todoist){ alert('No token'); return; }
+  try{
+    const remote = await fetchTodoistAll();
+    const c = mergeRemoteIntoLocal(remote);
+    alert('Merged '+c+' new items');
+  }catch(err){ console.warn(err); alert('Merge failed: '+err.message); }
+});
+
+// Calendar logic
+let currentMonth=new Date().getMonth();
+let currentYear=new Date().getFullYear();
+const monthLabel = document.getElementById('monthLabel');
+const calGrid = document.getElementById('calendarGrid');
+function renderCalendar(){
+  calGrid.innerHTML='';
+  const mNames=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  monthLabel.textContent = `${mNames[currentMonth]} ${currentYear}`;
+  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>{
+    const e = document.createElement('div'); e.className='cal-day'; e.style.fontWeight='700'; e.textContent=d; calGrid.appendChild(e);
   });
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const daysInMonth = new Date(year, month+1, 0).getDate();
-  for(let i=1; i<=daysInMonth; i++){
-    const el = document.createElement("div");
-    el.textContent = i;
-    el.className = "calendar-day";
-    if(i === now.getDate()) el.classList.add("active");
-    cal.append(el);
+  const firstDay=new Date(currentYear,currentMonth,1).getDay();
+  const lastDate=new Date(currentYear,currentMonth+1,0).getDate();
+  const prevLast=new Date(currentYear,currentMonth,0).getDate();
+  for(let i=firstDay-1;i>=0;i--){
+    const e = document.createElement('div'); e.className='cal-day'; e.style.opacity='0.4'; e.textContent = prevLast - i; calGrid.appendChild(e);
+  }
+  for(let d=1; d<= lastDate; d++){
+    const e = document.createElement('div'); e.className='cal-day'; e.textContent = d;
+    const now = new Date();
+    if(now.getDate()==d && now.getMonth()==currentMonth && now.getFullYear()==currentYear){
+      e.style.background='#ff9a9e'; e.style.color='#fff';
+    }
+    calGrid.appendChild(e);
   }
 }
+document.getElementById('prevMonthBtn').addEventListener('click', ()=>{
+  currentMonth--; if(currentMonth<0){ currentMonth=11; currentYear--; } renderCalendar();
+});
+document.getElementById('nextMonthBtn').addEventListener('click', ()=>{
+  currentMonth++; if(currentMonth>11){ currentMonth=0; currentYear++; } renderCalendar();
+});
 renderCalendar();
+
+// Toggle
+const todoListDiv = document.querySelector('.todo-panel');
+const calendarDiv = document.querySelector('.calendar');
+const toggleBtn = document.getElementById('toggleViewBtn');
+toggleBtn.addEventListener('click', ()=>{
+  if(todoListDiv.style.display==='none'){
+    todoListDiv.style.display='flex'; calendarDiv.style.display='block'; toggleBtn.textContent='Switch To Calendar';
+  } else {
+    todoListDiv.style.display='flex'; calendarDiv.style.display='none'; toggleBtn.textContent='Switch To Todo List';
+  }
+});
+// Initially show todo
+todoListDiv.style.display='flex';
+calendarDiv.style.display='none';
+toggleBtn.textContent='Switch To Calendar';
+
+// Initial render
+renderTasks();
+if(tokens.todoist){
+  fetchTodoistAll().then(remote=>{
+    const c = mergeRemoteIntoLocal(remote);
+    if(c) alert('Merged '+c+' tasks from Todoist');
+  }).catch(e=>console.warn('Initial fetch fail',e));
+}
+
 </script>
 </body>
 </html>
