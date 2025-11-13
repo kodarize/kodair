@@ -1,569 +1,344 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Todoist Sync — Knob Progress (Responsive)</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Todoist Knob Sync</title>
 <style>
-  :root{
-    --bgA:#eaf; --bgB:#fea; --card:#eff; --accent:#51ff51; --muted:#666; --danger:#ff5151; --maxW:980px;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
-  body{
-    background: linear-gradient(45deg,var(--bgA),var(--bgB));
-    display:flex;align-items:flex-start;justify-content:center;padding:18px;
-  }
-
-  .app{
-    width:100%;max-width:var(--maxW);background:var(--card);border-radius:14px;padding:14px;box-shadow:0 8px 30px rgba(0,0,0,.12);
-    display:flex;flex-direction:column;gap:12px;
+  body {
+    font-family: "Inter", system-ui, sans-serif;
+    background: linear-gradient(135deg, #c2f0ff 0%, #f4e2ff 100%);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
   }
 
-  /* top row */
-  .top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px}
-  .brand{font-size:20px;font-weight:700}
-  .sub{font-size:13px;color:var(--muted)}
-  .clock{min-width:140px;text-align:center;color:var(--muted)}
+  .app {
+    background: #ffffffaa;
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    margin: 1rem;
+    padding: 1rem 1.5rem;
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 
-  .token-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .token-input{padding:8px;border-radius:8px;border:1px solid #0001;width:340px;max-width:60vw}
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+  }
 
-  .btn{background:var(--accent);border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:700}
-  .btn.secondary{background:#efefef;color:#111}
-  .btn.danger{background:var(--danger);color:#fff}
+  p.subtitle {
+    margin-top: 0;
+    color: #555;
+    font-size: 0.9rem;
+  }
 
-  /* main layout */
-  .main{display:grid;grid-template-columns:1fr 360px;gap:14px}
-  @media(max-width:920px){ .main{grid-template-columns:1fr} }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+  }
 
-  /* todo panel */
-  .todo-panel{background:#fff;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:280px}
-  .tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-  .task-list{display:flex;flex-direction:column;gap:10px;overflow:auto;max-height:58vh;padding-right:6px}
+  .time {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
 
-  .task{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;background:#fff7;border:1px solid #0001}
-  @media(max-width:620px){ .task{flex-direction:column;align-items:stretch} }
+  input[type="password"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+  }
 
-  .task-area{flex:1;display:flex;flex-direction:column;gap:8px}
-  textarea.title{width:100%;min-height:56px;max-height:300px;resize:none;padding:8px;border-radius:6px;border:1px solid #0001;font-size:15px;line-height:1.25;background:transparent}
-  .meta{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  button {
+    border: none;
+    border-radius: 10px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+  }
 
-  /* knob */
-  .knob-area{width:84px;height:84px;display:flex;flex-direction:column;align-items:center;gap:6px}
-  @media(max-width:520px){ .knob-area{width:64px;height:64px} }
-  .knob-svg{width:100%;height:100%}
-  .percent{font-size:12px;color:var(--muted)}
+  button:active {
+    transform: scale(0.97);
+  }
 
-  /* calendar column */
-  .calendar{background:#fff;border-radius:10px;padding:12px}
-  .calendar-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-  .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-  .cal-day{padding:8px;text-align:center;border-radius:6px;background:#f5f5f5}
+  .btn-green { background: #7fffa7; }
+  .btn-green:hover { background: #6ae194; }
 
-  .footer{display:flex;justify-content:flex-end;align-items:center;gap:8px}
+  .btn-gray { background: #eee; }
+  .btn-gray:hover { background: #ddd; }
 
-  /* file input visual */
-  .file-control{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  input[type=file]{display:inline-block}
+  .todos, .calendar-panel {
+    background: #ffffffcc;
+    border-radius: 15px;
+    padding: 1rem;
+    flex: 1;
+    min-width: 280px;
+  }
+
+  .todo {
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 0.8rem;
+    margin-top: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+
+  textarea {
+    width: 100%;
+    border: none;
+    resize: none;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+    line-height: 1.3;
+    background: #fff;
+  }
+
+  .todo-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .knob {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: conic-gradient(#4ade80 0%, #eee 0%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    user-select: none;
+    position: relative;
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+    text-align: center;
+    font-size: 0.75rem;
+  }
+
+  .calendar-day {
+    padding: 0.3rem 0;
+    border-radius: 6px;
+  }
+
+  .calendar-day.active {
+    background: #7fffa7;
+    color: #000;
+  }
+
+  @media (max-width: 700px) {
+    .row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .calendar-panel {
+      order: 2;
+    }
+  }
 </style>
 </head>
 <body>
-  <div class="app" role="application" aria-label="Todoist synced todo app">
-    <div class="top">
-      <div>
-        <div class="brand">Todoist Sync — Knob Progress</div>
-        <div class="sub">0% = not done | 100% = done (task completed on Todoist). Drag knob to change.</div>
-      </div>
+<div class="app">
+  <div>
+    <h1>Todoist Sync — Knob Progress</h1>
+    <p class="subtitle">0% = not done | 100% = done (syncs with Todoist). Drag knob to set progress.</p>
+  </div>
 
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-        <div class="clock" id="clock">--:--:--</div>
-        <div class="token-row">
-          <input id="tokenInput" class="token-input" type="password" placeholder="Paste Todoist token (personal token or OAuth access token)" aria-label="Todoist token">
-          <button class="btn" id="saveTokenBtn">Save Token</button>
-          <button class="btn secondary" id="exportTokensBtn">Export Tokens</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="main">
-      <section class="todo-panel" aria-labelledby="todo-heading">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
-          <div>
-            <h2 id="todo-heading" style="margin:0">Todos</h2>
-            <div class="sub">Click or drag the knob to set progress. 100% marks complete on Todoist.</div>
-          </div>
-          <div class="tools">
-            <button class="btn" id="addBtn">+ New</button>
-            <button class="btn secondary" id="clearBtn">Clear Local</button>
-            <button class="btn" id="backupBtn">Download Backup</button>
-            <button class="btn secondary" id="uploadBackupBtn">Upload Backup</button>
-          </div>
-        </div>
-
-        <div id="taskList" class="task-list" role="list" aria-label="Task list"></div>
-
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div class="sub">Local status: <span id="status">idle</span></div>
-          <div class="file-control">
-            <input id="importTokensFile" type="file" accept="application/json" />
-            <input id="backupFile" type="file" accept="application/json" />
-          </div>
-        </div>
-      </section>
-
-      <aside class="calendar" aria-label="Calendar">
-        <div class="calendar-header">
-          <div class="month" id="monthLabel">Month</div>
-          <div style="display:flex;gap:6px">
-            <button class="btn secondary" id="prevMonthBtn">&lt;</button>
-            <button class="btn secondary" id="nextMonthBtn">&gt;</button>
-          </div>
-        </div>
-
-        <div class="calendar-grid" id="calendarGrid"></div>
-
-        <hr style="margin:12px 0">
-
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="font-weight:700">Sync actions</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button class="btn" id="fetchBtn">Fetch from Todoist</button>
-            <button class="btn" id="pushBtn">Push Local → Todoist</button>
-            <button class="btn" id="mergeBtn">Merge Remote → Local</button>
-          </div>
-        </div>
-
-        <details style="margin-top:10px">
-          <summary class="sub">Backups & file ops</summary>
-          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
-            <button class="btn" id="downloadEverythingBtn">Download Full Backup</button>
-            <label class="sub">Upload full backup: <input id="uploadBackupFile" type="file" accept="application/json"></label>
-          </div>
-        </details>
-      </aside>
+  <div class="row">
+    <div class="time" id="clock">--:--:--</div>
+    <div>
+      <input id="token" type="password" placeholder="Enter Todoist Token" />
+      <button class="btn-green" id="saveToken">Save Token</button>
+      <button class="btn-gray" id="exportTokens">Export</button>
     </div>
   </div>
 
+  <div class="row">
+    <div class="todos">
+      <h2>Todos</h2>
+      <button class="btn-green" id="newTodo">+ New</button>
+      <button class="btn-gray" id="clearLocal">Clear</button>
+      <button class="btn-gray" id="downloadBackup">Download</button>
+      <input type="file" id="uploadBackup" style="display:none" />
+      <div id="todoList"></div>
+    </div>
+
+    <div class="calendar-panel">
+      <h3>Calendar</h3>
+      <div id="calendar" class="calendar-grid"></div>
+      <div style="margin-top:1rem;">
+        <button class="btn-gray" id="fetchTodos">Fetch from Todoist</button>
+        <button class="btn-green" id="pushTodos">Push to Todoist</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-/* -------------------------
-   Utilities & storage
-   ------------------------- */
-const pad2 = n => (n<10? '0'+n : ''+n);
-function nowStr(){ const d=new Date(); return `${pad2(d.getHours()%12||12)}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())} ${d.getHours()>=12?'PM':'AM'}`; }
-document.getElementById('clock').textContent = nowStr();
-setInterval(()=>document.getElementById('clock').textContent = nowStr(), 1000);
-const STATUS = id => document.getElementById(id);
-function setStatusText(s){ document.getElementById('status').textContent = s; }
+const tokenInput = document.getElementById("token");
+const todoList = document.getElementById("todoList");
 
-const STORAGE = { TASKS:'td_tasks_v3', TOKENS:'td_tokens_v3' };
-function loadTokens(){ try{ const r = localStorage.getItem(STORAGE.TOKENS); return r? JSON.parse(r): { todoist: null }; }catch(e){ return { todoist: null }; } }
-function saveTokens(t){ localStorage.setItem(STORAGE.TOKENS, JSON.stringify(t)); }
-function loadTasks(){ try{ const r = localStorage.getItem(STORAGE.TASKS); return r? JSON.parse(r): []; }catch(e){ return []; } }
-function saveTasks(tasks){ localStorage.setItem(STORAGE.TASKS, JSON.stringify(tasks)); try{ localStorage.setItem(STORAGE.TASKS+'_bak_'+Date.now(), JSON.stringify(tasks)); }catch(e){} }
-
-/* -------------------------
-   Model
-   ------------------------- */
-function makeId(){ return 't_' + Math.random().toString(36).slice(2,9); }
-let tokens = loadTokens();
-document.getElementById('tokenInput').value = tokens.todoist || '';
-let tasks = loadTasks();
-
-/* -------------------------
-   Knob component (touch/mouse/keyboard friendly)
-   ------------------------- */
-const KNOB = { start: -0.75*Math.PI, end: 0.75*Math.PI, span: 1.5*Math.PI };
-function percentToAngle(p){ return KNOB.start + (p/100) * KNOB.span; }
-function angleToPercent(a){
-  if(a < KNOB.start) a = KNOB.start;
-  if(a > KNOB.end) a = KNOB.end;
-  return Math.round(((a - KNOB.start) / KNOB.span) * 100);
+function updateClock() {
+  const d = new Date();
+  document.getElementById("clock").textContent = d.toLocaleTimeString();
 }
-function createKnob(initialPct, onChange){
-  const wrap = document.createElement('div'); wrap.className = 'knob-area';
-  const ns = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(ns,'svg'); svg.setAttribute('viewBox','0 0 100 100'); svg.classList.add('knob-svg');
-  const bg = document.createElementNS(ns,'circle'); bg.setAttribute('cx',50); bg.setAttribute('cy',50); bg.setAttribute('r',38);
-  bg.setAttribute('fill','#f3f3f3'); bg.setAttribute('stroke','#ddd'); bg.setAttribute('stroke-width',4); svg.appendChild(bg);
-  const arc = document.createElementNS(ns,'path'); arc.setAttribute('fill','none'); arc.setAttribute('stroke','#51ff51'); arc.setAttribute('stroke-width',8); arc.setAttribute('stroke-linecap','round'); svg.appendChild(arc);
-  const center = document.createElementNS(ns,'circle'); center.setAttribute('cx',50); center.setAttribute('cy',50); center.setAttribute('r',22); center.setAttribute('fill','#fff'); center.setAttribute('stroke','#ddd'); center.setAttribute('stroke-width',1); svg.appendChild(center);
-  const txt = document.createElementNS(ns,'text'); txt.setAttribute('x',50); txt.setAttribute('y',56); txt.setAttribute('text-anchor','middle'); txt.setAttribute('font-size',14); txt.setAttribute('font-family','sans-serif'); txt.setAttribute('fill','#333'); svg.appendChild(txt);
-  wrap.appendChild(svg);
+setInterval(updateClock, 1000);
+updateClock();
 
-  let value = Math.round(initialPct||0);
-  function render(){
-    const ang = percentToAngle(value);
-    function pol(cx,cy,r,a){ return {x: cx + r*Math.cos(a), y: cy + r*Math.sin(a)}; }
-    const s = pol(50,50,38, KNOB.start);
-    const e = pol(50,50,38, ang);
-    const largeArc = (ang - KNOB.start) > Math.PI ? 1 : 0;
-    const d = `M ${s.x} ${s.y} A 38 38 0 ${largeArc} 1 ${e.x} ${e.y}`;
-    arc.setAttribute('d', d);
-    txt.textContent = value + '%';
-  }
-  render();
+// Load/save token
+document.getElementById("saveToken").onclick = () => {
+  localStorage.setItem("todoistToken", tokenInput.value);
+  alert("Token saved locally.");
+};
+document.getElementById("exportTokens").onclick = () => {
+  const data = JSON.stringify({token: localStorage.getItem("todoistToken")});
+  const blob = new Blob([data], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  window.open(url, "_blank");
+};
 
-  let dragging = false;
-  function pointerDown(ev){ dragging = true; try{ ev.target.setPointerCapture && ev.target.setPointerCapture(ev.pointerId); }catch(e){}; pointerMove(ev); }
-  function pointerMove(ev){ if(!dragging && ev.type === 'pointermove') return; const rect = svg.getBoundingClientRect(); const cx = rect.left + rect.width/2; const cy = rect.top + rect.height/2; const x = ev.clientX - cx; const y = ev.clientY - cy; let a = Math.atan2(y, x); if(a < KNOB.start) a = KNOB.start; if(a > KNOB.end) a = KNOB.end; const p = angleToPercent(a); if(p !== value){ value = p; render(); onChange && onChange(value); } }
-  function pointerUp(ev){ if(!dragging) return; dragging = false; try{ ev.target.releasePointerCapture && ev.target.releasePointerCapture(ev.pointerId); }catch(e){} }
+let todos = JSON.parse(localStorage.getItem("todos") || "[]");
+renderTodos();
 
-  svg.style.touchAction = 'none';
-  svg.addEventListener('pointerdown', pointerDown);
-  window.addEventListener('pointermove', pointerMove);
-  window.addEventListener('pointerup', pointerUp);
+function renderTodos() {
+  todoList.innerHTML = "";
+  todos.forEach((t, i) => {
+    const div = document.createElement("div");
+    div.className = "todo";
+    const textarea = document.createElement("textarea");
+    textarea.value = t.text;
+    textarea.oninput = () => {
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
+      t.text = textarea.value;
+      saveTodos();
+    };
+    textarea.style.height = "auto";
+    textarea.style.height = textarea.scrollHeight + "px";
 
-  // keyboard support
-  wrap.tabIndex = 0;
-  wrap.addEventListener('keydown', (ev)=>{
-    if(ev.key === 'ArrowRight' || ev.key === 'ArrowUp'){ value = Math.min(100, value + 5); render(); onChange && onChange(value); ev.preventDefault(); }
-    if(ev.key === 'ArrowLeft'  || ev.key === 'ArrowDown'){ value = Math.max(0, value - 5); render(); onChange && onChange(value); ev.preventDefault(); }
-    if(ev.key === 'Home'){ value = 0; render(); onChange && onChange(value); ev.preventDefault(); }
-    if(ev.key === 'End'){ value = 100; render(); onChange && onChange(value); ev.preventDefault(); }
+    const footer = document.createElement("div");
+    footer.className = "todo-footer";
+
+    const knob = document.createElement("div");
+    knob.className = "knob";
+    updateKnob(knob, t.progress);
+    knob.onmousedown = e => startKnobDrag(e, t, knob);
+    knob.ontouchstart = e => startKnobDrag(e, t, knob);
+
+    const del = document.createElement("button");
+    del.textContent = "Delete";
+    del.className = "btn-gray";
+    del.onclick = () => {
+      todos.splice(i, 1);
+      saveTodos();
+      renderTodos();
+    };
+
+    footer.append(knob, del);
+    div.append(textarea, footer);
+    todoList.append(div);
   });
-
-  wrap.getValue = () => value;
-  wrap.setValue = v => { value = Math.max(0, Math.min(100, Math.round(v))); render(); };
-
-  return wrap;
 }
 
-/* -------------------------
-   Render tasks (textarea auto-wrap and autosize)
-   ------------------------- */
-const taskListEl = document.getElementById('taskList');
-
-function autoSizeTextarea(ta){
-  ta.style.height = '20px';
-  ta.style.height = ta.scrollHeight + 'px';
+function saveTodos() {
+  localStorage.setItem("todos", JSON.stringify(todos));
 }
 
-function renderTasks(){
-  taskListEl.innerHTML = '';
-  // newest first
-  tasks.sort((a,b)=> (b.updatedAt||0) - (a.updatedAt||0));
-  for(const t of tasks){
-    const card = document.createElement('div'); card.className = 'task';
-    const area = document.createElement('div'); area.className = 'task-area';
-    const ta = document.createElement('textarea'); ta.className = 'title'; ta.value = t.title || ''; ta.placeholder = 'Task title...';
-    ta.addEventListener('input', ()=>{
-      t.title = ta.value;
-      t.updatedAt = Date.now();
-      saveTasks(tasks);
-      if(t.todoistId && tokens.todoist) updateTodoistTask(t).catch(e => console.warn(e));
-      autoSizeTextarea(ta);
-    });
-    setTimeout(()=>autoSizeTextarea(ta),0);
-    const meta = document.createElement('div'); meta.className = 'meta';
-    const tag = document.createElement('div'); tag.className = 'sub'; tag.textContent = t.todoistId ? 'Synced' : 'Local';
-    meta.appendChild(tag);
-    area.appendChild(ta);
-    area.appendChild(meta);
+document.getElementById("newTodo").onclick = () => {
+  todos.push({ text: "New todo", progress: 0 });
+  saveTodos();
+  renderTodos();
+};
 
-    const knobCol = document.createElement('div'); knobCol.style.display='flex'; knobCol.style.flexDirection='column'; knobCol.style.alignItems='center';
-    const pText = document.createElement('div'); pText.className='percent'; pText.textContent = (t.progress||0)+'%';
-    const knob = createKnob(t.progress||0, async (pct)=>{
-      t.progress = pct; t.updatedAt = Date.now();
-      t.completed = pct >= 100;
-      pText.textContent = pct + '%';
-      saveTasks(tasks);
-      // if task is synced remotely, update remote; if completed -> close; if un-complete -> recreate (reopen workaround)
-      if(t.todoistId && tokens.todoist){
-        if(t.completed && !t._justCompleted){ t._justCompleted = true; try{ await updateTodoistTask(t); }catch(e){ console.warn(e); } }
-        else if(!t.completed && t._justCompleted){ // user dragged back from 100%
-          t._justCompleted = false;
-          try{ await reopenTodoistTask(t); }catch(e){ console.warn('reopen failed', e); }
-        } else {
-          try{ await updateTodoistTask(t); }catch(e){ console.warn(e); }
-        }
-      }
-    });
+document.getElementById("clearLocal").onclick = () => {
+  if(confirm("Clear all local todos?")){
+    todos = [];
+    saveTodos();
+    renderTodos();
+  }
+};
 
-    knobCol.appendChild(knob);
-    knobCol.appendChild(pText);
+document.getElementById("downloadBackup").onclick = () => {
+  const blob = new Blob([JSON.stringify(todos)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  window.open(url, "_blank");
+};
 
-    const del = document.createElement('button'); del.className='btn danger'; del.textContent='Delete';
-    del.addEventListener('click', async ()=>{
-      if(t.todoistId && tokens.todoist){
-        try{ await deleteTodoistTask(t.todoistId); }catch(e){ console.warn(e); }
-      }
-      tasks = tasks.filter(x => x.id !== t.id);
-      saveTasks(tasks);
-      renderTasks();
-    });
+function updateKnob(knob, percent) {
+  knob.style.background = `conic-gradient(#4ade80 ${percent}%, #eee ${percent}%)`;
+  knob.textContent = `${percent}%`;
+}
 
-    card.appendChild(area);
-    card.appendChild(knobCol);
-    card.appendChild(del);
-    taskListEl.appendChild(card);
+function startKnobDrag(e, todo, knob) {
+  e.preventDefault();
+  const startY = e.touches ? e.touches[0].clientY : e.clientY;
+  const startProgress = todo.progress;
+  function move(ev) {
+    const y = ev.touches ? ev.touches[0].clientY : ev.clientY;
+    let diff = startY - y;
+    let newProgress = Math.min(100, Math.max(0, startProgress + diff / 2));
+    todo.progress = Math.round(newProgress);
+    updateKnob(knob, todo.progress);
+    saveTodos();
+  }
+  function stop() {
+    document.removeEventListener("mousemove", move);
+    document.removeEventListener("mouseup", stop);
+    document.removeEventListener("touchmove", move);
+    document.removeEventListener("touchend", stop);
+  }
+  document.addEventListener("mousemove", move);
+  document.addEventListener("mouseup", stop);
+  document.addEventListener("touchmove", move);
+  document.addEventListener("touchend", stop);
+}
+
+// Calendar render
+function renderCalendar() {
+  const cal = document.getElementById("calendar");
+  cal.innerHTML = "";
+  const days = ["S","M","T","W","T","F","S"];
+  days.forEach(d => {
+    const el = document.createElement("div");
+    el.textContent = d;
+    el.style.fontWeight = "bold";
+    cal.append(el);
+  });
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  for(let i=1; i<=daysInMonth; i++){
+    const el = document.createElement("div");
+    el.textContent = i;
+    el.className = "calendar-day";
+    if(i === now.getDate()) el.classList.add("active");
+    cal.append(el);
   }
 }
-
-/* -------------------------
-   Local ops
-   ------------------------- */
-function addLocalTask(title=''){
-  const t = { id: makeId(), title: title||'', progress:0, todoistId:null, completed:false, updatedAt: Date.now() };
-  tasks.unshift(t); saveTasks(tasks); renderTasks();
-  // try creating remote immediately if token exists
-  if(tokens.todoist){
-    createTodoistTask(t).then(remote => { if(remote && remote.id){ t.todoistId = remote.id; saveTasks(tasks); renderTasks(); } }).catch(e=>console.warn('create remote failed',e));
-  }
-}
-
-/* -------------------------
-   Robust download helper
-   - ensures anchor is appended to DOM before clicking (avoids some blockers)
-   ------------------------- */
-async function triggerDownload(blob, filename){
-  try {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    // make anchor visible briefly so some mobile browsers accept the click
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 1500);
-    return true;
-  } catch (err) {
-    console.warn('download failed', err);
-    return false;
-  }
-}
-
-/* -------------------------
-   Todoist REST API helpers
-   ------------------------- */
-function getAuthHeaders(){
-  if(!tokens.todoist) return null;
-  return { 'Authorization': 'Bearer ' + tokens.todoist, 'Content-Type': 'application/json' };
-}
-
-async function createTodoistTask(task){
-  const h = getAuthHeaders(); if(!h) throw new Error('no token');
-  setStatusText('creating remote...');
-  const body = { content: task.title || 'Untitled' };
-  const res = await fetch('https://api.todoist.com/rest/v2/tasks', { method:'POST', headers:h, body: JSON.stringify(body) });
-  if(!res.ok){ setStatusText('idle'); const txt = await res.text(); throw new Error('create failed: ' + res.status + ' ' + txt); }
-  const json = await res.json(); setStatusText('idle'); return json;
-}
-
-async function updateTodoistTask(task){
-  const h = getAuthHeaders(); if(!h || !task.todoistId) throw new Error('missing');
-  setStatusText('updating remote...');
-  const contentBody = { content: task.title || 'Untitled' };
-  // update content
-  let res = await fetch('https://api.todoist.com/rest/v2/tasks/' + task.todoistId, { method:'POST', headers: h, body: JSON.stringify(contentBody) });
-  if(!res.ok){ setStatusText('idle'); const txt = await res.text(); throw new Error('update failed: '+res.status + ' ' + txt); }
-  // if completed, call close endpoint
-  if(task.completed){
-    res = await fetch('https://api.todoist.com/rest/v2/tasks/' + task.todoistId + '/close', { method:'POST', headers: h });
-    if(!res.ok){ console.warn('close failed', await res.text()); }
-  }
-  setStatusText('idle');
-  return true;
-}
-
-async function reopenTodoistTask(task){
-  // Todoist REST v2: no reopen. Workaround: delete remote completed task and create a new task with same content.
-  const h = getAuthHeaders(); if(!h || !task.todoistId) throw new Error('missing');
-  setStatusText('reopening remote...');
-  // delete existing (closed) remote task
-  await fetch('https://api.todoist.com/rest/v2/tasks/' + task.todoistId, { method:'DELETE', headers: h }).catch(e=>console.warn(e));
-  // create new
-  const created = await createTodoistTask(task);
-  if(created && created.id){
-    task.todoistId = created.id;
-    task.completed = false;
-    task.progress = Math.max(0, Math.min(99, task.progress || 0));
-    saveTasks(tasks);
-    renderTasks();
-  }
-  setStatusText('idle');
-  return true;
-}
-
-async function deleteTodoistTask(id){
-  const h = getAuthHeaders(); if(!h) throw new Error('missing');
-  setStatusText('deleting remote...');
-  const res = await fetch('https://api.todoist.com/rest/v2/tasks/' + id, { method:'DELETE', headers: h });
-  if(!res.ok){ console.warn('delete remote failed', await res.text()); }
-  setStatusText('idle');
-}
-
-async function fetchTodoistAll(){
-  const h = getAuthHeaders(); if(!h) throw new Error('missing');
-  setStatusText('fetching remote...');
-  const res = await fetch('https://api.todoist.com/rest/v2/tasks', { headers: h });
-  if(!res.ok){ setStatusText('idle'); const txt = await res.text(); throw new Error('fetch failed: '+res.status + ' ' + txt); }
-  const arr = await res.json(); setStatusText('idle'); return arr;
-}
-
-/* -------------------------
-   Merge & Push helpers
-   ------------------------- */
-function mergeRemoteIntoLocal(remoteTasks){
-  let changed = 0;
-  for(const r of remoteTasks){
-    if(tasks.some(t => t.todoistId === r.id)) continue;
-    // try match by exact title to avoid duplicates
-    const localMatch = tasks.find(t => t.title && t.title.trim() === r.content && !t.todoistId);
-    if(localMatch){ localMatch.todoistId = r.id; changed++; continue; }
-    // else add
-    const nt = { id: makeId(), title: r.content, progress:0, todoistId: r.id, completed:false, updatedAt: Date.now() };
-    tasks.push(nt); changed++;
-  }
-  if(changed){ saveTasks(tasks); renderTasks(); }
-  return changed;
-}
-
-async function pushLocalToRemote(){
-  if(!tokens.todoist) throw new Error('missing token');
-  setStatusText('pushing local->remote...');
-  const toCreate = tasks.filter(t => !t.todoistId);
-  for(const t of toCreate){
-    try{
-      const created = await createTodoistTask(t);
-      if(created && created.id){ t.todoistId = created.id; t.updatedAt = Date.now(); saveTasks(tasks); }
-    }catch(e){ console.warn('create failed', e); }
-  }
-  setStatusText('idle'); renderTasks();
-}
-
-/* -------------------------
-   UI wiring: buttons & file operations
-   ------------------------- */
-document.getElementById('addBtn').addEventListener('click', ()=> addLocalTask(''));
-document.getElementById('clearBtn').addEventListener('click', ()=>{
-  if(!confirm('Clear all local tasks? This will not delete remote tasks unless you remove them individually.')) return;
-  tasks = []; saveTasks(tasks); renderTasks();
-});
-
-document.getElementById('backupBtn').addEventListener('click', async ()=>{
-  const payload = { tasks, tokens, exportedAt: Date.now() };
-  const blob = new Blob([JSON.stringify(payload,null,2)], { type: 'application/json' });
-  const ok = await triggerDownload(blob, 'todo_backup_'+Date.now()+'.json');
-  if(!ok) alert('Download may be blocked by browser/extension. Try disabling ad-blocker for this page.');
-});
-
-document.getElementById('uploadBackupBtn').addEventListener('click', ()=> document.getElementById('uploadBackupFile').click());
-document.getElementById('uploadBackupFile').addEventListener('change', (ev)=>{
-  const f = ev.target.files[0]; if(!f) return;
-  const r = new FileReader();
-  r.onload = e => {
-    try{
-      const obj = JSON.parse(e.target.result);
-      if(obj.tasks){ tasks = obj.tasks; saveTasks(tasks); renderTasks(); alert('Backup applied.'); }
-      if(obj.tokens){ tokens = obj.tokens; saveTokens(tokens); document.getElementById('tokenInput').value = tokens.todoist || ''; }
-    }catch(err){ alert('Invalid backup file'); }
-  };
-  r.readAsText(f);
-});
-
-// import tokens file (small format: { "todoist": "..." } )
-document.getElementById('importTokensFile').addEventListener('change', (ev)=>{
-  const f = ev.target.files[0]; if(!f) return;
-  const r = new FileReader();
-  r.onload = e => {
-    try{ const obj = JSON.parse(e.target.result); if(obj.todoist){ tokens.todoist = obj.todoist; saveTokens(tokens); document.getElementById('tokenInput').value = tokens.todoist || ''; alert('Imported token'); } }catch(err){ alert('Invalid token file'); }
-  };
-  r.readAsText(f);
-});
-
-document.getElementById('exportTokensBtn').addEventListener('click', async ()=>{
-  const blob = new Blob([JSON.stringify(tokens,null,2)], { type: 'application/json' });
-  const ok = await triggerDownload(blob, 'todo_tokens_'+Date.now()+'.json');
-  if(!ok) alert('Export blocked (extensions or browser). Try disabling ad-blocker for this site.');
-});
-
-// full backup download
-document.getElementById('downloadEverythingBtn').addEventListener('click', async ()=>{
-  const payload = { tasks, tokens, meta:{ date: Date.now(), note: 'full backup' } };
-  const blob = new Blob([JSON.stringify(payload,null,2)], { type: 'application/json' });
-  const ok = await triggerDownload(blob, 'todo_full_backup_'+Date.now()+'.json');
-  if(!ok) alert('Download blocked. Try a different browser or disable blocking extensions.');
-});
-
-// upload full backup
-document.getElementById('uploadBackupFile').addEventListener('change', (ev)=>{
-  const f = ev.target.files[0]; if(!f) return;
-  const r = new FileReader();
-  r.onload = e => {
-    try{ const obj = JSON.parse(e.target.result); if(obj.tasks){ tasks = obj.tasks; saveTasks(tasks); renderTasks(); alert('Full backup restored'); } }catch(err){ alert('Invalid file'); }
-  };
-  r.readAsText(f);
-});
-
-// token save & fetch examples
-document.getElementById('saveTokenBtn').addEventListener('click', ()=>{
-  tokens.todoist = document.getElementById('tokenInput').value.trim() || null;
-  saveTokens(tokens);
-  alert('Token saved locally.');
-});
-
-// export tokens button (duplicate above for convenience)
-document.getElementById('exportTokensBtn').addEventListener('click', async ()=>{
-  const blob = new Blob([JSON.stringify(tokens,null,2)], { type: 'application/json' });
-  const ok = await triggerDownload(blob, 'todo_tokens_'+Date.now()+'.json');
-  if(!ok) alert('Export blocked by browser/extension.');
-});
-
-// fetch/push/merge
-document.getElementById('fetchBtn').addEventListener('click', async ()=>{
-  if(!tokens.todoist){ alert('No token saved'); return; }
-  try{
-    const remote = await fetchTodoistAll();
-    const c = mergeRemoteIntoLocal(remote);
-    renderTasks();
-    alert('Fetched ' + remote.length + ' tasks; merged ' + c);
-  }catch(e){ alert('Fetch failed: ' + (e && e.message)); }
-});
-document.getElementById('pushBtn').addEventListener('click', async ()=>{
-  if(!tokens.todoist){ alert('No token saved'); return; }
-  try{ await pushLocalToRemote(); alert('Push complete'); }catch(e){ alert('Push failed: '+(e && e.message)); }
-});
-document.getElementById('mergeBtn').addEventListener('click', async ()=>{
-  if(!tokens.todoist){ alert('No token saved'); return; }
-  try{ const remote = await fetchTodoistAll(); const c = mergeRemoteIntoLocal(remote); alert('Merged ' + c + ' new items'); }catch(e){ alert('Merge failed: '+(e && e.message)); }
-});
-
-/* -------------------------
-   Calendar
-   ------------------------- */
-let curM = new Date().getMonth(), curY = new Date().getFullYear();
-const monthLabel = document.getElementById('monthLabel'), calendarGrid = document.getElementById('calendarGrid');
-function renderCalendar(){ calendarGrid.innerHTML = ''; const mNames = ["January","February","March","April","May","June","July","August","September","October","November","December"]; monthLabel.textContent = mNames[curM] + ' ' + curY; ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(h=>{ const d=document.createElement('div'); d.className='cal-day'; d.style.fontWeight='700'; d.textContent=h; calendarGrid.appendChild(d); }); const first=new Date(curY,curM,1).getDay(); const last=new Date(curY,curM+1,0).getDate(); const prevLast=new Date(curY,curM,0).getDate(); for(let i=first-1;i>=0;i--){ const e=document.createElement('div'); e.className='cal-day'; e.style.opacity='0.5'; e.textContent = prevLast - i; calendarGrid.appendChild(e); } for(let d=1;d<=last;d++){ const e=document.createElement('div'); e.className='cal-day'; e.textContent=d; const now=new Date(); if(now.getDate()===d && now.getMonth()===curM && now.getFullYear()===curY){ e.style.background='#ff9a9e'; e.style.color='#fff'; } calendarGrid.appendChild(e); } }
-document.getElementById('prevMonthBtn').addEventListener('click', ()=>{ curM--; if(curM<0){ curM=11; curY--; } renderCalendar();});
-document.getElementById('nextMonthBtn').addEventListener('click', ()=>{ curM++; if(curM>11){ curM=0; curY++; } renderCalendar();});
 renderCalendar();
-
-/* -------------------------
-   Startup & initial sync
-   ------------------------- */
-function init(){
-  if(!Array.isArray(tasks)) tasks = [];
-  renderTasks();
-  if(tokens.todoist){
-    fetchTodoistAll().then(remote => {
-      const changed = mergeRemoteIntoLocal(remote);
-      if(changed) alert('Merged ' + changed + ' items from Todoist.');
-      renderTasks();
-    }).catch(e => console.warn('initial fetch failed', e));
-  }
-}
-init();
-
-/* -------------------------
-   Notes: some browsers/extensions can block downloads (ERR_BLOCKED_BY_CLIENT).
-   If downloads still fail, try in a private window with extensions disabled.
-   ------------------------- */
-
-/* -------------------------
-   End of script
-   ------------------------- */
 </script>
 </body>
 </html>
